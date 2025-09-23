@@ -34,4 +34,6 @@ Currently, L<RakuAST::RakuDoc::Render|https://github.com/finanalyst/rakuast-raku
 is the most complete renderer, and the distribution contains renderers to
 Text, HTML and Markdown.
 
+This is a browser clickable link to the L<HTML file|https://htmlpreview.github.io/?https://github.com/Raku/RakuDoc-GAMMA/blob/main/rakudoc_v2.html> in this repo.
+
 =end rakudoc
