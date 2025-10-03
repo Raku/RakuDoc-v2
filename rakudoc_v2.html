@@ -322,6 +322,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Field_ordinality">Field ordinality</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Field_case">Field case</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Field_language">Field language</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Formatting_aliases">Formatting aliases</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Ordinary_paragraphs">Ordinary paragraphs</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Nesting_or_indenting_a_block">Nesting or indenting a block</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Verbatim_blocks">Verbatim blocks</a></div>
@@ -459,6 +460,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Field_ordinality">Field ordinality</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Field_case">Field case</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Field_language">Field language</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Formatting_aliases">Formatting aliases</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Ordinary_paragraphs">Ordinary paragraphs</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Nesting_or_indenting_a_block">Nesting or indenting a block</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Verbatim_blocks">Verbatim blocks</a></div>
@@ -1070,8 +1072,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
             <p id="9677ca8">will produce ... </p>
 
 <div class="id-target" id="Raku's mascot"></div><h1 id="Raku's_mascot" class="heading raku-webs-h1 "><a href="#">Raku's mascot</a><a class="raku-webs-anchor" href="#Raku's mascot">§</a></h1>
-<div class="rakudoc-image-placement">
-                            <img src="https://raku.org/camelia-logo.png" alt="A multicoloured butterfly" title="A multicoloured butterfly"><div>Raku's mascot</div></img></div> 
+Link ｢https://raku.org/camelia-logo.png｣ caused LibCurl Exception, response code ｢404｣ with error ｢The requested URL returned error: 404｣
 
 
 <div class="id-target" id="Code-oriented RakuDoc"></div><h1 id="Code-oriented_RakuDoc" class="heading raku-webs-h1 "><a href="#">Code-oriented RakuDoc</a><a class="raku-webs-anchor" href="#Code-oriented RakuDoc">§</a></h1>
@@ -1268,7 +1269,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <p id="5b9a577">The effects of enumeration on <span class="code">head</span>, <span class="code">defn</span>, and <span class="code">item</span> are described in more detail elsewhere in this document. </p>
 <p id="e6ac396">When a block is prefixed with <span class="basis">num</span>, the following metadata options are available in addition to the metadata options normally associated with the block: </p>
 
-<ul class="item-list"><li class="item" data-bullet="•" style="--level:0;"> <p id="186029a"><span class="code">:numalias&lt;</span><span class="important">NAME</span><span class="code">&gt;</span> – The specific enumeration associated with this block can be referred to in the text following the block (see the rules for the validity of an alias) as <span class="code">A&lt;NAME&gt;</span>. </p></li>
+<ul class="item-list"><li class="item" data-bullet="•" style="--level:0;"> <p id="aa047c9"><span class="code">:numalias&lt;</span><span class="important">FORMAT | NAME</span><span class="code">&gt;</span> – The specific enumeration associated with this block can be referred to in the text following the block (see the rules for the validity of an alias) as <span class="code">A&lt;NAME&gt;</span>, and the way the text is rendered can be specified with <span class="important">FORMAT</span> (see <span class="code">:form</span> below). </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="b07bd31"><span class="code">:number(</span><span class="important">N</span><span class="code">)</span> – The enumeration is set to <span class="important">N</span> for this block and will be continued in later blocks. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="4b81cd5"><span class="code">:form&lt;</span><span class="important">FORMAT</span><span class="code">&gt;</span> – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, <span class="important">etc.</span>) can be specified. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="7bc281b"><span class="code">:continued</span> – An enumeration that would automatically be reset at the start of a new block is continued instead. </p></li>
@@ -1620,6 +1621,43 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <p id="cea7861">If a renderer supports Hindi numerals, via <span class="code">%N:lang&lt;hi&gt;</span>, then it must also provide the equivalent fields <span class="code">%H</span> and <span class="code">%ह</span>. If a renderer supports Bengali numerals, via <span class="code">%N:lang&lt;bn&gt;</span>, then it must also provide the equivalent fields <span class="code">%B</span> and <span class="code">%ব</span>. </p>
 <p id="15afb9a">Only these six languages (English, Mandarin Chinese, Hindi, Bengali, Japanese, and Latin) will ever have dedicated single-character field specifiers. If a renderer supports the number systems of any other languages (<span class="important">e.g.</span> <span class="code">%N:lang&lt;fr&gt;</span>, <span class="code">%N:lang&lt;th&gt;</span>, or <span class="code">%N:lang&lt;eo&gt;</span>), the renderer is <span class="basis"><span class="important">not</span></span> permitted to reserve any <span class="code">%</span><span class="basis"><span class="important">X</span></span> field for them. </p>
 <p id="6b0d6b3">Note that a renderer is permitted to support <span class="code">%N:lang&lt;</span><span class="basis"><span class="important">xx</span></span><span class="code">&gt;</span>, without supporting the corresponding <span class="code">%N:lang&lt;</span><span class="basis"><span class="important">xx</span></span><span class="code">&gt;:ord</span>, or vice versa (though implementers are strongly encouraged to implement both cardinal and ordinal modifiers – where relevant – for any language they support). </p>
+
+<div class="id-target" id="Formatting aliases"></div><h3 id="Formatting_aliases" class="heading raku-webs-h3 "><a href="#">Formatting aliases</a><a class="raku-webs-anchor" href="#Formatting aliases">§</a></h3>
+<p id="88fc71d">A <span class="important">num</span><span class="basis">BLOCK</span> may have an associated <span class="code">:numalias&lt; TAG &gt;</span> option. Later, in accordance with the rules described above for the <a href="#Aliases ">Alias directive </a>, the enumeration can substituted into text using <span class="code">A&lt;TAG&gt;</span>. </p>
+<p id="98df533">By default, the format used for the substituted enumeration text will be <span class="code"> %T %N </span>, using the enumeration format string described above. </p>
+<p id="8e605d6">The author may specify the rendering of the alias using the option <span class="code">:numalias&lt; FORMAT | TAG &gt;</span>, where FORMAT is a format string. For example, </p>
+
+<ol class="item-list"><li class="item" data-bullet="1." style="--level:0;"> Headquarters location.</li>
+</ol>
+<p><p id="0986540">The deadline is noon at the location of the main office, see HQ. </p></p>
+<p id="3a60faa">This would be rendered as something like </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>text</label>
+                    <div><pre class="nohighlights">
+Article 10. Headquarters location
+# Lots of text
+The deadline is noon at the location of the main office, see Article 10.
+</pre>
+</div>
+                </div>
+            <p id="f9581ec">Since all options may be set using the <span class="code">=config</span> directive, it is possible to set <span class="important">:numalias</span> as follows: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>Raku highlighting</label>
+                    <div><pre class="nohighlights">
+=<span class="rainbow-routine">config</span>&nbsp;numitem&nbsp;:numalias&lt;&nbsp;Article&nbsp;<span class="rainbow-name_hash">%N</span>.&nbsp;<span class="rainbow-operator">|</span>&nbsp;<span class="rainbow-operator">*</span>&nbsp;<span class="rainbow-operator">&gt;</span>&nbsp;:form&lt;Article&nbsp;<span class="rainbow-name_hash">%N</span>.&nbsp;<span class="rainbow-name_hash">%D</span>&gt;
+</pre>
+</div>
+                </div>
+            <p id="77bfcc4">In this case, the <span class="code">*</span> is replaced by the TAG specified in the <span class="code">:numalias</span> option for the block, eg. </p>
+
+<ol class="item-list"><li class="item" data-bullet="1." style="--level:0;"> </li>
+</ol>
+<p id="849712b">The precedence rules for options is for options specified by a block take priority over options specified by a <span class="code">=config</span> directive. </p>
+<p id="ee3b70e">Consequently, <span class="code">:numalias&lt;|TAG&gt;</span> will replace any declaration given by a <span class="code">=config</span> directive, and the default value pf <span class="code">%T %N.</span> will be used to render any <span class="code">A&lt;TAG&gt;</span> reference. </p>
 
 <div class="id-target" id="Ordinary paragraphs"></div><h2 id="Ordinary_paragraphs" class="heading raku-webs-h2 "><a href="#">Ordinary paragraphs</a><a class="raku-webs-anchor" href="#Ordinary paragraphs">§</a></h2>
 <p id="c171de6">An ordinary paragraph consists of text that is to be formatted into a document at the current level of nesting, with whitespace squeezed, lines filled, and any special inline mark-up applied. </p>
@@ -3926,10 +3964,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 08:00 UTC on 2025-09-05
+                Rendered at 10:09 UTC on 2025-10-03
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 07:59 UTC on 2025-09-05
+                Source last modified&nbsp;at 10:08 UTC on 2025-10-03
             </div>
         </nav>
     </div>
@@ -3939,6 +3977,8 @@ Artistic-2.0
         <li>Unknown or as yet undeclared alias ｢ SOFTWARE｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢this program ｣</li>
 <li>Unknown or as yet undeclared alias ｢ COMPANY｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢our company ｣</li>
 <li>Unknown or as yet undeclared alias ｢ OURTERMS｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢(Please visit our website) ｣</li>
+<li>Link ｢https://raku.org/camelia-logo.png｣ caused LibCurl Exception, response code ｢404｣ with error ｢The requested URL returned error: 404｣</li>
+<li>Unknown or as yet undeclared alias ｢HQ｣ in block ｢rakudoc｣ with heading ｢Formatting aliases｣</li>
 <li>Definition ｢AAA｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢BBB｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢XXX｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
