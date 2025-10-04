@@ -1484,7 +1484,7 @@ described above.
 The author may specify the rendering of the alias using the option C«:numalias< FORMAT | TAG >», where FORMAT is a format
 string. For example,
 
-    =for numitem :numalias<Article %N. | HQ > :form<Article %N. %D>
+    =for numitem :numalias<Article %N | HQ > :form<Article %N. %D>
     Headquarters location.
     =comment Text of document with many numitems
     =para The deadline is noon at the location of the main office, see A<HQ>.
@@ -1507,7 +1507,7 @@ In this case, the C<*> is replaced by the TAG specified in the C<:numalias> opti
 The precedence rules for options is for options specified by a block take priority over options specified by a
 C<=config> directive.
 
-Consequently, C«:numalias<|TAG>» will replace any declaration given by a C<=config> directive, and the default value pf
+Consequently, C«:numalias<|TAG>» will replace any declaration given by a C<=config> directive, and the default value of
 C<%T %N.> will be used to render any C«A<TAG>» reference.
 
 =head2 Ordinary paragraphs
