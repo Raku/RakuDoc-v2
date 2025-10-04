@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc
 =SUBTITLE A Raku slang for documenting Raku software to aid development and use.
-=VERSION 2.20.0
+=VERSION 2.20.1
 
 RakuDoc is a markup language with simple instructions for simple tasks and more
 complex structures to suit larger projects. There is a clear distinction between
@@ -1060,7 +1060,7 @@ elsewhere in this document.
 When a block is prefixed with B<num>, the following metadata options are available in addition
 to the metadata options normally associated with the block:
 
-=item C«:numalias<»I<NAME>C«>» – The specific enumeration associated with this block can be referred to in the text following the block (see the rules for the validity of an alias) as C«A<NAME>».
+=item C«:numalias<»I<FORMAT | NAME>C«>» – The specific enumeration associated with this block can be referred to in the text following the block (see the rules for the validity of an alias) as C«A<NAME>», and the way the text is rendered can be specified with I<FORMAT> (see C<:form> below).
 =item C«:number(»I<N>C«)» – The enumeration is set to I<N> for this block and will be continued in later blocks.
 =item C«:form<»I<FORMAT>C«>» – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, I<etc.>) can be specified.
 =item C«:continued» – An enumeration that would automatically be reset at the start of a new block is continued instead.
@@ -1068,7 +1068,6 @@ to the metadata options normally associated with the block:
 =item C«:number-as<»I<BLOCKTYPE>C«>» – When enumerated, the block being configured will be treated as if it were instead of the specified blocktype. In other words, the configured block will participate in the same enumeration sequence as the specified blocktype, instead of maintaining its own enumeration sequence. For example, to have all tables and formulas enumerated in a single sequence: C«=config numformula :number-as<table>»
 
 Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
-
 
 =head3 Formatting of blocks
 
@@ -1243,7 +1242,6 @@ are interpolated.
 The same rules and behaviour apply to C«item1»/C«item2»/C«item3» blocks
 (and would also apply to any other hierarchical blocks that might
 eventually be added to the specification).
-
 
 =head3 Formatting options
 
@@ -1473,6 +1471,44 @@ Note that a renderer is permitted to support C«%N:lang<»B«I<xx>»C«>»,
 without supporting the corresponding C«%N:lang<»B«I<xx>»C«>:ord», or vice versa
 (though implementers are strongly encouraged to implement both cardinal
 and ordinal modifiers – where relevant – for any language they support).
+
+=head3 Formatting aliases
+
+A I<num>B<BLOCK> may have an associated C«:numalias< TAG >» option. Later,
+in accordance with the rules described above for the L<Alias directive | #Aliases >,
+the enumeration can substituted into text using C«A<TAG>».
+
+By default, the format used for the substituted enumeration text will be C< %T %N >, using the enumeration format string
+described above.
+
+The author may specify the rendering of the alias using the option C«:numalias< FORMAT | TAG >», where FORMAT is a format
+string. For example,
+
+    =for numitem :numalias<Article %N | HQ > :form<Article %N. %D>
+    Headquarters location.
+    =comment Text of document with many numitems
+    =para The deadline is noon at the location of the main office, see A<HQ>.
+
+This would be rendered as something like
+=begin code :lang<text>
+Article 10. Headquarters location
+# Lots of text
+The deadline is noon at the location of the main office, see Article 10.
+=end code
+
+Since all options may be set using the C<=config> directive, it is possible to set I<:numalias> as follows:
+=begin code
+=config numitem :numalias< Article %N. | * > :form<Article %N. %D>
+=end code
+
+In this case, the C<*> is replaced by the TAG specified in the C<:numalias> option for the block, eg.
+    =for numitem :numalias<HQ>
+
+The precedence rules for options is for options specified by a block take priority over options specified by a
+C<=config> directive.
+
+Consequently, C«:numalias<|TAG>» will replace any declaration given by a C<=config> directive, and the default value of
+C<%T %N.> will be used to render any C«A<TAG>» reference.
 
 =head2 Ordinary paragraphs
 
