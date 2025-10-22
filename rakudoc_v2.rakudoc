@@ -2,12 +2,8 @@
 =TITLE RakuDoc
 =SUBTITLE A Raku slang for documenting Raku software to aid development and use.
 =VERSION 2.20.1
-
-RakuDoc is a markup language with simple instructions for simple tasks and more
-complex structures to suit larger projects. There is a clear distinction between
-documenting intended to help maintain and develop the software, and the visually
-presentations needed by a newcomer to understand how to use software.
-
+=for LICENSE :hidden
+Artistic-2.0
 =begin AUTHORS :hidden
 =item Damian Conway (@thoughtstream)
 =item Richard Hainsworth (@finanalyst)
@@ -15,8 +11,12 @@ presentations needed by a newcomer to understand how to use software.
 =item Aliaksandr Zahatski (@zag)
 =end AUTHORS
 
-=head SYNOPSIS
-=comment should be a semantic block C<=SYNOPSIS>
+RakuDoc is a markup language with simple instructions for simple tasks and more
+complex structures to suit larger projects. There is a clear distinction between
+documenting intended to help maintain and develop the software, and the visually
+presentations needed by a newcomer to understand how to use software.
+
+=begin SYNOPSIS
 
 Consider the two ways in which documentation is used.
 
@@ -91,7 +91,7 @@ C<=item> in a list. The first non-C<=item> paragraph or block will end the list.
 
 Within the text there are several examples of inline markup instructions, which have the form R<Upper Unicode character> B<< < >> B<< > >>.
 In the example above, we used: C<I B N L Z>. These are for Important, Basis, Note (a footnote), Link, and Zero (a comment) markup.
-
+=end SYNOPSIS
 =head Introduction
 
 RakuDoc has a variety of B<components> that allow for rich structured documents,
@@ -545,7 +545,7 @@ forms.
 If the same option needs to be added to multiple blocks, this can be done using a C<config>
 directive, and then the B<abbreviated> block form can be used in the L<same block scope|#Block scope>.
 
-For example, suppose we want all C<=code> blocks to be labeled with a `:delta` within some section of a document
+For example, suppose we want all C<=code> blocks to be labeled with a C«:delta» within some section of a document
 (L<More information on developer notes|#Developer or delta notes>).
 Rather than add a C<:delta> modifier to every individual C<=code>, we could configure every
 V<=code> block to be automatically given the same developer note, like so:
@@ -658,7 +658,7 @@ This will generate the following output:
 The C<=row> and C<=column> instructions are directives, not blocks, and they are
 described in more detail in the section on the L<procedural C<=table> block|#Procedural description of tables>.
 
-=head2 Placement from external sources
+=head2 Placement from another (external) source
 
 The C<=place> instruction is a directive that tells the renderer to obtain text, information, or an object
 from another source.
@@ -718,11 +718,15 @@ In the case where a URL does not end in a recognized extension:
 A B<=place> directive may be accompanied by metadata options to ensure that
 a reference can be made in the Table of Contents, or to provide an ALT text. For example:
 =begin code :lang<RakuDoc>
-  =place https://raku.org/camelia-logo.png  :caption<Raku's mascot>  :alt<A multicoloured butterfly>
+  =place https://raku.org/camelia-logo.png  :toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
 =end code
 will produce ...
 
-=place https://raku.org/camelia-logo.png  :caption<Raku's mascot>  :alt<A multicoloured butterfly>
+=place https://raku.org/camelia-logo.png  :toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
+
+In the Table of Contents, the caption I<Raku's mascot> will appear like a I<=head> caption.
+
+Use C<=place2 ... :toc> to include it in the Table of Contents as a C<=head2> caption.
 
 =head Code-oriented RakuDoc
 
@@ -906,6 +910,37 @@ instead of C<rakudoc> in the foreseeable future.  Note however
 that the Raku Programming Language may assign slightly different
 semantics to C<rakudoc> at some time in the future.
 
+=head2 Block type, level and enumeration
+
+Any block type can be associated with an enumeration by prefixing the I<block name> with B<num>,
+I<e.g.> C<numhead>, C<numtable>, C<numitem>, C<numcode>, C<numformula>.
+
+In addition, each block may be suffixed by number, which is called the I<block level>. When the block type is
+not suffixed by an integer, then the level is I<1>.
+
+The effects of enumeration and level on C«head», C«defn», and C«item» are illustrated in the sections
+on those block types because they have some special properties, namely:
+=item Sequences of C<=item> and of C<=defn> are grouped together into lists automatically.
+=item Only C<=head> / C<=numhead> blocks are automatically included into the main I<Table of Contents>.
+=item2 See the L<Table of Contents|Table of contents> for creating custom Table of contents, eg., for Diagrams,
+and to include other blocks into the main I<Table of Contents>.
+
+More detail about how enumerations can be
+customised for all block types can be found in L<Enumerated blocks|#Enumerated blocks>.
+
+Each I<Block type> has an associated counter that tracks each incidence of that block type, ie,
+=begin code :lang<RakuDoc>
+=head XXXX
+=head1 YYY
+=comment the 'head' counter for level 1 has been inremented twice
+=table xxx
+=comment the 'table' counter for level 1 has been incremented
+=head2 zzz
+=comment the 'head' counter for level 2 has been incremented once.
+=end code
+
+More detail about how counters can be customised can be foound in L<Sequences|Sequences>.
+
 =head2 Headings
 
 Headings can be defined using C<=headN>,
@@ -1051,12 +1086,6 @@ Metadata following the first such declaration are made available to all blocks i
 
 =head2 Enumerated blocks
 
-Any block type can be associated with an enumeration by prefixing the block name with B<num>,
-I<e.g.> C<numhead>, C<numtable>, C<numitem>.
-
-The effects of enumeration on C«head», C«defn», and C«item» are described in more detail
-elsewhere in this document.
-
 When a block is prefixed with B<num>, the following metadata options are available in addition
 to the metadata options normally associated with the block:
 
@@ -1065,7 +1094,8 @@ to the metadata options normally associated with the block:
 =item C«:form<»I<FORMAT>C«>» – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, I<etc.>) can be specified.
 =item C«:continued» – An enumeration that would automatically be reset at the start of a new block is continued instead.
 =item C«:!continued» – An enumeration that would automatically continue at the start of a new block is reset instead.
-=item C«:number-as<»I<BLOCKTYPE>C«>» – When enumerated, the block being configured will be treated as if it were instead of the specified blocktype. In other words, the configured block will participate in the same enumeration sequence as the specified blocktype, instead of maintaining its own enumeration sequence. For example, to have all tables and formulas enumerated in a single sequence: C«=config numformula :number-as<table>»
+=item C«:sequence<»I< [ BLOCKTYPE ]+ >C«>» – The enumeration parts are taken from different counters.
+=item2 This meta option is ignored by C<numhead>, C<numitem>, and C<numdefn>.
 
 Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
 
@@ -1243,6 +1273,151 @@ The same rules and behaviour apply to C«item1»/C«item2»/C«item3» blocks
 (and would also apply to any other hierarchical blocks that might
 eventually be added to the specification).
 
+=head3 Sequences
+
+A RakuDoc document implicitly
+defines and tracks a collection of hierarchical "sequences", one per block type
+(and named the same as each block type, though for this purpose C«X» and C«numX»
+are treated as having the same underlying name).
+
+These named sequences track the enumeration value of each instance of a block
+and also the relationships between related blocks (e.g. between a C«=head1»
+and any nested C«=head2» blocks).
+
+The key point is that every block type has a default sequence that defines
+how its instances are numbered...but that those default sequence can be reconfigured,
+using the new C«:sequence» option. The defaults would look act as if the following
+C«:config» declarations were in effect from the start of the document:
+
+=begin code :lang<RakuDoc>
+=config head1   :sequence< head1 >
+=config head2   :sequence< head1 head2 >
+=config head3   :sequence< head1 head2 head3 >
+
+=config item1   :sequence< item1 >
+=config item2   :sequence< item1 item2 >
+=config item3   :sequence< item1 item2 item3 >
+
+=config formula :sequence< formula >
+=config table   :sequence< table   >
+=config code    :sequence< code    >
+=config para    :sequence< para    >
+
+=comment  et cetera
+=end code
+
+Note that any block type with a number suffix (e.g. C«=head1», C«=item2», etc.)
+automatically has a hierarchical sequence with the same number of elements.
+Or in other words, the number of sequence elements is I« B<defined> » by a block’s
+number suffix (which defaults to 1 if the block doesn’t have an explicit number suffix).
+
+Whenever an instance of that block type is rendered, the enumeration for that
+block is generated by taking the current tracked value of the first N-1 sequence elements
+plus the incremented tracked value of the final sequence element. By default, this produces
+the normal numeric rendering behaviour of both hierarchical and non-hierarchical blocks.
+
+However, whereas the above C«=config» examples are default and implicit, it is
+also possible to explicitly configure the sequence of one or more block types
+so that it has a non-default hierarchical sequence. For example:
+
+=begin code :lang<RakuDoc>
+=comment 2nd-level tables are prefixed by the current head1 enumeration...
+=config table2   :sequence< head1 table2 >
+
+=comment 3rd-level formulas are prefixed by the current head1 and head2 enumerations...
+=config formula3 :sequence< head1 head2 formula3 >
+
+=comment Top-level formulas share a single enumeration sequence with top-level tables...
+=config formula :sequence< table >
+
+=comment The user-defined Chart block type also participates in the top-level table sequence...
+=config Chart :sequence< table >
+=end code
+
+Even more powerfully, the author can specify user-defined sequences (whose names must be
+mixed-case), to create even more specialized behaviours. For example:
+
+=begin code :lang<RakuDoc>
+=begin numtable
+    =comment This might be rendered:  Table 7: Et cetera
+=end numtable
+
+=begin section
+    =for comment
+        In this section, top-level tables and formula share a single enumeration sequence
+        (starting from 1 and rendered as Roman numerals),
+        without affecting the surrounding table or formula sequences...
+
+    =config table   :sequence< MyDiagrams > :form<Diagram %R:>
+    =config formula :sequence< MyDiagrams > :form<Diagram %R:>
+
+    =begin numtable
+        =comment This would be rendered:  Diagram I: Et cetera
+    =end numtable
+
+    =begin numformula
+        =comment This would be rendered:  Diagram II: Et cetera
+    =end numtable
+
+=end section
+
+=begin numtable
+    =comment This would be rendered:  Table 8: Et cetera
+=end numtable
+=end code
+
+Meanwhile, any built-in or user-defined block types (e.g. C«code», C«input», or C«Chart»)
+may have an integer appended to them (e.g. C«code2», C«input3», C«Chart4») to create
+an N-th level version of that block type...in which case its default sequence
+will be the equivalent of:
+=begin code :lang<RakuDoc>
+=config code2     :sequence< code1  code2 >
+=config input3    :sequence< input1 input2 input3 >
+=config Chart4    :sequence< Chart1 Chart2 Chart3 Chart4 >
+=end code
+And, of course, these may also be explicitly reconfigured:
+=begin code :lang<RakuDoc>
+=config code2     :sequence< head1 code2 >
+=config input3 :sequence< head1 head2 input3 >
+=config Chart4    :sequence< head1 head2 head3 Chart4 >
+=end code
+
+The implicit TOC heading level of any block is always equal to the number of elements in its sequence.
+Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-3. However, by default,
+no block type except C«head» has the C«:toc» flag set, so (by default) only headings are included
+in the main TOC. To add a block (or block type) to the main TOC, configure it with an explicit
+C«:toc» option:
+=begin code :lang<RakuDoc>
+=comment All formula3 blocks included in main TOC (at level 3)...
+=config formula3 :toc
+
+=comment This specific table is also included in the TOC (at level 1)...
+=begin table :toc
+=end table
+=end code
+
+If you want top-level formulas in the TOC, preconfigure C«=formula1» with C«:toc»
+and then use C«=formula» or C«=formula» to specify each formula;
+if you want just one particular table as a third-level TOC entry, specify: C«=for table3 :toc»
+
+You can also specify that a particular block or block type belongs to one or more
+other TOCs, by specifying the TOC name(s) as an optional argument to C«:toc».
+For example:
+=begin code :lang<RakuDoc>
+=comment All =formula3 and =Chart2 blocks are (only) included in “Diagrams” TOC...
+=config formula3 :toc< Diagrams >
+=config Chart2   :toc< Diagrams >
+
+=comment This specific table is included in the main TOC, as well as in the Diagrams and table TOCs...
+=begin table :toc :toc< Diagrams table >
+=end table
+=end code
+
+Then in the location in the text where the custom table of contents is required use a C<=place> directive, eg,
+=begin code :lang<RakuDoc>
+=place toc:Diagrams :!toc :caption<List of Diagrams>
+=end code
+
 =head3 Formatting options
 
 =head4 Field ordinality
@@ -1285,7 +1460,7 @@ uppercase and lowercase variants or close analogies thereto
 Other fields may benefit from other casing strategies (I<e.g.> Sentencecase, or ProperCase).
 
 To select which case-variant a field uses, append one of the following options:
-=begin table :caption<Form field case options> :headlevel(2)
+=begin table :headlevel(2) :caption<Form field case options>
 =row :heading
 	=cell Option
 	=cell How the contents of the field are rendered
@@ -3167,7 +3342,7 @@ and the contents can be rendered at a place defined by a L<Placement instruction
 
 The block name of a rendered semantic block will be placed in the L<I<Table of Contents>|#Table of Contents and Index>
 table in the position that it is rendered,
-unless the C<:toc>, C<:headlevel>, and or C<:caption> options are set. A C<:hidden> metadata option will also remove
+unless the C<:!toc> and or C<:caption> options are set. A C<:hidden> metadata option will also remove
 the block's entry from the ToC. But if it is placed by a C<P<semantic:>> instruction, the block entry will be placed at
 the appropriate point in the ToC.
 
@@ -3486,23 +3661,25 @@ When a renderer parses a file containing RakuDoc, heading and C<X<>> markup info
 information can be rendered using L<a C<P<>> markup instruction|#Placement links>, or may be used in another way by the renderer
 (e.g. to create a sidebar with the Table of Contents).
 
-Builtin, semantic and custom blocks are considered by default to be equivalent to C<=head> for the
-purposes of a Table of Contents. The following are considered to be equivalent to paragraphs (not
-included in a Table of Contents) by default: C<=para>, C<=nested>, C<=code>, C<=input>, C<=output>,
-<=table>, C<=defn>, C<=item>, C<=alias>, and their I<num> variants if they exist.
+Only head and semantic blocks, and their I<num> variants, are included by default in the I<Table of Contents>.
 
-This default can be changed with the C<:toc> and C<:headlevel> meta tabs.
+It is required that I<=head>, I<=head2>, I<=head3>, and I<=head4> are styled differently, both in the main text, for example,
+using progressively smaller font heights, and in the Table of Contents, for example, by using indentation.
+
+This default can be changed with the C<:toc> meta option.
 
 Setting C<:toc> on a
 block will include the contents of the block in the Table of Contents. Including the entire block
 contents is usually not desirable,
-so the C<:caption<...> > meta tab can be used to provide a text for the Table of Contents.
+so the C<:caption<...> > meta option can be used to provide a text for the Table of Contents.
 
 Setting C<:!toc> will prevent a block's information from being included in the Table of Contents.
 
-Setting C<:headlevel(N)>, where N is an integer greater than 0, will cause the block information to
-be treated in the same way as a C<headN> heading is treated. Setting N to less than 1 has the same
-effect as C<:!toc>. If it is not explicitly set, C<:toc> will set the headlevel to 1.
+When a builtin block, such as I<table>, needs to be entered into the I<Table of Contents> and styled like a
+<=head2>, then use I<=table2>.
+
+Custom Tables of contents can be created to group, eg., tables, formulas, or code examples together. This is
+described in L<Sequences|#Sequences>.
 
 =head2 Developer or delta notes
 
@@ -4301,7 +4478,7 @@ in a pop-up that activates on hover or mouse-click
 
 =head Summary
 
-=begin table :caption<Directives> :headlevel(2) :toc
+=begin table :headlevel(2) :caption<Directives> :toc
     =row :header
         =cell Directive
         =cell Specifies
@@ -4332,7 +4509,7 @@ in a pop-up that activates on hover or mouse-click
     =row
 =end table
 
-=begin table  :caption<Blocks> :headlevel(2) :toc
+=begin table :headlevel(2)  :caption<Blocks> :toc
     =row :header
         =cell Block typename
         =cell Specifies
@@ -4410,7 +4587,7 @@ in a pop-up that activates on hover or mouse-click
         =cell User-defined block
 =end table
 
-=begin table :caption<Metadata options> :headlevel(2) :toc
+=begin table :headlevel(2) :caption<Metadata options> :toc
     =row :header
         =cell Metadata option
         =cell Blocks applied to
@@ -4481,24 +4658,13 @@ in a pop-up that activates on hover or mouse-click
 
     =row
         =column
-            =for cell :row-span(10)
-            C<:headlevel>
+            =cell C<:headlevel>
 
         =column
-            =cell SEMANTIC block
-            =cell Custom block
-            =cell C<=para>
-            =cell C<=nested>
-            =cell C<=code>
-            =cell C<=input>
-            =cell C<=output>
-            =cell C<=table>
-            =cell C<=formula>
-            =cell C<=place>
+            =cell Deprecated
 
         =column
-            =for cell :row-span(10)
-            Define the head level at which the caption is included in the Table of contents
+            =cell Use a suffix to the block name to indicate the level it is treated.
 
     =row
         =column
@@ -4611,7 +4777,7 @@ in a pop-up that activates on hover or mouse-click
 
 =end table
 
-=begin table :caption<Markup instructions> :headlevel(2) :toc
+=begin table :headlevel(2) :caption<Markup instructions> :toc
 
     =row :header
         =cell Markup instruction
@@ -4699,7 +4865,7 @@ in a pop-up that activates on hover or mouse-click
         =cell Zero-width comment (contents never rendered)
     =row
 =end table
-=begin table :caption<:form components> :headlevel(2) :toc
+=begin table :headlevel(2) :caption<:form components> :toc
 =row :heading
 	=cell Field
 	=cell Meaning
@@ -4755,7 +4921,7 @@ in a pop-up that activates on hover or mouse-click
 	=cell
 =end table
 
-=begin table :caption<Options for form fields> :headlevel(2) :toc
+=begin table :headlevel(2) :caption<Options for form fields> :toc
 =row :heading
 	=cell Field option
 	=cell Meaning
@@ -4785,6 +4951,7 @@ in a pop-up that activates on hover or mouse-click
 	=cell use numbering and/or ordinal system for ISO 639-1 language I<xx> I<(if supported)>
 	=cell
 =end table
-=LICENSE Artistic-2.0
+=place semantic:LICENSE :caption<Licence>
+=place semantic:AUTHORS :caption<Credits>
 =end rakudoc
 
