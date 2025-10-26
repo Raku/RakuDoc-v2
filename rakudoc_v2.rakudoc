@@ -1094,8 +1094,7 @@ to the metadata options normally associated with the block:
 =item C«:form<»I<FORMAT>C«>» – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, I<etc.>) can be specified.
 =item C«:continued» – An enumeration that would automatically be reset at the start of a new block is continued instead.
 =item C«:!continued» – An enumeration that would automatically continue at the start of a new block is reset instead.
-=item C«:sequence<»I< [ BLOCKTYPE ]+ >C«>» – The enumeration parts are taken from different counters.
-=item2 This meta option is ignored by C<numhead>, C<numitem>, and C<numdefn>.
+=item C«:sequence<»I< [ BLOCKTYPE ]+ >C«>» – The enumeration parts are taken from different counters (see L<Sequences|#Sequences>).
 
 Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
 
@@ -1383,9 +1382,12 @@ And, of course, these may also be explicitly reconfigured:
 =end code
 
 The implicit TOC heading level of any block is always equal to the number of elements in its sequence.
-Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-3. However, by default,
-no block type except C«head» has the C«:toc» flag set, so (by default) only headings are included
-in the main TOC. To add a block (or block type) to the main TOC, configure it with an explicit
+Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-3.
+
+The default TOC is created from C<=head> and semantic blocks (eg. TITLE). This means that
+no block type except C«head» or semantic blocks hav the C«:toc» flag set,
+so (by default) only headings and semantic blocsk are included
+in the main TOC. To add a block (or block type) to the default (or I<head>) TOC, configure it with an explicit
 C«:toc» option:
 =begin code :lang<RakuDoc>
 =comment All formula3 blocks included in main TOC (at level 3)...
@@ -1408,12 +1410,14 @@ For example:
 =config formula3 :toc< Diagrams >
 =config Chart2   :toc< Diagrams >
 
-=comment This specific table is included in the main TOC, as well as in the Diagrams and table TOCs...
-=begin table :toc :toc< Diagrams table >
+=comment This specific table is included in the default (head) TOC, as well as in the Diagrams and table TOCs...
+=begin table :toc< head Diagrams table >
 =end table
 =end code
 
-Then in the location in the text where the custom table of contents is required use a C<=place> directive, eg,
+Then in the location in the text where the custom table of contents is required use a C<=place> directive.
+More detail about constraining the TOC levels can be found in the section on L<placements| #Placement links>.
+A simple example would be:
 =begin code :lang<RakuDoc>
 =place toc:Diagrams :!toc :caption<List of Diagrams>
 =end code
@@ -3990,24 +3994,46 @@ placement link:
 =item C<index:>
 =item C<semantic:>
 
-The C<toc:> form is a special pseudo-scheme that inserts a table of contents
-in place of the C<P<>> code. After the colon, list the block types that you
-wish to include in the table of contents. For example, to place a table of
+The C<toc:> form is a special pseudo-scheme that inserts a table of contents (TOC)
+in place of the C<P<>> code. After the colon, there must be a string of, at least one, non-blank
+characters, called the specification.
+
+There is at least one set of TOC data collected by the renderer from the C<=head> and semantic
+blocks, but as described above, custom TOC names can be created.
+
+The specification is used to select the TOC data set and to constrain how much data is rendered.
+When the specification is
+a C<*>, a digit, or a range, then the default or
+I<head> TOC is implied.
+For example, to place a table of
 contents listing only top- and second-level headings:
 =begin section
 =config code :lang<RakuDoc>
 
-    P<toc:1,2 >
+    P<toc:1..2 >
 
 To place a table of contents that lists the top four levels of headings:
 
     P<toc:1..4 >
 
-=end section
-In order to include the whole table of contents, use C<toc:*>. The C<*> is needed to make
-this term a valid URI.
+In order to include the whole default (or C<head>) table of contents, use C<toc:*>.
+
+When I<toc:> is followed by the name of TOC and optionally a I<comma>, then C<*>, number, or
+range, the level restrictions are applied to the named TOC.
+
+Valid specs would be:
+=item `*` (all levels of the default ToC)
+=item `1..4` (levels 2-4 of the default ToC)
+=item Diagrams (meaning all levels of the Diagrams ToC)
+=item Diagrams,*    (all levels of the Diagrams ToC)
+=item table,1..4      (range 1..4 of the table ToC)
+
+Invalid specs:
+=item `formula,`
+=item `,*`
 
 A document may have as many C<P<toc:...>> placements as necessary.
+=end section
 
 The C<index:*> form is a special pseudo-scheme that inserts an index table
 in place of the C<P<>> code.
