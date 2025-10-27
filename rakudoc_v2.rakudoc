@@ -1094,7 +1094,7 @@ to the metadata options normally associated with the block:
 =item C«:form<»I<FORMAT>C«>» – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, I<etc.>) can be specified.
 =item C«:continued» – An enumeration that would automatically be reset at the start of a new block is continued instead.
 =item C«:!continued» – An enumeration that would automatically continue at the start of a new block is reset instead.
-=item C«:sequence<»I< [ BLOCKTYPE ]+ >C«>» – The enumeration parts are taken from different counters (see L<Sequences|#Sequences>).
+=item C«:sequence<»I< [ BLOCKTYPE <digit>* ]+ >C«>» – The enumeration parts are taken from different counters (see L<Sequences|#Sequences>).
 
 Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
 
@@ -1377,7 +1377,7 @@ will be the equivalent of:
 And, of course, these may also be explicitly reconfigured:
 =begin code :lang<RakuDoc>
 =config code2     :sequence< head1 code2 >
-=config input3 :sequence< head1 head2 input3 >
+=config input3    :sequence< head1 head2 input3 >
 =config Chart4    :sequence< head1 head2 head3 Chart4 >
 =end code
 
@@ -1386,7 +1386,7 @@ Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-
 
 The default TOC is created from C<=head> and semantic blocks (eg. TITLE). This means that
 no block type except C«head» or semantic blocks hav the C«:toc» flag set,
-so (by default) only headings and semantic blocsk are included
+so (by default) only headings and semantic blocks are included
 in the main TOC. To add a block (or block type) to the default (or I<head>) TOC, configure it with an explicit
 C«:toc» option:
 =begin code :lang<RakuDoc>
@@ -3995,7 +3995,7 @@ placement link:
 =item C<semantic:>
 
 The C<toc:> form is a special pseudo-scheme that inserts a table of contents (TOC)
-in place of the C<P<>> code. After the colon, there must be a string of, at least one, non-blank
+in place of the C<P<>> code. After the colon, there must be a string of one or more non-blank
 characters, called the specification.
 
 There is at least one set of TOC data collected by the renderer from the C<=head> and semantic
