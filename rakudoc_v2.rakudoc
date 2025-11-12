@@ -1211,7 +1211,7 @@ The implicit TOC heading level of any block is always equal to the number of ele
 Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-3.
 
 The default TOC is created from C<=head> and semantic blocks (eg. TITLE). This means that
-no block type except C«head» or semantic blocks hav the C«:toc» flag set,
+no block type except C«head» or semantic blocks have the C«:toc» flag set,
 so (by default) only headings and semantic blocks are included
 in the main TOC. To add a block (or block type) to the default (or I<head>) TOC, configure it with an explicit
 C«:toc» option:
