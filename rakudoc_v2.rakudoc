@@ -246,10 +246,10 @@ syntax of B<=place> is
 =end code
 =end item
 =begin item
-B<=numreset> specifies when a block counter is reset by the instance of another block. The general
-syntax of B<=numreset> is
-=begin code :lang<RakuDoc> :allow<R>
-    =numreset R<BLOCK> R<OTHER_BLOCKS>
+B<=restart> specifies when a block counter is restartted to C<1> by the instance of another block. The general
+syntax of B<=restart> is
+=begin code :lang<RakuDoc> :allow<R I>
+    =restart R<BLOCK> I«:after< R<BLOCKS> > | :except-after< R<BLOCKS> >»
 =end code
 =end item
 =head2 Block syntax
@@ -737,15 +737,17 @@ In the Table of Contents, the caption I<Raku's mascot> will appear like a I<=hea
 
 Use C<=place2 ... :toc> to include it in the Table of Contents as a C<=head2> caption.
 
-=head2 Enumeration reset triggers
+=head2 Enumeration restart triggers
 
-The C<=numreset> instruction is a directive that affects the behaviour of block counters.
+The C<=restart> instruction is a directive that affects the behaviour of block counters.
 
-Each block type has its own counter which is incremented whenever an instance of the block type is encountered. The counter of one block type may be reset by instances of another block type.
+Each block type has its own counter which is incremented whenever an instance of the block type is encountered. The counter of one block type may be restarted by instances of another block type.
 The purpose of this directive, at its simplest, is to allow for a numbered list of items to
-be generated from a sequence of C<=item> blocks, and the enumeration is reset whenever another
-block, such as a paragraph, is encountered. However, the counter reset mechanism is more generic
+be generated from a sequence of C<=item> blocks, and the enumeration is restarted whenever another
+block, such as a paragraph, is encountered. However, the counter restart mechanism is more generic
 and can be applied to all block types.
+
+The directive is followed by the name of a block and one of either C«:after< BLOCK LIST >» or C«:except-after< BLOCK LIST >».
 
 The directive is described in more detail in the L<section on enumerated blocks|#Enumerated blocks>
 
@@ -945,7 +947,7 @@ on those block types because they have some special properties by default, namel
 =item Only C<=head> / C<=numhead> blocks are automatically included into the main I<Table of Contents>.
 
 However, these properties can be added to all other block types.
-=item See L<Counter reset triggers|#Counter reset triggers> grouping blocks into lists.
+=item See L<Counter restart triggers|#Counter restart triggers> grouping blocks into lists.
 =item See the L<Table of Contents|Table of contents> for creating custom Table of contents, eg., for Diagrams,
 and to include other blocks into the main I<Table of Contents>.
 
@@ -1100,7 +1102,7 @@ Metadata following the first such declaration are made available to all blocks i
 RakuDoc allows for the customisable numbering of any block, not just headings and items. Moreover,
 the enumeration, which is generated automatically by the renderer, can be refered to later in
 the text using the C«A< ... >» markup code. The automatic enumeration is controlled using
-I<block counters> which in turn are affected by I<reset triggers>.
+I<block counters> which in turn are affected by I<restart triggers>.
 
 A B<block type> consists of a B<block base> name, such as R<head>, and a B<block level>, which is
 an integer starting from C<1>. (A block type consisting of a block base without an integer implies
@@ -1119,8 +1121,8 @@ to the metadata options normally associated with the block:
 =item C«:numalias<»I<FORMAT | NAME>C«>» – The specific enumeration associated with this block can be referred to in the text following the block (see the rules for the validity of an alias) as C«A<NAME>», and the way the text is rendered can be specified with I<FORMAT> (see C<:form> below).
 =item C«:number(»I<N>C«)» – The enumeration is set to I<N> for this block and will be continued in later blocks.
 =item C«:form<»I<FORMAT>C«>» – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, I<etc.>) can be specified.
-=item C«:continued» – An enumeration that would automatically be reset at the start of a new block is continued instead.
-=item C«:!continued» – An enumeration that would automatically continue at the start of a new block is reset instead.
+=item C«:continued» – An enumeration that would automatically be restarted at the start of a new block is continued instead.
+=item C«:!continued» – An enumeration that would automatically continue at the start of a new block is restarted instead.
 =item C«:number-prefix<»I<BlockType>C«>» - The counter used for the block is preceded by another blocks's enumeration.
 =item C«:number-as<»I<BlockType>C«>» - The block's enumeration is taken from another block's counter.
 
@@ -1203,8 +1205,8 @@ be achieved like so:
         Formula 2.3. Caption for third formula
         Formula 2.4. Caption for fourth formula
 =end code
-(To have the individual counters of the formulae automatically reset after each heading,
-see the C<:number-reset> option described in the next section.)
+(To have the individual counters of the formulae automatically restart after each heading,
+see the C<=restart> directive described in the next section.)
 
 When an numbered block is rendered, its hierarchical enumeration is used together with its
 contents and caption.
@@ -1216,104 +1218,98 @@ the block’s immediate superordinate block (I<i.e.> the current block’s basen
 followed by its block_level - 1). The I<number-prefix> is then the hierarchical enumeration
 of that value, which is its own number-prefix and its own counter value.
 
-=head4 Each block has a B<I<reset trigger>>
+=head4 Each block has a B<I<restart trigger>>
 
-Normally, a block’s individual counter is flagged for subsequent resetting
-(to 1 or to some specified reset value) whenever a block with the same base name
+Normally, a block’s individual counter is flagged for subsequent restarting
+to C<1> whenever a block with the same base name
 but a superordinate level is encountered. However, there is also a mechanism that
-permits custom reset triggers to be specified: the C<=numreset> directive.
+permits custom restart triggers to be specified: the C<=restart> directive.
 
 Each custom trigger specification consists of a set of one or more names
 of B<I<trigger blocks>> that, when encountered, cause a particular block’s counter
-to be flagged for resetting next time that particular block is rendered
+to be flagged for restartting next time that particular block is rendered
 or its individual counter value is accessed. For example:
 
 =begin code :lang<rakudoc>
-    =comment Customize table and formula numbering to reset after every =head3 (or higher)...
+    =comment Customize table and formula numbering to restart after every =head3 (or superordinate)...
 
-        =numreset table    :number-reset< head1 head2 head3 >
-        =numreset formula  head1 head2 head3
+        =restart table    :after< head1 head2 head3 >
+        =restart formula  :after< head1 head2 head3 >
 
-    =comment Customize table and formula numbering to reset after every =head1 AND every =section
+    =comment Customize table and formula numbering to restart after every =head1 AND every =section
 
-        =numreset table  head1 section
-        =numreset formula  head1 section
+        =restart table   :after< head1 section >
+        =restart formula :after< head1 section >
 =end code
 
-Note that having to specify all the “higher-level” trigger blocks for each reconfigured block
+Note that having to specify all the “superordinate” trigger blocks for each reconfigured block
 is rather tedious, so we define that specifying a particular trigger blockname
-in C<:number-reset< blocknameN >> implies _“...reset after C<blocknameN>
-or any B<I<subordinate>> block of the same base name.”_
+in C<:after< blocknameN >> implies I<“...restart after C<blocknameN>
+or any B<I<superordinate>> block of the same base name.”>
 
 In other words, the previous example (while still valid) could be partially simplified to:
 =begin code :lang<rakudoc>
-    =comment Reproduce (or perhaps reinstate) standard heading reset behaviours...
-
-        =numreset head1
-        =numreset head2  head1
-        =numreset head3  head2
-        =numreset head4  head3
-
-    =comment Customize table and formula numbering to reset after every =head3 (or higher)...
-
-        =numreset table  head3
-        =numreset formula  head3
+    =comment Customize table and formula numbering to restart after every =head3 (or superordinate)...
+        =restart table   :after< head3 >
+        =restart formula :after< head3 >
 =end code
 
-It is also possible to specify reset behaviours “negatively”.
-That is, to specify that a particular block resets after B<I<any>> other block,
+It is also possible to specify restart behaviours “negatively”.
+That is, to specify that a particular block restarts B<after> B<I<any>> other block,
 except one or more that are explicitly excluded from the trigger. For example:
 =begin code :lang<rakudoc>
-    =comment Reproduce (or perhaps reinstate) standard item reset behaviours...
+    =comment Reproduce (or perhaps reinstate) standard item restart behaviours...
 
-        =numreset item1  !item1 !item2 !item3 !item4
-        =numreset item2  !item2 !item3 !item4
-        =numreset item3  !item3 !item4
-        =numreset item4  !item4
+        =restart item1 :except-after< item1 item2 item3 item4 >
+        =restart item2 :except-after< item2 item3 item4 >
+        =restart item3 :except-after< item3 item4 >
+        =restart item4 :except-after< item4 >
 
-    =comment Give a set of user-defined item blocks the same reset behaviour as standard items
+    =comment Give a set of user-defined item blocks the same restart behaviour as standard items
 
-        =numreset MyItem  !MyItem !MySubItem !MySubSubItem
-        =numreset MySubItem          !MySubItem !MySubSubItem
-        =numreset MySubSubItem                     !MySubSubItem
+        =restart MyItem       :except-after< MyItem MySubItem MySubSubItem >
+        =restart MySubItem    :except-after< MySubItem MySubSubItem >
+        =restart MySubSubItem :except-after< MySubSubItem >
 =end code
 
-In other words, the presence of an I<excluded blockname> such as C<!BlockName>
-in a C<:number-reset> implies that the block being configured is reset
+In other words, the presence of an I<excluded blockname> such as C<BlockName>
+in a C<:except-after> implies that the block being configured is restarted
 after every block B<I<except>> C<Blockname>. Multiple excluded blocknames
-can be specified in the same C<:number-reset>, but specifying both
-an excluded blockname and a regular blockname in the same metaoption
-would be redundant and a renderer would be encouraged to issue a warning:
+can be specified in the same C<:except-after>, but specifying both
+an C<:after> and a C<:except-after> in the same C<=restart>
+would be redundant and a renderer should issue a warning when both are encountered.
+
+Where both C<:except-after> and C<:except> options exist, the C<:except-after> is obeyed.
 =begin code :lang<rakudoc>
     =comment  The mention of head1 is redundant here because the excluded blocknames
-    =comment  imply "reset on anything except...", which already implies "reset on head1"
+    =comment  imply "restart on anything except...", which already implies "restart on head1"
 
-    =numreset MySubItem  head1 !MySubItem !MySubSubItem
+    =restart MySubItem  :after<head1> :except-after< MySubItem MySubSubItem >
 =end code
 
 Note that, having to specify hierarchical excluded subitems all the way down
-is also tedious, so we define that an excluded blockname in a C<:number-reset> implies
-_“...reset after any block except C<blocknameN>
-or any B<I<lower-level>> block of the same base name.”_
+is also tedious, so we define that an excluded blockname in a C<:except-after> implies
+_“...restart after any block except C<blocknameN>
+or any B<I<subordinate>> block of the same base name.”_
 
 Hence the first part of the previous example could also be simplified to:
 =begin code :lang<rakudoc>
-    =comment Reproduce (or perhaps reinstate) standard item reset behaviours...
+    =comment Reproduce (or perhaps reinstate) standard item restart behaviours...
 
-        =numreset item1  !item1
-        =numreset item2  !item2
-        =numreset item3  !item3
-        =numreset item4  !item4
+        =restart item1 :except-after< item1 >
+        =restart item2 :except-after< item2 >
+        =restart item3 :except-after< item3 >
+        =restart item4 :except-after< item4 >
 =end code
 
 =head4 There are manual B<I<trigger overrides>>
 
-Once a block has been flagged for resetting (whether by default or via
-an explicit C<:number-reset> trigger), its individual counter will be reset
+Once a block has been flagged for restartting (whether by default or via
+an explicit C<=restart> trigger), its individual counter will be restart
 when that block is next rendered, or when its individual counter is accessed
 to compute the hierarchical enumeration for a lower-level block of the same base name.
 
-Normally, a block’s individual counter will reset to 1, but this can be overridden
+Normally, a block’s individual counter will restart to 1, but this can be overridden
 by any of the following metaoptions:
 | Metaoption  | Effect                                                                  |
 | --          | --                                                                      |
@@ -2368,7 +2364,7 @@ provide a scheme similar to the examples here, and also provide an enhancement, 
 C<:html-ordered> that leverages the C«<ul type="A">» markup.
 
 The numbering of successive C<=numitem1> list items increments automatically,
-but is reset to 1 whenever any other kind of non-ambient RakuDoc block appears
+but is reset to C<1> whenever any other kind of non-ambient RakuDoc block appears
 between two C<=numitem1> blocks. For example:
 =begin code :lang<RakuDoc>
     The options are:
@@ -2402,7 +2398,7 @@ The tools are:
 3. Keg
 =end nested
 The numbering of nested items (C<=numitem2>, C<=numitem3>, etc.) only resets to 1 when
-a higher-level item's numbering either resets or increments.
+a superordinate item's numbering either resets or increments.
 
 To prevent a C<=numitemN> from resetting after a non-item block,
 you can specify the C<:continued> option:
@@ -4681,7 +4677,7 @@ in a pop-up that activates on hover or mouse-click
         =cell V<=for>
         =cell Start of an implicitly (blank-line) terminated block
     =row
-        =cell V<=numreset>
+        =cell V<=restart>
         =cell Reset a block counter when other block types are encountered
     =row
         =cell V<=place>
