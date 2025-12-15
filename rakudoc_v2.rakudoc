@@ -1830,7 +1830,7 @@ Since all options may be set using the C<=config> directive, it is possible to s
 In this case, the C<*> is replaced by the TAG specified in the C<:numalias> option for the block, eg.
     =for numitem :numalias<HQ>
 
-The precedence rules for options is for options specified by a block take priority over options specified by a
+The precedence rule for options is for options specified by a block take priority over options specified by a
 C<=config> directive.
 
 Consequently, C«:numalias<|TAG>» will replace any declaration given by a C<=config> directive, and the default value of
