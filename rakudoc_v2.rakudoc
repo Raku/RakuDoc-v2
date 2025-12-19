@@ -727,15 +727,13 @@ In the case where a URL does not end in a recognized extension:
 A B<=place> directive may be accompanied by metadata options to ensure that
 a reference can be made in the Table of Contents, or to provide an ALT text. For example:
 =begin code :lang<RakuDoc>
-  =place https://raku.org/camelia-logo.png  :toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
+  =place https://raku.org/img/camelia-logo.png  :!toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
 =end code
 will produce ...
 
-=place https://raku.org/camelia-logo.png  :toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
+=place https://raku.org/img/camelia-logo.png :!toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
 
-In the Table of Contents, the caption I<Raku's mascot> will appear like a I<=head> caption.
-
-Use C<=place2 ... :toc> to include it in the Table of Contents as a C<=head2> caption.
+Use C<=place3 ... :toc> to include it in the Table of Contents as a C<=head3> caption.
 
 =head2 Enumeration restart triggers
 

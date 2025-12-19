@@ -305,7 +305,6 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Document_termination">Document termination</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Table_constructors">Table constructors</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Placement_from_another_(external)_source">Placement from another (external) source</a></div>
-<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Raku's_mascot">Raku's mascot</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Enumeration_restart_triggers">Enumeration restart triggers</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Code-oriented_RakuDoc">Code-oriented RakuDoc</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Declarator_blocks">Declarator blocks</a></div>
@@ -454,7 +453,6 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Document_termination">Document termination</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Table_constructors">Table constructors</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Placement_from_another_(external)_source">Placement from another (external) source</a></div>
-<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Raku's_mascot">Raku's mascot</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Enumeration_restart_triggers">Enumeration restart triggers</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Code-oriented_RakuDoc">Code-oriented RakuDoc</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Declarator_blocks">Declarator blocks</a></div>
@@ -1100,17 +1098,17 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">  =place https://raku.org/camelia-logo.png  :toc :caption&lt;Raku's mascot&gt; :alt&lt;A multicoloured butterfly&gt;</span>
+<span class="rainbow-rakudoc_text">  =place https://raku.org/img/camelia-logo.png  :caption&lt;Raku's mascot&gt; :alt&lt;A multicoloured butterfly&gt;</span>
 </pre>
 </div>
                 </div>
             <p id="9677ca8">will produce ... </p>
 
 <div class="id-target" id="Raku's mascot"></div><h1 id="Raku's_mascot" class="heading raku-webs-h1 "><a href="#">Raku's mascot</a><a class="raku-webs-anchor" href="#Raku's mascot">§</a></h1>
-Link ｢https://raku.org/camelia-logo.png｣ caused LibCurl Exception, response code ｢404｣ with error ｢The requested URL returned error: 404｣
+<div class="rakudoc-image-placement">
+                            <img src="https://raku.org/img/camelia-logo.png" alt="A multicoloured butterfly" title="A multicoloured butterfly"><div>Raku's mascot</div></img></div> 
 
-<p id="2b3bc7b">In the Table of Contents, the caption <span class="important">Raku's mascot</span> will appear like a <span class="important">=head</span> caption. </p>
-<p id="5d6100f">Use <span class="code">=place2 ... :toc</span> to include it in the Table of Contents as a <span class="code">=head2</span> caption. </p>
+<p id="00131b4">Use <span class="code">=place3 ... :toc</span> to include it in the Table of Contents as a <span class="code">=head3</span> caption. </p>
 
 <div class="id-target" id="Enumeration restart triggers"></div><h2 id="Enumeration_restart_triggers" class="heading raku-webs-h2 "><a href="#">Enumeration restart triggers</a><a class="raku-webs-anchor" href="#Enumeration restart triggers">§</a></h2>
 <p id="1e019e9">The <span class="code">=restart</span> instruction is a directive that affects the behaviour of block counters. </p>
@@ -4238,10 +4236,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 15:58 UTC on 2025-12-15
+                Rendered at 13:36 UTC on 2025-12-19
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 15:56 UTC on 2025-12-15
+                Source last modified&nbsp;at 13:36 UTC on 2025-12-19
             </div>
         </nav>
     </div>
@@ -4251,7 +4249,7 @@ Artistic-2.0
         <li>Unknown or as yet undeclared alias ｢ SOFTWARE｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢this program ｣</li>
 <li>Unknown or as yet undeclared alias ｢ COMPANY｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢our company ｣</li>
 <li>Unknown or as yet undeclared alias ｢ OURTERMS｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢(Please visit our website) ｣</li>
-<li>Link ｢https://raku.org/camelia-logo.png｣ caused LibCurl Exception, response code ｢404｣ with error ｢The requested URL returned error: 404｣</li>
+<li>Link ｢https://raku.org/img/camelia-logo.png｣ caused LibCurl Exception, response code ｢200｣ with error ｢｣</li>
 <li>Unknown or as yet undeclared alias ｢HQ｣ in block ｢rakudoc｣ with heading ｢Formatting aliases｣</li>
 <li>Definition ｢AAA｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢BBB｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
