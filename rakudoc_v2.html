@@ -722,7 +722,7 @@ function swap_toc_index(div, activate) {
 </pre>
 </div>
                 </div></li>
-<li class="item" data-bullet="•" style="--level:0;"> <p id="249622f"><span class="basis">=restart</span> specifies when a block counter is restartted to <span class="code">1</span> by the instance of another block. The general syntax of <span class="basis">=restart</span> is </p>
+<li class="item" data-bullet="•" style="--level:0;"> <p id="8280a33"><span class="basis">=restart</span> specifies when a block counter is restarted to <span class="code">1</span> by the instance of another block. The general syntax of <span class="basis">=restart</span> is </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1098,7 +1098,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">  =place https://raku.org/img/camelia-logo.png  :caption&lt;Raku's mascot&gt; :alt&lt;A multicoloured butterfly&gt;</span>
+<span class="rainbow-rakudoc_text">  =place https://raku.org/img/camelia-logo.png  :!toc :caption&lt;Raku's mascot&gt; :alt&lt;A multicoloured butterfly&gt;</span>
 </pre>
 </div>
                 </div>
@@ -1232,7 +1232,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">=head A top level heading<br><br>=head2 A second level heading<br><br>=head3 A third level heading</span>
+<span class="rainbow-rakudoc_text">=head A top-level heading<br><br>=head2 A second-level heading<br><br>=head3 A third-level heading</span>
 </pre>
 </div>
                 </div>
@@ -1341,7 +1341,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 
 <div class="id-target" id="Each block has an individual counter"></div><h4 id="Each_block_has_an_individual_counter" class="heading raku-webs-h4 "><a href="#">Each block has an individual counter</a><a class="raku-webs-anchor" href="#Each block has an individual counter">§</a></h4>
 <p id="7a1b2e0">A block’s <span class="important">individual counter</span> is a scalar integer variable that tracks the block’s current enumeration value. Every block has a unique individual counter named the same as its base name plus level. Hence the <span class="code">head</span>, <span class="code">head1</span>, <span class="code">numhead</span>, and <span class="code">numhead1</span> blocks all share a single individual counter named <span class="basis">head1</span>. </p>
-<p id="e4ce699">Every block, whether built-in or user-defined has an individual counter, even of the block is never explicitly specified. Individual counters autovivify (with an initial value of 1) any time they are referenced, either when their corresponding block is explicitly specified in a document, or when their names are used as the argument of some metaoption. </p>
+<p id="35d0178">Every block, whether built-in or user-defined has an individual counter, even if the block is never explicitly specified. Individual counters autovivify (with an initial value of 1) any time they are referenced, either when their corresponding block is explicitly specified in a document, or when their names are used as the argument of some metaoption. </p>
 
 <div class="id-target" id="Each block has a hierarchical enumeration"></div><h4 id="Each_block_has_a_hierarchical_enumeration" class="heading raku-webs-h4 "><a href="#">Each block has a hierarchical enumeration</a><a class="raku-webs-anchor" href="#Each block has a hierarchical enumeration">§</a></h4>
 <p id="f099fe3">A block’s <span class="important">hierarchical enumeration</span> is a list of integer values, consisting of the block’s individual counter value, prefixed by the individual counter values of every block of the same base name but of a superordinate level. </p>
@@ -1358,7 +1358,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
             
 <div class="id-target" id="Each block has a number prefix"></div><h4 id="Each_block_has_a_number_prefix" class="heading raku-webs-h4 "><a href="#">Each block has a number prefix</a><a class="raku-webs-anchor" href="#Each block has a number prefix">§</a></h4>
 <p id="f13e421">A block’s hierarchical enumeration is determined by its <span class="important">number prefix</span>, which specifies whence the prefix values for its hierarchical enumeration are (recursively) obtained. Specifically, the hierarchical enumeration of a block consists of the hierarchical enumeration of its number prefix, followed by its individual counter value, as described in the preceding section. </p>
-<p id="c1b52d7">For example, the hierarchical enumeration of a <span class="code">formula3</span> block is the hierarchical enumeration of its number prefix (by default, <span class="code">formula2</span>), followed by the individual counter value for <span class="code">formula3</span>. Of course, the hierarchical enumeration of <span class="code">formula2</span> is the hierarchical enumeration of <span class="important">its</span> number prefix (by default: <span class="code">formula1</span>) followed by the individual counter value of <span class="code">formula2</span>. The <span class="code">formula1</span> block has no number prefix (because it is a top-level block), so its hierarchical enumeration is just its individual counter value. </p>
+<p id="21bdec5">For example, the hierarchical enumeration of a <span class="code">formula3</span> block is the hierarchical enumeration of its number prefix (by default, <span class="code">formula2</span>), followed by the individual counter value for <span class="code">formula3</span>. Of course, the hierarchical enumeration of <span class="code">formula2</span> is the hierarchical enumeration of <span class="important">its</span> number prefix (by default: <span class="code">formula1</span>) followed by the individual counter value of <span class="code">formula2</span>. The <span class="code">formula1</span> block has no number prefix (because it is a first-level block), so its hierarchical enumeration is just its individual counter value. </p>
 <p id="2f291fc">The <span class="code">number-prefix</span> metaoption can be used to specify – and modify – these hierarchical numeric relationships. For example, the default relationships for the formula blocks could be explicitly specified as: </p>
 
                 <div class="raku-code">
@@ -1369,7 +1369,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="2ef1ca3">More interestingly, this metaoption can be used to <span class="basis"><span class="important">change</span></span> the way hierarchical numbers are constructed for specific blocks. For example, one might prefer that a <span class="code">formula1</span>’s hierarchical enumeration consists of the current counter value for <span class="code">head1</span>, followed by the formula’s individual counter value. That is, each formula’s enumeration value is prefixed by the current top-level heading number. That could be achieved like so: </p>
+            <p id="31863c8">More interestingly, this metaoption can be used to <span class="basis"><span class="important">change</span></span> the way hierarchical numbers are constructed for specific blocks. For example, one might prefer that a <span class="code">formula1</span>’s hierarchical enumeration consists of the current counter value for <span class="code">head1</span>, followed by the formula’s individual counter value. That is, each formula’s enumeration value is prefixed by the current first-level heading number. That could be achieved like so: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1400,7 +1400,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 
 <div class="id-target" id="Each block has a restart trigger"></div><h4 id="Each_block_has_a_restart_trigger" class="heading raku-webs-h4 "><a href="#">Each block has a restart trigger</a><a class="raku-webs-anchor" href="#Each block has a restart trigger">§</a></h4>
 <p id="12acb23">Normally, a block’s individual counter is flagged for subsequent restarting to <span class="code">1</span> whenever a block with the same base name but a superordinate level is encountered. However, there is also a mechanism that permits custom restart triggers to be specified: the <span class="code">=restart</span> directive. </p>
-<p id="47ac07a">Each custom trigger specification consists of a set of one or more names of <span class="basis"><span class="important">trigger blocks</span></span> that, when encountered, cause a particular block’s counter to be flagged for restartting next time that particular block is rendered or its individual counter value is accessed. For example: </p>
+<p id="5669689">Each custom trigger specification consists of a set of one or more names of <span class="basis"><span class="important">trigger blocks</span></span> that, when encountered, cause a particular block’s counter to be flagged for restarting next time that particular block is rendered or its individual counter value is accessed. For example: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1442,7 +1442,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="42a6883">Note that, having to specify hierarchical excluded subitems all the way down is also tedious, so we define that an excluded blockname in a <span class="code">:except-after</span> implies _“...restart after any block except <span class="code">blocknameN</span> or any <span class="basis"><span class="important">subordinate</span></span> block of the same base name.”_ </p>
+            <p id="bc8a6ca">Note that, having to specify hierarchical excluded subitems all the way down is also tedious, so we define that an excluded blockname in a <span class="code">:except-after</span> implies <span class="important">“...restart after any block except <span class="code">blocknameN</span> or any <span class="basis"><span class="important">subordinate</span></span> block of the same base name.”</span> </p>
 <p id="ca88f3e">Hence the first part of the previous example could also be simplified to: </p>
 
                 <div class="raku-code">
@@ -1455,8 +1455,13 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
                 </div>
             
 <div class="id-target" id="There are manual trigger overrides"></div><h4 id="There_are_manual_trigger_overrides" class="heading raku-webs-h4 "><a href="#">There are manual trigger overrides</a><a class="raku-webs-anchor" href="#There are manual trigger overrides">§</a></h4>
-<p id="f494695">Once a block has been flagged for restartting (whether by default or via an explicit <span class="code">=restart</span> trigger), its individual counter will be restart when that block is next rendered, or when its individual counter is accessed to compute the hierarchical enumeration for a lower-level block of the same base name. </p>
-<p id="213e585">Normally, a block’s individual counter will restart to 1, but this can be overridden by any of the following metaoptions: | Metaoption | Effect | | -- | -- | | :number(N) | Counter reset to N | | :continued | Counter not reset; incremented as normal instead | | :!continued | Counter unconditionally reset to 1, even if reset not currently flagged | </p>
+<p id="c1a8a4e">Once a block has been flagged for restarting (whether by default or via an explicit <span class="code">=restart</span> trigger), its individual counter will restart when that block is next rendered, or when its individual counter is accessed to compute the hierarchical enumeration for a subordinate block of the same base name. </p>
+<p id="9cffed9">Normally, a block’s individual counter will restart to 1, but this can be overridden by any of the following metaoptions: </p>
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><td class=""><p id="aa9d697"><span class="code">:number(N)</span> </p></td><td class=""><p id="f87a89b">The block’s counter is reset to <span class="important">N</span> </p></td></tr>
+<tr class="procedural"><td class=""><p id="7703bc4"><span class="code">:continued</span> </p></td><td class="">The block’s counter is not reset; it is incremented as normal instead</td></tr>
+<tr class="procedural"><td class=""><p id="aac21b0"><span class="code">:!continued</span> </p></td><td class="">The block’s counter is unconditionally reset to 1, even if a reset is not currently flagged</td></tr>
+</tbody></table>
 
 <div class="id-target" id="There is a counter (un)sharing mechanism"></div><h4 id="There_is_a_counter_(un)sharing_mechanism" class="heading raku-webs-h4 "><a href="#">There is a counter (un)sharing mechanism</a><a class="raku-webs-anchor" href="#There is a counter (un)sharing mechanism">§</a></h4>
 <p id="12379df">Normally, every block’s individual counter is the counter labelled with the block's own name. </p>
@@ -1504,7 +1509,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="aaca9b8">If you want top-level formulas in the TOC, preconfigure <span class="code">=formula1</span> with <span class="code">:toc</span> and then use <span class="code">=formula1</span> or <span class="code">=formula</span> to specify each formula; if you want just one particular table as a third-level TOC entry, specify: <span class="code">=for table3 :toc</span> </p>
+            <p id="8d2e3fb">If you want first-level formulas in the TOC, preconfigure <span class="code">=formula1</span> with <span class="code">:toc</span> and then use <span class="code">=formula1</span> or <span class="code">=formula</span> to specify each formula; if you want just one particular table as a third-level TOC entry, specify: <span class="code">=for table3 :toc</span> </p>
 <p id="3904d93">You can also specify that a particular block or block type belongs to one or more other TOCs, by specifying the TOC name(s) as an optional argument to <span class="code">:toc</span>. For example: </p>
 
                 <div class="raku-code">
@@ -1640,7 +1645,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
                 </div>
             <p id="f2ed09e">...requires two fields, because it expects to interpolate two enumeration values: the enumeration value of the current first-level heading, plus it’s own second-level enumeration value. </p>
 <p id="32b81b6">In that example, the first field (<span class="code">%A</span>) would be replaced by the current <span class="code">numhead1</span> enumeration value, and the second field (<span class="code">%N</span>) would be replaced by the current <span class="code">numhead2</span> value. </p>
-<p id="fb21a15">In general, a <span class="code">:form</span> applied to a <span class="code">numhead</span><span class="important">X</span> block may specify up to <span class="important">X</span> enumeration fields, <span class="important">X-1</span> of which would be replaced (left-to-right) by the <span class="important">X-1</span> current enumeration values of the <span class="important">X-1</span> higher-level headings. The <span class="important">X</span>-th field would, of course, be replaced by the block’s own enumeration value. For example: </p>
+<p id="b63b897">In general, a <span class="code">:form</span> applied to a <span class="code">numhead</span><span class="important">X</span> block may specify up to <span class="important">X</span> enumeration fields, <span class="important">X-1</span> of which would be replaced (left-to-right) by the <span class="important">X-1</span> current enumeration values of the <span class="important">X-1</span> superordinate headings. The <span class="important">X</span>-th field would, of course, be replaced by the block’s own enumeration value. For example: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1651,7 +1656,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </div>
                 </div>
             <p id="a4ac9f9">...would be formatted by replacing the first <span class="code">%N</span> with the current <span class="code">numhead1</span> enumeration value, then the single <span class="code">%A</span> with the current <span class="code">numhead2</span> enumeration value, then the second <span class="code">%N</span> with the current <span class="code">numhead3</span> enumeration value, then the third <span class="code">%N</span> with the current <span class="code">numhead4</span> enumeration value. </p>
-<p id="1a4006f">If any of the higher-level headings is not enumerated (<span class="important">e.g.</span> <span class="code">head3</span> instead of <span class="code">numhead3</span>), then the corresponding enumeration field would be replaced by an empty string instead of a number. </p>
+<p id="6530350">If any of the superordinate headings is not enumerated (<span class="important">e.g.</span> <span class="code">head3</span> instead of <span class="code">numhead3</span>), then the corresponding enumeration field would be replaced by an empty string instead of a number. </p>
 <p id="555bd8e">If a <span class="code">:form</span> option specifies <span class="basis"><span class="important">fewer</span></span> enumeration fields than the corresponding heading level: </p>
 
                 <div class="raku-code">
@@ -1662,7 +1667,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="c6ad24a">...then only the <span class="important">X</span> lowest-level enumeration values are inserted into the corresponding format. That is, the previous example would be rendered: </p>
+            <p id="aa8dad5">...then only the final <span class="important">X</span> most-subordinate enumeration values are inserted into the corresponding format. That is, the previous example would be rendered: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1672,7 +1677,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="66fef17">That is, because the <span class="code">:form</span> for <span class="code">numhead4</span> specifies only two enumeration fields, only the two lowest-level enumeration values (those for <span class="code">numhead3</span> and <span class="code">numhead4</span>) are interpolated. </p>
+            <p id="4eea758">That is, because the <span class="code">:form</span> for <span class="code">numhead4</span> specifies only two enumeration fields, only the two most-subordinate enumeration values (those for <span class="code">numhead3</span> and <span class="code">numhead4</span>) are interpolated. </p>
 <p id="5c67a2d">The same rules and behaviour apply to <span class="code">item1</span>/<span class="code">item2</span>/<span class="code">item3</span> blocks (and would also apply to any other hierarchical blocks that might eventually be added to the specification). </p>
 
 <div class="id-target" id="Formatting options"></div><h3 id="Formatting_options" class="heading raku-webs-h3 "><a href="#">Formatting options</a><a class="raku-webs-anchor" href="#Formatting options">§</a></h3>
@@ -2122,7 +2127,7 @@ sub demo {
 <li class="item" data-bullet="▹" style="--level:1;"> Liquid</li>
 <li class="item" data-bullet="▹" style="--level:1;"> Gas</li>
 </ul>
-<p id="e636ce2">Note, however, that <span class="code">item</span> blocks within the same list are not <span class="important">physically</span> nested. That is, lower-level items should not be specified inside higher-level items: </p>
+<p id="c8c70f9">Note, however, that <span class="code">item</span> blocks within the same list are not <span class="important">physically</span> nested. That is, subordinate items should not be specified inside superordinate items: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -2312,7 +2317,7 @@ Abscond to the Bahamas with the cash
 <p id="e71c3ac">3. Prophet! </p></div>
 <p id="a88be24">Normally, if two <span class="code">=numitemN</span> blocks are separated by some other kind of block (for example, a <span class="code">=para</span>, <span class="code">=code</span>, or <span class="code">=table</span> block), then the numbering of the second <span class="code">=numitemN</span> block resets to 1. </p>
 <p id="9f9aaf7">However, if the second <span class="code">=numitemN</span> block is specified with a <span class="code">:continued</span> option the numbering of that second block does not reset, but increments instead (i.e. as if there had been no intervening non-numbered block). </p>
-<p id="9eac0fb">The <span class="code">:continued</span> option has no effect on any higher- or lower-numbered <span class="code">=numitem</span> blocks that are currently active in the same scope. That is: a <span class="code">=for numitemN :continued</span> causes the numbering of every active <span class="code">=numitemZ</span> block (where <span class="important">Z</span> &gt; <span class="important">N</span>) to reset to 1, and the numbering of every active <span class="code">=numitemA</span> block (where <span class="important">A</span> &lt; <span class="important">N</span>) stays the same. </p>
+<p id="4434316">The <span class="code">:continued</span> option has no effect on any superordinate or subordinate <span class="code">=numitem</span> blocks that are currently active in the same scope. That is: a <span class="code">=for numitemN :continued</span> causes the numbering of every active <span class="code">=numitemZ</span> block (where <span class="important">Z</span> &gt; <span class="important">N</span>) to reset to 1, and the numbering of every active <span class="code">=numitemA</span> block (where <span class="important">A</span> &lt; <span class="important">N</span>) stays the same. </p>
 <p id="6cc0fd2">A <span class="code">=numitem</span> is the same as a <span class="code">=numitem1</span>, by analogy with <span class="code">=item</span> and <span class="code">=head</span>. </p>
 <p id="503173e">The underlying paradigm is that every sequence of list instructions (that is: <span class="code">=itemN</span> and/or <span class="code">=numitemN</span> instructions) has an <span class="important">inherent numeration</span>. The <span class="code">=numitemN</span> instructions express the numeration when rendered, while the <span class="code">=itemN</span> instructions do not. </p>
 <p id="117599a">When a sequence of list instructions is terminated by another sort of block then by default a new list is created with its own inherent numeration. By specifying <span class="code">:continued</span> on the <span class="basis">next</span> list instruction, the previous <span class="important">inherent numeration</span> is preserved and continued. </p>
@@ -3137,7 +3142,7 @@ We will use: F&lt;
 <p id="3cb7533">The block name of a rendered semantic block will be placed in the <a href="#Table_of_Contents_and_Index"><span class="important">Table of Contents</span></a> table in the position that it is rendered, unless the <span class="code">:!toc</span> and or <span class="code">:caption</span> options are set. A <span class="code">:hidden</span> metadata option will also remove the block's entry from the ToC. But if it is placed by a <span class="code">P&lt;semantic:&gt;</span> instruction, the block entry will be placed at the appropriate point in the ToC. </p>
 
 <div class="id-target" id="User-defined blocks"></div><h2 id="User-defined_blocks" class="heading raku-webs-h2 "><a href="#">User-defined blocks</a><a class="raku-webs-anchor" href="#User-defined blocks">§</a></h2>
-<p id="f138bf4">When a block name contains both an upper case and a lower case character, as specified <a href="#Naming_rules">in the naming rules below</a>, it is interpreted as a developer-defined block. The naming rules are to ensure that built-in blocks, semantic blocks, and custom blocks are never mixed up. </p>
+<p id="d7946c1">When a block name contains both an uppercase and a lowercase character, as specified <a href="#Naming_rules">in the naming rules below</a>, it is interpreted as a developer-defined block. The naming rules are to ensure that built-in blocks, semantic blocks, and custom blocks are never mixed up. </p>
 <p id="7cbd798">The way in which a renderer styles the contents of a custom block depends on the renderer, and each renderer may specify a procedure for using user-supplied templates or code. </p>
 <p id="96ad73b">If a renderer does not recognize a custom block, then the renderer should replace that block with the contents of the block's <span class="code"> :alt&lt;...&gt; </span> option (if provided). If the document author did not include an <span class="code"> :alt&lt;...&gt; </span> option, then the renderer should treat the block name as the contents of a <span class="code">=head</span> block, which can be overridden as described in <a href="#Table_of_Contents_and_Index">Table of Contents</a> and should render the contents of the unrecognized custom block verbatim, like a <span class="code">=code</span> block. Any unrecognized custom block (with or without an <span class="code"> :alt&lt;...&gt; </span> option) should generate a warning message unless the custom block is passed the <span class="code"> :!warn </span> option. </p>
 <p id="0e73be0">Multi-paragraph contents should be enclosed using the <span class="important">delimited</span> form of the block. </p>
@@ -3546,7 +3551,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
 </ul>
 <p id="0d8df8b">The <span class="code">toc:</span> form is a special pseudo-scheme that inserts a table of contents (TOC) in place of the <span class="code">P&lt;&gt;</span> code. After the colon, there must be a string of one or more non-blank characters, called the specification. </p>
 <p id="c62a9f3">There is at least one set of TOC data collected by the renderer from the <span class="code">=head</span> and semantic blocks, but as described above, custom TOC names can be created. </p>
-<p id="f1a0861">The specification is used to select the TOC data set and to constrain how much data is rendered. When the specification is a <span class="code">*</span>, a digit, or a range, then the default or <span class="important">head</span> TOC is implied. For example, to place a table of contents listing only top- and second-level headings: </p>
+<p id="c3799ad">The specification is used to select the TOC data set and to constrain how much data is rendered. When the specification is a <span class="code">*</span>, a digit, or a range, then the default or <span class="important">head</span> TOC is implied. For example, to place a table of contents listing only first- and second-level headings: </p>
 <div class="rakudoc-section ">
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -3556,7 +3561,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
 </pre>
 </div>
                 </div>
-            <p id="5deb697">To place a table of contents that lists the top four levels of headings: </p>
+            <p id="4fd0eee">To place a table of contents that lists the first four levels of headings: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -3571,7 +3576,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
 <p id="654b1cf">Valid specs would be: </p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style="--level:0;"> `*` (all levels of the default ToC)</li>
-<li class="item" data-bullet="•" style="--level:0;"> `1..4` (levels 2-4 of the default ToC)</li>
+<li class="item" data-bullet="•" style="--level:0;"> `1..4` (levels 1-4 of the default ToC)</li>
 <li class="item" data-bullet="•" style="--level:0;"> Diagrams (meaning all levels of the Diagrams ToC)</li>
 <li class="item" data-bullet="•" style="--level:0;"> Diagrams,* (all levels of the Diagrams ToC)</li>
 <li class="item" data-bullet="•" style="--level:0;"> table,1..4 (range 1..4 of the table ToC)</li>
@@ -4236,10 +4241,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 13:36 UTC on 2025-12-19
+                Rendered at 13:54 UTC on 2025-12-19
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 13:36 UTC on 2025-12-19
+                Source last modified&nbsp;at 13:53 UTC on 2025-12-19
             </div>
         </nav>
     </div>

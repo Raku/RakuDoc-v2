@@ -246,7 +246,7 @@ syntax of B<=place> is
 =end code
 =end item
 =begin item
-B<=restart> specifies when a block counter is restartted to C<1> by the instance of another block. The general
+B<=restart> specifies when a block counter is restarted to C<1> by the instance of another block. The general
 syntax of B<=restart> is
 =begin code :lang<RakuDoc> :allow<R I>
     =restart R<BLOCK> I«:after< R<BLOCKS> > | :except-after< R<BLOCKS> >»
@@ -959,11 +959,11 @@ where R<N> is greater than zero (e.g. C<=head>, C<=head2>, etc.).
 C<=head> is an alias for C<=head>.
 
 =begin code :lang<RakuDoc>
-=head A top level heading
+=head A top-level heading
 
-=head2 A second level heading
+=head2 A second-level heading
 
-=head3 A third level heading
+=head3 A third-level heading
 =end code
 
 =head3 Numbered headings
@@ -1140,7 +1140,7 @@ C<numhead>, and C<numhead1> blocks all share a single
 individual counter named B<head1>.
 
 Every block, whether built-in or user-defined has an individual counter,
-even of the block is never explicitly specified. Individual counters
+even if the block is never explicitly specified. Individual counters
 autovivify (with an initial value of 1) any time they are referenced,
 either when their corresponding block is explicitly specified in a document,
 or when their names are used as the argument of some metaoption.
@@ -1172,7 +1172,7 @@ enumeration of its number prefix (by default, C<formula2>), followed by the indi
 counter value for C<formula3>. Of course, the hierarchical enumeration of C<formula2> is the
 hierarchical enumeration of I<its> number prefix (by default: C<formula1>) followed by the
 individual counter value of C<formula2>. The C<formula1> block has no number prefix
-(because it is a top-level block), so its hierarchical enumeration is just
+(because it is a first-level block), so its hierarchical enumeration is just
 its individual counter value.
 
 The C<number-prefix> metaoption can be used to specify – and modify – these
@@ -1189,7 +1189,7 @@ More interestingly, this metaoption can be used to B<I<change>> the way hierarch
 numbers are constructed for specific blocks. For example, one might prefer that
 a C<formula1>’s hierarchical enumeration consists of the current counter value for
 C<head1>, followed by the formula’s individual counter value. That is, each formula’s
-enumeration value is prefixed by the current top-level heading number. That could
+enumeration value is prefixed by the current first-level heading number. That could
 be achieved like so:
 =begin code :lang<rakudoc>
 =config formula1  :number-prefix< head1 >
@@ -1225,7 +1225,7 @@ permits custom restart triggers to be specified: the C<=restart> directive.
 
 Each custom trigger specification consists of a set of one or more names
 of B<I<trigger blocks>> that, when encountered, cause a particular block’s counter
-to be flagged for restartting next time that particular block is rendered
+to be flagged for restarting next time that particular block is rendered
 or its individual counter value is accessed. For example:
 
 =begin code :lang<rakudoc>
@@ -1287,8 +1287,8 @@ Where both C<:except-after> and C<:except> options exist, the C<:except-after> i
 
 Note that, having to specify hierarchical excluded subitems all the way down
 is also tedious, so we define that an excluded blockname in a C<:except-after> implies
-_“...restart after any block except C<blocknameN>
-or any B<I<subordinate>> block of the same base name.”_
+I<“...restart after any block except C<blocknameN>
+or any B<I<subordinate>> block of the same base name.”>
 
 Hence the first part of the previous example could also be simplified to:
 =begin code :lang<rakudoc>
@@ -1302,18 +1302,25 @@ Hence the first part of the previous example could also be simplified to:
 
 =head4 There are manual B<I<trigger overrides>>
 
-Once a block has been flagged for restartting (whether by default or via
-an explicit C<=restart> trigger), its individual counter will be restart
+Once a block has been flagged for restarting (whether by default or via
+an explicit C<=restart> trigger), its individual counter will restart
 when that block is next rendered, or when its individual counter is accessed
-to compute the hierarchical enumeration for a lower-level block of the same base name.
+to compute the hierarchical enumeration for a subordinate block of the same base name.
 
 Normally, a block’s individual counter will restart to 1, but this can be overridden
 by any of the following metaoptions:
-| Metaoption  | Effect                                                                  |
-| --          | --                                                                      |
-| :number(N)  | Counter reset to N                                                      |
-| :continued  | Counter not reset; incremented as normal instead                        |
-| :!continued | Counter unconditionally reset to 1, even if reset not currently flagged |
+
+=begin table
+    =row
+        =cell C<:number(N)>
+        =cell The block’s counter is reset to I<N>
+    =row
+        =cell C<:continued>
+        =cell The block’s counter is not reset; it is incremented as normal instead
+    =row
+        =cell C<:!continued>
+        =cell The block’s counter is unconditionally reset to 1, even if a reset is not currently flagged
+=end table
 
 
 =head4 There is a B<I<counter (un)sharing mechanism>>
@@ -1369,7 +1376,7 @@ C«:toc» option:
 =end table
 =end code
 
-If you want top-level formulas in the TOC, preconfigure C«=formula1» with C«:toc»
+If you want first-level formulas in the TOC, preconfigure C«=formula1» with C«:toc»
 and then use C«=formula1» or C«=formula» to specify each formula;
 if you want just one particular table as a third-level TOC entry, specify: C«=for table3 :toc»
 
@@ -1529,7 +1536,7 @@ would be replaced by the current C«numhead2» value.
 In general, a C«:form» applied to a C«numhead»I<X> block may specify
 up to I<X> enumeration fields, I<X-1> of which would be replaced
 (left-to-right) by the I<X-1> current enumeration values of the
-I<X-1> higher-level headings. The I<X>-th field would, of course, be
+I<X-1> superordinate headings. The I<X>-th field would, of course, be
 replaced by the block’s own enumeration value. For example:
 =begin code :lang<rakudoc>
 =config numhead4 :form<%N(%A) %N.%N: %D>
@@ -1539,14 +1546,14 @@ then the single C«%A» with the current C«numhead2» enumeration value,
 then the second C«%N» with the current C«numhead3» enumeration value,
 then the third C«%N» with the current C«numhead4» enumeration value.
 
-If any of the higher-level headings is not enumerated (I<e.g.> C«head3» instead of C«numhead3»),
+If any of the superordinate headings is not enumerated (I<e.g.> C«head3» instead of C«numhead3»),
 then the corresponding enumeration field would be replaced by an empty string instead of a number.
 
 If a C«:form» option specifies B«I<fewer>» enumeration fields than the corresponding heading level:
 =begin code :lang<rakudoc>
 =config numhead4 :form<%N.%N: %D>
 =end code
-...then only the I<X> lowest-level enumeration values are inserted into the corresponding
+...then only the final I<X> most-subordinate enumeration values are inserted into the corresponding
 format. That is, the previous example would be rendered:
 =begin code :lang<rakudoc>
     1. The Plan
@@ -1560,7 +1567,7 @@ format. That is, the previous example would be rendered:
 =end code
 
 That is, because the C«:form» for C«numhead4» specifies only two enumeration fields,
-only the two lowest-level enumeration values (those for C«numhead3» and C«numhead4»)
+only the two most-subordinate enumeration values (those for C«numhead3» and C«numhead4»)
 are interpolated.
 
 The same rules and behaviour apply to C«item1»/C«item2»/C«item3» blocks
@@ -2153,7 +2160,7 @@ This would produce:
 =item2     Gas
 
 Note, however, that C<item> blocks within the same list are not I<physically> nested.
-That is, lower-level items should not be specified inside higher-level items:
+That is, subordinate items should not be specified inside superordinate items:
 =begin code :lang<RakuDoc>
     =comment THE WRONG WAY...
     =begin item1          ───────────────┐
@@ -2430,7 +2437,7 @@ However, if the second C<=numitemN> block is specified with a C<:continued> opti
 the numbering of that second block does not reset, but increments instead
 (i.e. as if there had been no intervening non-numbered block).
 
-The C<:continued> option has no effect on any higher- or lower-numbered C<=numitem> blocks
+The C<:continued> option has no effect on any superordinate or subordinate C<=numitem> blocks
 that are currently active in the same scope. That is:
 a C<=for numitemN :continued> causes
 the numbering of every active C<=numitemZ> block (where I<Z> > I<N>) to reset to 1,
@@ -3497,7 +3504,7 @@ the appropriate point in the ToC.
 
 =head2 User-defined blocks
 
-When a block name contains both an upper case and a lower case character, as specified L<in the naming rules below|#Naming rules>,
+When a block name contains both an uppercase and a lowercase character, as specified L<in the naming rules below|#Naming rules>,
 it is interpreted as a developer-defined block. The naming rules are to ensure that built-in blocks, semantic blocks,
 and custom blocks are never mixed up.
 
@@ -4151,13 +4158,13 @@ When the specification is
 a C<*>, a digit, or a range, then the default or
 I<head> TOC is implied.
 For example, to place a table of
-contents listing only top- and second-level headings:
+contents listing only first- and second-level headings:
 =begin section
 =config code :lang<RakuDoc>
 
     P<toc:1..2 >
 
-To place a table of contents that lists the top four levels of headings:
+To place a table of contents that lists the first four levels of headings:
 
     P<toc:1..4 >
 
@@ -4168,7 +4175,7 @@ range, the level restrictions are applied to the named TOC.
 
 Valid specs would be:
 =item `*` (all levels of the default ToC)
-=item `1..4` (levels 2-4 of the default ToC)
+=item `1..4` (levels 1-4 of the default ToC)
 =item Diagrams (meaning all levels of the Diagrams ToC)
 =item Diagrams,*    (all levels of the Diagrams ToC)
 =item table,1..4      (range 1..4 of the table ToC)
@@ -5131,4 +5138,5 @@ in a pop-up that activates on hover or mouse-click
 =place semantic:LICENSE :caption<Licence>
 =place semantic:AUTHORS :caption<Credits>
 =end rakudoc
+
 
