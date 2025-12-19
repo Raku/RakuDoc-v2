@@ -1206,7 +1206,7 @@ be achieved like so:
 (To have the individual counters of the formulae automatically restart after each heading,
 see the C<=restart> directive described in the next section.)
 
-When an numbered block is rendered, its hierarchical enumeration is used together with its
+When a numbered block is rendered, its hierarchical enumeration is used together with its
 contents and caption.
 
 The hierarchical enumeration is built from the block's I<number-prefix> followed
