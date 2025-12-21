@@ -688,7 +688,8 @@ function swap_toc_index(div, activate) {
 </pre>
 </div>
                 </div></li>
-<li class="item" data-bullet="•" style="--level:0;"> <p id="cae64b8"><span class="basis">=config</span> specifies default options to be applied to specific types of blocks or markup instructions within the remainder of the current block-scope. These default options apply from immediately after the <span class="code">=config</span> directive up to the end of the innermost surrounding block. The general syntax for configuration directives is: </p>
+<li class="item" data-bullet="•" style="--level:0;"> <p id="e030f37"><span class="basis">=config</span> specifies default options to be applied to specific types of blocks or markup instructions within the remainder of the current block-scope. These default options apply from immediately after the <span class="code">=config</span> directive up to the end of the innermost surrounding block. </p>
+<p id="22805e2">The general syntax for configuration directives is: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -710,7 +711,8 @@ function swap_toc_index(div, activate) {
 </div>
                 </div>
             <p id="5fd3fad">This configures the <span class="code">C&lt;&gt;</span> markup instruction to recognize nested <span class="code">B&lt;&gt;</span> and <span class="code">I&lt;&gt;</span> markup instructions (both of which would otherwise be treated as verbatim within a <span class="code">C&lt;&gt;</span> instruction). </p>
-<p id="39742a9">To avoid ambiguities <a href="#Naming_rules">Naming rules</a> are applied to blocks and markup instructions. </p></li>
+<p id="39742a9">To avoid ambiguities <a href="#Naming_rules">Naming rules</a> are applied to blocks and markup instructions. </p>
+<p id="177e0ac">Note that since the <span class="code">=config</span> directive applies to <span class="important">block types</span>, <span class="code">=config item ...</span> and <span class="code">=config numitem ...</span> are equivalent. More information about <span class="important">block types</span> can be found in the section on <a href="#Block_type,_level_and_enumeration">Block type, level and enumeration</a>. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="34eafb0"><span class="basis">=place</span> specifies a source of information that is to be placed in the current block. The general syntax of <span class="basis">=place</span> is </p>
 
                 <div class="raku-code">
@@ -1212,6 +1214,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <p id="f3565fc">Historically the name <span class="code">pod</span> was used for this functionality. For compatibility it will still be possible to use the name <span class="code">pod</span> instead of <span class="code">rakudoc</span> in the foreseeable future. Note however that the Raku Programming Language may assign slightly different semantics to <span class="code">rakudoc</span> at some time in the future. </p>
 
 <div class="id-target" id="Block type, level and enumeration"></div><h2 id="Block_type,_level_and_enumeration" class="heading raku-webs-h2 "><a href="#">Block type, level and enumeration</a><a class="raku-webs-anchor" href="#Block type, level and enumeration">§</a></h2>
+<p id="c8bd6c6">A <span class="basis">block type</span> consists of a <span class="basis">block base</span> name, such as <span class="replace">head</span>, and a <span class="basis">block level</span>, which is an integer starting from <span class="code">1</span>. (A block type consisting of a block base without an integer implies the block level is <span class="code">1</span>). The following are all valid <span class="important">block types</span>: <span class="code">head</span>, <span class="code">head2</span>, <span class="code">formula3</span>, <span class="code">table2</span>, <span class="code">para</span>. </p>
 <p id="820795e">Any block type can be associated with an enumeration by prefixing the <span class="important">block name</span> with <span class="basis">num</span>, <span class="important">e.g.</span> <span class="code">numhead</span>, <span class="code">numtable</span>, <span class="code">numitem</span>, <span class="code">numcode</span>, <span class="code">numformula</span>. </p>
 <p id="6c5bffe">In addition, each block may be suffixed by number, which is called the <span class="important">block level</span>. When the block type is not suffixed by an integer, then the level is <span class="important">1</span>. </p>
 <p id="247432d">The effects of enumeration and level on <span class="code">head</span>, <span class="code">defn</span>, and <span class="code">item</span> are illustrated in the sections on those block types because they have some special properties by default, namely: </p>
@@ -1322,8 +1325,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 
 <div class="id-target" id="Enumerated blocks"></div><h2 id="Enumerated_blocks" class="heading raku-webs-h2 "><a href="#">Enumerated blocks</a><a class="raku-webs-anchor" href="#Enumerated blocks">§</a></h2>
 <p id="c061e2b">RakuDoc allows for the customisable numbering of any block, not just headings and items. Moreover, the enumeration, which is generated automatically by the renderer, can be refered to later in the text using the <span class="code">A&lt; ... &gt;</span> markup code. The automatic enumeration is controlled using <span class="important">block counters</span> which in turn are affected by <span class="important">restart triggers</span>. </p>
-<p id="c8bd6c6">A <span class="basis">block type</span> consists of a <span class="basis">block base</span> name, such as <span class="replace">head</span>, and a <span class="basis">block level</span>, which is an integer starting from <span class="code">1</span>. (A block type consisting of a block base without an integer implies the block level is <span class="code">1</span>). The following are all valid <span class="important">block types</span>: <span class="code">head</span>, <span class="code">head2</span>, <span class="code">formula3</span>, <span class="code">table2</span>, <span class="code">para</span>. </p>
-<p id="c83913f">The <span class="important">block level</span> integer is used to characterise numbering hierarchies, so that <span class="basis">subordinate</span> blocks are numbered with reference to their <span class="basis">superordinate</span> predecessors. For example, an instance of <span class="important">=numhead2</span> is <span class="important">subordinate</span> to the last instance of <span class="important">=numhead</span> (which is equivalent to <span class="important">=numhead1</span>). </p>
+<p id="c356b59">The <span class="important">block level</span> integer in a block type&gt; is used to characterise numbering hierarchies, so that <span class="basis">subordinate</span> blocks are numbered with reference to their <span class="basis">superordinate</span> predecessors. For example, an instance of <span class="important">=numhead2</span> is <span class="important">subordinate</span> to the last instance of <span class="important">=numhead</span> (which is equivalent to <span class="important">=numhead1</span>). </p>
 <p id="0103857">The <span class="important">block type</span> may optionally be prefixed by the letters <span class="basis">num</span>, which signals that the block should be rendered with an enumeration. </p>
 <p id="3e25376">When a block has the <span class="important">num</span> prefix, the following metadata options are available in addition to the metadata options normally associated with the block: </p>
 
@@ -1395,7 +1397,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </div>
                 </div>
             <p id="7bab8ba">(To have the individual counters of the formulae automatically restart after each heading, see the <span class="code">=restart</span> directive described in the next section.) </p>
-<p id="1de6a74">When an numbered block is rendered, its hierarchical enumeration is used together with its contents and caption. </p>
+<p id="625e18e">When a numbered block is rendered, its hierarchical enumeration is used together with its contents and caption. </p>
 <p id="caa7146">The hierarchical enumeration is built from the block's <span class="important">number-prefix</span> followed by the block's own counter value. The <span class="code">:number-prefix</span> option may contain a <span class="basis">single</span> block_name/block_level combination (eg. <span class="code">head2</span>), and by default it is the name of the block’s immediate superordinate block (<span class="important">i.e.</span> the current block’s basename followed by its block_level - 1). The <span class="important">number-prefix</span> is then the hierarchical enumeration of that value, which is its own number-prefix and its own counter value. </p>
 
 <div class="id-target" id="Each block has a restart trigger"></div><h4 id="Each_block_has_a_restart_trigger" class="heading raku-webs-h4 "><a href="#">Each block has a restart trigger</a><a class="raku-webs-anchor" href="#Each block has a restart trigger">§</a></h4>
@@ -4241,10 +4243,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 13:54 UTC on 2025-12-19
+                Rendered at 17:04 UTC on 2025-12-21
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 13:53 UTC on 2025-12-19
+                Source last modified&nbsp;at 12:22 UTC on 2025-12-21
             </div>
         </nav>
     </div>
@@ -4254,7 +4256,6 @@ Artistic-2.0
         <li>Unknown or as yet undeclared alias ｢ SOFTWARE｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢this program ｣</li>
 <li>Unknown or as yet undeclared alias ｢ COMPANY｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢our company ｣</li>
 <li>Unknown or as yet undeclared alias ｢ OURTERMS｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢(Please visit our website) ｣</li>
-<li>Link ｢https://raku.org/img/camelia-logo.png｣ caused LibCurl Exception, response code ｢200｣ with error ｢｣</li>
 <li>Unknown or as yet undeclared alias ｢HQ｣ in block ｢rakudoc｣ with heading ｢Formatting aliases｣</li>
 <li>Definition ｢AAA｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢BBB｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
