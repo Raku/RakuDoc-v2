@@ -221,6 +221,7 @@ The general syntax for an alias directive is:
 B<=config> specifies default options to be applied to specific types of blocks or markup instructions
 within the remainder of the current block-scope. These default options apply from immediately after
 the C<=config> directive up to the end of the innermost surrounding block.
+
 The general syntax for configuration directives is:
 =begin code  :allow< R > :lang<RakuDoc>
     =config R<BLOCK_TYPE>  R<CONFIG OPTIONS>
@@ -236,6 +237,9 @@ This configures the C<C<>> markup instruction to recognize nested C<B<>> and C<I
 (both of which would otherwise be treated as verbatim within a C<C<>> instruction).
 
 To avoid ambiguities L<Naming rules|#Naming rules> are applied to blocks and markup instructions.
+
+Note that since the C<=config> directive applies to I<block types>, C<=config item ...> and C<=config numitem ...> are equivalent. More information
+about I<block types> can be found in the section on L<Block type, level and enumeration|#Block type, level and enumeration>.
 =end item
 =begin item
 B<=place> specifies a source of information that is to be placed in the current block. The general
@@ -933,6 +937,11 @@ semantics to C<rakudoc> at some time in the future.
 
 =head2 Block type, level and enumeration
 
+A B<block type> consists of a B<block base> name, such as R<head>, and a B<block level>, which is
+an integer starting from C<1>. (A block type consisting of a block base without an integer implies
+the block level is C<1>).
+The following are all valid I<block types>: C<head>, C<head2>, C<formula3>, C<table2>, C<para>.
+
 Any block type can be associated with an enumeration by prefixing the I<block name> with B<num>,
 I<e.g.> C<numhead>, C<numtable>, C<numitem>, C<numcode>, C<numformula>.
 
@@ -1102,12 +1111,7 @@ the enumeration, which is generated automatically by the renderer, can be refere
 the text using the C«A< ... >» markup code. The automatic enumeration is controlled using
 I<block counters> which in turn are affected by I<restart triggers>.
 
-A B<block type> consists of a B<block base> name, such as R<head>, and a B<block level>, which is
-an integer starting from C<1>. (A block type consisting of a block base without an integer implies
-the block level is C<1>).
-The following are all valid I<block types>: C<head>, C<head2>, C<formula3>, C<table2>, C<para>.
-
-The I<block level> integer is used to characterise numbering hierarchies, so that B<subordinate> blocks
+The I<block level> integer in a block type> is used to characterise numbering hierarchies, so that B<subordinate> blocks
 are numbered with reference to their B<superordinate> predecessors. For example, an instance of
 I<=numhead2> is I<subordinate> to the last instance of I<=numhead> (which is equivalent to I<=numhead1>).
 
