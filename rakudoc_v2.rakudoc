@@ -587,7 +587,7 @@ For example:
         =item2 (eventually)
 
     =begin section
-        B<=config item1 :toc :headerlevel(2)>
+        B<=config item1 :toc :headlevel(2)>
         =comment  The following items still have non-standard bullets but now they will
                   also be added to the table of contents as if they were =head2 blocks
 
@@ -1281,7 +1281,7 @@ can be specified in the same C<:except-after>, but specifying both
 an C<:after> and a C<:except-after> in the same C<=restart>
 would be redundant and a renderer should issue a warning when both are encountered.
 
-Where both C<:except-after> and C<:except> options exist, the C<:except-after> is obeyed.
+Where both C<:after> and C<:except-after> options exist, the C<:except-after> is obeyed.
 =begin code :lang<rakudoc>
     =comment  The mention of head1 is redundant here because the excluded blocknames
     =comment  imply "restart on anything except...", which already implies "restart on head1"
@@ -2869,7 +2869,7 @@ Subsequent C<=cell> blocks start filling that grid in, with any intervening C<=r
 directives adjusting I<$POS> and I<$DIR>.
 
 C<=cell> blocks can be specified as spanning multiple rows and/or columns,
-using the C<:row-span(WIDTH)>, C<:col-span(HEIGHT)>, or C<:span(WIDTH, HEIGHT)>
+using the C<:row-span(WIDTH)>, C<:column-span(HEIGHT)>, or C<:span(WIDTH, HEIGHT)>
 annotations, in which case the block fills more than one grid cell
 (and merges them into a single logical cell), with the top-left corner
 of the fill starting at I<$POS>.
@@ -4849,10 +4849,11 @@ in a pop-up that activates on hover or mouse-click
             =cell C<:headlevel>
 
         =column
-            =cell Deprecated
+            =cell All blocks
+            =cell typically for para-ish blocks
 
         =column
-            =cell Use a suffix to the block name to indicate the level it is treated.
+            =cell When the level of block type has to be overridden for a Table of Contents.
 
     =row
         =column

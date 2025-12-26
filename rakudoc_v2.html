@@ -964,7 +964,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
         =item2 (eventually)
 
     =begin section
-        <span class="basis">=config item1 :toc :headerlevel(2)</span>
+        <span class="basis">=config item1 :toc :headlevel(2)</span>
         =comment  The following items still have non-standard bullets but now they will
                   also be added to the table of contents as if they were =head2 blocks
 
@@ -1434,7 +1434,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </div>
                 </div>
             <p id="34fc5db">In other words, the presence of an <span class="important">excluded blockname</span> such as <span class="code">BlockName</span> in a <span class="code">:except-after</span> implies that the block being configured is restarted after every block <span class="basis"><span class="important">except</span></span> <span class="code">Blockname</span>. Multiple excluded blocknames can be specified in the same <span class="code">:except-after</span>, but specifying both an <span class="code">:after</span> and a <span class="code">:except-after</span> in the same <span class="code">=restart</span> would be redundant and a renderer should issue a warning when both are encountered. </p>
-<p id="a5b33ed">Where both <span class="code">:except-after</span> and <span class="code">:except</span> options exist, the <span class="code">:except-after</span> is obeyed. </p>
+<p id="7c1d9c9">Where both <span class="code">:after</span> and <span class="code">:except-after</span> options exist, the <span class="code">:except-after</span> is obeyed. </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -2648,7 +2648,7 @@ r1c0 |  r1c1
 <p id="b0fb2fc">Only <span class="code">=cell</span>, <span class="code">=row</span>, <span class="code">=column</span>, or <span class="code">=comment</span> declarations are permitted within the immediate block scope of a procedural table. Note that both <span class="code">=cell</span> and <span class="code">=comment</span> introduce their own block scopes, so other RakuDoc blocks (including nested tables) may be included within their block scopes. </p>
 <p id="775d4d2">The fundamental idea is that a procedural <span class="code">=table</span> sets up a semi-infinite 2D grid of cells, all of which are initially empty. The grid also tracks the fill position (<span class="important">$POS</span>: the next empty cell to be filled), and the fill direction (<span class="important">$DIR</span>: the direction to move <span class="important">$POS</span> after filling; either <span class="important">across</span> or <span class="important">down</span>). </p>
 <p id="e6ed974">Subsequent <span class="code">=cell</span> blocks start filling that grid in, with any intervening <span class="code">=row</span> and <span class="code">=column</span> directives adjusting <span class="important">$POS</span> and <span class="important">$DIR</span>. </p>
-<p id="47dfb87"><span class="code">=cell</span> blocks can be specified as spanning multiple rows and/or columns, using the <span class="code">:row-span(WIDTH)</span>, <span class="code">:col-span(HEIGHT)</span>, or <span class="code">:span(WIDTH, HEIGHT)</span> annotations, in which case the block fills more than one grid cell (and merges them into a single logical cell), with the top-left corner of the fill starting at <span class="important">$POS</span>. </p>
+<p id="c9ccc01"><span class="code">=cell</span> blocks can be specified as spanning multiple rows and/or columns, using the <span class="code">:row-span(WIDTH)</span>, <span class="code">:column-span(HEIGHT)</span>, or <span class="code">:span(WIDTH, HEIGHT)</span> annotations, in which case the block fills more than one grid cell (and merges them into a single logical cell), with the top-left corner of the fill starting at <span class="important">$POS</span>. </p>
 <p id="3812403">A <span class="code">=cell</span> block has the following effects: </p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style="--level:0;"> <p id="12d7f2c">The specified contents are considered to fill in the cell(s) at <span class="important">$POS</span> (even if the contents are actually null/empty) </p></li>
@@ -4112,8 +4112,9 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class="">Custom block</td></tr>
 <tr class="procedural"><td class=""><p id="92b7d10"><span class="code">=headN</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="3e4e666"><span class="code">=numheadN</span> </p></td></tr>
-<tr class="procedural"><td class=""><p id="c650277"><span class="code">:headlevel</span> </p></td><td class="">Deprecated</td><td class="">Use a suffix to the block name to indicate the level it is treated.</td></tr>
-<tr class="procedural"><td rowspan="9" class=""><p id="a49b61a"><span class="code">:caption</span> </p></td><td class="">Semantic block</td><td rowspan="9" class="">Caption to be associated with a block in the Table of Contents</td></tr>
+<tr class="procedural"><td class=""><p id="c650277"><span class="code">:headlevel</span> </p></td><td class="">All blocks</td><td class="">When the level of block type has to be overridden for a Table of Contents.</td></tr>
+<tr class="procedural"><td rowspan="9" class=""><p id="a49b61a"><span class="code">:caption</span> </p></td><td class="">typically for para-ish blocks</td><td rowspan="9" class="">Caption to be associated with a block in the Table of Contents</td></tr>
+<tr class="procedural"><td class="">Semantic block</td></tr>
 <tr class="procedural"><td class="">Custom block</td></tr>
 <tr class="procedural"><td class=""><p id="0fa6a8b"><span class="code">=nested</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="4630a00"><span class="code">=code</span> </p></td></tr>
@@ -4121,8 +4122,7 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="92ef887"><span class="code">=output</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="9181c50"><span class="code">=table</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="4eab40d"><span class="code">=formula</span> </p></td></tr>
-<tr class="procedural"><td class=""><p id="068023f"><span class="code">=place</span> </p></td></tr>
-<tr class="procedural"><td class=""><p id="7c857a9"><span class="code">:hidden</span> </p></td><td class="">Semantic block</td><td class=""><p id="bef4323">Remove block from rendered text and ToC (use <span class="code">P&lt;semantic: ...&gt;</span> to inject elsewhere) </p></td></tr>
+<tr class="procedural"><td class=""><p id="7c857a9"><span class="code">:hidden</span> </p></td><td class=""><p id="068023f"><span class="code">=place</span> </p></td><td class="">Semantic block</td><td class=""><p id="bef4323">Remove block from rendered text and ToC (use <span class="code">P&lt;semantic: ...&gt;</span> to inject elsewhere) </p></td></tr>
 <tr class="procedural"><td rowspan="4" class=""><p id="f3fe198"><span class="code">:header</span> </p></td><td class=""><p id="7ad3351"><span class="code">=table</span> (procedural semantics only) </p></td><td rowspan="4" class="">Specify rows, columns, or cells to be rendered as headers</td></tr>
 <tr class="procedural"><td class=""><p id="392c0ce"><span class="code">=cell</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="ad2996f"><span class="code">=row</span> directive </p></td></tr>
@@ -4243,10 +4243,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 17:04 UTC on 2025-12-21
+                Rendered at 17:35 UTC on 2025-12-26
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 12:22 UTC on 2025-12-21
+                Source last modified&nbsp;at 17:33 UTC on 2025-12-26
             </div>
         </nav>
     </div>
@@ -4256,6 +4256,7 @@ Artistic-2.0
         <li>Unknown or as yet undeclared alias ｢ SOFTWARE｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢this program ｣</li>
 <li>Unknown or as yet undeclared alias ｢ COMPANY｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢our company ｣</li>
 <li>Unknown or as yet undeclared alias ｢ OURTERMS｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢(Please visit our website) ｣</li>
+<li>Link ｢https://raku.org/img/camelia-logo.png｣ caused LibCurl Exception, response code ｢200｣ with error ｢｣</li>
 <li>Unknown or as yet undeclared alias ｢HQ｣ in block ｢rakudoc｣ with heading ｢Formatting aliases｣</li>
 <li>Definition ｢AAA｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢BBB｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
