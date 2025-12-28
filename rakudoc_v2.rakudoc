@@ -1128,7 +1128,7 @@ to the metadata options normally associated with the block:
 =item C«:number-prefix<»I<BlockType>C«>» - The counter used for the block is preceded by another blocks's enumeration.
 =item C«:number-as<»I<BlockType>C«>» - The block's enumeration is taken from another block's counter.
 
-Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
+=nested Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
 
 =head3 Counters
 
@@ -1326,6 +1326,10 @@ by any of the following metaoptions:
         =cell The block’s counter is unconditionally reset to 1, even if a reset is not currently flagged
 =end table
 
+Notes:
+=item if both C<:continued> and C<:!continued> are declared at the same time, the rightmost will be select due to parsing rules.
+=item Since each of these options and a restart trigger affect the enumeration of a blocktype, they may be operative together in some combination when rendering a blocktype instance. In this case, the following precedence will apply:
+=item2 C<:number> B<overrides> C<:continued>/C<:!continued> B<overrides> a restart trigger.
 
 =head4 There is a B<I<counter (un)sharing mechanism>>
 

@@ -1337,7 +1337,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <li class="item" data-bullet="•" style="--level:0;"> <p id="e9bf410"><span class="code">:number-prefix&lt;</span><span class="important">BlockType</span><span class="code">&gt;</span> - The counter used for the block is preceded by another blocks's enumeration. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="b2b3821"><span class="code">:number-as&lt;</span><span class="important">BlockType</span><span class="code">&gt;</span> - The block's enumeration is taken from another block's counter. </p></li>
 </ul>
-<p id="ad9ce56">Note that <span class="basis">directives</span>, such as <span class="code">for</span>, <span class="code">begin</span>, <span class="code">row</span>, <span class="code">column</span>, are not blocks and prefixing them with <span class="code">num</span> is illegal. </p>
+<div class="nested"><p id="ad9ce56">Note that <span class="basis">directives</span>, such as <span class="code">for</span>, <span class="code">begin</span>, <span class="code">row</span>, <span class="code">column</span>, are not blocks and prefixing them with <span class="code">num</span> is illegal. </p></div>
 <h3 id="Counters" class="heading raku-webs-h3 "><a href="#">Counters</a><a class="raku-webs-anchor" href="#Counters">§</a></h3>
 <p id="4ffd566">A RakuDoc document implicitly defines and tracks a collection of block counters. </p>
 
@@ -1464,6 +1464,12 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 <tr class="procedural"><td class=""><p id="7703bc4"><span class="code">:continued</span> </p></td><td class="">The block’s counter is not reset; it is incremented as normal instead</td></tr>
 <tr class="procedural"><td class=""><p id="aac21b0"><span class="code">:!continued</span> </p></td><td class="">The block’s counter is unconditionally reset to 1, even if a reset is not currently flagged</td></tr>
 </tbody></table>
+<p id="86be4ba">Notes: </p>
+
+<ul class="item-list"><li class="item" data-bullet="•" style="--level:0;"> <p id="ac03dda">if both <span class="code">:continued</span> and <span class="code">:!continued</span> are declared at the same time, the rightmost will be select due to parsing rules. </p></li>
+<li class="item" data-bullet="•" style="--level:0;"> Since each of these options and a restart trigger affect the enumeration of a blocktype, they may be operative together in some combination when rendering a blocktype instance. In this case, the following precedence will apply:</li>
+<li class="item" data-bullet="▹" style="--level:1;"> <p id="9e40224"><span class="code">:number</span> <span class="basis">overrides</span> <span class="code">:continued</span>/<span class="code">:!continued</span> <span class="basis">overrides</span> a restart trigger. </p></li>
+</ul>
 
 <div class="id-target" id="There is a counter (un)sharing mechanism"></div><h4 id="There_is_a_counter_(un)sharing_mechanism" class="heading raku-webs-h4 "><a href="#">There is a counter (un)sharing mechanism</a><a class="raku-webs-anchor" href="#There is a counter (un)sharing mechanism">§</a></h4>
 <p id="12379df">Normally, every block’s individual counter is the counter labelled with the block's own name. </p>
@@ -4243,10 +4249,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 17:35 UTC on 2025-12-26
+                Rendered at 10:49 UTC on 2025-12-28
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 17:33 UTC on 2025-12-26
+                Source last modified&nbsp;at 10:48 UTC on 2025-12-28
             </div>
         </nav>
     </div>
@@ -4256,7 +4262,6 @@ Artistic-2.0
         <li>Unknown or as yet undeclared alias ｢ SOFTWARE｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢this program ｣</li>
 <li>Unknown or as yet undeclared alias ｢ COMPANY｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢our company ｣</li>
 <li>Unknown or as yet undeclared alias ｢ OURTERMS｣ in block ｢rakudoc｣ with heading ｢Aliases｣ over-riden by ｢(Please visit our website) ｣</li>
-<li>Link ｢https://raku.org/img/camelia-logo.png｣ caused LibCurl Exception, response code ｢200｣ with error ｢｣</li>
 <li>Unknown or as yet undeclared alias ｢HQ｣ in block ｢rakudoc｣ with heading ｢Formatting aliases｣</li>
 <li>Definition ｢AAA｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢BBB｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
