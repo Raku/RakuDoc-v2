@@ -37,7 +37,7 @@ Consider the two ways in which documentation is used.
 =end code
 
 A RakuDoc compliant editor or Integrated Design Environment will pick up the text following C<#|>
-and put it into a pop-up menu whenever you select (e.g. by hovering over) a use of C<$.participants>.
+and put it into a pop-up menu whenever you select (I<e.g.> by hovering over) a use of C<$.participants>.
 
 The C<=finish> statement is the last piece of code. Everything after it is treated as a string and placed
 in the C<$=finish> variable.
@@ -138,7 +138,7 @@ such as an HTML web page, a command-line manpage, or a chapter in an e-book.
 
 When RakuDoc components are viewed in an editor or IDE to provide information
 about variables, methods, roles, classes and the like, the information could be made available in a pop-up
-whenever a documented term is selected in some way (e.g. hovering a mouse over it).
+whenever a documented term is selected in some way (I<e.g.> hovering a mouse over it).
 In the editor context, RakuDoc blocks and markup should then be treated as a comment to the code. Editors are
 not expected to render the RakuDoc other than to show the RakuDoc components verbatim, but may do
 so if it seems expedient.
@@ -150,11 +150,11 @@ Within the body of a program there may be
 several sections of code, which is called the D<ambient context>, interleaved between sections of RakuDoc.
 
 Sections of code that are intended to be examples within the documentation
-(i.e. code that is not actual interleaved executable code) can be specified in C<=code> blocks,
+(I<i.e.> code that is not actual interleaved executable code) can be specified in C<=code> blocks,
 which are treated as integral parts of the RakuDoc, not as source code in ambient context.
 
 Consider a source file containing the definition of a class. When the file is edited in an
-IDE (e.g. the class is being developed or maintained) the code-oriented RakuDoc is useful
+IDE (I<e.g.> the class is being developed or maintained) the code-oriented RakuDoc is useful
 to help the developer understand the internal structure and function of specific elements
 within the code.
 
@@ -164,7 +164,7 @@ needing the source code to be available.
 
 However, by including text-oriented RakuDoc in the same file, end-user documentation can be
 provided for the class within the same source file. By passing the source through a renderer, a
-documentation file (e.g. a README.md file for a github repo) can be generated.
+documentation file (I<e.g.> a README.md file for a github repo) can be generated.
 
 This document describes the minimum version of RakuDoc that a renderer or editor must recognise along with
 some expected rendering behaviors for text-oriented renderers. I<"Expected behaviors"> means that a renderer
@@ -348,12 +348,12 @@ This is a single uppercase letter, or a unicode entity with the UPPER property
 =begin item
 B«<opening marker>»
 
-This is either one-or-more C«<» characters or a single C<«> character (i.e. The Unicode entity C«E<0x00AB>»)
+This is either one-or-more C«<» characters or a single C<«> character (I<i.e.> The Unicode entity C«E<0x00AB>»)
 =end item
 =begin item
 B«<content>»
 
-This is a string that does not contain the C<|> character (i.e. Unicode entity C«E<0x007C>»), unless that
+This is a string that does not contain the C<|> character (I<i.e.> Unicode entity C«E<0x007C>»), unless that
 character is inside a nested markup instruction.
 =end item
 =begin item
@@ -364,7 +364,7 @@ Is a list of strings separated by C<,> or C<;>, depending on the semantics impos
 =begin item
 B«<closing marker>»
 
-Is one-or-more C«>» or a single C<»> (i.e. Unicode entity C«E<0x00BB>»).
+Is one-or-more C«>» or a single C<»> (I<i.e.> Unicode entity C«E<0x00BB>»).
 The closing marker must be symmetrical with the markup instruction's opening marker.
 That is, it must consist of the same number of C«>» or C<»> as there were C«<» or C<«>
 in the opening marker.
@@ -463,7 +463,7 @@ not mandatory). The second argument consists of one or more
 lines of replacement text.
 
 Each C<=alias> directive creates a block-scoped RakuDoc macro that can be invoked during
-document generation by placing the identifier (i.e. the first argument
+document generation by placing the identifier (I<i.e.> the first argument
 of the alias) in an C<A<>> formatting code. This formatting code is then
 replaced by the text returned by the new macro.
 
@@ -570,7 +570,7 @@ V<=code> block to be automatically given the same developer note, like so:
     =code method drill { say 'keep up' }
 =end code
 
-Within the same block scope, eg., between C<=begin section> and C<=end section> instructions,
+Within the same block scope, I<e.g.> between C<=begin section> and C<=end section> instructions,
 one or more C<=config> directives can be specified to define the default behaviour of specific block types.
 Successive C<=config> directives within the same scope are cumulative in effect.
 Because C<=config> directives specify I<default> behaviours, whenever a particular kind of metadata
@@ -650,7 +650,7 @@ the document. This means that the parser will treat all the remaining
 text in the file as a string.
 
 Any text after the C<=finish> block can be accessed as a string within the program
-(i.e. the ambient code) via the C<$=finish> variable.
+(I<i.e.> the ambient code) via the C<$=finish> variable.
 This can be used to provide data to a program, such as a test.
 =begin code :allow< V B > :lang<raku>
     use JSON::Fast;
@@ -937,7 +937,7 @@ semantics to C<rakudoc> at some time in the future.
 
 =head2 Block type, level and enumeration
 
-A B<block type> consists of a B<block base> name, such as R<head>, and a B<block level>, which is
+A B<block type> consists of a B<block base> name, such as C<head>, and a B<block level>, which is
 an integer starting from C<1>. (A block type consisting of a block base without an integer implies
 the block level is C<1>).
 The following are all valid I<block types>: C<head>, C<head2>, C<formula3>, C<table2>, C<para>.
@@ -955,7 +955,7 @@ on those block types because they have some special properties by default, namel
 
 However, these properties can be added to all other block types.
 =item See L<Counter restart triggers|#Counter restart triggers> grouping blocks into lists.
-=item See the L<Table of Contents|Table of contents> for creating custom Table of contents, eg., for Diagrams,
+=item See the L<Table of Contents|Table of contents> for creating custom Table of contents, I<e.g.> for Diagrams,
 and to include other blocks into the main I<Table of Contents>.
 
 More detail about how enumerations can be
@@ -964,7 +964,7 @@ customised for all block types can be found in L<Enumerated blocks|#Enumerated b
 =head2 Headings
 
 Headings can be defined using C<=headN>,
-where R<N> is greater than zero (e.g. C<=head>, C<=head2>, etc.).
+where R<N> is greater than zero (I<e.g.> C<=head>, C<=head2>, etc.).
 C<=head> is an alias for C<=head>.
 
 =begin code :lang<RakuDoc>
@@ -1107,11 +1107,11 @@ Metadata following the first such declaration are made available to all blocks i
 =head2 Enumerated blocks
 
 RakuDoc allows for the customisable numbering of any block, not just headings and items. Moreover,
-the enumeration, which is generated automatically by the renderer, can be refered to later in
+the enumeration, which is generated automatically by the renderer, can be referred to later in
 the text using the C«A< ... >» markup code. The automatic enumeration is controlled using
 I<block counters> which in turn are affected by I<restart triggers>.
 
-The I<block level> integer in a block type> is used to characterise numbering hierarchies, so that B<subordinate> blocks
+The I<block level> integer in a block type is used to characterise numbering hierarchies, so that B<subordinate> blocks
 are numbered with reference to their B<superordinate> predecessors. For example, an instance of
 I<=numhead2> is I<subordinate> to the last instance of I<=numhead> (which is equivalent to I<=numhead1>).
 
@@ -1126,9 +1126,9 @@ to the metadata options normally associated with the block:
 =item C«:continued» – An enumeration that would automatically be restarted at the start of a new block is continued instead.
 =item C«:!continued» – An enumeration that would automatically continue at the start of a new block is restarted instead.
 =item C«:number-prefix<»I<BlockType>C«>» - The counter used for the block is preceded by another blocks's enumeration.
-=item C«:number-as<»I<BlockType>C«>» - The block's enumeration is taken from another block's counter.
+=item C«:number-as<»I<BlockType>C«>» - The block's enumeration is obtained from another block's counter.
 
-=nested Note that B<directives>, such as C«for», C«begin», C«row», C«column», are not blocks and prefixing them with C«num» is illegal.
+=nested Note that B<directives>, such as C«=for», C«=begin», C«=row», C«=column», are not blocks and prefixing them with C«num» is illegal.
 
 =head3 Counters
 
@@ -1215,7 +1215,7 @@ contents and caption.
 
 The hierarchical enumeration is built from the block's I<number-prefix> followed
 by the block's own counter value. The C<:number-prefix> option may contain a B<single>
-block_name/block_level combination (eg. C<head2>), and by default it is the name of
+block_name/block_level combination (I<e.g.> C<head2>), and by default it is the name of
 the block’s immediate superordinate block (I<i.e.> the current block’s basename
 followed by its block_level - 1). The I<number-prefix> is then the hierarchical enumeration
 of that value, which is its own number-prefix and its own counter value.
@@ -1230,7 +1230,7 @@ permits custom restart triggers to be specified: the C<=restart> directive.
 Each custom trigger specification consists of a set of one or more names
 of B<I<trigger blocks>> that, when encountered, cause a particular block’s counter
 to be flagged for restarting next time that particular block is rendered
-or its individual counter value is accessed. For example:
+or its individual counter value is otherwise accessed. For example:
 
 =begin code :lang<rakudoc>
     =comment Customize table and formula numbering to restart after every =head3 (or superordinate)...
@@ -1327,19 +1327,19 @@ by any of the following metaoptions:
 =end table
 
 Notes:
-=item if both C<:continued> and C<:!continued> are declared at the same time, the rightmost will be select due to parsing rules.
+=item If both C<:continued> and C<:!continued> are declared at the same time, the rightmost will be selected due to parsing rules.
 =item Since each of these options and a restart trigger affect the enumeration of a blocktype, they may be operative together in some combination when rendering a blocktype instance. In this case, the following precedence will apply:
-=item2 C<:number> B<overrides> C<:continued>/C<:!continued> B<overrides> a restart trigger.
+=item2 C<:number> I<overrides> C<:continued>/C<:!continued> I<overrides> a restart trigger.
 
 =head4 There is a B<I<counter (un)sharing mechanism>>
 
-Normally, every block’s individual counter is the counter labelled with the block's own name.
+Normally, every block’s individual counter is the counter labelled with the block's own name and level.
 
 However, there is a metaoption that allows a block’s individual counter
 and number prefix to be aliased to the individual counter and number prefix
 of some other block: C<:number-as>
 
-For example, to have tables and formulae use a single sequence of
+For example, to have tables and formulae use a single shared sequence of
 individual counter values (say those of the C<table> block):
 =begin code :lang<rakudoc>
 =config formula  :number-as< table >
@@ -1351,7 +1351,9 @@ the (autovivified) individual counter of some user-defined type:
 =config table    :number-as< TableOrFormula >
 =config formula  :number-as< TableOrFormula >
 =end code
-Note that C<:number-as> can also be used to create a unique numbering for part of a document.
+Note that C<:number-as> can also be used to create a unique numbering for part of a document,
+by taking advantage of the lexical scoping of the C<=config> directive.
+
 For example, to cause tables and formulae within a single subheading to be numbered
 separately (without affecting subsequent table/formula numbering later in the document):
 =begin code :lang<rakudoc>
@@ -1370,7 +1372,7 @@ separately (without affecting subsequent table/formula numbering later in the do
 The implicit heading level of a block in the Table of Contents (TOC) is always equal to its I<block level>.
 Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-3.
 
-The default TOC is created from C<=head> and semantic blocks (eg. TITLE). This means that
+The default TOC is created from C<=head> and semantic blocks (I<e.g.> TITLE). This means that
 no block type except C«head» or semantic blocks have the C«:toc» flag set,
 so (by default) only headings and semantic blocks are included
 in the main TOC. To add a block (or block type) to the default (or I<head>) TOC, configure it with an explicit
@@ -1840,7 +1842,7 @@ Since all options may be set using the C<=config> directive, it is possible to s
 =config numitem :numalias< Article %N. | * > :form<Article %N. %D>
 =end code
 
-In this case, the C<*> is replaced by the TAG specified in the C<:numalias> option for the block, eg.
+In this case, the C<*> is replaced by the TAG specified in the C<:numalias> option for the block, I<e.g.>
     =for numitem :numalias<HQ>
 
 The precedence rule for options is for options specified by a block take priority over options specified by a
@@ -2058,7 +2060,7 @@ For example:
 =end code
 
 In this example, the two embedded C<K<...>> sequences would be recognized as
-inline mark-up and rendered appropriately (i.e. as keyboard input).
+inline mark-up and rendered appropriately (I<i.e.> as keyboard input).
 
 =head3 Markup within verbatim blocks
 
@@ -2093,7 +2095,7 @@ sub demo {
 
 It should be noted that both C<:allow> and C<:lang> (if C<:syntax-highlighting> is True)
 will affect the rendering of the content of the block. This is likely to cause conflicts
-in some cases. The renderer is free to choose how to resolve such conflicts, e.g. by
+in some cases. The renderer is free to choose how to resolve such conflicts, I<e.g.> by
 disregarding the C<:allow> metadata.
 
 =head2 Lists
@@ -2349,7 +2351,7 @@ The major sources of sustainable energy are:
 
 =end nested
 
-In the event that a custom bullet cannot be rendered (e.g. a specified Unicode glyph is unrecognised or unrenderable in the target format),
+In the event that a custom bullet cannot be rendered (I<e.g.> a specified Unicode glyph is unrecognised or unrenderable in the target format),
 a compliant renderer will fall back to its default bullet and generate an error message.
 
 =head3 Ordered lists
@@ -2443,7 +2445,7 @@ the second C<=numitemN> block resets to 1.
 
 However, if the second C<=numitemN> block is specified with a C<:continued> option
 the numbering of that second block does not reset, but increments instead
-(i.e. as if there had been no intervening non-numbered block).
+(I<i.e.> as if there had been no intervening non-numbered block).
 
 The C<:continued> option has no effect on any superordinate or subordinate C<=numitem> blocks
 that are currently active in the same scope. That is:
@@ -2469,7 +2471,7 @@ Lists that define terms or commands can be specified using the C<=defn> block, w
 in HTML.
 
 A definition contains two parts: a term and a defining text. The term is the contents of
-the first line of the C<defn> block (i.e. the text immediately after an abbreviated C<=defn>, or
+the first line of the C<defn> block (I<i.e.> the text immediately after an abbreviated C<=defn>, or
 the first line after a C<=for defn> or C<=begin defn>).
 The defining text is the remaining lines within the scope of the C<defn> block.
 A renderer is expected to distinguish between the term and the defining text. For this reason,
@@ -2572,7 +2574,7 @@ ending letters
 finals
 
 Suppose a writer needs every numbered definition to form a single monotonic sequence
-within some block scope (e.g. for every definition within a document section,
+within some block scope (I<e.g.> for every definition within a document section,
 or every definition throughout the entire document). This would require every C<=numdefn>
 to be specified with a C<:continued> option. Or the writer could simply pre-configure
 every C<=numdefn> within the scope, as follows:
@@ -2599,7 +2601,7 @@ after a C<=begin table> is one of C<=row>, C<=column>, or C<=cell>.
 =head3 Visual description of simple tables
 
 In a visual table specification, columns are separated by two or more consecutive whitespace characters
-(e.g. double-space or twin-tabs),
+(I<e.g.> double-space or twin-tabs),
 or by a vertical line (C<|>) or a border intersection (C<+>), either of
 which must be separated from any content by at least one whitespace
 character.  Note that only one column separator type is allowed in a single line,
@@ -3337,7 +3339,7 @@ including the extensions specified in
 the L<AMSMath package|https://en.wikipedia.org/wiki/AMS-LaTeX>
 
 This does not preclude the development of custom blocks to support other mathematical
-markup languages, eg., a C«=MathML» custom block to support another syntax.
+markup languages, I<e.g.> a C«=MathML» custom block to support another syntax.
 
 Implementors of renderers are B<I<not>> required to render the contents of these instructions;
 it is acceptable for a renderer to render the contents
@@ -3532,24 +3534,24 @@ Multi-paragraph contents should be enclosed using the I<delimited> form of the b
 
 In order to avoid conflicts between built-in blocks, semantic blocks, custom blocks, and markup instructions,
 the following rules must be followed:
-=item Builtin blocks (e.g. C<head>, C<item>, C<table>)
+=item Builtin blocks (I<e.g.> C<head>, C<item>, C<table>)
 =item2 names must be all lowercase and at least two characters long
 =item2 renderers may choose how to render builtin blocks,
 but must respect all the defined metadata options specified here,
 and may respect additional metadata options
 
-=item Semantic blocks (e.g. C<AUTHOR>, C<TITLE>)
+=item Semantic blocks (I<e.g.> C<AUTHOR>, C<TITLE>)
 =item2 names must be all uppercase and at least two characters long
 =item2 renderers should treat these as if they are C<head1> with a caption consisting of the semantic block name
 =item2 the contents of the block should be treated as a paragraph.
 
-=item Custom blocks (e.g. C<MyNewBlock>)
+=item Custom blocks (I<e.g.> C<MyNewBlock>)
 =item2 names must contain at least one uppercase, and at least one lowercase character
 =item2 renderers will define how users may specify metadata options and syntax
 =item2 renderers will define how the contents of the block are interpreted and rendered
 
-=item Custom markup codes (e.g. C<Æ>, C<Ø>, C<ß>)
-=item2 names must consist of exactly one uppercase Unicode character (i.e. with the Upper property)
+=item Custom markup codes (I<e.g.> C<Æ>, C<Ø>, C<ß>)
+=item2 names must consist of exactly one uppercase Unicode character (I<i.e.> with the Upper property)
 =item2 names may not be a character in the ASCII range (these are reserved for current and future
 built-in markup codes)
 
@@ -3683,7 +3685,7 @@ Which means:
 =end code
 
 And if, instead, you wanted the block straight after the C<=head> to be
-an implicit paragraph block (i.e. not an implicit code block),
+an implicit paragraph block (I<i.e.> not an implicit code block),
 you'd write it:
 
 =begin code :lang<RakuDoc>
@@ -3782,7 +3784,7 @@ The renderer is
 expected to create a link with that name to the start of the block. It is up to the author
 of the document to ensure that all C<:id> links are unique.
 
-A renderer may mangle the link name (e.g. the contents of a header) to create
+A renderer may mangle the link name (I<e.g.> the contents of a header) to create
 an anchor ID internally because different output formats may
 place restrictions on the characters that can be used in a link.
 However, a document author may not rely on a renderer's ID generation algorithm.
@@ -3823,7 +3825,7 @@ For example:
 
 When a renderer parses a file containing RakuDoc, heading and C<X<>> markup information is collected. This
 information can be rendered using L<a C<P<>> markup instruction|#Placement links>, or may be used in another way by the renderer
-(e.g. to create a sidebar with the Table of Contents).
+(I<e.g.> to create a sidebar with the Table of Contents).
 
 Only head and semantic blocks, and their I<num> variants, are included by default in the I<Table of Contents>.
 
@@ -3842,7 +3844,7 @@ Setting C<:!toc> will prevent a block's information from being included in the T
 When a builtin block, such as I<table>, needs to be entered into the I<Table of Contents> and styled like a
 <=head2>, then use I<=table2>.
 
-Custom Tables of contents can be created to group, eg., tables, formulas, or code examples together. This is
+Custom Tables of contents can be created to group, I<e.g.> tables, formulas, or code examples together. This is
 described in L<Sequences|#Sequences>.
 
 =head2 Developer or delta notes
@@ -3869,7 +3871,7 @@ v1.2.3..v2.3.4                      | inclusive range of versions
 v1.2.3^..^v2.3.4                    | exclusive range of versions
 v1.2.3..^v2.3.4 and v1.2.3^..v2.3.4 | semi-inclusive range of versions
 
-The version specification (e.g. v1.2.3) shown here follows the rules of L<semantic versioning|https://semver.org>, which is
+The version specification (I<e.g.> v1.2.3) shown here follows the rules of L<semantic versioning|https://semver.org>, which is
 the preferred form for Raku documentation, but is not mandatory. Note that the C<..> and C<^> characters create Raku ranges.
 
 With no extra information about which version should be displayed, a renderer should have a way to include
@@ -4182,15 +4184,15 @@ When I<toc:> is followed by the name of TOC and optionally a I<comma>, then C<*>
 range, the level restrictions are applied to the named TOC.
 
 Valid specs would be:
-=item `*` (all levels of the default ToC)
-=item `1..4` (levels 1-4 of the default ToC)
-=item Diagrams (meaning all levels of the Diagrams ToC)
-=item Diagrams,*    (all levels of the Diagrams ToC)
-=item table,1..4      (range 1..4 of the table ToC)
+=item C<*> (all levels of the default ToC)
+=item C<1..4> (levels 1-4 of the default ToC)
+=item C<Diagrams> (meaning all levels of the Diagrams ToC)
+=item C<Diagrams,*> (all levels of the Diagrams ToC)
+=item C<table,1..4> (levels 1..4 of the table ToC)
 
 Invalid specs:
-=item `formula,`
-=item `,*`
+=item C<formula,> (missing levels specifier)
+=item C<,*> (missing TOC name)
 
 A document may have as many C<P<toc:...>> placements as necessary.
 =end section
@@ -4436,7 +4438,7 @@ This would yield: Raku code often contains the ｢｣ bracketing characters to a
 The C<E<>> code can also be specified with an alternate display text
 (before the entity specification and separated from it by a C<|>).
 When an alternate text is specified, it is used if the specified entity
-cannot be represented by the renderer (e.g. if the renderer only supports ASCII).
+cannot be represented by the renderer (I<e.g.> if the renderer only supports ASCII).
 
 For example:
 =begin comment
@@ -4487,7 +4489,7 @@ C<C<>> and C<V<>> is that C<C<>> 'colors' the contents
 to show that it is code, whilst C<V<>> uses the default text presentation.
 
 The default behaviors of both C<V<>> and C<C<>> can be changed using a C<=config>
-directive, e.g.,
+directive. For example:
 =begin code :lang<RakuDoc>
 =config C :allow< B I U >
 =config V :allow< N L X >
@@ -4558,7 +4560,7 @@ the first string will be made available in the same way as the C<D<>> markup ins
 is used by the renderer to identify the functionality being provided.
 
 For example, suppose a RakuDoc document is used to create part of a website in which a button is to be styled
-that accesses the API of a payment service (e.g. 'PayMe'). A developer can then create some functionality according
+that accesses the API of a payment service (I<e.g.> 'PayMe'). A developer can then create some functionality according
 to the rules of a RakuDoc renderer, and present it to the service point. In an HTML document, this might be coded
 as a C« <button class="PayMeApp" data-token="vendor-id" data-price="$0.99"> » with a specific class and structure.
 The RakuDoc instruction might then be:
@@ -4627,7 +4629,7 @@ XV«< » I<DISPLAY-TEXT > V« | » METADATA=B<INDEX-ENTRY>V«           >»
 The markup codes C<A>, C<E>, C<F>, C<L>, and C<P> may be specified B<without> a display text,
 in which case, the renderer (as elsewhere provided in this specification) may
 provide an automatic rendering if the metadata component fails to produce a renderable result.
-If an explicit display text is provided (i.e. to the left of a C<|>),
+If an explicit display text is provided (I<i.e.> to the left of a C<|>),
 that text overrides the default alternate rendering.
 
 =head4 Metadata only
