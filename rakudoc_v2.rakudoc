@@ -1,6 +1,6 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc
-=SUBTITLE A Raku slang for documenting Raku software to aid development and use.
+=SUBTITLE Raku markup for documenting Raku software to aid development and use.
 =VERSION 2.20.2
 =for LICENSE :hidden
 Artistic-2.0
@@ -250,10 +250,10 @@ syntax of B<=place> is
 =end code
 =end item
 =begin item
-B<=restart> specifies when a block counter is restarted to C<1> by the instance of another block. The general
+B<=restart> specifies when a named counter is restarted to C<1> by the rendering of some block. The general
 syntax of B<=restart> is
 =begin code :lang<RakuDoc> :allow<R I>
-    =restart R<BLOCK> I«:after< R<BLOCKS> > | :except-after< R<BLOCKS> >»
+    =restart R<COUNTER> I«:after< R<BLOCKS> > | :except-after< R<BLOCKS> >»
 =end code
 =end item
 =head2 Block syntax
@@ -741,15 +741,15 @@ Use C<=place3 ... :toc> to include it in the Table of Contents as a C<=head3> ca
 
 =head2 Enumeration restart triggers
 
-The C<=restart> instruction is a directive that affects the behaviour of block counters.
+The C<=restart> instruction is a directive that affects the behaviour of the counters used by numbered blocks.
 
 Each block type has its own counter which is incremented whenever an instance of the block type is encountered. The counter of one block type may be restarted by instances of another block type.
 The purpose of this directive, at its simplest, is to allow for a numbered list of items to
-be generated from a sequence of C<=item> blocks, and the enumeration is restarted whenever another
+be generated from a sequence of C<=item> blocks, and for the enumeration to be restarted whenever another
 block, such as a paragraph, is encountered. However, the counter restart mechanism is more generic
 and can be applied to all block types.
 
-The directive is followed by the name of a block and one of either C«:after< BLOCK LIST >» or C«:except-after< BLOCK LIST >».
+The directive is followed by the name of a counter I<(B<not> the name of a block)> and one of either C«:after< BLOCK LIST >» or C«:except-after< BLOCK LIST >».
 
 The directive is described in more detail in the L<section on enumerated blocks|#Enumerated blocks>
 
@@ -1126,7 +1126,7 @@ to the metadata options normally associated with the block:
 =item C«:continued» – An enumeration that would automatically be restarted at the start of a new block is continued instead.
 =item C«:!continued» – An enumeration that would automatically continue at the start of a new block is restarted instead.
 =item C«:number-prefix<»I<BlockType>C«>» - The counter used for the block is preceded by another blocks's enumeration.
-=item C«:number-as<»I<BlockType>C«>» - The block's enumeration is obtained from another block's counter.
+=item C«:number-as<»I<NAME>C«>» - The block uses the counter whose name is I<NAME>; the block's prefix is obtained from the current prefix of the block named I<NAME>
 
 =nested Note that B<directives>, such as C«=for», C«=begin», C«=row», C«=column», are not blocks and prefixing them with C«num» is illegal.
 
@@ -1138,7 +1138,7 @@ A RakuDoc document implicitly defines and tracks a collection of block counters.
 
 A block’s I<individual counter> is a scalar integer variable
 that tracks the block’s current enumeration value. Every
-block has a unique individual counter named the same as
+block has a unique individual counter, by default named the same as
 its base name plus level. Hence the C<head>, C<head1>,
 C<numhead>, and C<numhead1> blocks all share a single
 individual counter named B<head1>.
@@ -1222,15 +1222,15 @@ of that value, which is its own number-prefix and its own counter value.
 
 =head4 Each block has a B<I<restart trigger>>
 
-Normally, a block’s individual counter is flagged for subsequent restarting
+Normally, a block’s associated counter is flagged for subsequent restarting
 to C<1> whenever a block with the same base name
 but a superordinate level is encountered. However, there is also a mechanism that
 permits custom restart triggers to be specified: the C<=restart> directive.
 
 Each custom trigger specification consists of a set of one or more names
-of B<I<trigger blocks>> that, when encountered, cause a particular block’s counter
-to be flagged for restarting next time that particular block is rendered
-or its individual counter value is otherwise accessed. For example:
+of B<I<trigger blocks>> that, when encountered, cause a particular named counter
+to be flagged for restarting next time any block using that named counter is rendered
+or when that counter's value is otherwise accessed. For example:
 
 =begin code :lang<rakudoc>
     =comment Customize table and formula numbering to restart after every =head3 (or superordinate)...
@@ -1244,7 +1244,7 @@ or its individual counter value is otherwise accessed. For example:
         =restart formula :after< head1 section >
 =end code
 
-Note that having to specify all the “superordinate” trigger blocks for each reconfigured block
+Note that having to specify all the “superordinate” trigger blocks for each counter restart
 is rather tedious, so we define that specifying a particular trigger blockname
 in C<:after< blocknameN >> implies I<“...restart after C<blocknameN>
 or any B<I<superordinate>> block of the same base name.”>
@@ -1257,7 +1257,7 @@ In other words, the previous example (while still valid) could be partially simp
 =end code
 
 It is also possible to specify restart behaviours “negatively”.
-That is, to specify that a particular block restarts B<after> B<I<any>> other block,
+That is, to specify that a particular counter restarts B<after> B<I<any>> block,
 except one or more that are explicitly excluded from the trigger. For example:
 =begin code :lang<rakudoc>
     =comment Reproduce (or perhaps reinstate) standard item restart behaviours...
@@ -1275,7 +1275,7 @@ except one or more that are explicitly excluded from the trigger. For example:
 =end code
 
 In other words, the presence of an I<excluded blockname> such as C<BlockName>
-in a C<:except-after> implies that the block being configured is restarted
+in a C<:except-after> implies that the counter being configured is restarted
 after every block B<I<except>> C<Blockname>. Multiple excluded blocknames
 can be specified in the same C<:except-after>, but specifying both
 an C<:after> and a C<:except-after> in the same C<=restart>
@@ -1304,14 +1304,15 @@ Hence the first part of the previous example could also be simplified to:
         =restart item4 :except-after< item4 >
 =end code
 
+
 =head4 There are manual B<I<trigger overrides>>
 
-Once a block has been flagged for restarting (whether by default or via
-an explicit C<=restart> trigger), its individual counter will restart
-when that block is next rendered, or when its individual counter is accessed
-to compute the hierarchical enumeration for a subordinate block of the same base name.
+Once a counter has been flagged for restarting (whether by default or via
+an explicit C<=restart> trigger), the counter will restart
+when any block currently using it is next rendered, or when the counter is accessed
+to compute the hierarchical enumeration for some block.
 
-Normally, a block’s individual counter will restart to 1, but this can be overridden
+Normally, a block's current counter will restart to 1, but this can be overridden
 by any of the following metaoptions:
 
 =begin table
@@ -1336,7 +1337,7 @@ Notes:
 Normally, every block’s individual counter is the counter labelled with the block's own name and level.
 
 However, there is a metaoption that allows a block’s individual counter
-and number prefix to be aliased to the individual counter and number prefix
+and number prefix to be aliased to the named counter and the number prefix
 of some other block: C<:number-as>
 
 For example, to have tables and formulae use a single shared sequence of
@@ -1366,6 +1367,44 @@ separately (without affecting subsequent table/formula numbering later in the do
 
 =head3 Table/formula numbering continues normally from here
 =end code
+
+=head4 A note about using C<:number-as> and C<=restart> together
+
+It should be remembered, whereas a C<=config NAME> directive changes the behaviour
+for the block named C<NAME>, a C<=restart NAME> directive changes the behaviour
+for the counter named C<NAME>, B<I<not>> for the block named C<NAME>.
+
+Usually this distinction does not arise because, by default, blocks use the counter
+with their own name. But it can lead to seemingly non-obvious behaviours when blocks
+and counters of the same name are both configured at the same time.
+
+For example, consider the following:
+=begin code :lang<rakudoc>
+    =config  table2 :number-as< head2 >
+    =restart table2 :after< table1 >
+=end code
+
+After this configuration, one might expect C<table2> blocks to restart at 1
+after each C<table1> block. But they do not. Instead, they restart at 1
+after each C<head1> block. This is because the C<table2> block is now using
+the counter named I<"head2">, and that counter (by default) is restarted after
+every C<head1> block. Or, to put it another way, it is true that the
+I<"table2"> counter will be restarted after every C<table1> block,
+but the C<table2> block is no longer using that counter.
+
+This kind of apparent violation of expectation usually indicates design confusion
+on the part of the document's author. For example, the author seems to indicate that
+they want C<table2> to be numbered as if it were a C<head2> I<(Intent A)>,
+but that the numbering for C<table2> should also restarted after every C<table1> I<(Intent B)>.
+However, restarting after every C<table1> is I<not> how C<head2> numbering works,
+so if that did happen then C<table2> would B<I<not>>> be being numbered as if it were a C<head2>.
+So I<Intent B> intrinsically contradicts I<Intent A>.
+
+Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser
+(or the entire universe!) because C<=config> and C<=restart> configure different
+elements (I<i.e.> blocks and counters respectively), even when those elements
+happen to share the same name.
+
 
 =head3 Custom tables of contents
 
@@ -4693,7 +4732,7 @@ in a pop-up that activates on hover or mouse-click
         =cell Start of an implicitly (blank-line) terminated block
     =row
         =cell V<=restart>
-        =cell Reset a block counter when other block types are encountered
+        =cell Reset a named counter when particular block types are encountered
     =row
         =cell V<=place>
         =cell Place text from, or generated by, a URI in the output

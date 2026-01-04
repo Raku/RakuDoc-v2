@@ -324,6 +324,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Each_block_has_a_restart_trigger">Each block has a restart trigger</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#There_are_manual_trigger_overrides">There are manual trigger overrides</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#There_is_a_counter_(un)sharing_mechanism">There is a counter (un)sharing mechanism</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#A_note_about_using_:number-as_and_=restart_together">A note about using :number-as and =restart together</a></div>
 <div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Custom_tables_of_contents">Custom tables of contents</a></div>
 <div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Formatting_of_blocks">Formatting of blocks</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Formatting_multi-level_enumerations">Formatting multi-level enumerations</a></div>
@@ -472,6 +473,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Each_block_has_a_restart_trigger">Each block has a restart trigger</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#There_are_manual_trigger_overrides">There are manual trigger overrides</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#There_is_a_counter_(un)sharing_mechanism">There is a counter (un)sharing mechanism</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#A_note_about_using_:number-as_and_=restart_together">A note about using :number-as and =restart together</a></div>
 <div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Custom_tables_of_contents">Custom tables of contents</a></div>
 <div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Formatting_of_blocks">Formatting of blocks</a></div>
 <div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Formatting_multi-level_enumerations">Formatting multi-level enumerations</a></div>
@@ -572,7 +574,7 @@ function swap_toc_index(div, activate) {
   <div class="container">
 <div id="RakuDoc"></div><h1 class="raku-webs title">RakuDoc</h1>
 
-<p class="raku-webs subtitle">A Raku slang for documenting Raku software to aid development and use.</p>
+<p class="raku-webs subtitle">Raku markup for documenting Raku software to aid development and use.</p>
   </div>
 </section>
 
@@ -724,13 +726,13 @@ function swap_toc_index(div, activate) {
 </pre>
 </div>
                 </div></li>
-<li class="item" data-bullet="•" style="--level:0;"> <p id="8280a33"><span class="basis">=restart</span> specifies when a block counter is restarted to <span class="code">1</span> by the instance of another block. The general syntax of <span class="basis">=restart</span> is </p>
+<li class="item" data-bullet="•" style="--level:0;"> <p id="f360351"><span class="basis">=restart</span> specifies when a named counter is restarted to <span class="code">1</span> by the rendering of some block. The general syntax of <span class="basis">=restart</span> is </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label><b>allow</b> styling</label>
                     <div><pre class="nohighlights">
-    =restart <span class="replace">BLOCK</span> <span class="important">:after&lt; <span class="replace">BLOCKS</span> &gt; | :except-after&lt; <span class="replace">BLOCKS</span> &gt;</span>
+    =restart <span class="replace">COUNTER</span> <span class="important">:after&lt; <span class="replace">BLOCKS</span> &gt; | :except-after&lt; <span class="replace">BLOCKS</span> &gt;</span>
 </pre>
 </div>
                 </div></li>
@@ -1113,9 +1115,9 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <p id="00131b4">Use <span class="code">=place3 ... :toc</span> to include it in the Table of Contents as a <span class="code">=head3</span> caption. </p>
 
 <div class="id-target" id="Enumeration restart triggers"></div><h2 id="Enumeration_restart_triggers" class="heading raku-webs-h2 "><a href="#">Enumeration restart triggers</a><a class="raku-webs-anchor" href="#Enumeration restart triggers">§</a></h2>
-<p id="1e019e9">The <span class="code">=restart</span> instruction is a directive that affects the behaviour of block counters. </p>
-<p id="9e3f941">Each block type has its own counter which is incremented whenever an instance of the block type is encountered. The counter of one block type may be restarted by instances of another block type. The purpose of this directive, at its simplest, is to allow for a numbered list of items to be generated from a sequence of <span class="code">=item</span> blocks, and the enumeration is restarted whenever another block, such as a paragraph, is encountered. However, the counter restart mechanism is more generic and can be applied to all block types. </p>
-<p id="8b19e50">The directive is followed by the name of a block and one of either <span class="code">:after&lt; BLOCK LIST &gt;</span> or <span class="code">:except-after&lt; BLOCK LIST &gt;</span>. </p>
+<p id="ee404e5">The <span class="code">=restart</span> instruction is a directive that affects the behaviour of the counters used by numbered blocks. </p>
+<p id="8dc06b2">Each block type has its own counter which is incremented whenever an instance of the block type is encountered. The counter of one block type may be restarted by instances of another block type. The purpose of this directive, at its simplest, is to allow for a numbered list of items to be generated from a sequence of <span class="code">=item</span> blocks, and for the enumeration to be restarted whenever another block, such as a paragraph, is encountered. However, the counter restart mechanism is more generic and can be applied to all block types. </p>
+<p id="cec932f">The directive is followed by the name of a counter <span class="important">(<span class="basis">not</span> the name of a block)</span> and one of either <span class="code">:after&lt; BLOCK LIST &gt;</span> or <span class="code">:except-after&lt; BLOCK LIST &gt;</span>. </p>
 <p id="7737f51">The directive is described in more detail in the <a href="#Enumerated_blocks">section on enumerated blocks</a> </p>
 
 <div class="id-target" id="Code-oriented RakuDoc"></div><h1 id="Code-oriented_RakuDoc" class="heading raku-webs-h1 "><a href="#">Code-oriented RakuDoc</a><a class="raku-webs-anchor" href="#Code-oriented RakuDoc">§</a></h1>
@@ -1335,14 +1337,14 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <li class="item" data-bullet="•" style="--level:0;"> <p id="d08cae3"><span class="code">:continued</span> – An enumeration that would automatically be restarted at the start of a new block is continued instead. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="89b1ab4"><span class="code">:!continued</span> – An enumeration that would automatically continue at the start of a new block is restarted instead. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="e9bf410"><span class="code">:number-prefix&lt;</span><span class="important">BlockType</span><span class="code">&gt;</span> - The counter used for the block is preceded by another blocks's enumeration. </p></li>
-<li class="item" data-bullet="•" style="--level:0;"> <p id="bf5a0cf"><span class="code">:number-as&lt;</span><span class="important">BlockType</span><span class="code">&gt;</span> - The block's enumeration is obtained from another block's counter. </p></li>
+<li class="item" data-bullet="•" style="--level:0;"> <p id="72e8ff8"><span class="code">:number-as&lt;</span><span class="important">NAME</span><span class="code">&gt;</span> - The block uses the counter whose name is <span class="important">NAME</span>; the block's prefix is obtained from the current prefix of the block named <span class="important">NAME</span> </p></li>
 </ul>
 <div class="nested"><p id="6f02f49">Note that <span class="basis">directives</span>, such as <span class="code">=for</span>, <span class="code">=begin</span>, <span class="code">=row</span>, <span class="code">=column</span>, are not blocks and prefixing them with <span class="code">num</span> is illegal. </p></div>
 <h3 id="Counters" class="heading raku-webs-h3 "><a href="#">Counters</a><a class="raku-webs-anchor" href="#Counters">§</a></h3>
 <p id="4ffd566">A RakuDoc document implicitly defines and tracks a collection of block counters. </p>
 
 <div class="id-target" id="Each block has an individual counter"></div><h4 id="Each_block_has_an_individual_counter" class="heading raku-webs-h4 "><a href="#">Each block has an individual counter</a><a class="raku-webs-anchor" href="#Each block has an individual counter">§</a></h4>
-<p id="7a1b2e0">A block’s <span class="important">individual counter</span> is a scalar integer variable that tracks the block’s current enumeration value. Every block has a unique individual counter named the same as its base name plus level. Hence the <span class="code">head</span>, <span class="code">head1</span>, <span class="code">numhead</span>, and <span class="code">numhead1</span> blocks all share a single individual counter named <span class="basis">head1</span>. </p>
+<p id="f722e7c">A block’s <span class="important">individual counter</span> is a scalar integer variable that tracks the block’s current enumeration value. Every block has a unique individual counter, by default named the same as its base name plus level. Hence the <span class="code">head</span>, <span class="code">head1</span>, <span class="code">numhead</span>, and <span class="code">numhead1</span> blocks all share a single individual counter named <span class="basis">head1</span>. </p>
 <p id="35d0178">Every block, whether built-in or user-defined has an individual counter, even if the block is never explicitly specified. Individual counters autovivify (with an initial value of 1) any time they are referenced, either when their corresponding block is explicitly specified in a document, or when their names are used as the argument of some metaoption. </p>
 
 <div class="id-target" id="Each block has a hierarchical enumeration"></div><h4 id="Each_block_has_a_hierarchical_enumeration" class="heading raku-webs-h4 "><a href="#">Each block has a hierarchical enumeration</a><a class="raku-webs-anchor" href="#Each block has a hierarchical enumeration">§</a></h4>
@@ -1401,8 +1403,8 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 <p id="bca2491">The hierarchical enumeration is built from the block's <span class="important">number-prefix</span> followed by the block's own counter value. The <span class="code">:number-prefix</span> option may contain a <span class="basis">single</span> block_name/block_level combination (<span class="important">e.g.</span> <span class="code">head2</span>), and by default it is the name of the block’s immediate superordinate block (<span class="important">i.e.</span> the current block’s basename followed by its block_level - 1). The <span class="important">number-prefix</span> is then the hierarchical enumeration of that value, which is its own number-prefix and its own counter value. </p>
 
 <div class="id-target" id="Each block has a restart trigger"></div><h4 id="Each_block_has_a_restart_trigger" class="heading raku-webs-h4 "><a href="#">Each block has a restart trigger</a><a class="raku-webs-anchor" href="#Each block has a restart trigger">§</a></h4>
-<p id="12acb23">Normally, a block’s individual counter is flagged for subsequent restarting to <span class="code">1</span> whenever a block with the same base name but a superordinate level is encountered. However, there is also a mechanism that permits custom restart triggers to be specified: the <span class="code">=restart</span> directive. </p>
-<p id="e161d90">Each custom trigger specification consists of a set of one or more names of <span class="basis"><span class="important">trigger blocks</span></span> that, when encountered, cause a particular block’s counter to be flagged for restarting next time that particular block is rendered or its individual counter value is otherwise accessed. For example: </p>
+<p id="2873ddf">Normally, a block’s associated counter is flagged for subsequent restarting to <span class="code">1</span> whenever a block with the same base name but a superordinate level is encountered. However, there is also a mechanism that permits custom restart triggers to be specified: the <span class="code">=restart</span> directive. </p>
+<p id="5f535f7">Each custom trigger specification consists of a set of one or more names of <span class="basis"><span class="important">trigger blocks</span></span> that, when encountered, cause a particular named counter to be flagged for restarting next time any block using that named counter is rendered or when that counter's value is otherwise accessed. For example: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1412,7 +1414,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="08023a9">Note that having to specify all the “superordinate” trigger blocks for each reconfigured block is rather tedious, so we define that specifying a particular trigger blockname in <span class="code">:after&lt; blocknameN &gt;</span> implies <span class="important">“...restart after <span class="code">blocknameN</span> or any <span class="basis"><span class="important">superordinate</span></span> block of the same base name.”</span> </p>
+            <p id="3b8c7d3">Note that having to specify all the “superordinate” trigger blocks for each counter restart is rather tedious, so we define that specifying a particular trigger blockname in <span class="code">:after&lt; blocknameN &gt;</span> implies <span class="important">“...restart after <span class="code">blocknameN</span> or any <span class="basis"><span class="important">superordinate</span></span> block of the same base name.”</span> </p>
 <p id="675b44f">In other words, the previous example (while still valid) could be partially simplified to: </p>
 
                 <div class="raku-code">
@@ -1423,7 +1425,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="61e07bc">It is also possible to specify restart behaviours “negatively”. That is, to specify that a particular block restarts <span class="basis">after</span> <span class="basis"><span class="important">any</span></span> other block, except one or more that are explicitly excluded from the trigger. For example: </p>
+            <p id="3f3d7fb">It is also possible to specify restart behaviours “negatively”. That is, to specify that a particular counter restarts <span class="basis">after</span> <span class="basis"><span class="important">any</span></span> block, except one or more that are explicitly excluded from the trigger. For example: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1433,7 +1435,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </pre>
 </div>
                 </div>
-            <p id="34fc5db">In other words, the presence of an <span class="important">excluded blockname</span> such as <span class="code">BlockName</span> in a <span class="code">:except-after</span> implies that the block being configured is restarted after every block <span class="basis"><span class="important">except</span></span> <span class="code">Blockname</span>. Multiple excluded blocknames can be specified in the same <span class="code">:except-after</span>, but specifying both an <span class="code">:after</span> and a <span class="code">:except-after</span> in the same <span class="code">=restart</span> would be redundant and a renderer should issue a warning when both are encountered. </p>
+            <p id="de93517">In other words, the presence of an <span class="important">excluded blockname</span> such as <span class="code">BlockName</span> in a <span class="code">:except-after</span> implies that the counter being configured is restarted after every block <span class="basis"><span class="important">except</span></span> <span class="code">Blockname</span>. Multiple excluded blocknames can be specified in the same <span class="code">:except-after</span>, but specifying both an <span class="code">:after</span> and a <span class="code">:except-after</span> in the same <span class="code">=restart</span> would be redundant and a renderer should issue a warning when both are encountered. </p>
 <p id="7c1d9c9">Where both <span class="code">:after</span> and <span class="code">:except-after</span> options exist, the <span class="code">:except-after</span> is obeyed. </p>
 
                 <div class="raku-code">
@@ -1457,8 +1459,8 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
                 </div>
             
 <div class="id-target" id="There are manual trigger overrides"></div><h4 id="There_are_manual_trigger_overrides" class="heading raku-webs-h4 "><a href="#">There are manual trigger overrides</a><a class="raku-webs-anchor" href="#There are manual trigger overrides">§</a></h4>
-<p id="c1a8a4e">Once a block has been flagged for restarting (whether by default or via an explicit <span class="code">=restart</span> trigger), its individual counter will restart when that block is next rendered, or when its individual counter is accessed to compute the hierarchical enumeration for a subordinate block of the same base name. </p>
-<p id="9cffed9">Normally, a block’s individual counter will restart to 1, but this can be overridden by any of the following metaoptions: </p>
+<p id="b3fa9ca">Once a counter has been flagged for restarting (whether by default or via an explicit <span class="code">=restart</span> trigger), the counter will restart when any block currently using it is next rendered, or when the counter is accessed to compute the hierarchical enumeration for some block. </p>
+<p id="6fdfebb">Normally, a block's current counter will restart to 1, but this can be overridden by any of the following metaoptions: </p>
 <table class="table is-striped is-bordered"><tbody class="procedural">
 <tr class="procedural"><td class=""><p id="aa9d697"><span class="code">:number(N)</span> </p></td><td class=""><p id="f87a89b">The block’s counter is reset to <span class="important">N</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="7703bc4"><span class="code">:continued</span> </p></td><td class="">The block’s counter is not reset; it is incremented as normal instead</td></tr>
@@ -1473,7 +1475,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 
 <div class="id-target" id="There is a counter (un)sharing mechanism"></div><h4 id="There_is_a_counter_(un)sharing_mechanism" class="heading raku-webs-h4 "><a href="#">There is a counter (un)sharing mechanism</a><a class="raku-webs-anchor" href="#There is a counter (un)sharing mechanism">§</a></h4>
 <p id="e762d57">Normally, every block’s individual counter is the counter labelled with the block's own name and level. </p>
-<p id="ccb132e">However, there is a metaoption that allows a block’s individual counter and number prefix to be aliased to the individual counter and number prefix of some other block: <span class="code">:number-as</span> </p>
+<p id="2d4f68e">However, there is a metaoption that allows a block’s individual counter and number prefix to be aliased to the named counter and the number prefix of some other block: <span class="code">:number-as</span> </p>
 <p id="75de31c">For example, to have tables and formulae use a single shared sequence of individual counter values (say those of the <span class="code">table</span> block): </p>
 
                 <div class="raku-code">
@@ -1506,6 +1508,23 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </div>
                 </div>
             
+<div class="id-target" id="A note about using :number-as and =restart together"></div><h4 id="A_note_about_using_:number-as_and_=restart_together" class="heading raku-webs-h4 "><a href="#">A note about using :number-as and =restart together</a><a class="raku-webs-anchor" href="#A note about using :number-as and =restart together">§</a></h4>
+<p id="b50d4a4">It should be remembered, whereas a <span class="code">=config NAME</span> directive changes the behaviour for the block named <span class="code">NAME</span>, a <span class="code">=restart NAME</span> directive changes the behaviour for the counter named <span class="code">NAME</span>, <span class="basis"><span class="important">not</span></span> for the block named <span class="code">NAME</span>. </p>
+<p id="aa6f6f2">Usually this distinction does not arise because, by default, blocks use the counter with their own name. But it can lead to seemingly non-obvious behaviours when blocks and counters of the same name are both configured at the same time. </p>
+<p id="fab1da6">For example, consider the following: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =config  table2 :number-as&lt; head2 &gt;<br>    =restart table2 :after&lt; table1 &gt;</span>
+</pre>
+</div>
+                </div>
+            <p id="1d8c74e">After this configuration, one might expect <span class="code">table2</span> blocks to restart at 1 after each <span class="code">table1</span> block. But they do not. Instead, they restart at 1 after each <span class="code">head1</span> block. This is because the <span class="code">table2</span> block is now using the counter named <span class="important">&quot;head2&quot;</span>, and that counter (by default) is restarted after every <span class="code">head1</span> block. Or, to put it another way, it is true that the <span class="important">&quot;table2&quot;</span> counter will be restarted after every <span class="code">table1</span> block, but the <span class="code">table2</span> block is no longer using that counter. </p>
+<p id="c533955">This kind of apparent violation of expectation usually indicates design confusion on the part of the document's author. For example, the author seems to indicate that they want <span class="code">table2</span> to be numbered as if it were a <span class="code">head2</span> <span class="important">(Intent A)</span>, but that the numbering for <span class="code">table2</span> should also restarted after every <span class="code">table1</span> <span class="important">(Intent B)</span>. However, restarting after every <span class="code">table1</span> is <span class="important">not</span> how <span class="code">head2</span> numbering works, so if that did happen then <span class="code">table2</span> would <span class="basis"><span class="important">not</span></span>&gt; be being numbered as if it were a <span class="code">head2</span>. So <span class="important">Intent B</span> intrinsically contradicts <span class="important">Intent A</span>. </p>
+<p id="c59f10e">Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser (or the entire universe!) because <span class="code">=config</span> and <span class="code">=restart</span> configure different elements (<span class="important">i.e.</span> blocks and counters respectively), even when those elements happen to share the same name. </p>
+
 <div class="id-target" id="Custom tables of contents"></div><h3 id="Custom_tables_of_contents" class="heading raku-webs-h3 "><a href="#">Custom tables of contents</a><a class="raku-webs-anchor" href="#Custom tables of contents">§</a></h3>
 <p id="67f4d19">The implicit heading level of a block in the Table of Contents (TOC) is always equal to its <span class="important">block level</span>. Hence <span class="code">head1</span> is implicitly level-1, while <span class="code">formula3</span> is implicitly level-3. </p>
 <p id="de70487">The default TOC is created from <span class="code">=head</span> and semantic blocks (<span class="important">e.g.</span> TITLE). This means that no block type except <span class="code">head</span> or semantic blocks have the <span class="code">:toc</span> flag set, so (by default) only headings and semantic blocks are included in the main TOC. To add a block (or block type) to the default (or <span class="important">head</span>) TOC, configure it with an explicit <span class="code">:toc</span> option: </p>
@@ -4065,7 +4084,7 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="eb083cc">=end </p></td><td class="">Explicit termination of a begin block</td></tr>
 <tr class="procedural"><td class=""><p id="2599805">=finish </p></td><td class="">No ambient blocks after this point</td></tr>
 <tr class="procedural"><td class=""><p id="9da80e9">=for </p></td><td class="">Start of an implicitly (blank-line) terminated block</td></tr>
-<tr class="procedural"><td class=""><p id="a402dcc">=restart </p></td><td class="">Reset a block counter when other block types are encountered</td></tr>
+<tr class="procedural"><td class=""><p id="a402dcc">=restart </p></td><td class="">Reset a named counter when particular block types are encountered</td></tr>
 <tr class="procedural"><td class=""><p id="9ea3ac0">=place </p></td><td class="">Place text from, or generated by, a URI in the output</td></tr>
 <tr class="procedural"><td class=""><p id="464ac6b">=row </p></td><td class="">Start a new row in a procedural table</td></tr>
 </tbody></table>
@@ -4250,10 +4269,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 12:09 UTC on 2025-12-29
+                Rendered at 12:17 UTC on 2026-01-04
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 12:07 UTC on 2025-12-29
+                Source last modified&nbsp;at 12:09 UTC on 2026-01-04
             </div>
         </nav>
     </div>
