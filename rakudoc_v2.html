@@ -1522,7 +1522,7 @@ hier-enum(&nbsp;BlockN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;<span cl
 </div>
                 </div>
             <p id="1d8c74e">After this configuration, one might expect <span class="code">table2</span> blocks to restart at 1 after each <span class="code">table1</span> block. But they do not. Instead, they restart at 1 after each <span class="code">head1</span> block. This is because the <span class="code">table2</span> block is now using the counter named <span class="important">&quot;head2&quot;</span>, and that counter (by default) is restarted after every <span class="code">head1</span> block. Or, to put it another way, it is true that the <span class="important">&quot;table2&quot;</span> counter will be restarted after every <span class="code">table1</span> block, but the <span class="code">table2</span> block is no longer using that counter. </p>
-<p id="c533955">This kind of apparent violation of expectation usually indicates design confusion on the part of the document's author. For example, the author seems to indicate that they want <span class="code">table2</span> to be numbered as if it were a <span class="code">head2</span> <span class="important">(Intent A)</span>, but that the numbering for <span class="code">table2</span> should also restarted after every <span class="code">table1</span> <span class="important">(Intent B)</span>. However, restarting after every <span class="code">table1</span> is <span class="important">not</span> how <span class="code">head2</span> numbering works, so if that did happen then <span class="code">table2</span> would <span class="basis"><span class="important">not</span></span>&gt; be being numbered as if it were a <span class="code">head2</span>. So <span class="important">Intent B</span> intrinsically contradicts <span class="important">Intent A</span>. </p>
+<p id="57798b2">This kind of apparent violation of expectation usually indicates design confusion on the part of the document's author. For example, the author seems to indicate that they want <span class="code">table2</span> to be numbered as if it were a <span class="code">head2</span> <span class="important">(Intent A)</span>, but that the numbering for <span class="code">table2</span> should also restarted after every <span class="code">table1</span> <span class="important">(Intent B)</span>. However, restarting after every <span class="code">table1</span> is <span class="important">not</span> how <span class="code">head2</span> numbering works, so if that did happen then <span class="code">table2</span> would <span class="basis"><span class="important">not</span></span> be being numbered as if it were a <span class="code">head2</span>. So <span class="important">Intent B</span> intrinsically contradicts <span class="important">Intent A</span>. </p>
 <p id="c59f10e">Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser (or the entire universe!) because <span class="code">=config</span> and <span class="code">=restart</span> configure different elements (<span class="important">i.e.</span> blocks and counters respectively), even when those elements happen to share the same name. </p>
 
 <div class="id-target" id="Custom tables of contents"></div><h3 id="Custom_tables_of_contents" class="heading raku-webs-h3 "><a href="#">Custom tables of contents</a><a class="raku-webs-anchor" href="#Custom tables of contents">§</a></h3>
@@ -4269,10 +4269,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 12:17 UTC on 2026-01-04
+                Rendered at 12:24 UTC on 2026-01-04
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 12:09 UTC on 2026-01-04
+                Source last modified&nbsp;at 12:24 UTC on 2026-01-04
             </div>
         </nav>
     </div>

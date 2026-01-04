@@ -1397,7 +1397,7 @@ on the part of the document's author. For example, the author seems to indicate 
 they want C<table2> to be numbered as if it were a C<head2> I<(Intent A)>,
 but that the numbering for C<table2> should also restarted after every C<table1> I<(Intent B)>.
 However, restarting after every C<table1> is I<not> how C<head2> numbering works,
-so if that did happen then C<table2> would B<I<not>>> be being numbered as if it were a C<head2>.
+so if that did happen then C<table2> would B<I<not>> be being numbered as if it were a C<head2>.
 So I<Intent B> intrinsically contradicts I<Intent A>.
 
 Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser
