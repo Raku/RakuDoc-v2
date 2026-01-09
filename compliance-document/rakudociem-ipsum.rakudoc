@@ -417,7 +417,7 @@ E = MC²
 =begin numformula :caption<Mass-Energy Equivalence> :numalias<RELFORM>
 E = MC²
 =end numformula
-=begin numformula :caption<Mass-Energy Equivalence> :numalias< Equation %N. | EQNRELFORM>
+=begin numformula :caption<Mass-Energy Equivalence> :numalias< Equation %N. | EQNFORM>
 E = MC²
 =end numformula
 
