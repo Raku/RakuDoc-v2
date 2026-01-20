@@ -739,17 +739,22 @@ will produce ...
 
 Use C<=place3 ... :toc> to include it in the Table of Contents as a C<=head3> caption.
 
-=head2 Enumeration restart triggers
+=head2 Enumeration management
 
-The C<=restart> instruction is a directive that affects the behaviour of the counters used by numbered blocks.
+The C<=counter> instruction is a directive that affects the behaviour of the counters used by numbered blocks.
 
-Each block type has its own counter which is incremented whenever an instance of the block type is encountered. The counter of one block type may be restarted by instances of another block type.
-The purpose of this directive, at its simplest, is to allow for a numbered list of items to
-be generated from a sequence of C<=item> blocks, and for the enumeration to be restarted whenever another
-block, such as a paragraph, is encountered. However, the counter restart mechanism is more generic
-and can be applied to all block types.
+Although each I<counter> is named in the same way as a I<blocktype>, the two are separate entities.
 
-The directive is followed by the name of a counter I<(B<not> the name of a block)> and one of either C«:after< BLOCK LIST >» or C«:except-after< BLOCK LIST >».
+The directive is followed by the name of a counter I<(B<not> the name of a block)> and one of
+=item C«:restart»
+=item C«:!restart»
+=item C«:restart( INTEGER )»
+=item C«:restart-after< BLOCK LIST >»
+=item C«:restart-except-after< BLOCK LIST >»
+=item C«:prefix< BLOCK >»
+
+These options may not be used in a C«=config» statement, nor may options that can be used in the latter appear
+in the former. In case of error, a warning message will be generated and the option will be ignored.
 
 The directive is described in more detail in the L<section on enumerated blocks|#Enumerated blocks>
 
@@ -951,12 +956,12 @@ not suffixed by an integer, then the level is I<1>.
 The effects of enumeration and level on C«head», C«defn», and C«item» are illustrated in the sections
 on those block types because they have some special properties by default, namely:
 =item Sequences of C<=item> and of C<=defn> are grouped together into lists automatically.
-=item Only C<=head> / C<=numhead> blocks are automatically included into the main I<Table of Contents>.
+=item The C<=head> / C<=numhead> blocks are automatically included into the main I<Table of Contents>.
+=item2 Semantic blocks are treated as C<=head> blocks.
 
-However, these properties can be added to all other block types.
-=item See L<Counter restart triggers|#Counter restart triggers> grouping blocks into lists.
-=item See the L<Table of Contents|Table of contents> for creating custom Table of contents, I<e.g.> for Diagrams,
-and to include other blocks into the main I<Table of Contents>.
+The block bases C<rakudoc>, C<section>, C<nested> and C<pod> (which is a deprecated alias to C<rakudoc>)
+are considered to be container blocks which act on their contents but do not have any separate rendered contents.
+Consequently, even if the prefix I<num> and a I<level> are attached to these bases, they have no effect.
 
 More detail about how enumerations can be
 customised for all block types can be found in L<Enumerated blocks|#Enumerated blocks>.
@@ -1103,308 +1108,535 @@ may be nested.
 The first C<=begin rakudoc> declaration in a document starts the RakuDoc scope of the document.
 Metadata following the first such declaration are made available to all blocks in the document.
 
-
 =head2 Enumerated blocks
 
 RakuDoc allows for the customisable numbering of any block, not just headings and items. Moreover,
 the enumeration, which is generated automatically by the renderer, can be referred to later in
-the text using the C«A< ... >» markup code. The automatic enumeration is controlled using
-I<block counters> which in turn are affected by I<restart triggers>.
+the text using the C«A< ... >» markup code. The automatic enumeration is controlled using a
+construct that is largely independent of blocks: I<counters>.
 
-The I<block level> integer in a block type is used to characterise numbering hierarchies, so that B<subordinate> blocks
-are numbered with reference to their B<superordinate> predecessors. For example, an instance of
-I<=numhead2> is I<subordinate> to the last instance of I<=numhead> (which is equivalent to I<=numhead1>).
+The I<block level> integer at the end of the name of a block type (I<e.g.> C«head1», C«table2», C«formula3», I<etc.>)
+is used to characterise numbering hierarchies, so that B<subordinate> blocks are typically numbered
+with reference to their B<superordinate> predecessors. For example, an instance of C«=numhead2»
+is I<subordinate> to the last instance of C«=numhead» (which is equivalent to C«=numhead1»).
 
-The I<block type> may optionally be prefixed by the letters B<num>, which signals that the block should be rendered with an enumeration.
+The I<block type> may optionally be prefixed by the letters C«num», which signals that the block
+should be rendered with an enumeration. Every block I<has> an enumeration, but only those blocks
+prefixed with C«num» actually include that number in their rendering.
 
-When a block has the I<num> prefix, the following metadata options are available in addition
-to the metadata options normally associated with the block:
+Note that B<directives> (such as C«=for», C«=begin», C«=end», C«=config», C«=row», C«=column», C«=alias», I<etc.>)
+are B<not> blocks, and so cannot be prefixed by C«num».
 
-=item C«:numalias<»I<FORMAT | NAME>C«>» – The specific enumeration associated with this block can be referred to in the text following the block (see the rules for the validity of an alias) as C«A<NAME>», and the way the text is rendered can be specified with I<FORMAT> (see C<:form> below).
-=item C«:number(»I<N>C«)» – The enumeration is set to I<N> for this block and will be continued in later blocks.
-=item C«:form<»I<FORMAT>C«>» – The block will be rendered according to rules given below so that the order of the caption and the enumeration can be customised, and the type of enumeration (Indo-Arabic numerals, alphabetic characters, Roman numerals, I<etc.>) can be specified.
-=item C«:continued» – An enumeration that would automatically be restarted at the start of a new block is continued instead.
-=item C«:!continued» – An enumeration that would automatically continue at the start of a new block is restarted instead.
-=item C«:number-prefix<»I<BlockType>C«>» - The counter used for the block is preceded by another blocks's enumeration.
-=item C«:number-as<»I<NAME>C«>» - The block uses the counter whose name is I<NAME>; the block's prefix is obtained from the current prefix of the block named I<NAME>
+The (possibly hierarchical) enumeration value for each block is provided by the counter
+to which the block is currently I<subscribed>. By default, each block automatically subscribes
+to the counter with the same base name as itself. So, for example, enumeration values for
+C«head», C«head1», C«numhead» and C«numhead1» blocks are supplied by the single counter named B«I<C«head1»>».
 
-=nested Note that B<directives>, such as C«=for», C«=begin», C«=row», C«=column», are not blocks and prefixing them with C«num» is illegal.
+Every block, whether built-in or user-defined, automatically subscribes to a counter,
+even if the block is never explicitly specified in a document. Counters autovivify
+(with an initial individual value of C«1») the first time they are referenced,
+either when a block subscribed to them is used in a document, or when the counter name
+itself is first used as the argument of some metaoption.
 
-=head3 Counters
+The counter to which a block is subscribed can be changed using the C«:counter» metaoption,
+either applied to an single instance of a block: C«=for head1 :counter<SomeOtherCounter>»,
+or configured for all subsequent blocks in the same scope: C«=config head1 :counter<SomeOtherCounter>».
 
-A RakuDoc document implicitly defines and tracks a collection of block counters.
-
-=head4 Each block has an B<I<individual counter>>
-
-A block’s I<individual counter> is a scalar integer variable
-that tracks the block’s current enumeration value. Every
-block has a unique individual counter, by default named the same as
-its base name plus level. Hence the C<head>, C<head1>,
-C<numhead>, and C<numhead1> blocks all share a single
-individual counter named B<head1>.
-
-Every block, whether built-in or user-defined has an individual counter,
-even if the block is never explicitly specified. Individual counters
-autovivify (with an initial value of 1) any time they are referenced,
-either when their corresponding block is explicitly specified in a document,
-or when their names are used as the argument of some metaoption.
-
-=head4 Each block has a B<I<hierarchical enumeration>>
-
-A block’s I<hierarchical enumeration> is a list of integer values,
-consisting of the block’s individual counter value, prefixed by
-the individual counter values of every block of the same base name
-but of a superordinate level.
-
-For example, the hierarchical enumeration for the C<table3> block
-is: C<(t1, t2, t3)>, where C<tN> is the current individual counter value
-of the C<tableN> block. Mathematically speaking:
-
-    hier-enum( BlockN )  →  hier-enum( Block(N-1) ), indiv-count( BlockN )
-    hier-enum( Block1 )  →                           indiv-count( Block1 )
-
-=head4 Each block has a B<I<number prefix>>
-
-A block’s hierarchical enumeration is determined by its I<number prefix>,
-which specifies whence the prefix values for its hierarchical enumeration
-are (recursively) obtained. Specifically, the hierarchical enumeration
-of a block consists of the hierarchical enumeration of its number prefix,
-followed by its individual counter value, as described in the preceding section.
-
-For example, the hierarchical enumeration of a C<formula3> block is the hierarchical
-enumeration of its number prefix (by default, C<formula2>), followed by the individual
-counter value for C<formula3>. Of course, the hierarchical enumeration of C<formula2> is the
-hierarchical enumeration of I<its> number prefix (by default: C<formula1>) followed by the
-individual counter value of C<formula2>. The C<formula1> block has no number prefix
-(because it is a first-level block), so its hierarchical enumeration is just
-its individual counter value.
-
-The C<number-prefix> metaoption can be used to specify – and modify – these
-hierarchical numeric relationships. For example, the default relationships
-for the formula blocks could be explicitly specified as:
+Two or more blocks may subscribe to the same counter, in which case every instance
+of any of those blocks causes the counter to increment (even instances without the C«num» prefix).
+For example, to have every table and every formula use a single shared enumeration,
+you could either have the C«formula» block subscribe to the B«I<C«table»>» counter
+(as the C«table» block already does by default):
 =begin code :lang<rakudoc>
-=config formula4  :number-prefix< formula3 >
-=config formula3  :number-prefix< formula2 >
-=config formula2  :number-prefix< formula1 >
-=config formula1  :number-prefix<          >
+=config formula1  :counter< table1 >
 =end code
-
-More interestingly, this metaoption can be used to B<I<change>> the way hierarchical
-numbers are constructed for specific blocks. For example, one might prefer that
-a C<formula1>’s hierarchical enumeration consists of the current counter value for
-C<head1>, followed by the formula’s individual counter value. That is, each formula’s
-enumeration value is prefixed by the current first-level heading number. That could
-be achieved like so:
+...or else have both block types subscribe to the same user-defined counter
+(which would be autogenerated as soon as it is first used):
 =begin code :lang<rakudoc>
-=config formula1  :number-prefix< head1 >
+=config table1    :counter< TablesAndFormulae >
+=config formula1  :counter< TablesAndFormulae >
 =end code
-...which would produce a rendering like:
-=begin code :lang<text>
-    1. First heading
-        Formula 1.1. Caption for first formula
-        Formula 1.2. Caption for second formula
-    2. Second heading
-        Formula 2.3. Caption for third formula
-        Formula 2.4. Caption for fourth formula
-=end code
-(To have the individual counters of the formulae automatically restart after each heading,
-see the C<=restart> directive described in the next section.)
-
-When a numbered block is rendered, its hierarchical enumeration is used together with its
-contents and caption.
-
-The hierarchical enumeration is built from the block's I<number-prefix> followed
-by the block's own counter value. The C<:number-prefix> option may contain a B<single>
-block_name/block_level combination (I<e.g.> C<head2>), and by default it is the name of
-the block’s immediate superordinate block (I<i.e.> the current block’s basename
-followed by its block_level - 1). The I<number-prefix> is then the hierarchical enumeration
-of that value, which is its own number-prefix and its own counter value.
-
-=head4 Each block has a B<I<restart trigger>>
-
-Normally, a block’s associated counter is flagged for subsequent restarting
-to C<1> whenever a block with the same base name
-but a superordinate level is encountered. However, there is also a mechanism that
-permits custom restart triggers to be specified: the C<=restart> directive.
-
-Each custom trigger specification consists of a set of one or more names
-of B<I<trigger blocks>> that, when encountered, cause a particular named counter
-to be flagged for restarting next time any block using that named counter is rendered
-or when that counter's value is otherwise accessed. For example:
-
+Note that the C«:counter» option can also be used to create a unique numbering
+for only part of a document, by taking advantage of the lexical scoping
+of the C«=config» directive. For example, to cause tables and formulae
+within a single subheading to be numbered separately (without affecting
+subsequent table/formula numbering later in the document):
 =begin code :lang<rakudoc>
-    =comment Customize table and formula numbering to restart after every =head3 (or superordinate)...
-
-        =restart table    :after< head1 head2 head3 >
-        =restart formula  :after< head1 head2 head3 >
-
-    =comment Customize table and formula numbering to restart after every =head1 AND every =section
-
-        =restart table   :after< head1 section >
-        =restart formula :after< head1 section >
-=end code
-
-Note that having to specify all the “superordinate” trigger blocks for each counter restart
-is rather tedious, so we define that specifying a particular trigger blockname
-in C<:after< blocknameN >> implies I<“...restart after C<blocknameN>
-or any B<I<superordinate>> block of the same base name.”>
-
-In other words, the previous example (while still valid) could be partially simplified to:
-=begin code :lang<rakudoc>
-    =comment Customize table and formula numbering to restart after every =head3 (or superordinate)...
-        =restart table   :after< head3 >
-        =restart formula :after< head3 >
-=end code
-
-It is also possible to specify restart behaviours “negatively”.
-That is, to specify that a particular counter restarts B<after> B<I<any>> block,
-except one or more that are explicitly excluded from the trigger. For example:
-=begin code :lang<rakudoc>
-    =comment Reproduce (or perhaps reinstate) standard item restart behaviours...
-
-        =restart item1 :except-after< item1 item2 item3 item4 >
-        =restart item2 :except-after< item2 item3 item4 >
-        =restart item3 :except-after< item3 item4 >
-        =restart item4 :except-after< item4 >
-
-    =comment Give a set of user-defined item blocks the same restart behaviour as standard items
-
-        =restart MyItem       :except-after< MyItem MySubItem MySubSubItem >
-        =restart MySubItem    :except-after< MySubItem MySubSubItem >
-        =restart MySubSubItem :except-after< MySubSubItem >
-=end code
-
-In other words, the presence of an I<excluded blockname> such as C<BlockName>
-in a C<:except-after> implies that the counter being configured is restarted
-after every block B<I<except>> C<Blockname>. Multiple excluded blocknames
-can be specified in the same C<:except-after>, but specifying both
-an C<:after> and a C<:except-after> in the same C<=restart>
-would be redundant and a renderer should issue a warning when both are encountered.
-
-Where both C<:after> and C<:except-after> options exist, the C<:except-after> is obeyed.
-=begin code :lang<rakudoc>
-    =comment  The mention of head1 is redundant here because the excluded blocknames
-    =comment  imply "restart on anything except...", which already implies "restart on head1"
-
-    =restart MySubItem  :after<head1> :except-after< MySubItem MySubSubItem >
-=end code
-
-Note that, having to specify hierarchical excluded subitems all the way down
-is also tedious, so we define that an excluded blockname in a C<:except-after> implies
-I<“...restart after any block except C<blocknameN>
-or any B<I<subordinate>> block of the same base name.”>
-
-Hence the first part of the previous example could also be simplified to:
-=begin code :lang<rakudoc>
-    =comment Reproduce (or perhaps reinstate) standard item restart behaviours...
-
-        =restart item1 :except-after< item1 >
-        =restart item2 :except-after< item2 >
-        =restart item3 :except-after< item3 >
-        =restart item4 :except-after< item4 >
-=end code
-
-
-=head4 There are manual B<I<trigger overrides>>
-
-Once a counter has been flagged for restarting (whether by default or via
-an explicit C<=restart> trigger), the counter will restart
-when any block currently using it is next rendered, or when the counter is accessed
-to compute the hierarchical enumeration for some block.
-
-Normally, a block's current counter will restart to 1, but this can be overridden
-by any of the following metaoptions:
-
-=begin table
-    =row
-        =cell C<:number(N)>
-        =cell The block’s counter is reset to I<N>
-    =row
-        =cell C<:continued>
-        =cell The block’s counter is not reset; it is incremented as normal instead
-    =row
-        =cell C<:!continued>
-        =cell The block’s counter is unconditionally reset to 1, even if a reset is not currently flagged
-=end table
-
-Notes:
-=item If both C<:continued> and C<:!continued> are declared at the same time, the rightmost will be selected due to parsing rules.
-=item Since each of these options and a restart trigger affect the enumeration of a blocktype, they may be operative together in some combination when rendering a blocktype instance. In this case, the following precedence will apply:
-=item2 C<:number> I<overrides> C<:continued>/C<:!continued> I<overrides> a restart trigger.
-
-=head4 There is a B<I<counter (un)sharing mechanism>>
-
-Normally, every block’s individual counter is the counter labelled with the block's own name and level.
-
-However, there is a metaoption that allows a block’s individual counter
-and number prefix to be aliased to the named counter and the number prefix
-of some other block: C<:number-as>
-
-For example, to have tables and formulae use a single shared sequence of
-individual counter values (say those of the C<table> block):
-=begin code :lang<rakudoc>
-=config formula  :number-as< table >
-=end code
-
-Alternatively, one could reconfigure B<I<both>> block types to use
-the (autovivified) individual counter of some user-defined type:
-=begin code :lang<rakudoc>
-=config table    :number-as< TableOrFormula >
-=config formula  :number-as< TableOrFormula >
-=end code
-Note that C<:number-as> can also be used to create a unique numbering for part of a document,
-by taking advantage of the lexical scoping of the C<=config> directive.
-
-For example, to cause tables and formulae within a single subheading to be numbered
-separately (without affecting subsequent table/formula numbering later in the document):
-=begin code :lang<rakudoc>
-=head3 Aside: Detailed derivation of the master equation
+    =head3 Aside: Detailed derivation of the master equation
     =begin section
-        =config table    :number-as< AsideNumbering >
-        =config formula  :number-as< AsideNumbering >
+        =config table    :counter< AsideNumbering >
+        =config formula  :counter< AsideNumbering >
         ...
     =end section
 
-=head3 Table/formula numbering continues normally from here
+    =head3 Table/formula numbering continues normally from here
 =end code
 
-=head4 A note about using C<:number-as> and C<=restart> together
+=head3 Enumeration aliases for blocks
 
-It should be remembered, whereas a C<=config NAME> directive changes the behaviour
-for the block named C<NAME>, a C<=restart NAME> directive changes the behaviour
-for the counter named C<NAME>, B<I<not>> for the block named C<NAME>.
+It is also possible to capture the specific number with which a given block was rendered,
+by specifying that block with the C«:numalias<TAG>» metaoption. If this option is applied to
+a specific block then, when the block is rendered, a new alias is automatically created.
+If that alias is later referred to (using the C«A<TAG>» notation), the enumeration value
+for the preceding block is substituted into the rendered document at that point.
+For example:
+=begin code :lang<rakudoc>
+    =for numtable :caption<Complete list of ingredients>  :numalias<IngredientsTable>
 
-Usually this distinction does not arise because, by default, blocks use the counter
+    =comment  And later...
+
+    First gather all the ingredients listed in A<IngredientsTable>.
+=end code
+This might be rendered something like...
+=begin code :lang<text>
+    Table 7. Complete list of ingredients
+
+    # And later...
+
+    =para  First gather all the ingredients listed in Table 7.
+=end code
+By default, the format used for the substituted enumeration text will be C«%T %N»
+(using the enumeration format string described elsewhere). However, the author
+may specify a different rendering for the alias, using an extended variant
+of the option: C«:numalias< FORMAT | TAG >», where C«FORMAT» is a desired
+alternative format string. For example:
+=begin code :lang<rakudoc>
+    =for numitem  :numalias< Article %N | HQ >  :form<Article %N. %D>
+    Headquarters location.
+
+    =comment Text of document with many other numitems
+
+    =para  The deadline is noon at the location of the main office, see A<HQ>.
+=end code
+
+This would be rendered as something like
+=begin code :lang<text>
+    Article 10. Headquarters location
+
+    # Lots of text
+
+    The deadline is noon at the location of the main office, see Article 10.
+=end code
+Since all block options may be preconfigured using the C«=config» directive,
+it is also possible to create a parameterized C«:numalias» as follows:
+=begin code :lang<rakudoc>
+    =config numitem  :numalias< Article %N. | * >  :form<Article %N. %D>
+=end code
+
+In this case, the C«*» is replaced by the tag specified in each subsequent C«:numalias» option
+applied to individual C«numitem» blocks. For example, with the previous C«=config»
+the following uses of C«:numalias»:
+=begin code :lang<rakudoc>
+    =for numitem  :numalias< HQ  >
+    =for numitem  :numalias< CCN >
+    =for numitem  :numalias< WTF >
+=end code
+...are equivalent to:
+=begin code :lang<rakudoc>
+    =for numitem :numalias< Article %N. | HQ  >
+    =for numitem :numalias< Article %N. | CCN >
+    =for numitem :numalias< Article %N. | WTF >
+=end code
+
+The precedence rule for options is that options specified directly on a block take priority over
+preconfigured options specified by a C«=config» directive. Consequently, a C«:numalias» with an explicit
+format will replace any preconfigured C«:numalias» supplied by a preceding C«=config» directive.
+For example:
+=begin code :lang<rakudoc>
+    =config numitem  :numalias< Article %N. | * >  :form<Article %N. %D>
+
+    =for numitem  :numalias< HQ  >
+    =for numitem  :numalias< CCN >
+    =for numitem  :numalias< The WTF Exception (%N) | WTF >
+=end code
+...are equivalent to:
+=begin code :lang<rakudoc>
+    =for numitem :numalias< Article %N. | HQ  >
+    =for numitem :numalias< Article %N. | CCN >
+    =for numitem :numalias< The WTF Exception (%N) | WTF >
+=end code
+
+Moreover, if the explicit format is empty (I<i.e.> C«:numalias<|TAG>»)
+then the default format (I<i.e.> C«%T %N.») will be reinstated
+for that one particular block. Hence:
+=begin code :lang<rakudoc>
+    =for numitem  :numalias< | WTF >
+=end code
+...is equivalent to:
+=begin code :lang<rakudoc>
+    =for numitem :numalias< %T %N | WTF >
+=end code
+
+=head2 Counts and counters
+
+The counters to which blocks can subscribe are independent constructs that are created
+and maintained for each RakuDoc document by every compliant renderer. Counters are
+entirely separate from the blocks they service, though the two constructs do interact
+in several ways that will be described hereafter.
+
+Counters have a range of features useful for generating enumerations: an I<individual value>,
+a I<hierarchical prefix>, a I<restart status>, and various possible I<restart triggers>.
+
+All these features have sensible defaults whenever a counter is auto-created.
+However, all of them may also be explicitly reconfigured within a given lexical scope
+using the C«=counter» directive.
+
+=head3 Each counter has an B«I<individual value>»
+
+A counter’s I<individual value> (a.k.a. its I<count>) is a global scalar integer variable
+that is external to the counter itself, and which tracks the counter’s current enumeration value.
+The individual value of every counter starts (and restarts) at 1, and is incremented every time
+some block requests the next value from the counter.
+
+Because a counter’s individual value is not itself lexically scoped, it does not revert
+to its earlier value at the end of a C<section>. It is the single value that a counter manages,
+not a lexical property of the counter itself. Diagrammatically:
+
+=begin code :lang<text>
+        Block  (has lexically scoped properties: counter, form, allow, etc.)
+          ┆
+    [subscribes to]
+          ┆
+          V
+       Counter (has lexically scoped properties: prefix, restart status, restart trigger)
+          ┆
+      [manages]
+          ┆
+          V
+        Count  (a single global integer variable)
+=end code
+
+=head3 Each counter has a B«I<hierarchical prefix>»
+
+A counter’s I<hierarchical prefix> is the name of some other counter
+which recursively supplies it with a hierarchical enumeration,
+such as is required by subordinate blocks such as C«head2», C«table3», I<etc.>
+
+Therefore, when a counter is asked to supply its current or next value to a block being rendered,
+the value returned is a list of integers consisting of the original counter’s own I<individual value>,
+preceded by the current value of some other counter whose name is specified
+by the original counter’s hierarchical prefix.
+
+By default, a given counter’s hierarchical prefix is its immediate I<superordinate counter>.
+That is, the counter B«I<table3>» has a default prefix of B«I<table2>», and the B«I<table2>»
+counter’s default prefix is B«I<table1>». Top-level counters, such as B«I<table1>»
+have no default hierarchical prefix.
+
+So, for example, the complete hierarchical enumeration supplied by the B«I<table3>» counter is: C«(t1, t2, t3)»,
+where C«tN» is the current individual value of the B«I<tableN>» counter. Mathematically speaking:
+
+    hier-enum( CounterN )  →  hier-enum( Counter(N-1) ), indiv-count( CounterN )
+    hier-enum( Counter1 )  →                             indiv-count( Counter1 )
+
+You can change the hierarchical prefix value for a given counter using the C«=counter» directive.
+For example, you might prefer that all top-level tables (which normally have no hierarchical prefix)
+should be prefixed by the current value of the B«I<head1>» counter, to produce output like:
+=begin code :lang<text>
+    1. Concept
+        Table 1.1. List of requirements
+        Table 1.2. List of resources
+        Table 1.3. List of constraints
+
+    2. Implementation
+        Table 2.4. Implementation schedule
+        Table 2.5. Resource suppliers
+        Table 2.6. Costings vs actual expenditure
+=end code
+
+To ensure that every numbered table uses the current B«I<head1>» value as a prefix in this way,
+you would configure the B«I<table>» counter as follows:
+=begin code :lang<rakudoc>
+    =counter table1 :prefix<head1>
+=end code
+
+(To have the individual counters of the tables automatically restart after each heading,
+see the C«:restart-after» metaoption, which is described later.)
+
+Note that the C«=counter» directive is lexically scoped (I<i.e.> it is effectively a C«=config»
+for counters instead of blocks), so the preceding directive would need to be placed at
+the start of the document.
+
+You can also explicitly I<remove> any prefix from a counter, by specifying an “empty” prefix for it.
+For example, to change the usual C«t1.t2.t3.» enumeration of the B«I<table3>» counter to just C«t3.»,
+you could specify:
+=begin code :lang<rakudoc>
+    =counter table3 :prefix<>
+=end code
+
+Note that this directive would also indirectly affect the B«I<table4>», B«I<table5>», I<etc.> counters,
+by “cutting off” their default hierarchical prefixes at B«I<table3>». This is considered
+a feature, as it ensures consistency of representation across counter hierarchies.
+
+
+=head3 Each counter has a B«I<restart status>»
+
+A counter normally continues to increment its individual value every time
+any subscribing block requests the “next” value from the counter. However,
+this monotonic progression can be changed by altering the counter’s
+I<restart status>.
+
+Normally, a counter’s restart status has the value C«Nil», indicating no special restart behaviour.
+In that case the counter defaults to simply incrementing its individual value
+to obtain its next value.
+
+But you can configure a counter’s restart status to ensure that its next value
+will be something other than a simple increment, using the C«=counter» directive’s
+C«:restart» option.
+
+If the value passed in the C«:restart» option is true: C«=counter head1 :restart»
+then the counter’s restart status immediately becomes true and the counter
+will no longer increment its individual value when its next value is requested
+(I<i.e.> when its next subscribing block is rendered). Instead the counter
+will restart its internal count from C«1» and return that as its next value.
+
+If the value passed in the C«:restart» option is false: C«=counter item1 :!restart»
+then the counter’s restart status immediately becomes false and the counter will
+thereafter increment its individual value as usual when its next value is requested,
+even if an automatic I<restart trigger> is subsequently encountered (see the following section).
+
+If the value passed in the C«:restart» option is an integer, such as: C«=counter head1 :restart(42)»
+then the counter’s restart status becomes that integer and the counter will thereafter
+restart its individual value at the specified integer when a next value is requested,
+even if an automatic I<restart trigger> is subsequently encountered.
+
+Once a counter has used its restart status to determine what its next enumeration value
+should be, that restart status is always reset to C«Nil». In other words, the C«:restart»
+option tells the counter how to calculate its next (and I<only> its next) value.
+
+A C«:restart» is useful to restart a specific counter that would otherwise continue.
+For example, to cause a specially prefixed series of tables to reset after a heading:
+=begin code :lang<text>
+    1. Concept
+        Table 1.1. List of requirements
+        Table 1.2. List of resources
+        Table 1.3. List of constraints
+
+    2. Implementation
+        Table 2.1. Implementation schedule
+        Table 2.2. Resource suppliers
+        Table 2.3. Costings vs actual expenditure
+=end code
+
+To mmanually reset the second series of tables, you could specify them like so:
+=begin code :lang<rakudoc>
+    =counter table1 :prefix<head1>
+
+    =numhead Concept
+        =for numtable :caption< List of requirements >
+        =for numtable :caption< List of resources >
+        =for numtable :caption< List of constraints >
+
+    =numhead Implementation
+        =counter table :restart
+        =for numtable :caption< Implementation schedule >
+        =for numtable :caption< Resource suppliers >
+        =for numtable :caption< Costings vs actual expenditure >
+=end code
+
+Note that, because a counter’s restart status persists until the next time it
+generates an enumeration, that C«:restart» could be placed B«I<anywhere>» before
+the specific table whose numbering is to be restarted. For example, it could
+instead to specifed immediately after the final table under the first heading:
+=begin code :lang<rakudoc>
+    =numhead Concept
+        =for numtable :caption< List of requirements >
+        =for numtable :caption< List of resources >
+        =for numtable :caption< List of constraints >
+        =counter table :restart
+
+    =numhead Implementation
+        =for numtable :caption< Implementation schedule >
+        =for numtable :caption< Resource suppliers >
+        =for numtable :caption< Costings vs actual expenditure >
+=end code
+
+The C«:!restart» variant is useful to allow “list-like” numbered blocks,
+such as C«numitem» or C«numdefn» to preserve their sequence despite
+intervening blocks that would normally restart their enumeration sequences.
+For example, to allow an aside to be placed in the middle of a numbered
+list of items, without breaking the numbered sequence:
+=begin code :lang<text>
+    My nefarious plan is:
+
+        1. Kidnap every person who knows the secret recipe for Coca Cola
+
+        2. Demand a ransom of ONE MILLION DOLLARS
+
+        (Note: need to work out how to get away cleanly from the exchange location)
+
+        3. Profit!
+=end code
+You could achieve this with something like:
+=begin code :lang<rakudoc>
+    =para My nefarious plan is:
+
+    =item Kidnap every person who knows the secret recipe for Coca Cola
+
+    =item Demand a ransom of ONE MILLION DOLLARS
+
+    =para (Still need to work out how to get away cleanly from the exchange location)
+
+    =counter item :!restart
+    =item  Profit!
+=end code
+
+The C«:restart(INTEGER)» form of the metaoption is useful for specialized numbering schemes,
+such as starting from zero instead of C«1»: C«=counter head1 :restart(0)»
+or to enumerate blocks in a non-monotonically increasing sequence for some reason:
+=begin code :lang<rakudoc>
+    The values that can be ORed together in the bitset are:
+
+        =counter item :restart(1)
+        =numitem Read flag
+
+        =counter item :restart(2)
+        =numitem Write flag
+
+        =counter item :restart(4)
+        =numitem Execute flag
+
+        =counter item :restart(8)
+        =numitem Self-destruct flag (be careful with this one!)
+=end code
+
+=head3 Each counter has an B«I<automatic restart trigger>»
+
+By default, most counters are flagged for subsequent automatic restarting (from C«1»)
+whenever a block with the same base name but some superordinate level is encountered
+innthe document. However, there is also a mechanism that permits other non-standard
+I<automatic restart triggers> to be specified on a given counter.
+
+Each custom trigger consists of a set of one or more basenames of specific B«I<trigger blocks>»
+that, when they are rendered, will automatically set the I<restart status> of a counter to true,
+so that the counter will automatically restart whenever its next value is subsequently requested.
+
+To specify that a particular counter should be automatically restarted after one or more blocks
+are rendered, configure that counter using the C«:restart-after» metaoption, passing the names
+of the restart-triggering blocks as the metaoption’s argument. For example, to have the
+numbering of every table and formula restart after each C«head1», C«head2», or C«head3» block:
+=begin code :lang<rakudoc>
+    =counter table    :restart-after< head1 head2 head3 >
+    =counter formula  :restart-after< head1 head2 head3 >
+=end code
+Or to have the numbering of items restart only after each C«input» block
+(I<i.e.> instead of after I<any> non-C«item» block):
+=begin code :lang<rakudoc>
+    =counter item1   :after< input >
+    =counter item2   :after< input >
+    =counter item3   :after< input >
+    =counter item4   :after< input >
+=end code
+
+Note that, as the first example above indicates, having to specify I<all> the
+“superordinate” trigger blocks for each automatic counter restart is rather tedious,
+so we define that specifying a particular trigger blockname in a C«:restart-after< blocknameN >»
+implies I<“...restart after C«blocknameN» or any B«I<superordinate>» block of the same base name.”>
+
+In other words, the previous table-and-formula example (though still perfectly valid)
+could be simplified to:
+=begin code :lang<rakudoc>
+    =counter table    :restart-after< head3 >
+    =counter formula  :restart-after< head3 >
+=end code
+which means I<“Automatically restart the counter after any C«head3» or superordinate block”>.
+
+It is also possible to specify automatic restart behaviours “negatively”.
+That is, to specify that a particular counter restarts after B«I<any>» block,
+except the one or more that are explicitly excluded from the trigger.
+For example, having previously changed the reset behaviours of the counters
+B«I<C«item1»>» through B«I<C«item4»>», we could reinstate their default I<“restart after any non-C«item»”>
+behaviours, like so:
+=begin code :lang<rakudoc>
+    =counter item1  :restart-except-after< item1 item2 item3 item4 >
+    =counter item2  :restart-except-after<       item2 item3 item4 >
+    =counter item3  :restart-except-after<             item3 item4 >
+    =counter item4  :restart-except-after<                   item4 >
+=end code
+Or we coulld construct special counters for a set of user-defined item-like blocks,
+as follows:
+=begin code :lang<rakudoc>
+    =counter MyItem        :restart-except-after< MyItem MySubItem MySubSubItem >
+    =counter MySubItem     :restart-except-after<        MySubItem MySubSubItem >
+    =counter MySubSubItem  :restart-except-after<                  MySubSubItem >
+=end code
+
+In other words, the presence of an I<excluded blockname> (such as C«BlockName»)
+in a C«:restart-except-after» implies that the counter being configured
+is to be automatically restarted after every block B«I<except>» C«Blockname».
+Multiple excluded blocknames can be specified in the same C«:restart-except-after»,
+but specifying both a C«:restart-after» and a C«:restart-except-after» option
+on the same counter is redundant, because the C«:restart-except-after» already implies
+I<“restart after everything else”>, so any blocks explicitly listed in
+the C«:restart-after» are already covered by that I<“...everything else”>.
+
+Therefore, where both C«:restart-after» and C«:restart-except-after» options are specified
+in a single C«=counter» directive, the C«:restart-except-after» trigger is installed and
+the C«:restart-after» trigger is ignored (preferably with the renderer issuing a warning).
+
+Note that, having to specify hierarchical subordinate excluded subitems all the way down
+is also tedious, so we define that any excluded blockname in a C«:restart-except-after» implies
+I<“...restart after any block except this block or any B«I<subordinate>» block of the same base name.”>
+
+Hence the previous example of reinstating normal item restarting behaviour
+could also be simplified to:
+=begin code :lang<rakudoc>
+    =counter item1  :restart-except-after< item1 >
+    =counter item2  :restart-except-after< item2 >
+    =counter item3  :restart-except-after< item3 >
+    =counter item4  :restart-except-after< item4 >
+=end code
+Every counter’s automatic restart trigger is rechecked immediately after each block
+in a document is rendered, and if a match is found then the counter’s restart status
+is changed from C«Nil» to C«True», which means that the counter will be restarted
+next time it is asked for a value. However, if the counter’s restart status is already
+non-C«Nil» (because it has already had an explicit C«:restart» option applied to it)
+then that pre-existing non-C«Nil» restart status is left unchanged by the trigger.
+
+The effect of this is that any explicit C«:restart» always overrides the effect
+of any automatic trigger, regardless of whether the C«:restart» precedes
+or follows the triggering.
+
+=head3 A note about using C«:counter» and C«:restart-after»/C«restart-except-after» together
+
+It should be remembered, whereas a C«=config NAME» directive changes the behaviour
+for the block named C«NAME», a C«=counter NAME» directive changes the behaviour
+for the counter named B«I<C«NAME»>», B<not> for the block named C«NAME».
+
+Usually this distinction does not matter because, by default, blocks use the counter
 with their own name. But it can lead to seemingly non-obvious behaviours when blocks
-and counters of the same name are both configured at the same time.
+and counters with the same name are both configured at the same time.
 
 For example, consider the following:
 =begin code :lang<rakudoc>
-    =config  table2 :number-as< head2 >
-    =restart table2 :after< table1 >
+    =config  table2 :counter< head2 >
+    =counter table2 :restart-after< table1 >
 =end code
 
-After this configuration, one might expect C<table2> blocks to restart at 1
-after each C<table1> block. But they do not. Instead, they restart at 1
-after each C<head1> block. This is because the C<table2> block is now using
-the counter named I<"head2">, and that counter (by default) is restarted after
-every C<head1> block. Or, to put it another way, it is true that the
-I<"table2"> counter will be restarted after every C<table1> block,
-but the C<table2> block is no longer using that counter.
+After this configuration, one might expect C«table2» blocks to restart at C«1»
+after each C«table1» block. But they do not. Instead, they restart
+after each C«head1» block.
+
+This is because the C«table2» block is now using the counter named B«I<C«head2»>»,
+and that counter (by default) is restarted after every C«head1» block.
+Or, to put it another way, it is true that the B«I<C«table2»>» counter
+will be restarted after every C«table1» block, but that will not matter
+because the C«table2» block is no longer using the B«I<C«table2»>» counter at all.
 
 This kind of apparent violation of expectation usually indicates design confusion
 on the part of the document's author. For example, the author seems to indicate that
-they want C<table2> to be numbered as if it were a C<head2> I<(Intent A)>,
-but that the numbering for C<table2> should also restarted after every C<table1> I<(Intent B)>.
-However, restarting after every C<table1> is I<not> how C<head2> numbering works,
-so if that did happen then C<table2> would B<I<not>> be being numbered as if it were a C<head2>.
+they want each C«table2» block to be numbered as if it were a C«head2» I<(Intent A)>,
+but they also want the numbering for C«table2» blocks to be restarted after
+every C«table1» block I<(Intent B)>.
+
+However, restarting after every C«table1» block is I<not> how the numbering
+of C«head2» blocks works, so if that did happen then each C«table2» block
+would B«I<not>» be being numbered as if it were a C«head2» block.
 So I<Intent B> intrinsically contradicts I<Intent A>.
 
 Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser
-(or the entire universe!) because C<=config> and C<=restart> configure different
+(or the entire universe!) because C«=config» and C«=counter» configure different
 elements (I<i.e.> blocks and counters respectively), even when those elements
 happen to share the same name.
-
 
 =head3 Custom tables of contents
 
