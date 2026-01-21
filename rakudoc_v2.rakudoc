@@ -250,10 +250,11 @@ syntax of B<=place> is
 =end code
 =end item
 =begin item
-B<=restart> specifies when a named counter is restarted to C<1> by the rendering of some block. The general
-syntax of B<=restart> is
+B<=counter> reconfigures a named counter within the current lexical scope. The general
+syntax of B<=counter> is
 =begin code :lang<RakuDoc> :allow<R I>
-    =restart R<COUNTER> I«:after< R<BLOCKS> > | :except-after< R<BLOCKS> >»
+    =counter R<COUNTER> R<OPTIONS>
+    =              R<MORE OPTIONS IF NECESSARY>
 =end code
 =end item
 =head2 Block syntax
@@ -745,7 +746,7 @@ The C<=counter> instruction is a directive that affects the behaviour of the cou
 
 Although each I<counter> is named in the same way as a I<blocktype>, the two are separate entities.
 
-The directive is followed by the name of a counter I<(B<not> the name of a block)> and one of
+The directive is followed by the name of a counter I<(B<not> the name of a block)> and one or more of:
 =item C«:restart»
 =item C«:!restart»
 =item C«:restart( INTEGER )»
@@ -1257,7 +1258,7 @@ For example:
 =end code
 
 Moreover, if the explicit format is empty (I<i.e.> C«:numalias<|TAG>»)
-then the default format (I<i.e.> C«%T %N.») will be reinstated
+then the default format (I<i.e.> C«%T %N») will be reinstated
 for that one particular block. Hence:
 =begin code :lang<rakudoc>
     =for numitem  :numalias< | WTF >
@@ -1387,7 +1388,7 @@ If the value passed in the C«:restart» option is true: C«=counter head1 :rest
 then the counter’s restart status immediately becomes true and the counter
 will no longer increment its individual value when its next value is requested
 (I<i.e.> when its next subscribing block is rendered). Instead the counter
-will restart its internal count from C«1» and return that as its next value.
+will restart its global count from C«1» and return that as its next value.
 
 If the value passed in the C«:restart» option is false: C«=counter item1 :!restart»
 then the counter’s restart status immediately becomes false and the counter will
@@ -1417,7 +1418,7 @@ For example, to cause a specially prefixed series of tables to reset after a hea
         Table 2.3. Costings vs actual expenditure
 =end code
 
-To mmanually reset the second series of tables, you could specify them like so:
+To manually reset the second series of tables, you could specify them like so:
 =begin code :lang<rakudoc>
     =counter table1 :prefix<head1>
 
@@ -1451,14 +1452,14 @@ instead to specifed immediately after the final table under the first heading:
 =end code
 
 The C«:!restart» variant is useful to allow “list-like” numbered blocks,
-such as C«numitem» or C«numdefn» to preserve their sequence despite
-intervening blocks that would normally restart their enumeration sequences.
+such as C«numitem» or C«numdefn» to preserve their enumeration sequences despite
+intervening blocks that would normally restart those sequences.
 For example, to allow an aside to be placed in the middle of a numbered
 list of items, without breaking the numbered sequence:
 =begin code :lang<text>
     My nefarious plan is:
 
-        1. Kidnap every person who knows the secret recipe for Coca Cola
+        1. Kidnap every being who knows the secret recipe for Nuka-Cola
 
         2. Demand a ransom of ONE MILLION DOLLARS
 
@@ -1470,7 +1471,7 @@ You could achieve this with something like:
 =begin code :lang<rakudoc>
     =para My nefarious plan is:
 
-    =item Kidnap every person who knows the secret recipe for Coca Cola
+    =item Kidnap every being who knows the secret recipe for Nuka-Cola
 
     =item Demand a ransom of ONE MILLION DOLLARS
 
@@ -1503,7 +1504,7 @@ or to enumerate blocks in a non-monotonically increasing sequence for some reaso
 
 By default, most counters are flagged for subsequent automatic restarting (from C«1»)
 whenever a block with the same base name but some superordinate level is encountered
-innthe document. However, there is also a mechanism that permits other non-standard
+in the document. However, there is also a mechanism that permits other non-standard
 I<automatic restart triggers> to be specified on a given counter.
 
 Each custom trigger consists of a set of one or more basenames of specific B«I<trigger blocks>»
@@ -1521,10 +1522,10 @@ numbering of every table and formula restart after each C«head1», C«head2», 
 Or to have the numbering of items restart only after each C«input» block
 (I<i.e.> instead of after I<any> non-C«item» block):
 =begin code :lang<rakudoc>
-    =counter item1   :after< input >
-    =counter item2   :after< input >
-    =counter item3   :after< input >
-    =counter item4   :after< input >
+    =counter item1   :restart-after< input >
+    =counter item2   :restart-after< input >
+    =counter item3   :restart-after< input >
+    =counter item4   :restart-after< input >
 =end code
 
 Note that, as the first example above indicates, having to specify I<all> the
@@ -1538,7 +1539,7 @@ could be simplified to:
     =counter table    :restart-after< head3 >
     =counter formula  :restart-after< head3 >
 =end code
-which means I<“Automatically restart the counter after any C«head3» or superordinate block”>.
+which means I<“Automatically restart the counter after any C«head3» or superordinate C«head» block”>.
 
 It is also possible to specify automatic restart behaviours “negatively”.
 That is, to specify that a particular counter restarts after B«I<any>» block,
@@ -1573,7 +1574,7 @@ Therefore, where both C«:restart-after» and C«:restart-except-after» options
 in a single C«=counter» directive, the C«:restart-except-after» trigger is installed and
 the C«:restart-after» trigger is ignored (preferably with the renderer issuing a warning).
 
-Note that, having to specify hierarchical subordinate excluded subitems all the way down
+Note that having to specify hierarchical subordinate excluded subitems all the way down
 is also tedious, so we define that any excluded blockname in a C«:restart-except-after» implies
 I<“...restart after any block except this block or any B«I<subordinate>» block of the same base name.”>
 
@@ -4963,8 +4964,8 @@ in a pop-up that activates on hover or mouse-click
         =cell V<=for>
         =cell Start of an implicitly (blank-line) terminated block
     =row
-        =cell V<=restart>
-        =cell Reset a named counter when particular block types are encountered
+        =cell V<=counter>
+        =cell Reconfigure a named counter
     =row
         =cell V<=place>
         =cell Place text from, or generated by, a URI in the output
