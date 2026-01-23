@@ -677,7 +677,7 @@ described in more detail in the section on the L<procedural C<=table> block|#Pro
 The C<=place> instruction is a directive that tells the renderer to obtain text, information, or an object
 from another source.
 
-The rendered version of the data placed in the text is considered to form it's own block scope.
+The rendered version of the data placed in the text is considered to form its own block scope.
 
 An in-line version of C<=place> is C<P<...>>, which is described in more detail in the section on
 markup codes.
@@ -1809,7 +1809,7 @@ So a C«:form» for a second-level heading:
 =end code
 ...requires two fields, because it expects to interpolate two enumeration values:
 the enumeration value of the current first-level heading,
-plus it’s own second-level enumeration value.
+plus its own second-level enumeration value.
 
 In that example, the first field (C«%A») would be replaced by
 the current C«numhead1» enumeration value, and the second field (C«%N»)
@@ -2688,16 +2688,16 @@ The numbering of nested items (C<=numitem2>, C<=numitem3>, etc.) only resets to 
 a superordinate item's numbering either resets or increments.
 
 To prevent a C<=numitemN> from resetting after a non-item block,
-you can specify the C<:continued> option:
-=begin code :lang<RakuDoc>
+you can modify the block's counter using the C<:!restart> option:
+=begin code :lang<RakuDoc> :allow<B>
      =numitem1 Retreat to remote Himalayan monastery
 
      =numitem1 Learn the hidden mysteries of space and time
 
      I<????>
 
-     =for numitem1 :continued
-     Prophet!
+     B<=counter numitem1 :!restart>
+     =numitem1 Prophet!
 =end code
 This produces:
 =begin nested
@@ -2715,26 +2715,27 @@ Normally, if two C<=numitemN> blocks are separated by some other kind of block
 (for example, a C<=para>, C<=code>, or C<=table> block), then the numbering of
 the second C<=numitemN> block resets to 1.
 
-However, if the second C<=numitemN> block is specified with a C<:continued> option
-the numbering of that second block does not reset, but increments instead
+However, if the I<C<numitemN>> counter is modified with a C<:!restart> option
+(either before or after the intervening block)
+the numbering of the second C<numitemN> block does not reset, but increments instead
 (I<i.e.> as if there had been no intervening non-numbered block).
 
-The C<:continued> option has no effect on any superordinate or subordinate C<=numitem> blocks
+The C<:!restart> option has no effect on the counters of any superordinate or subordinate C<=numitem> blocks
 that are currently active in the same scope. That is:
-a C<=for numitemN :continued> causes
-the numbering of every active C<=numitemZ> block (where I<Z> > I<N>) to reset to 1,
-and the numbering of every active C<=numitemA> block (where I<A> < I<N>) stays the same.
+a C<=counter numitemN :!restart> causes
+the counter of every active C<=numitemZ> block (where I<Z> > I<N>) to reset to 1,
+and the counter of every active C<=numitemA> block (where I<A> < I<N>) stays the same.
 
 A C<=numitem> is the same as a C<=numitem1>, by analogy with C<=item> and C<=head>.
 
 The underlying paradigm is that every sequence of list instructions
 (that is: C<=itemN> and/or C<=numitemN> instructions)
-has an I<inherent numeration>. The C<=numitemN> instructions
+has a default counter that provides an I<inherent numeration>. The C<=numitemN> instructions
 express the numeration when rendered, while the C<=itemN> instructions do not.
 
 When a sequence of list instructions is terminated by another sort of block
 then by default a new list is created with its own inherent numeration.
-By specifying C<:continued> on the B<next> list instruction, the previous
+By specifying C<:!restart> before the B<next> list instruction, the previous
 I<inherent numeration> is preserved and continued.
 
 =head3 Definition lists
@@ -2775,7 +2776,7 @@ may be targeted by a L<link markup instruction|#Links>.
 Definitions can be numbered in the same way as C<=item> lists. That is a C<=numdefn> instruction
 will express the I<inherent numeration> of the definition list when it is rendered.
 
-As with ordinary lists, if a C<=numdefn> instruction is associated with a C<:continued> metadata option,
+As with ordinary lists, if the counter of a C<=numdefn> block is configured with a C<:!restart> metadata option,
 then the preceding definition list's inherent numeration is preserved and continued.
 
 For example:
@@ -2810,7 +2811,7 @@ ending letters
 =numdefn YYY
 finals
 
-In order to continue a list, an explicit C<:continued> is needed, such as:
+In order to continue a list, an explicit C<:!restart> must be specified for the block's counter, such as:
 =begin code :allow< B > :lang<RakuDoc>
     =numdefn AAA
     first letters
@@ -2820,7 +2821,8 @@ In order to continue a list, an explicit C<:continued> is needed, such as:
 
     A normal para
 
-    =for numdefn B<:continued>
+    B<=counter numdefn :!restart>
+    =for numdefn
     XXX
     ending letters
 
@@ -2838,7 +2840,8 @@ second letters
 
 A normal para
 
-=for numdefn :continued
+=counter numdefn :!restart
+=for numdefn
 XXX
 ending letters
 
@@ -2847,11 +2850,12 @@ finals
 
 Suppose a writer needs every numbered definition to form a single monotonic sequence
 within some block scope (I<e.g.> for every definition within a document section,
-or every definition throughout the entire document). This would require every C<=numdefn>
-to be specified with a C<:continued> option. Or the writer could simply pre-configure
-every C<=numdefn> within the scope, as follows:
+or every definition throughout the entire document). This would seem to require that every C<=numdefn>
+be preceded by a C<=counter numdefn :!restart> option. Or the writer could simply pre-configure
+the auto-restart behaviour for every C<=numdefn> within the scope
+so that the block's counter never auto-restarts (_i.e._ restarts after no block whatsoever), as follows:
 =begin code :lang<RakuDoc>
-    =config numdefn :continued
+    =counter numdefn :restart-after<>
 =end code
 
 =head2 Tables
@@ -5076,17 +5080,6 @@ in a pop-up that activates on hover or mouse-click
         =cell C<:id>
         =cell all blocks
         =cell Specify the anchor for a block
-
-    =row
-        =column
-            =for cell :row-span(2)
-            C<:continued>
-        =column
-            =cell C<=item>
-            =cell C<=numitem>
-        =column
-            =for cell :row-span(2)
-            Continue numbering from the previous numbered list
 
     =row
         =column

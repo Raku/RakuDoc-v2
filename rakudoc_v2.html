@@ -1049,7 +1049,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 
 <div class="id-target" id="Placement from another (external) source"></div><h2 id="Placement_from_another_(external)_source" class="heading raku-webs-h2 "><a href="#">Placement from another (external) source</a><a class="raku-webs-anchor" href="#Placement from another (external) source">§</a></h2>
 <p id="3eb6881">The <span class="code">=place</span> instruction is a directive that tells the renderer to obtain text, information, or an object from another source. </p>
-<p id="73889d6">The rendered version of the data placed in the text is considered to form it's own block scope. </p>
+<p id="c908858">The rendered version of the data placed in the text is considered to form its own block scope. </p>
 <p id="207c136">An in-line version of <span class="code">=place</span> is <span class="code">P&lt;...&gt;</span>, which is described in more detail in the section on markup codes. </p>
 <p id="7c0037b">The schema of the URL specified in a <span class="code">=place</span> directive specifies where to look for the external content: </p>
 <table class="table is-striped is-bordered">	<thead>
@@ -1894,7 +1894,7 @@ hier-enum(&nbsp;CounterN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;Counte
 </pre>
 </div>
                 </div>
-            <p id="f2ed09e">...requires two fields, because it expects to interpolate two enumeration values: the enumeration value of the current first-level heading, plus it’s own second-level enumeration value. </p>
+            <p id="10ceb57">...requires two fields, because it expects to interpolate two enumeration values: the enumeration value of the current first-level heading, plus its own second-level enumeration value. </p>
 <p id="32b81b6">In that example, the first field (<span class="code">%A</span>) would be replaced by the current <span class="code">numhead1</span> enumeration value, and the second field (<span class="code">%N</span>) would be replaced by the current <span class="code">numhead2</span> value. </p>
 <p id="b63b897">In general, a <span class="code">:form</span> applied to a <span class="code">numhead</span><span class="important">X</span> block may specify up to <span class="important">X</span> enumeration fields, <span class="important">X-1</span> of which would be replaced (left-to-right) by the <span class="important">X-1</span> current enumeration values of the <span class="important">X-1</span> superordinate headings. The <span class="important">X</span>-th field would, of course, be replaced by the block’s own enumeration value. For example: </p>
 
@@ -2551,13 +2551,20 @@ Abscond to the Bahamas with the cash
 <p id="aa0e2ee">2. Deep-fried peanut butter sandwich </p>
 <p id="0d24801">3. Keg </p></div>
 <p id="a6b883f">The numbering of nested items (<span class="code">=numitem2</span>, <span class="code">=numitem3</span>, etc.) only resets to 1 when a superordinate item's numbering either resets or increments. </p>
-<p id="93a3c55">To prevent a <span class="code">=numitemN</span> from resetting after a non-item block, you can specify the <span class="code">:continued</span> option: </p>
+<p id="3adef13">To prevent a <span class="code">=numitemN</span> from resetting after a non-item block, you can modify the block's counter using the <span class="code">:!restart</span> option: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
-                    <label>RakuDoc</label>
+                    <label><b>allow</b> styling</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">     =numitem1 Retreat to remote Himalayan monastery<br><br>     =numitem1 Learn the hidden mysteries of space and time<br><br>     </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">????</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br><br></span><span class="rainbow-rakudoc_markup">     =for numitem1</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">continued</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">     Prophet!</span><span class="rainbow-rakudoc_markup"></span>
+     =numitem1 Retreat to remote Himalayan monastery
+
+     =numitem1 Learn the hidden mysteries of space and time
+
+     I&lt;????&gt;
+
+     <span class="basis">=counter numitem1 :!restart</span>
+     =numitem1 Prophet!
 </pre>
 </div>
                 </div>
@@ -2567,11 +2574,11 @@ Abscond to the Bahamas with the cash
 <p id="64ac7ac">???? </p>
 <p id="e71c3ac">3. Prophet! </p></div>
 <p id="a88be24">Normally, if two <span class="code">=numitemN</span> blocks are separated by some other kind of block (for example, a <span class="code">=para</span>, <span class="code">=code</span>, or <span class="code">=table</span> block), then the numbering of the second <span class="code">=numitemN</span> block resets to 1. </p>
-<p id="61d9533">However, if the second <span class="code">=numitemN</span> block is specified with a <span class="code">:continued</span> option the numbering of that second block does not reset, but increments instead (<span class="important">i.e.</span> as if there had been no intervening non-numbered block). </p>
-<p id="4434316">The <span class="code">:continued</span> option has no effect on any superordinate or subordinate <span class="code">=numitem</span> blocks that are currently active in the same scope. That is: a <span class="code">=for numitemN :continued</span> causes the numbering of every active <span class="code">=numitemZ</span> block (where <span class="important">Z</span> &gt; <span class="important">N</span>) to reset to 1, and the numbering of every active <span class="code">=numitemA</span> block (where <span class="important">A</span> &lt; <span class="important">N</span>) stays the same. </p>
+<p id="4e310d4">However, if the <span class="important"><span class="code">numitemN</span></span> counter is modified with a <span class="code">:!restart</span> option (either before or after the intervening block) the numbering of the second <span class="code">numitemN</span> block does not reset, but increments instead (<span class="important">i.e.</span> as if there had been no intervening non-numbered block). </p>
+<p id="1a9b36c">The <span class="code">:!restart</span> option has no effect on the counters of any superordinate or subordinate <span class="code">=numitem</span> blocks that are currently active in the same scope. That is: a <span class="code">=counter numitemN :!restart</span> causes the counter of every active <span class="code">=numitemZ</span> block (where <span class="important">Z</span> &gt; <span class="important">N</span>) to reset to 1, and the counter of every active <span class="code">=numitemA</span> block (where <span class="important">A</span> &lt; <span class="important">N</span>) stays the same. </p>
 <p id="6cc0fd2">A <span class="code">=numitem</span> is the same as a <span class="code">=numitem1</span>, by analogy with <span class="code">=item</span> and <span class="code">=head</span>. </p>
-<p id="503173e">The underlying paradigm is that every sequence of list instructions (that is: <span class="code">=itemN</span> and/or <span class="code">=numitemN</span> instructions) has an <span class="important">inherent numeration</span>. The <span class="code">=numitemN</span> instructions express the numeration when rendered, while the <span class="code">=itemN</span> instructions do not. </p>
-<p id="117599a">When a sequence of list instructions is terminated by another sort of block then by default a new list is created with its own inherent numeration. By specifying <span class="code">:continued</span> on the <span class="basis">next</span> list instruction, the previous <span class="important">inherent numeration</span> is preserved and continued. </p>
+<p id="ca7d89b">The underlying paradigm is that every sequence of list instructions (that is: <span class="code">=itemN</span> and/or <span class="code">=numitemN</span> instructions) has a default counter that provides an <span class="important">inherent numeration</span>. The <span class="code">=numitemN</span> instructions express the numeration when rendered, while the <span class="code">=itemN</span> instructions do not. </p>
+<p id="a659a62">When a sequence of list instructions is terminated by another sort of block then by default a new list is created with its own inherent numeration. By specifying <span class="code">:!restart</span> before the <span class="basis">next</span> list instruction, the previous <span class="important">inherent numeration</span> is preserved and continued. </p>
 
 <div class="id-target" id="Definition lists"></div><h3 id="Definition_lists" class="heading raku-webs-h3 "><a href="#">Definition lists</a><a class="raku-webs-anchor" href="#Definition lists">§</a></h3>
 <p id="abd6da9">Lists that define terms or commands can be specified using the <span class="code">=defn</span> block, which is equivalent to HTML <span class="code">DL</span> lists in HTML. </p>
@@ -2600,7 +2607,7 @@ Abscond to the Bahamas with the cash
 
 <div class="id-target" id="Numbered definitions"></div><h4 id="Numbered_definitions" class="heading raku-webs-h4 "><a href="#">Numbered definitions</a><a class="raku-webs-anchor" href="#Numbered definitions">§</a></h4>
 <p id="869c220">Definitions can be numbered in the same way as <span class="code">=item</span> lists. That is a <span class="code">=numdefn</span> instruction will express the <span class="important">inherent numeration</span> of the definition list when it is rendered. </p>
-<p id="6c1c6b6">As with ordinary lists, if a <span class="code">=numdefn</span> instruction is associated with a <span class="code">:continued</span> metadata option, then the preceding definition list's inherent numeration is preserved and continued. </p>
+<p id="6c47118">As with ordinary lists, if the counter of a <span class="code">=numdefn</span> block is configured with a <span class="code">:!restart</span> metadata option, then the preceding definition list's inherent numeration is preserved and continued. </p>
 <p id="c82f38e">For example: </p>
 
                 <div class="raku-code">
@@ -2631,7 +2638,7 @@ Abscond to the Bahamas with the cash
 
 <div class="defn-text">finals </div>
 
-<p id="1c81567">In order to continue a list, an explicit <span class="code">:continued</span> is needed, such as: </p>
+<p id="1ed6b36">In order to continue a list, an explicit <span class="code">:!restart</span> must be specified for the block's counter, such as: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -2645,7 +2652,8 @@ Abscond to the Bahamas with the cash
 
     A normal para
 
-    =for numdefn <span class="basis">:continued</span>
+    <span class="basis">=counter numdefn :!restart</span>
+    =for numdefn
     XXX
     ending letters
 
@@ -2666,21 +2674,25 @@ Abscond to the Bahamas with the cash
 
 <p id="2ab2c5d">A normal para </p>
 
-<div class="defn-term">3.&nbsp;XXX</div>
+<div class="id-target" id="Unknown counter"></div><h1 id="counter" class="heading raku-webs-h1 "><a href="#">Unknown counter</a><a class="raku-webs-anchor" href="#Unknown counter">§</a></h1>
+=counter :!restart numdefn<br>
+
+
+<div class="defn-term">1.&nbsp;XXX</div>
 
 <div class="defn-text">ending letters </div>
 
-<div class="defn-term">4.&nbsp;YYY</div>
+<div class="defn-term">2.&nbsp;YYY</div>
 
 <div class="defn-text">finals </div>
 
-<p id="7318fa2">Suppose a writer needs every numbered definition to form a single monotonic sequence within some block scope (<span class="important">e.g.</span> for every definition within a document section, or every definition throughout the entire document). This would require every <span class="code">=numdefn</span> to be specified with a <span class="code">:continued</span> option. Or the writer could simply pre-configure every <span class="code">=numdefn</span> within the scope, as follows: </p>
+<p id="48b8300">Suppose a writer needs every numbered definition to form a single monotonic sequence within some block scope (<span class="important">e.g.</span> for every definition within a document section, or every definition throughout the entire document). This would seem to require that every <span class="code">=numdefn</span> be preceded by a <span class="code">=counter numdefn :!restart</span> option. Or the writer could simply pre-configure the auto-restart behaviour for every <span class="code">=numdefn</span> within the scope so that the block's counter never auto-restarts (_i.e._ restarts after no block whatsoever), as follows: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">    =config numdefn :continued</span>
+<span class="rainbow-rakudoc_text">    =counter numdefn :restart-after&lt;&gt;</span>
 </pre>
 </div>
                 </div>
@@ -4347,8 +4359,6 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="92ef887"><span class="code">=output</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="9181c50"><span class="code">=table</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="2f1fb2f"><span class="code">:id</span> </p></td><td class="">all blocks</td><td class="">Specify the anchor for a block</td></tr>
-<tr class="procedural"><td rowspan="2" class=""><p id="7703bc4"><span class="code">:continued</span> </p></td><td class=""><p id="ea65ae9"><span class="code">=item</span> </p></td><td rowspan="2" class="">Continue numbering from the previous numbered list</td></tr>
-<tr class="procedural"><td class=""><p id="681b2e0"><span class="code">=numitem</span> </p></td></tr>
 <tr class="procedural"><td rowspan="8" class=""><p id="e439eea"><span class="code">:toc</span> </p></td><td class=""><p id="625cd2d"><span class="code">=para</span> </p></td><td rowspan="8" class="">Include content or caption in Table of contents</td></tr>
 <tr class="procedural"><td class=""><p id="0fa6a8b"><span class="code">=nested</span> </p></td></tr>
 <tr class="procedural"><td class=""><p id="4630a00"><span class="code">=code</span> </p></td></tr>
@@ -4492,10 +4502,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 12:54 UTC on 2026-01-21
+                Rendered at 10:32 UTC on 2026-01-23
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 12:52 UTC on 2026-01-21
+                Source last modified&nbsp;at 10:31 UTC on 2026-01-23
             </div>
         </nav>
     </div>
@@ -4508,6 +4518,7 @@ Artistic-2.0
 <li>Unknown or as yet undeclared alias ｢HQ｣ in block ｢rakudoc｣ with heading ｢Formatting aliases｣</li>
 <li>Definition ｢AAA｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢BBB｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
+<li>｢counter｣ is not a valid builtin block, is it a misspelt Custom block? in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢XXX｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 <li>Definition ｢YYY｣ has been redefined in block ｢rakudoc｣ with heading ｢Numbered definitions｣.</li>
 
