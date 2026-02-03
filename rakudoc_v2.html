@@ -2093,6 +2093,28 @@ hier-enum(&nbsp;CounterN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;Counte
 </pre>
 </div>
                 </div>
+            <p id="b0f3b98">In order to avoid undue complexity and ambiguity, explicit embedded RakuDoc components in the data or caption associated with a block will turn off any case handling. </p>
+<p id="c82f38e">For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=config numformula :form&lt;[%T:lc %N: %C:sc]&gt;<br><br>=begin numformula :caption&lt;</span><span class="rainbow-rakudoc_markup">B&lt;</span><span class="rainbow-rakudoc_text">Mass-Energy</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> Equivalence&gt;<br>E = MC²<br>=end numformula</span>
+</pre>
+</div>
+                </div>
+            <p id="d5e003b">This would override the sentence-casing of the caption (only) to produce something like: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label><b>allow</b> styling</label>
+                    <div><pre class="nohighlights">
+                E = MC²
+    [formula 1: <span class="basis">Mass-Energy</span> Equivalence]
+</pre>
+</div>
+                </div>
             
 <div class="id-target" id="Field language"></div><h4 id="Field_language" class="heading raku-webs-h4 "><a href="#">Field language</a><a class="raku-webs-anchor" href="#Field language">§</a></h4>
 <p id="683b56b">The <span class="code">:lang</span> option specifies that a field should use the conventions of a specific language when inserting a numeric or ordinal value. The language to be used is specified using the language’s <a href="https://en.wikipedia.org/wiki/ISO_639-1">ISO 639-1 two-character language code</a>. </p>
@@ -4502,10 +4524,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 10:32 UTC on 2026-01-23
+                Rendered at 10:04 UTC on 2026-02-03
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 10:31 UTC on 2026-01-23
+                Source last modified&nbsp;at 10:02 UTC on 2026-02-03
             </div>
         </nav>
     </div>
