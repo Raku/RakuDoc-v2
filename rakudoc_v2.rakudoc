@@ -2009,7 +2009,7 @@ For example:
 =numhead1 Physics
 
 =begin numformula :caption<Mass-Energy Equivalence>
-E = MC²
+E = mc²
 =end numformula
 =end code
 This would override the intrinsic mixed-casing of the block data and captions
@@ -2017,26 +2017,26 @@ to produce something like:
 =begin code :lang<text>
     TOPIC A - PHYSICS
 
-                E = MC²
+                E = mc²
 
     [formula 1: Mass-energy equivalence]
 =end code
 
 In order to avoid undue complexity and ambiguity, explicit embedded RakuDoc components in
-the data or caption associated with a block will turn off any case handling.
+the data or caption associated with a block will disable any case handling.
 
 For example:
 =begin code :lang<rakudoc>
 =config numformula :form<[%T:lc %N: %C:sc]>
 
 =begin numformula :caption<B<Mass-Energy> Equivalence>
-E = MC²
+E = mc²
 =end numformula
 =end code
 This would override the sentence-casing of the caption (only)
 to produce something like:
 =begin code :lang<text> :allow<B>
-                E = MC²
+                E = mc²
     [formula 1: B<Mass-Energy> Equivalence]
 =end code
 
