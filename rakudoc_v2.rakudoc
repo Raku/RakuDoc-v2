@@ -3806,6 +3806,634 @@ unless the C<:!toc> and or C<:caption> options are set. A C<:hidden> metadata op
 the block's entry from the ToC. But if it is placed by a C<P<semantic:>> instruction, the block entry will be placed at
 the appropriate point in the ToC.
 
+
+=head2 Citations
+
+RakuDoc provides a mechanism for citing external reference sources
+in the usual way: with a compact marker in the text and the full
+information for the source material listed elsewhere. Citations in
+RakuDoc are marked and listed in an appearance-neutral syntax that
+allows them to be rendered consistently in any standard citation style
+(I<e.g.> ACM, APA, Chicago, IEEE, Harvard, MLA, I<etc.>).
+
+=head3 Citation indicators
+
+Individual citations of reference sources in the text are indicated
+with a C«Q<>» formatting code. The value contained within each such
+formatting code must be a unique I<citation identifier> associated with
+some cited reference work within the document (see below). For example:
+=begin code :lang<rakudoc>
+    =para
+    We have now explored Q<rakudoc-evo-chapter> at some length
+    whether it would be better to use JSON or XML Q< JsonVsXMLMeta >
+    to specify citation data or whether it might be better to design
+    a bespoke DSL Q«10.1109/MODELS50736.2021.00031» instead.
+=end code
+
+A single C«Q<>» can contain multiple identifiers, which must be separated by semicolons.
+For example:
+=begin code :lang<rakudoc>
+    =para
+    The design of Raku commenced Q<Apocalypse1; P6&Parrot; ConwayKeynote2010> in late 2000...
+=end code
+
+Depending on the chosen bibliographic style in which the document is eventually rendered,
+multi-identifier C«Q<>» codes may be rendered separately:
+
+=nested The design of Raku commenced [7] [9] [10] in late 2000...
+
+...or aggregated into a single bibliographic marker:
+
+=nested The design of Raku commenced [7,9-10] in late 2000...
+
+Each identifier can also optionally be followed by comma and an annotation,
+which may be used to refine the context of a given citation by specifying
+particular sections, chapters, pages, figures, tables, timestamps, I<etc.>
+within the work being cited. For example:
+=begin code :lang<rakudoc>
+    =para
+    We have now explored Q<rakudoc-evo-chapter, pp. 32-47> at some length
+    whether it would be better to use JSON or XML Q<JsonVsXMLMeta, table 8b>
+    to specify citation data or whether it might be better to design
+    a bespoke DSL Q<10.1109/MODELS50736.2021.00031, sect. III> instead.
+
+    =para
+    The design of Raku commenced Q<Apocalypse1; P6&Parrot, ch. 1; ConwayKeynote2010, ts=00:03:27>
+    in late 2000...
+=end code
+
+Note that whether or not these annotations are included as part of
+the corresponding bibliographic markers, or are silently ignored,
+is determined entirely by the bibliographic style that is selected
+when the document is rendered.
+
+
+=head3 Citation blocks
+
+The full citation dataset for each individual reference work is specified in
+a C«citation» block, as structured textual data in any of the following notations:
+CSL-JSON, CSL-YAML, CSL-Raku, RIS, MODS, BiBLaTeX, BibTeX, BibTeXML, or Medline/PubMed (XML or NBIB).
+All of these formats are widely used citation-data-interchange standards, except for CSL-Raku,
+which is just CSL-JSON/CSL-YAML data transposed into the native Raku syntax for a list of hashes.
+
+Each C«citation» block may contain multiple entries (I<i.e.> aggregated citation data
+for multiple reference works), but the data for every entry within a single block
+must be represented in the same data format (I<e.g.> all in CSL-JSON, or all in BibTeX, I<etc.>)
+A document may, however, contain multiple C«citation» blocks, each of which may specify
+their contents in different data formats.
+
+For example:
+=begin code :lang<rakudoc>
+    =comment  Citation source data specified in CSL-Raku
+    =begin citation
+        {
+            note            => "Fields can be specified as key => value pairs"
+            id              => "rakudoc-evo-chapter",
+            type            => "chapter",
+            title           => "The Evolution of RakuDoc",
+            author          => [ { family => "Hainsworth", given => "Richard"   },
+                                 { family => "Mattijsen",  given => "Elizabeth" },
+                                 { family => "Conway",     given => "Damian"    },
+                               ],
+            editor          => [ { family => "Smith", given => "Jane" } ],
+            container-title => "Modern Markup Systems",
+            publisher       => "Butterfly Press",
+            publisher-place => "Amsterdam",
+            page            => "42-65",
+            issued          => { date-parts => [[2024, 5, 12]] },
+            ISBN            => "978-3-16-148410-0",
+        },
+        {
+                       :note< Fields can also be specified as adverbial pairs >
+                         :id< json-vs-xml-meta >
+                       :type< article-journal >
+                      :title< A Performance Analysis of JSON vs XML in Academic Metadata >
+                     :author[ { family => "Doe", given => "John", ORCID => "0000-0001-2345-6789" } ]
+            :container-title< Journal of Digital Humanities >
+                     :volume( 12 )
+                      :issue( 3 )
+                       :page< 101-115 >
+                        :DOI< 10.1000/jdh.2024.03.01 >
+                     :issued{ date-parts => [[2024]] }
+        }
+    =end citation
+
+=end code
+=begin code :lang<rakudoc>
+    =comment  This citation data in in CSL-JSON format
+    =begin citation
+        [
+            {
+                       "id": "mercurio2025",
+                     "type": "book",
+                    "title": "The Morphological Beauty of Raku Grammars",
+                   "author": [ {"family": "Mercurio", "given": "Silvia"} ],
+                   "issued": {"date-parts": [[2025, 3, 14]]},
+                "publisher": "Butterfly Press",
+                     "ISBN": "978-1-2345-6789-0"
+            }
+        ]
+    =end citation
+
+=end code
+=begin code :lang<rakudoc>
+    =comment  This citation data is CSL-YAML
+    =for citation
+        - id:    starlight2024
+          type:  article-journal
+          title: "Asynchronous Concurrency: A Journey Through Raku Supplies"
+          author:
+              - family: Starlight
+                given:  Orion
+          container-title: "The Reactive Programmer's Quarterly"
+          issued:
+              date-parts: [[2024, 11]]
+          volume: 12
+          issue:  4
+          page:   45-60
+
+=end code
+=begin code :lang<rakudoc>
+    =comment  This citation is in BibLaTeX format
+    =citation  @article{zenraku2024,
+                   author = {Wall, Larry},
+                   title = {The Zen of Raku},
+                   journaltitle = {Journal of Camel Studies},
+                   date = {2024-05-12},
+                   volume = {42},
+                   number = {3},
+                   pages = {101-115},
+                   url = {https://example.org/raku},
+                   urldate = {2026-01-23}
+               }
+
+=end code
+=begin code :lang<rakudoc>
+    =comment  This citation is in BibTeXML format
+    =begin citation
+        <bibtex:file xmlns:bibtex="http://bibtexml.sf.net/">
+          <bibtex:entry id="mercurio2025">
+            <bibtex:book>
+              <bibtex:author>Silvia Mercurio</bibtex:author>
+              <bibtex:title>The Morphological Beauty of Raku Grammars</bibtex:title>
+              <bibtex:publisher>Butterfly Press</bibtex:publisher>
+              <bibtex:year>2025</bibtex:year>
+              <bibtex:month>March</bibtex:month>
+              <bibtex:isbn>978-1-2345-6789-0</bibtex:isbn>
+            </bibtex:book>
+          </bibtex:entry>
+        </bibtex:file>
+    =end citation
+
+=end code
+=begin code :lang<rakudoc>
+    =comment  This in RIS data
+    =begin citation
+        TY  - JOUR
+        ID  - thorne2023
+        AU  - Thorne, Alistair
+        TI  - Optimization Strategies for MoarVM Bytecode
+        JO  - Journal of Virtual Machine Design
+        PY  - 2023/08/21/
+        VL  - 9
+        IS  - 2
+        SP  - 210
+        EP  - 235
+        SN  - 1234-5678
+        ER  -
+    =end citation
+
+=end code
+=begin code :lang<rakudoc>
+    =comment  This in MODS
+    =begin citation
+        <mods xmlns="http://www.loc.gov/mods/v3" ID="Vasiliev26">
+            <titleInfo>
+                <title>Functional Purity in a Multi-Paradigm World</title>
+            </titleInfo>
+            <name type="personal">
+                <namePart type="given">Elena</namePart>
+                <namePart type="family">Vasiliev</namePart>
+                <role>
+                    <roleTerm type="text">author</roleTerm>
+                </role>
+            </name>
+            <originInfo>
+                <publisher>Deep Space Coding Collective</publisher>
+                <dateIssued>2026</dateIssued>
+            </originInfo>
+            <typeOfResource>text</typeOfResource>
+            <genre>technical report</genre>
+        </mods>
+    =end citation
+
+=end code
+=begin code :lang<rakudoc>
+    =comment This citation in PubMed/Medline NBIB format
+    =citation
+        PMID- 39876543
+        STAT- Publisher
+        DA  - 2025/08/15
+        TI  - The Semantic Elegance of Raku Grammars.
+        BTI - The Semantic Elegance of Raku Grammars
+        AU  - Mercurio S
+        LA  - eng
+        PT  - Book
+        PB  - Butterfly Press
+        SN  - 978-1-2345-9876-0
+
+=end code
+=begin code :lang<rakudoc>
+    =comment This citation in PubMed/Medline XML format
+    =citation
+       <PubmedArticleSet>
+         <PubmedArticle>
+           <MedlineCitation Status="Publisher">
+             <PMID Version="1">98765432</PMID>
+             <Article PubModel="Print">
+               <Journal>
+                 <ISSN IssnType="Print">1234-567X</ISSN>
+                 <JournalIssue>
+                   <Volume>14</Volume>
+                   <Issue>1</Issue>
+                   <PubDate>
+                     <Year>2026</Year>
+                     <Month>Jan</Month>
+                     <Day>30</Day>
+                   </PubDate>
+                 </JournalIssue>
+                 <Title>International Journal of Perl and Raku</Title>
+               </Journal>
+               <ArticleTitle>Concurrent Processing in RakuDoc: A Performance Analysis.</ArticleTitle>
+               <Pagination>
+                 <MedlinePgn>102-115</MedlinePgn>
+               </Pagination>
+               <AuthorList CompleteYN="Y">
+                 <Author ValidYN="Y">
+                   <LastName>Generic</LastName>
+                   <ForeName>A</ForeName>
+                 </Author>
+                 <Author ValidYN="Y">
+                   <LastName>Researcher</LastName>
+                   <ForeName>B</ForeName>
+                 </Author>
+               </AuthorList>
+               <Language>eng</Language>
+               <PublicationTypeList>
+                 <PublicationType>Journal Article</PublicationType>
+               </PublicationTypeList>
+             </Article>
+           </MedlineCitation>
+         </PubmedArticle>
+       </PubmedArticleSet>
+=end code
+
+Note that, for implementation (and perhaps source-highlighting) purposes, the actual species
+of notation for data contained in each C«citation» block can be automatically inferred
+by examining just the first few non-blank characters in the block’s content (I<the “sniff” test>),
+according to the following table:
+
+=begin table
+=row
+=cell First char(s)
+=cell Inferred format
+=cell Because character represents the start of a...
+=row
+=cell C«[»
+=cell CSL-JSON
+=cell JSON array of objects
+=row
+=cell C«-»
+=cell CSL-YAML
+=cell YAML list of mappings
+=row
+=cell C«(»
+=cell CSL-Raku
+=cell Raku-native parenthesized list of hashes
+=row
+=cell C«{»
+=cell CSL-Raku
+=cell Raku-native unparenthesized list of hashes
+=row
+=cell C«@»
+=cell BibLaTeX
+=cell sequence of standard BibLaTeX or legacy BibTeX entries
+=row
+=cell C«<bibtex»
+=cell BibTeXML
+=cell sequence of XML-encoded BibTeX entries.
+=row
+=cell C«<mods»
+=cell MODS
+=cell sequence of XML-encoded MODS entries.
+=row
+=cell C«<PubmedArticleSet»
+=cell PubMed/Medline XML
+=cell sequence of XML-encoded PubMed/Medline entries.
+=row
+=cell C«PMID-»
+=cell PubMed/Medline NBIB
+=cell sequence of modern PubMed NBIB KEY-VALUE datasets
+=row
+=cell C«UI  -»
+=cell Medline NBIB
+=cell sequence of legacy Medline NBIB KEY-VALUE datasets
+=row
+=cell C«TY  -»
+=cell RIS
+=cell sequence of RIS-format KEY-VALUE datasets
+=end table
+
+Citation data can also be loaded from external sources via a URL, by using the C«:load» metaoption:
+=begin code :lang<rakudoc>
+    =for citation  :load< file:/users/jan/.citelists/working/citations.json >
+
+    =for citation  :load< https:example.com/markup_design_references.bib >
+=end code
+In this variant, the block must not contain any extra data (and renderers should report
+an error if it does).
+
+The suffix of the file determines the inferred format of the imported data:
+=begin table
+=row :header
+=cell Suffix
+=cell Inferred format
+=row
+=cell C«.bib»
+=cell BibLaTeX (including legacy BibTeX)
+=row
+=cell C«.json»
+=cell CSL-JSON
+=row
+=cell C«.mods»
+=cell MODS
+=row
+=cell C«.nbib»
+=cell Medline/PubMed NBIB
+=row
+=cell C«.raku»
+=cell CSL-Raku
+=row
+=cell C«.ris »
+=cell RIS
+=row
+=cell C«.xml»
+=cell MODS or PubMed XML or BibTeXML (distinguished via “sniff” test)
+=row
+=cell C«.yaml»
+=cell CSL-YAML
+=end table
+
+A document can include any number of C«citation» blocks, in any order,
+located anywhere in the document. Some common approaches might be:
+
+=item  One block per citation, with each citation placed immediately before or after
+  the point where the source is referred to via a C«Q<>» code within the text.
+
+=item  One citation block at the end of each chapter, section, or heading,
+  containing data for all citations made in that unit.
+
+=item  A single citation block at the end of the entire document,
+  with all the citations aggregated together.
+
+=head3 Citation identifiers
+
+Every dataset included in any C«citation» block must contain a I<citation identifier>:
+a text string consisting of any sequence of one or more Unicode characters.
+Each citation identifier must be unique across all citation datasets within the document.
+
+This identifier may be specified in the C«id» field (of any of the CSL notations),
+the C«ID» attribute (of MODS), the mandatory initial ID string
+(of BibLaTeX, BibTeX, and BibTeXML), the C«PMID» or C«UI» value (of PubMed/Medline),
+or the C«ID» tag (an unofficial extra tag commonly used with RIS data).
+
+If a dataset cannot furnish a suitable identifier, but its citation data includes
+a ISO-26324 Digital Object Identifier, then the DOI may be used instead.
+
+Each citation identifier is used to associate a C«Q<>» marker with
+its corresponding citation data in some C«citation» block. For example:
+=begin code :lang<rakudoc>
+Most programming languages use everyday words for their keywords,
+but some have taken that notion much further, basing their entire
+syntax on (subsets) of natural languages Q<Perligata> or on conlangs
+Q<tlhInganHol::yIghun>.
+
+=begin citation
+    [
+      {
+        "id":              "tlhInganHol::yIghun",
+        "type":            "software",
+        "title":           "Lingua::tlhInganHol::yIghun: Perl code in the original Klingon",
+        "author":          [{ "family": "Conway", "given": "Damian" }],
+        "issued":          { "date-parts": [[2009, 6, 1 ]] },
+        "abstract":        "Perl module that allows programs to written Klingon syntax and vocabulary.",
+        "publisher":       "MetaCPAN",
+        "version":         "20090601",
+        "URL":             "https://metacpan.org/pod/Lingua::tlhInganHol::yIghun",
+        "accessed":        { "date-parts": [[2025, 1, 25 ]] }
+      },
+      {
+        "id":              "Perligata",
+        "type":            "paper-conference",
+        "title":           "Lingua::Romana::Perligata -- Perl for the XXI-imum Century",
+        "author":          [{ "family": "Conway", "given": "Damian" }],
+        "event-title":     "Proceedings of the Perl Conference 4.0",
+        "event-place":     "Monterey, CA, USA",
+        "publisher":       "O'Reilly and Associates",
+        "publisher-place": "CA, USA",
+        "issued":          { "date-parts": [[2000, 7]] },
+        "page":            "1-15",
+        "ISBN":            "0-596-00013-8"
+      }
+    ]
+=end citation
+=end code
+
+When used within a C«Q<>», a citation identifier cannot contain the characters
+C«'|'», C«';'», C«','», or C«'\'», unless they are escaped with a leading C«'\'».
+Likewise, it cannot contain the C«Q»’s own delimiters, unless they are
+either balanced or escaped.
+
+=head3 Positioning bibliographic lists
+
+The eventual bibliographic list that a renderer generates from the data
+may be placed anywhere within a document, by using a C«=place» directive
+with the C«citation:» scheme. For example:
+=begin code :lang<rakudoc>
+=head References
+=place citation:*
+=end code
+
+This places a custom B«I<list-of-citations>» that is specially produced by the renderer,
+using every dataset from B«I<all>» of the document’s C«=citation» blocks, and applying
+a user-selected citation style – specified either within the document via
+a C«:style» option (see below), or a style externally selected for the renderer
+in some way (I<e.g.> via a command-line argument or environment variable).
+
+To have the renderer include only particular citations, you can specify
+something more limited that I<“whatever”> (I<i.e.> C«*») in the placement:
+
+=begin code :lang<rakudoc>
+=head References
+=comment Only list sources actually cited in at least one Q<>
+=place citation:cited
+
+=head Further Reading
+=comment Only list sources not cited in any Q<>
+=place citation:uncited
+=end code
+
+If a RakuDoc document does not contain any C«=place citation:» directives,
+but includes one or more C«Q<>» codes, then the renderer should behave
+as if there had been a single C«=place citation:cited» at the very end
+of the document.
+
+
+=head3 Categorizing citation blocks and selecting bibliographic lists
+
+Individual C«citation» blocks can also be declared to belong in one or more user-defined categories
+(whose names must – as usual for user-defined components – contain at least one uppercase
+and one lowercase letter).
+
+These categories can then be used to select particular citation data for a given listing.
+Multiple C«citation» blocks can be specified in the same category, and a given C«citation»
+block can be specified as belonging to multiple categories. For example:
+=begin code :lang<rakudoc>
+=for citation :category<SyntaxResearch>
+
+=for citation :category<OtherImpls>
+
+=for citation :category<SyntaxResearch Semantics>
+
+=for citation :category<Semantics>
+
+=comment And then...
+
+=head1 Bibliography
+
+=numhead2 Syntactic design
+=place citation:SyntaxResearch
+
+=numhead2 Semantic constraints
+=place citation:Semantics
+
+=numhead2 Implementation
+=place citation:ImplIssues,OtherImpls
+=end code
+
+=head3 Rendering citations
+
+When a C«Q<>» marker or C«=place citation:» list is to be rendered, the renderer
+must determine the I<citation style> in which the markers and the citations list
+are to be formatted (I<i.e.> ACM, APA, Chicago, IEEE, Harvard, I<etc.>) The actual
+formatting of the markers and citations is specified by pointing the renderer
+to a specific CSL style file, perhaps via a command-line flag when invoking
+the renderer.
+
+However, the required styling information may also be hard-coded directly into a document,
+by specifying an empty C«citation» block with the C«:style» option. The C«:style» value
+may be specified either as a full URL for the corresponding CSL style file:
+=begin code :lang<rakudoc>
+=for citation  :style< https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl >
+=end code
+...or as just the standard name of the CSL style (without its filepath prefix or extension suffix):
+=begin code :lang<rakudoc>
+=for citation  :style< chicago-author-date >
+=end code
+
+Such a style specification may appear anywhere in a RakuDoc document, although
+it would typically be placed either at the beginning of the file, or just before
+the C«=place» directive that will insert the list of citations. For example:
+=begin code :lang<rakudoc>
+=head Bibliography
+
+=for citation  :style< acm-sigplan >
+
+=place citation:*
+=end code
+
+If a CSL locale is also required, the renderer should allow that to be specified
+on the command-line as well, or it can be hard-wired into a RakuDoc document,
+using the C«citation» block’s C«:locale» option, which takes an L< IETF BCP 47 language tag | https://en.wikipedia.org/wiki/IETF_language_tag >
+specifying the desired locale:
+=begin code :lang<rakudoc>
+=citation :locale< de-CH >
+=end code
+
+If the document contains two or more such style specifications, or two or more locales,
+the final one of each that was encountered within the document is the one used.
+If no such style specification is found, and the renderer is not otherwise invoked with
+an indication of the desired citation style, then the renderer is free to format citations
+in whatever default style it deems appropriate. A suitable default style might be L< IEEE | https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl >
+and a suitable default locale might be L< en-GB | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml >.
+
+=nested Note: the L< en-US locale | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml > is B«I<not>» recommended as a default, both because it overpunctuates abbreviations
+and because its rendering of dates as MM/DD/YYYY ought be neither condoned nor encouraged.
+
+The specification order of the original C«citation» data within a RakuDoc document
+is entirely unrelated to its final rendering. The relevant style specification
+will determine how the final list-of-citations should be ordered (I<e.g.> by first author,
+by citation marker, by cited order, I<etc.>) and also how the corresponding C«Q<>» markers
+within the text should be labelled and formatted.
+
+When rendering to output formats that support intradocument linkages (such as HTML),
+renderers may wish to link each rendered bibliographic marker to the
+corresponding bibliographic reference in the rendered bibliographic list, and perhaps
+back-link the reference to the marker as well. This approach is encouraged, but not required.
+
+=head3 Missing citations
+
+If any C«Q<>» contains a citation identifier that is not present anywhere in the document’s
+citation data, and if the author has explicitly requested a listing for that non-existent
+citation dataset (I<e.g.> by specifying a C«=place citation:*» or C«=place citation:cited»),
+then the missing dataset must be listed in such a way that it is clearly marked as absent/unknown.
+
+The missing listing must also still be associated with a suitable marker generated for
+the orphaned C«Q<>» code when the citations are listed. For example, if a C«Q<Wall42>»
+or C«Q<SapWho99>» appears in the text, but there are no datasets in any C«citation» block
+that contain those particular citation identifiers, then the markers must still be
+rendered appropriately in the text, as something like:
+
+=nested As discussed in Wall’s early treatise on language design<sup>[7,8]</sup>,
+=nested the apparent design tension between I<manipulexity> and I<whipuptitude>
+=nested may only be an artefact of our fixation with linguistic minimalism.
+
+...and the missing reference sources might be rendered like so (in IEEE style):
+
+=nested [7] R. Unknown, “NO SUCH CITATION ID: Wall42”, I<Did you misspell Wall42?>, 0.
+=nested [8] R. Unknown, “NO SUCH CITATION ID: SapWho99”, I<Did you misspell SapWho99?>, 1.
+
+...or like so (MLA style):
+
+=nested Unknown, Reference. 0. "NO SUCH CITATION ID: Wall42." *Did you misspell Wall42?*
+=nested Unknown, Reference. 1. "NO SUCH CITATION ID: SapWho99." *Did you misspell SapWho99?*
+
+That is, a RakuDoc renderer must autogenerate a pseudo-entry for each missing citation dataset,
+with the issue dates numbered sequentially from 1, as if the absent citation data had been:
+=begin code :lang<rakudoc>
+    =begin citation
+        [
+          {
+            "id":              "Wall42",
+            "type":            "article",
+            "title":           "NO SUCH CITATION ID: Wall42",
+            "author":          [{ "family": "Unknown", "given": "Reference" }],
+            "container-title": "Did you misspell Wall42?",
+            "issued":          { "date-parts": [[0]] }
+          },
+          {
+            "id":              "SapWho99",
+            "type":            "article",
+            "title":           "NO SUCH CITATION ID: SapWho99",
+            "author":          [{ "family": "Unknown", "given": "Reference" }],
+            "container-title": "Did you misspell SapWho99?",
+            "issued":          { "date-parts": [[1]] }
+          },
+        ]
+    =end citation
+=end code
+
+
 =head2 User-defined blocks
 
 When a block name contains both an uppercase and a lowercase character, as specified L<in the naming rules below|#Naming rules>,
@@ -5005,6 +5633,9 @@ in a pop-up that activates on hover or mouse-click
         =cell V<=cell>
         =cell Contents of a table cell, only valid in a procedural table context
     =row
+        =cell C«citation»
+        =cell Specify a list of citation datasets in one of several standard citation markup languages
+    =row
         =cell V<=code>
         =cell Verbatim pre-formatted sample source code
     =row
@@ -5312,8 +5943,11 @@ in a pop-up that activates on hover or mouse-click
         =cell V<P<...|...>>
         =cell Placement link
     =row
-        =cell V<Q<...>>
-        =cell (This markup code is not yet defined, but is reserved for future use)
+        =cell V«Q< ID >»
+        =cell Marker citing the dataset with identifier I<ID>
+    =row
+        =cell V«Q< ID1 ; ID2 , TEXT ; ETC. >»
+        =cell Marker citing multiple datasets with identifiers I<ID1, ID2, ETC.>, some with textual annotations as well
     =row
         =cell V<R<...>>
         =cell Replaceable component or metasyntax
@@ -5429,6 +6063,25 @@ in a pop-up that activates on hover or mouse-click
 	=cell use numbering and/or ordinal system for ISO 639-1 language I<xx> I<(if supported)>
 	=cell
 =end table2
+
+=begin table2 :caption«Options for C<citation> block» :toc
+=row :heading
+=cell Options
+=cell Meaning
+=row
+=cell C«:load<»I<URL>C«>»
+=cell Import citation data from the specified URL
+=row
+=cell C«:category<»I<CatName(s)>C«>»
+=cell Include the block’s citation data in the specified category or categories
+=row
+=cell C«:style<»I<NAME/URL>C«>»
+=cell When rendering, format the citation list using the CSL style format specified by the name or by the URL
+=row
+=cell C«:locale<»I<TAG>C«>»
+=cell When rendering, format the citation list using the CSL locale conventions specified by the specified IETF BCP 47 language tag
+=end table2
+
 =place semantic:LICENSE :caption<Licence>
 =place semantic:AUTHORS :caption<Credits>
 =end rakudoc

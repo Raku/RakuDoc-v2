@@ -356,6 +356,14 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Formulae">Formulae</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#RakuDoc_comments">RakuDoc comments</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Semantic_blocks">Semantic blocks</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Citations">Citations</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_indicators">Citation indicators</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_blocks">Citation blocks</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_identifiers">Citation identifiers</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Positioning_bibliographic_lists">Positioning bibliographic lists</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Categorizing_citation_blocks_and_selecting_bibliographic_lists">Categorizing citation blocks and selecting bibliographic lists</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Rendering_citations">Rendering citations</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Missing_citations">Missing citations</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#User-defined_blocks">User-defined blocks</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Naming_rules">Naming rules</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Implied_code_and_indentation">Implied code and indentation</a></div>
@@ -396,6 +404,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Markup_instructions_0">Markup instructions</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#:form_components">:form components</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_form_fields">Options for form fields</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_C&lt;citation&gt;_block">Options for C block</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Licence">Licence</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
 </div>
@@ -504,6 +513,14 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Formulae">Formulae</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#RakuDoc_comments">RakuDoc comments</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Semantic_blocks">Semantic blocks</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Citations">Citations</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_indicators">Citation indicators</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_blocks">Citation blocks</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_identifiers">Citation identifiers</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Positioning_bibliographic_lists">Positioning bibliographic lists</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Categorizing_citation_blocks_and_selecting_bibliographic_lists">Categorizing citation blocks and selecting bibliographic lists</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Rendering_citations">Rendering citations</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Missing_citations">Missing citations</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#User-defined_blocks">User-defined blocks</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Naming_rules">Naming rules</a></div>
 <div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Implied_code_and_indentation">Implied code and indentation</a></div>
@@ -544,6 +561,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Markup_instructions_0">Markup instructions</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#:form_components">:form components</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_form_fields">Options for form fields</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_C&lt;citation&gt;_block">Options for C block</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Licence">Licence</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
 </div>
@@ -3425,7 +3443,299 @@ We will use: F&lt;
 <p id="5a8cc81">A renderer is expected to gather the contents of a semantic block for it to be accessible by an external program. </p>
 <p id="50c1021">If the metadata option <span class="code">:hidden</span> is associated with a semantic block (by using a <span class="code">=config</span> directive, or as a metadata option with the <span class="important">extended</span> or <span class="important">abbreviated</span> forms) then the renderer will not render the semantic block at the position it is placed in the RakuDoc document. It will be placed in a data structure by the renderer and the contents can be rendered at a place defined by a <a href="#Placement_links">Placement instruction</a>. </p>
 <p id="3cb7533">The block name of a rendered semantic block will be placed in the <a href="#Table_of_Contents_and_Index"><span class="important">Table of Contents</span></a> table in the position that it is rendered, unless the <span class="code">:!toc</span> and or <span class="code">:caption</span> options are set. A <span class="code">:hidden</span> metadata option will also remove the block's entry from the ToC. But if it is placed by a <span class="code">P&lt;semantic:&gt;</span> instruction, the block entry will be placed at the appropriate point in the ToC. </p>
+<h2 id="Citations" class="heading raku-webs-h2 "><a href="#">Citations</a><a class="raku-webs-anchor" href="#Citations">§</a></h2>
+<p id="91a5cf4">RakuDoc provides a mechanism for citing external reference sources in the usual way: with a compact marker in the text and the full information for the source material listed elsewhere. Citations in RakuDoc are marked and listed in an appearance-neutral syntax that allows them to be rendered consistently in any standard citation style (<span class="important">e.g.</span> ACM, APA, Chicago, IEEE, Harvard, MLA, <span class="important">etc.</span>). </p>
 
+<div class="id-target" id="Citation indicators"></div><h3 id="Citation_indicators" class="heading raku-webs-h3 "><a href="#">Citation indicators</a><a class="raku-webs-anchor" href="#Citation indicators">§</a></h3>
+<p id="be58536">Individual citations of reference sources in the text are indicated with a <span class="code">Q&lt;&gt;</span> formatting code. The value contained within each such formatting code must be a unique <span class="important">citation identifier</span> associated with some cited reference work within the document (see below). For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_markup">    =para</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    We have now explored Q&lt;rakudoc-evo-chapter&gt; at some length<br>    whether it would be better to use JSON or XML Q&lt; JsonVsXMLMeta &gt;<br>    to specify citation data or whether it might be better to design<br>    a bespoke DSL Q«10.1109/MODELS50736.2021.00031» instead.</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            <p id="e7edaeb">A single <span class="code">Q&lt;&gt;</span> can contain multiple identifiers, which must be separated by semicolons. For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_markup">    =para</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    The design of Raku commenced Q&lt;Apocalypse1; P6&amp;Parrot; ConwayKeynote2010&gt; in late 2000...</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            <p id="d198089">Depending on the chosen bibliographic style in which the document is eventually rendered, multi-identifier <span class="code">Q&lt;&gt;</span> codes may be rendered separately: </p>
+<div class="nested">The design of Raku commenced [7] [9] [10] in late 2000...</div>
+<p id="c6efef8">...or aggregated into a single bibliographic marker: </p>
+<div class="nested">The design of Raku commenced [7,9-10] in late 2000...</div>
+<p id="72f58f1">Each identifier can also optionally be followed by comma and an annotation, which may be used to refine the context of a given citation by specifying particular sections, chapters, pages, figures, tables, timestamps, <span class="important">etc.</span> within the work being cited. For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_markup">    =para</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    We have now explored Q&lt;rakudoc-evo-chapter, pp. 32-47&gt; at some length<br>    whether it would be better to use JSON or XML Q&lt;JsonVsXMLMeta, table 8b&gt;<br>    to specify citation data or whether it might be better to design<br>    a bespoke DSL Q&lt;10.1109/MODELS50736.2021.00031, sect. III&gt; instead.<br><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">    =para</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    The design of Raku commenced Q&lt;Apocalypse1; P6&amp;Parrot, ch. 1; ConwayKeynote2010, ts=00:03:27&gt;<br>    in late 2000...</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            <p id="545c9c1">Note that whether or not these annotations are included as part of the corresponding bibliographic markers, or are silently ignored, is determined entirely by the bibliographic style that is selected when the document is rendered. </p>
+
+<div class="id-target" id="Citation blocks"></div><h3 id="Citation_blocks" class="heading raku-webs-h3 "><a href="#">Citation blocks</a><a class="raku-webs-anchor" href="#Citation blocks">§</a></h3>
+<p id="c80b485">The full citation dataset for each individual reference work is specified in a <span class="code">citation</span> block, as structured textual data in any of the following notations: CSL-JSON, CSL-YAML, CSL-Raku, RIS, MODS, BiBLaTeX, BibTeX, BibTeXML, or Medline/PubMed (XML or NBIB). All of these formats are widely used citation-data-interchange standards, except for CSL-Raku, which is just CSL-JSON/CSL-YAML data transposed into the native Raku syntax for a list of hashes. </p>
+<p id="edf6733">Each <span class="code">citation</span> block may contain multiple entries (<span class="important">i.e.</span> aggregated citation data for multiple reference works), but the data for every entry within a single block must be represented in the same data format (<span class="important">e.g.</span> all in CSL-JSON, or all in BibTeX, <span class="important">etc.</span>) A document may, however, contain multiple <span class="code">citation</span> blocks, each of which may specify their contents in different data formats. </p>
+<p id="c82f38e">For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  Citation source data specified in CSL-Raku<br></span><span class="rainbow-rakudoc_markup">    =begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        {<br>            note            =&gt; &quot;Fields can be specified as key =&gt; value pairs&quot;<br>            id              =&gt; &quot;rakudoc-evo-chapter&quot;,<br>            type            =&gt; &quot;chapter&quot;,<br>            title           =&gt; &quot;The Evolution of RakuDoc&quot;,<br>            author          =&gt; [ { family =&gt; &quot;Hainsworth&quot;, given =&gt; &quot;Richard&quot;   },<br>                                 { family =&gt; &quot;Mattijsen&quot;,  given =&gt; &quot;Elizabeth&quot; },<br>                                 { family =&gt; &quot;Conway&quot;,     given =&gt; &quot;Damian&quot;    },<br>                               ],<br>            editor          =&gt; [ { family =&gt; &quot;Smith&quot;, given =&gt; &quot;Jane&quot; } ],<br>            container-title =&gt; &quot;Modern Markup Systems&quot;,<br>            publisher       =&gt; &quot;Butterfly Press&quot;,<br>            publisher-place =&gt; &quot;Amsterdam&quot;,<br>            page            =&gt; &quot;42-65&quot;,<br>            issued          =&gt; { date-parts =&gt; [[2024, 5, 12]] },<br>            ISBN            =&gt; &quot;978-3-16-148410-0&quot;,<br>        },<br>        {<br>                       :note&lt; Fields can also be specified as adverbial pairs &gt;<br>                         :id&lt; json-vs-xml-meta &gt;<br>                       :type&lt; article-journal &gt;<br>                      :title&lt; A Performance Analysis of JSON vs XML in Academic Metadata &gt;<br>                     :author[ { family =&gt; &quot;Doe&quot;, given =&gt; &quot;John&quot;, ORCID =&gt; &quot;0000-0001-2345-6789&quot; } ]<br>            :container-title&lt; Journal of Digital Humanities &gt;<br>                     :volume( 12 )<br>                      :issue( 3 )<br>                       :page&lt; 101-115 &gt;<br>                        :DOI&lt; 10.1000/jdh.2024.03.01 &gt;<br>                     :issued{ date-parts =&gt; [[2024]] }<br>        }<br>    =end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  This citation data in in CSL-JSON format<br></span><span class="rainbow-rakudoc_markup">    =begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        [<br>            {<br>                       &quot;id&quot;: &quot;mercurio2025&quot;,<br>                     &quot;type&quot;: &quot;book&quot;,<br>                    &quot;title&quot;: &quot;The Morphological Beauty of Raku Grammars&quot;,<br>                   &quot;author&quot;: [ {&quot;family&quot;: &quot;Mercurio&quot;, &quot;given&quot;: &quot;Silvia&quot;} ],<br>                   &quot;issued&quot;: {&quot;date-parts&quot;: [[2025, 3, 14]]},<br>                &quot;publisher&quot;: &quot;Butterfly Press&quot;,<br>                     &quot;ISBN&quot;: &quot;978-1-2345-6789-0&quot;<br>            }<br>        ]<br>    =end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  This citation data is CSL-YAML<br></span><span class="rainbow-rakudoc_markup">    =for citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        - id:    starlight2024<br>          type:  article-journal<br>          title: &quot;Asynchronous Concurrency: A Journey Through Raku Supplies&quot;<br>          author:<br>              - family: Starlight<br>                given:  Orion<br>          container-title: &quot;The Reactive Programmer's Quarterly&quot;<br>          issued:<br>              date-parts: [[2024, 11]]<br>          volume: 12<br>          issue:  4<br>          page:   45-60</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  This citation is in BibLaTeX format<br>    =citation  @article{zenraku2024,<br>                   author = {Wall, Larry},<br>                   title = {The Zen of Raku},<br>                   journaltitle = {Journal of Camel Studies},<br>                   date = {2024-05-12},<br>                   volume = {42},<br>                   number = {3},<br>                   pages = {101-115},<br>                   url = {https://example.org/raku},<br>                   urldate = {2026-01-23}<br>               }</span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  This citation is in BibTeXML format<br></span><span class="rainbow-rakudoc_markup">    =begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        &lt;bibtex:file xmlns:bibtex=&quot;http://bibtexml.sf.net/&quot;&gt;<br>          &lt;bibtex:entry id=&quot;mercurio2025&quot;&gt;<br>            &lt;bibtex:book&gt;<br>              &lt;bibtex:author&gt;Silvia Mercurio&lt;/bibtex:author&gt;<br>              &lt;bibtex:title&gt;The Morphological Beauty of Raku Grammars&lt;/bibtex:title&gt;<br>              &lt;bibtex:publisher&gt;Butterfly Press&lt;/bibtex:publisher&gt;<br>              &lt;bibtex:year&gt;2025&lt;/bibtex:year&gt;<br>              &lt;bibtex:month&gt;March&lt;/bibtex:month&gt;<br>              &lt;bibtex:isbn&gt;978-1-2345-6789-0&lt;/bibtex:isbn&gt;<br>            &lt;/bibtex:book&gt;<br>          &lt;/bibtex:entry&gt;<br>        &lt;/bibtex:file&gt;<br>    =end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  This in RIS data<br></span><span class="rainbow-rakudoc_markup">    =begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        TY  - JOUR<br>        ID  - thorne2023<br>        AU  - Thorne, Alistair<br>        TI  - Optimization Strategies for MoarVM Bytecode<br>        JO  - Journal of Virtual Machine Design<br>        PY  - 2023/08/21/<br>        VL  - 9<br>        IS  - 2<br>        SP  - 210<br>        EP  - 235<br>        SN  - 1234-5678<br>        ER  -<br>    =end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment  This in MODS<br></span><span class="rainbow-rakudoc_markup">    =begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        &lt;mods xmlns=&quot;http://www.loc.gov/mods/v3&quot; ID=&quot;Vasiliev26&quot;&gt;<br>            &lt;titleInfo&gt;<br>                &lt;title&gt;Functional Purity in a Multi-Paradigm World&lt;/title&gt;<br>            &lt;/titleInfo&gt;<br>            &lt;name type=&quot;personal&quot;&gt;<br>                &lt;namePart type=&quot;given&quot;&gt;Elena&lt;/namePart&gt;<br>                &lt;namePart type=&quot;family&quot;&gt;Vasiliev&lt;/namePart&gt;<br>                &lt;role&gt;<br>                    &lt;roleTerm type=&quot;text&quot;&gt;author&lt;/roleTerm&gt;<br>                &lt;/role&gt;<br>            &lt;/name&gt;<br>            &lt;originInfo&gt;<br>                &lt;publisher&gt;Deep Space Coding Collective&lt;/publisher&gt;<br>                &lt;dateIssued&gt;2026&lt;/dateIssued&gt;<br>            &lt;/originInfo&gt;<br>            &lt;typeOfResource&gt;text&lt;/typeOfResource&gt;<br>            &lt;genre&gt;technical report&lt;/genre&gt;<br>        &lt;/mods&gt;<br>    =end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment This citation in PubMed/Medline NBIB format<br></span><span class="rainbow-rakudoc_markup">    =citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        PMID- 39876543<br>        STAT- Publisher<br>        DA  - 2025/08/15<br>        TI  - The Semantic Elegance of Raku Grammars.<br>        BTI - The Semantic Elegance of Raku Grammars<br>        AU  - Mercurio S<br>        LA  - eng<br>        PT  - Book<br>        PB  - Butterfly Press<br>        SN  - 978-1-2345-9876-0</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">    =comment This citation in PubMed/Medline XML format<br></span><span class="rainbow-rakudoc_markup">    =citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">       &lt;PubmedArticleSet&gt;<br>         &lt;PubmedArticle&gt;<br>           &lt;MedlineCitation Status=&quot;Publisher&quot;&gt;<br>             &lt;PMID Version=&quot;1&quot;&gt;98765432&lt;/PMID&gt;<br>             &lt;Article PubModel=&quot;Print&quot;&gt;<br>               &lt;Journal&gt;<br>                 &lt;ISSN IssnType=&quot;Print&quot;&gt;1234-567X&lt;/ISSN&gt;<br>                 &lt;JournalIssue&gt;<br>                   &lt;Volume&gt;14&lt;/Volume&gt;<br>                   &lt;Issue&gt;1&lt;/Issue&gt;<br>                   &lt;PubDate&gt;<br>                     &lt;Year&gt;2026&lt;/Year&gt;<br>                     &lt;Month&gt;Jan&lt;/Month&gt;<br>                     &lt;Day&gt;30&lt;/Day&gt;<br>                   &lt;/PubDate&gt;<br>                 &lt;/JournalIssue&gt;<br>                 &lt;Title&gt;International Journal of Perl and Raku&lt;/Title&gt;<br>               &lt;/Journal&gt;<br>               &lt;ArticleTitle&gt;Concurrent Processing in RakuDoc: A Performance Analysis.&lt;/ArticleTitle&gt;<br>               &lt;Pagination&gt;<br>                 &lt;MedlinePgn&gt;102-115&lt;/MedlinePgn&gt;<br>               &lt;/Pagination&gt;<br>               &lt;AuthorList CompleteYN=&quot;Y&quot;&gt;<br>                 &lt;Author ValidYN=&quot;Y&quot;&gt;<br>                   &lt;LastName&gt;Generic&lt;/LastName&gt;<br>                   &lt;ForeName&gt;A&lt;/ForeName&gt;<br>                 &lt;/Author&gt;<br>                 &lt;Author ValidYN=&quot;Y&quot;&gt;<br>                   &lt;LastName&gt;Researcher&lt;/LastName&gt;<br>                   &lt;ForeName&gt;B&lt;/ForeName&gt;<br>                 &lt;/Author&gt;<br>               &lt;/AuthorList&gt;<br>               &lt;Language&gt;eng&lt;/Language&gt;<br>               &lt;PublicationTypeList&gt;<br>                 &lt;PublicationType&gt;Journal Article&lt;/PublicationType&gt;<br>               &lt;/PublicationTypeList&gt;<br>             &lt;/Article&gt;<br>           &lt;/MedlineCitation&gt;<br>         &lt;/PubmedArticle&gt;<br>       &lt;/PubmedArticleSet&gt;</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            <p id="333d64c">Note that, for implementation (and perhaps source-highlighting) purposes, the actual species of notation for data contained in each <span class="code">citation</span> block can be automatically inferred by examining just the first few non-blank characters in the block’s content (<span class="important">the “sniff” test</span>), according to the following table: </p>
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><td class="">First char(s)</td><td class="">Inferred format</td><td class="">Because character represents the start of a...</td></tr>
+<tr class="procedural"><td class=""><p id="e5e3a37"><span class="code">[</span> </p></td><td class="">CSL-JSON</td><td class="">JSON array of objects</td></tr>
+<tr class="procedural"><td class=""><p id="cd533f5"><span class="code">-</span> </p></td><td class="">CSL-YAML</td><td class="">YAML list of mappings</td></tr>
+<tr class="procedural"><td class=""><p id="c805eea"><span class="code">(</span> </p></td><td class="">CSL-Raku</td><td class="">Raku-native parenthesized list of hashes</td></tr>
+<tr class="procedural"><td class=""><p id="8409a7c"><span class="code">{</span> </p></td><td class="">CSL-Raku</td><td class="">Raku-native unparenthesized list of hashes</td></tr>
+<tr class="procedural"><td class=""><p id="ec13f6a"><span class="code">@</span> </p></td><td class="">BibLaTeX</td><td class="">sequence of standard BibLaTeX or legacy BibTeX entries</td></tr>
+<tr class="procedural"><td class=""><p id="8be3094"><span class="code">&lt;bibtex</span> </p></td><td class="">BibTeXML</td><td class="">sequence of XML-encoded BibTeX entries.</td></tr>
+<tr class="procedural"><td class=""><p id="6cb05f4"><span class="code">&lt;mods</span> </p></td><td class="">MODS</td><td class="">sequence of XML-encoded MODS entries.</td></tr>
+<tr class="procedural"><td class=""><p id="1859453"><span class="code">&lt;PubmedArticleSet</span> </p></td><td class="">PubMed/Medline XML</td><td class="">sequence of XML-encoded PubMed/Medline entries.</td></tr>
+<tr class="procedural"><td class=""><p id="7c4fa3c"><span class="code">PMID-</span> </p></td><td class="">PubMed/Medline NBIB</td><td class="">sequence of modern PubMed NBIB KEY-VALUE datasets</td></tr>
+<tr class="procedural"><td class=""><p id="7baa2d9"><span class="code">UI  -</span> </p></td><td class="">Medline NBIB</td><td class="">sequence of legacy Medline NBIB KEY-VALUE datasets</td></tr>
+<tr class="procedural"><td class=""><p id="7ad6616"><span class="code">TY  -</span> </p></td><td class="">RIS</td><td class="">sequence of RIS-format KEY-VALUE datasets</td></tr>
+</tbody></table>
+<p id="fdd207f">Citation data can also be loaded from external sources via a URL, by using the <span class="code">:load</span> metaoption: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_markup">    =for citation</span><span class="rainbow-rakudoc_markup">  </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">load</span>&lt;&nbsp;file:/users/jan/.citelists/working/citations.json&nbsp;&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =for citation  :load&lt; https:example.com/markup_design_references.bib &gt;</span>
+</pre>
+</div>
+                </div>
+            <p id="4e388f6">In this variant, the block must not contain any extra data (and renderers should report an error if it does). </p>
+<p id="2d48b83">The suffix of the file determines the inferred format of the imported data: </p>
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Suffix</th><th class="">Inferred format</th></tr>
+<tr class="procedural"><td class=""><p id="8d3eb3a"><span class="code">.bib</span> </p></td><td class="">BibLaTeX (including legacy BibTeX)</td></tr>
+<tr class="procedural"><td class=""><p id="e6726f1"><span class="code">.json</span> </p></td><td class="">CSL-JSON</td></tr>
+<tr class="procedural"><td class=""><p id="9c89567"><span class="code">.mods</span> </p></td><td class="">MODS</td></tr>
+<tr class="procedural"><td class=""><p id="de187ba"><span class="code">.nbib</span> </p></td><td class="">Medline/PubMed NBIB</td></tr>
+<tr class="procedural"><td class=""><p id="b1f564c"><span class="code">.raku</span> </p></td><td class="">CSL-Raku</td></tr>
+<tr class="procedural"><td class=""><p id="32e2145"><span class="code">.ris </span> </p></td><td class="">RIS</td></tr>
+<tr class="procedural"><td class=""><p id="529a11a"><span class="code">.xml</span> </p></td><td class="">MODS or PubMed XML or BibTeXML (distinguished via “sniff” test)</td></tr>
+<tr class="procedural"><td class=""><p id="4fe0288"><span class="code">.yaml</span> </p></td><td class="">CSL-YAML</td></tr>
+</tbody></table>
+<p id="8e65edb">A document can include any number of <span class="code">citation</span> blocks, in any order, located anywhere in the document. Some common approaches might be: </p>
+
+<ul class="item-list"><li class="item" data-bullet="•" style="--level:0;"> <p id="e2ec207">One block per citation, with each citation placed immediately before or after the point where the source is referred to via a <span class="code">Q&lt;&gt;</span> code within the text. </p></li>
+<li class="item" data-bullet="•" style="--level:0;"> One citation block at the end of each chapter, section, or heading, containing data for all citations made in that unit.</li>
+<li class="item" data-bullet="•" style="--level:0;"> A single citation block at the end of the entire document, with all the citations aggregated together.</li>
+</ul>
+
+<div class="id-target" id="Citation identifiers"></div><h3 id="Citation_identifiers" class="heading raku-webs-h3 "><a href="#">Citation identifiers</a><a class="raku-webs-anchor" href="#Citation identifiers">§</a></h3>
+<p id="3cdda39">Every dataset included in any <span class="code">citation</span> block must contain a <span class="important">citation identifier</span>: a text string consisting of any sequence of one or more Unicode characters. Each citation identifier must be unique across all citation datasets within the document. </p>
+<p id="df131d8">This identifier may be specified in the <span class="code">id</span> field (of any of the CSL notations), the <span class="code">ID</span> attribute (of MODS), the mandatory initial ID string (of BibLaTeX, BibTeX, and BibTeXML), the <span class="code">PMID</span> or <span class="code">UI</span> value (of PubMed/Medline), or the <span class="code">ID</span> tag (an unofficial extra tag commonly used with RIS data). </p>
+<p id="4d947ca">If a dataset cannot furnish a suitable identifier, but its citation data includes a ISO-26324 Digital Object Identifier, then the DOI may be used instead. </p>
+<p id="41677e9">Each citation identifier is used to associate a <span class="code">Q&lt;&gt;</span> marker with its corresponding citation data in some <span class="code">citation</span> block. For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">Most programming languages use everyday words for their keywords,<br>but some have taken that notion much further, basing their entire<br>syntax on (subsets) of natural languages </span><span class="rainbow-rakudoc_markup">Q&lt;</span><span class="rainbow-rakudoc_text">Perligata</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> or on conlangs<br></span><span class="rainbow-rakudoc_markup">Q&lt;</span><span class="rainbow-rakudoc_text">tlhInganHol::yIghun</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text">.<br><br></span><span class="rainbow-rakudoc_markup">=begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    [<br>      {<br>        &quot;id&quot;:              &quot;tlhInganHol::yIghun&quot;,<br>        &quot;type&quot;:            &quot;software&quot;,<br>        &quot;title&quot;:           &quot;Lingua::tlhInganHol::yIghun: Perl code in the original Klingon&quot;,<br>        &quot;author&quot;:          [{ &quot;family&quot;: &quot;Conway&quot;, &quot;given&quot;: &quot;Damian&quot; }],<br>        &quot;issued&quot;:          { &quot;date-parts&quot;: [[2009, 6, 1 ]] },<br>        &quot;abstract&quot;:        &quot;Perl module that allows programs to written Klingon syntax and vocabulary.&quot;,<br>        &quot;publisher&quot;:       &quot;MetaCPAN&quot;,<br>        &quot;version&quot;:         &quot;20090601&quot;,<br>        &quot;URL&quot;:             &quot;https://metacpan.org/pod/Lingua::tlhInganHol::yIghun&quot;,<br>        &quot;accessed&quot;:        { &quot;date-parts&quot;: [[2025, 1, 25 ]] }<br>      },<br>      {<br>        &quot;id&quot;:              &quot;Perligata&quot;,<br>        &quot;type&quot;:            &quot;paper-conference&quot;,<br>        &quot;title&quot;:           &quot;Lingua::Romana::Perligata -- Perl for the XXI-imum Century&quot;,<br>        &quot;author&quot;:          [{ &quot;family&quot;: &quot;Conway&quot;, &quot;given&quot;: &quot;Damian&quot; }],<br>        &quot;event-title&quot;:     &quot;Proceedings of the Perl Conference 4.0&quot;,<br>        &quot;event-place&quot;:     &quot;Monterey, CA, USA&quot;,<br>        &quot;publisher&quot;:       &quot;O'Reilly and Associates&quot;,<br>        &quot;publisher-place&quot;: &quot;CA, USA&quot;,<br>        &quot;issued&quot;:          { &quot;date-parts&quot;: [[2000, 7]] },<br>        &quot;page&quot;:            &quot;1-15&quot;,<br>        &quot;ISBN&quot;:            &quot;0-596-00013-8&quot;<br>      }<br>    ]<br>=end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            <p id="19091f1">When used within a <span class="code">Q&lt;&gt;</span>, a citation identifier cannot contain the characters <span class="code">'|'</span>, <span class="code">';'</span>, <span class="code">','</span>, or <span class="code">'\'</span>, unless they are escaped with a leading <span class="code">'\'</span>. Likewise, it cannot contain the <span class="code">Q</span>’s own delimiters, unless they are either balanced or escaped. </p>
+
+<div class="id-target" id="Positioning bibliographic lists"></div><h3 id="Positioning_bibliographic_lists" class="heading raku-webs-h3 "><a href="#">Positioning bibliographic lists</a><a class="raku-webs-anchor" href="#Positioning bibliographic lists">§</a></h3>
+<p id="6c8891f">The eventual bibliographic list that a renderer generates from the data may be placed anywhere within a document, by using a <span class="code">=place</span> directive with the <span class="code">citation:</span> scheme. For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=head References<br>=place citation:*</span>
+</pre>
+</div>
+                </div>
+            <p id="9b80f8d">This places a custom <span class="basis"><span class="important">list-of-citations</span></span> that is specially produced by the renderer, using every dataset from <span class="basis"><span class="important">all</span></span> of the document’s <span class="code">=citation</span> blocks, and applying a user-selected citation style – specified either within the document via a <span class="code">:style</span> option (see below), or a style externally selected for the renderer in some way (<span class="important">e.g.</span> via a command-line argument or environment variable). </p>
+<p id="9a19acb">To have the renderer include only particular citations, you can specify something more limited that <span class="important">“whatever”</span> (<span class="important">i.e.</span> <span class="code">*</span>) in the placement: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=head References<br>=comment Only list sources actually cited in at least one </span><span class="rainbow-rakudoc_markup">Q&lt;</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>=place citation:cited<br><br>=head Further Reading<br>=comment Only list sources not cited in any </span><span class="rainbow-rakudoc_markup">Q&lt;</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>=place citation:uncited</span>
+</pre>
+</div>
+                </div>
+            <p id="c37f2de">If a RakuDoc document does not contain any <span class="code">=place citation:</span> directives, but includes one or more <span class="code">Q&lt;&gt;</span> codes, then the renderer should behave as if there had been a single <span class="code">=place citation:cited</span> at the very end of the document. </p>
+
+<div class="id-target" id="Categorizing citation blocks and selecting bibliographic lists"></div><h3 id="Categorizing_citation_blocks_and_selecting_bibliographic_lists" class="heading raku-webs-h3 "><a href="#">Categorizing citation blocks and selecting bibliographic lists</a><a class="raku-webs-anchor" href="#Categorizing citation blocks and selecting bibliographic lists">§</a></h3>
+<p id="12027a6">Individual <span class="code">citation</span> blocks can also be declared to belong in one or more user-defined categories (whose names must – as usual for user-defined components – contain at least one uppercase and one lowercase letter). </p>
+<p id="78f38b2">These categories can then be used to select particular citation data for a given listing. Multiple <span class="code">citation</span> blocks can be specified in the same category, and a given <span class="code">citation</span> block can be specified as belonging to multiple categories. For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_markup">=for citation</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">category</span>&lt;SyntaxResearch&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">=for citation</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">category</span>&lt;OtherImpls&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">=for citation</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">category</span>&lt;SyntaxResearch&nbsp;Semantics&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">=for citation</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">category</span>&lt;Semantics&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">=comment And then...<br><br>=head1 Bibliography<br><br>=numhead2 Syntactic design<br>=place citation:SyntaxResearch<br><br>=numhead2 Semantic constraints<br>=place citation:Semantics<br><br>=numhead2 Implementation<br>=place citation:ImplIssues,OtherImpls</span>
+</pre>
+</div>
+                </div>
+            
+<div class="id-target" id="Rendering citations"></div><h3 id="Rendering_citations" class="heading raku-webs-h3 "><a href="#">Rendering citations</a><a class="raku-webs-anchor" href="#Rendering citations">§</a></h3>
+<p id="4076f58">When a <span class="code">Q&lt;&gt;</span> marker or <span class="code">=place citation:</span> list is to be rendered, the renderer must determine the <span class="important">citation style</span> in which the markers and the citations list are to be formatted (<span class="important">i.e.</span> ACM, APA, Chicago, IEEE, Harvard, <span class="important">etc.</span>) The actual formatting of the markers and citations is specified by pointing the renderer to a specific CSL style file, perhaps via a command-line flag when invoking the renderer. </p>
+<p id="aaaa655">However, the required styling information may also be hard-coded directly into a document, by specifying an empty <span class="code">citation</span> block with the <span class="code">:style</span> option. The <span class="code">:style</span> value may be specified either as a full URL for the corresponding CSL style file: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=for citation  :style&lt; https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl &gt;</span>
+</pre>
+</div>
+                </div>
+            <p id="cf2b899">...or as just the standard name of the CSL style (without its filepath prefix or extension suffix): </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=for citation  :style&lt; chicago-author-date &gt;</span>
+</pre>
+</div>
+                </div>
+            <p id="147f62b">Such a style specification may appear anywhere in a RakuDoc document, although it would typically be placed either at the beginning of the file, or just before the <span class="code">=place</span> directive that will insert the list of citations. For example: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=head Bibliography<br><br></span><span class="rainbow-rakudoc_markup">=for citation</span><span class="rainbow-rakudoc_markup">  </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">style</span>&lt;&nbsp;acm-sigplan&nbsp;&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">=place citation:*</span>
+</pre>
+</div>
+                </div>
+            <p id="cc563ae">If a CSL locale is also required, the renderer should allow that to be specified on the command-line as well, or it can be hard-wired into a RakuDoc document, using the <span class="code">citation</span> block’s <span class="code">:locale</span> option, which takes an <a href="https://en.wikipedia.org/wiki/IETF_language_tag#"> IETF BCP 47 language tag </a> specifying the desired locale: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=citation :locale&lt; de-CH &gt;</span>
+</pre>
+</div>
+                </div>
+            <p id="ffccda2">If the document contains two or more such style specifications, or two or more locales, the final one of each that was encountered within the document is the one used. If no such style specification is found, and the renderer is not otherwise invoked with an indication of the desired citation style, then the renderer is free to format citations in whatever default style it deems appropriate. A suitable default style might be <a href="https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl#"> IEEE </a> and a suitable default locale might be <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml#"> en-GB </a>. </p>
+<div class="nested"><p id="9d6a5ba">Note: the <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml#"> en-US locale </a> is <span class="basis"><span class="important">not</span></span> recommended as a default, both because it overpunctuates abbreviations and because its rendering of dates as MM/DD/YYYY ought be neither condoned nor encouraged. </p></div>
+<p id="a1a4681">The specification order of the original <span class="code">citation</span> data within a RakuDoc document is entirely unrelated to its final rendering. The relevant style specification will determine how the final list-of-citations should be ordered (<span class="important">e.g.</span> by first author, by citation marker, by cited order, <span class="important">etc.</span>) and also how the corresponding <span class="code">Q&lt;&gt;</span> markers within the text should be labelled and formatted. </p>
+<p id="a58469d">When rendering to output formats that support intradocument linkages (such as HTML), renderers may wish to link each rendered bibliographic marker to the corresponding bibliographic reference in the rendered bibliographic list, and perhaps back-link the reference to the marker as well. This approach is encouraged, but not required. </p>
+
+<div class="id-target" id="Missing citations"></div><h3 id="Missing_citations" class="heading raku-webs-h3 "><a href="#">Missing citations</a><a class="raku-webs-anchor" href="#Missing citations">§</a></h3>
+<p id="5316cd7">If any <span class="code">Q&lt;&gt;</span> contains a citation identifier that is not present anywhere in the document’s citation data, and if the author has explicitly requested a listing for that non-existent citation dataset (<span class="important">e.g.</span> by specifying a <span class="code">=place citation:*</span> or <span class="code">=place citation:cited</span>), then the missing dataset must be listed in such a way that it is clearly marked as absent/unknown. </p>
+<p id="6ba0a58">The missing listing must also still be associated with a suitable marker generated for the orphaned <span class="code">Q&lt;&gt;</span> code when the citations are listed. For example, if a <span class="code">Q&lt;Wall42&gt;</span> or <span class="code">Q&lt;SapWho99&gt;</span> appears in the text, but there are no datasets in any <span class="code">citation</span> block that contain those particular citation identifiers, then the markers must still be rendered appropriately in the text, as something like: </p>
+<div class="nested">As discussed in Wall’s early treatise on language design&lt;sup&gt;[7,8]&lt;/sup&gt;,</div>
+<div class="nested"><p id="62908ac">the apparent design tension between <span class="important">manipulexity</span> and <span class="important">whipuptitude</span> </p></div>
+<div class="nested">may only be an artefact of our fixation with linguistic minimalism.</div>
+<p id="62f809d">...and the missing reference sources might be rendered like so (in IEEE style): </p>
+<div class="nested"><p id="28e88d2">[7] R. Unknown, “NO SUCH CITATION ID: Wall42”, <span class="important">Did you misspell Wall42?</span>, 0. </p></div>
+<div class="nested"><p id="8f900d4">[8] R. Unknown, “NO SUCH CITATION ID: SapWho99”, <span class="important">Did you misspell SapWho99?</span>, 1. </p></div>
+<p id="ae53d25">...or like so (MLA style): </p>
+<div class="nested">Unknown, Reference. 0. &quot;NO SUCH CITATION ID: Wall42.&quot; *Did you misspell Wall42?*</div>
+<div class="nested">Unknown, Reference. 1. &quot;NO SUCH CITATION ID: SapWho99.&quot; *Did you misspell SapWho99?*</div>
+<p id="dd814cf">That is, a RakuDoc renderer must autogenerate a pseudo-entry for each missing citation dataset, with the issue dates numbered sequentially from 1, as if the absent citation data had been: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_markup">    =begin citation</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        [<br>          {<br>            &quot;id&quot;:              &quot;Wall42&quot;,<br>            &quot;type&quot;:            &quot;article&quot;,<br>            &quot;title&quot;:           &quot;NO SUCH CITATION ID: Wall42&quot;,<br>            &quot;author&quot;:          [{ &quot;family&quot;: &quot;Unknown&quot;, &quot;given&quot;: &quot;Reference&quot; }],<br>            &quot;container-title&quot;: &quot;Did you misspell Wall42?&quot;,<br>            &quot;issued&quot;:          { &quot;date-parts&quot;: [[0]] }<br>          },<br>          {<br>            &quot;id&quot;:              &quot;SapWho99&quot;,<br>            &quot;type&quot;:            &quot;article&quot;,<br>            &quot;title&quot;:           &quot;NO SUCH CITATION ID: SapWho99&quot;,<br>            &quot;author&quot;:          [{ &quot;family&quot;: &quot;Unknown&quot;, &quot;given&quot;: &quot;Reference&quot; }],<br>            &quot;container-title&quot;: &quot;Did you misspell SapWho99?&quot;,<br>            &quot;issued&quot;:          { &quot;date-parts&quot;: [[1]] }<br>          },<br>        ]<br>    =end citation</span><span class="rainbow-rakudoc_markup"></span>
+</pre>
+</div>
+                </div>
+            
 <div class="id-target" id="User-defined blocks"></div><h2 id="User-defined_blocks" class="heading raku-webs-h2 "><a href="#">User-defined blocks</a><a class="raku-webs-anchor" href="#User-defined blocks">§</a></h2>
 <p id="d7946c1">When a block name contains both an uppercase and a lowercase character, as specified <a href="#Naming_rules">in the naming rules below</a>, it is interpreted as a developer-defined block. The naming rules are to ensure that built-in blocks, semantic blocks, and custom blocks are never mixed up. </p>
 <p id="7cbd798">The way in which a renderer styles the contents of a custom block depends on the renderer, and each renderer may specify a procedure for using user-supplied templates or code. </p>
@@ -4349,6 +4659,7 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <table class="table is-striped is-bordered"><caption>Blocks</caption><tbody class="procedural">
 <tr class="procedural"><th class="">Block typename</th><th class="">Specifies</th></tr>
 <tr class="procedural"><td class=""><p id="2bcef59">=cell </p></td><td class="">Contents of a table cell, only valid in a procedural table context</td></tr>
+<tr class="procedural"><td class=""><p id="5f33e3c"><span class="code">citation</span> </p></td><td class="">Specify a list of citation datasets in one of several standard citation markup languages</td></tr>
 <tr class="procedural"><td class=""><p id="a75b87f">=code </p></td><td class="">Verbatim pre-formatted sample source code</td></tr>
 <tr class="procedural"><td class=""><p id="086cfa8">=input </p></td><td class="">Pre-formatted sample input</td></tr>
 <tr class="procedural"><td class=""><p id="9815fe2">=output </p></td><td class="">Pre-formatted sample output</td></tr>
@@ -4451,7 +4762,8 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="4500809">N&lt;...&gt; </p></td><td class="">Note (not rendered inline, but visible in some way: footnote, sidenote, pop-up, etc.))</td></tr>
 <tr class="procedural"><td class=""><p id="1c73c4f">O&lt;...&gt; </p></td><td class="">Overstrike or strikethrough</td></tr>
 <tr class="procedural"><td class=""><p id="f1583b7">P&lt;...|...&gt; </p></td><td class="">Placement link</td></tr>
-<tr class="procedural"><td class=""><p id="5198805">Q&lt;...&gt; </p></td><td class="">(This markup code is not yet defined, but is reserved for future use)</td></tr>
+<tr class="procedural"><td class=""><p id="fb24a5f">Q&lt; ID &gt; </p></td><td class=""><p id="67b527b">Marker citing the dataset with identifier <span class="important">ID</span> </p></td></tr>
+<tr class="procedural"><td class=""><p id="4b2a7b1">Q&lt; ID1 ; ID2 , TEXT ; ETC. &gt; </p></td><td class=""><p id="765b8ae">Marker citing multiple datasets with identifiers <span class="important">ID1, ID2, ETC.</span>, some with textual annotations as well </p></td></tr>
 <tr class="procedural"><td class=""><p id="554002e">R&lt;...&gt; </p></td><td class="">Replaceable component or metasyntax</td></tr>
 <tr class="procedural"><td class=""><p id="9aef84b">S&lt;...&gt; </p></td><td class="">Space characters to be preserved</td></tr>
 <tr class="procedural"><td class=""><p id="affb7d8">T&lt;...&gt; </p></td><td class="">Terminal output (typically rendered fixed-width)</td></tr>
@@ -4490,6 +4802,14 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="c82bc6b"><span class="code">:pc</span> </p></td><td class="">use titlecase for first character of each word, preserve ALLCAPS words, lowercase for the rest</td></tr>
 <tr class="procedural"><td class=""><p id="1957fc0"><span class="code">:lang&lt;</span><span class="important">xx</span><span class="code">&gt;</span> </p></td><td class=""><p id="22f792f">use numbering and/or ordinal system for ISO 639-1 language <span class="important">xx</span> <span class="important">(if supported)</span> </p></td><td class=""></td></tr>
 </tbody></table>
+<div id="Options_for_C&lt;citation&gt;_block"></div>
+<table class="table is-striped is-bordered"><caption>Options for C<citation> block</caption><tbody class="procedural">
+<tr class="procedural"><td class="">Options</td><td class="">Meaning</td></tr>
+<tr class="procedural"><td class=""><p id="67c806f"><span class="code">:load&lt;</span><span class="important">URL</span><span class="code">&gt;</span> </p></td><td class="">Import citation data from the specified URL</td></tr>
+<tr class="procedural"><td class=""><p id="60a5b49"><span class="code">:category&lt;</span><span class="important">CatName(s)</span><span class="code">&gt;</span> </p></td><td class="">Include the block’s citation data in the specified category or categories</td></tr>
+<tr class="procedural"><td class=""><p id="d3f38eb"><span class="code">:style&lt;</span><span class="important">NAME/URL</span><span class="code">&gt;</span> </p></td><td class="">When rendering, format the citation list using the CSL style format specified by the name or by the URL</td></tr>
+<tr class="procedural"><td class=""><p id="5a298c6"><span class="code">:locale&lt;</span><span class="important">TAG</span><span class="code">&gt;</span> </p></td><td class="">When rendering, format the citation list using the CSL locale conventions specified by the specified IETF BCP 47 language tag</td></tr>
+</tbody></table>
 <h1 id="Licence" class="heading raku-webs-h1 "><a href="#">Licence</a><a class="raku-webs-anchor" href="#Licence">§</a></h1>
 Artistic-2.0
 
@@ -4524,10 +4844,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 18:28 UTC on 2026-02-04
+                Rendered at 23:22 UTC on 2026-02-08
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 18:27 UTC on 2026-02-04
+                Source last modified&nbsp;at 23:20 UTC on 2026-02-08
             </div>
         </nav>
     </div>
