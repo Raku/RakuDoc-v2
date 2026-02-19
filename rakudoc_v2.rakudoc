@@ -4836,15 +4836,15 @@ equivalent might involve a bold font.
 
 The following should be made available in all renderers.
 =for table :!toc :caption('')
-    Inline markup   Instruction      Mnemonic              HTML equivalent        Markdown equivalent
-    =============   ===========      ===================   ==================     ===================
-    Basis           V«B<text>»       "B for Basis"         C«<b>text</b>»         **text**
-    Important       V«I<text>»       "I for Important"     C«<i>text</i>»         *text*
-    Unusual         V«U<text>»       "U for Unusual"       C«<u>text</u>»         __text__
-    Strikethrough   V«O<text>»       "O for Overstrike"    C«<s>text</s>»         ~~text~~
-    Superscript     V«H<text>»       "H for High text"     C«<sup>text</sup>»     ^text^
-    Subscript       V«J<text>»       "J for Junior text"   C«<sub>text</sub>»     ~text~
-    Code            V«C<text>»       "C for Code"          C«<code>text</code>»   `text`
+    Inline markup   Instruction      Mnemonic              HTML equivalent           Markdown equivalent
+    =============   ===========      ===================   ==================        ===================
+    Basis           V«B<text>»       "B for Basis"         C«<strong>text</strong>»  **text**
+    Important       V«I<text>»       "I for Important"     C«<em>text</em>»          *text*
+    Unusual         V«U<text>»       "U for Unusual"       C«<ins>text</ins>»        <ins>text</ins>
+    Struck out      V«O<text>»       "O for Out"           C«<del>text</del>»        ~~text~~
+    Superscript     V«H<text>»       "H for High text"     C«<sup>text</sup>»        <sup>text</sup>
+    Subscript       V«J<text>»       "J for Junior text"   C«<sub>text</sub>»        <sub>text<sub>
+    Code            V«C<text>»       "C for Code"          C«<code>text</code>»      `text`
 
 The table contains suggested HTML and Markdown equivalents; a renderer may
 choose other representations.
@@ -5907,7 +5907,7 @@ in a pop-up that activates on hover or mouse-click
         =cell V<Δ<...|...;...>>
         =cell Delta note (V<Δ<visible text|version; Notification text>>)
     =row
-        =cell V« E»<...|...;...>
+        =cell V«E»<...|...;...>
         =cell Entity (HTML or Unicode) description (V« E»<entity1;entity2; multi,glyph;...>)
     =row
         =cell V<F<...|...>>
@@ -5938,7 +5938,7 @@ in a pop-up that activates on hover or mouse-click
         =cell Note (not rendered inline, but visible in some way: footnote, sidenote, pop-up, etc.))
     =row
         =cell V<O<...>>
-        =cell Overstrike or strikethrough
+        =cell Struck out
     =row
         =cell V<P<...|...>>
         =cell Placement link

@@ -77,7 +77,7 @@ A paragraph to illustrate R<Replacement> formatting.
 
 A paragraph to illustrate T<Terminal> formatting.
 
-A paragraph to illustrate several G<G undefined type>, Q<Q undefined type>,
+A paragraph to illustrate several G<G undefined type>,
 W<W undefined type>, Y<Y undefined type> formatting; warnings are expected.
 
 Various entities are possible such as E<171> or the same thing using
