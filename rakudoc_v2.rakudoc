@@ -960,7 +960,7 @@ on those block types because they have some special properties by default, namel
 =item The C<=head> / C<=numhead> blocks are automatically included into the main I<Table of Contents>.
 =item2 Semantic blocks are treated as C<=head> blocks.
 
-The block bases C<rakudoc>, C<section>, C<nested> and C<pod> (which is a deprecated alias to C<rakudoc>)
+The block bases C<rakudoc>, C<section>, C<nested>, C<citation>, and C<pod> (which is a deprecated alias to C<rakudoc>)
 are considered to be container blocks which act on their contents but do not have any separate rendered contents.
 Consequently, even if the prefix I<num> and a I<level> are attached to these bases, they have no effect.
 
