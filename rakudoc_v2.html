@@ -404,7 +404,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Markup_instructions_0">Markup instructions</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#:form_components">:form components</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_form_fields">Options for form fields</a></div>
-<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_C&lt;citation&gt;_block">Options for C block</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_related_to_citations">Options related to citations</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Licence">Licence</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
 </div>
@@ -561,7 +561,7 @@ function swap_toc_index(div, activate) {
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Markup_instructions_0">Markup instructions</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#:form_components">:form components</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_form_fields">Options for form fields</a></div>
-<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_for_C&lt;citation&gt;_block">Options for C block</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Options_related_to_citations">Options related to citations</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Licence">Licence</a></div>
 <div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
 </div>
@@ -3640,7 +3640,7 @@ We will use: F&lt;
 </pre>
 </div>
                 </div>
-            <p id="9b80f8d">This places a custom <span class="basis"><span class="important">list-of-citations</span></span> that is specially produced by the renderer, using every dataset from <span class="basis"><span class="important">all</span></span> of the document’s <span class="code">=citation</span> blocks, and applying a user-selected citation style – specified either within the document via a <span class="code">:style</span> option (see below), or a style externally selected for the renderer in some way (<span class="important">e.g.</span> via a command-line argument or environment variable). </p>
+            <p id="43971ac">This places a custom <span class="basis"><span class="important">list-of-citations</span></span> that is specially produced by the renderer, using every dataset from <span class="basis"><span class="important">all</span></span> of the document’s <span class="code">=citation</span> blocks, and applying a user-selected citation style – specified either within the document via a <span class="code">:citation-style</span> option (see below), or a style externally selected for the renderer in some way (<span class="important">e.g.</span> via a command-line argument or environment variable). </p>
 <p id="9a19acb">To have the renderer include only particular citations, you can specify something more limited that <span class="important">“whatever”</span> (<span class="important">i.e.</span> <span class="code">*</span>) in the placement: </p>
 
                 <div class="raku-code">
@@ -3667,14 +3667,16 @@ We will use: F&lt;
                 </div>
             
 <div class="id-target" id="Rendering citations"></div><h3 id="Rendering_citations" class="heading raku-webs-h3 "><a href="#">Rendering citations</a><a class="raku-webs-anchor" href="#Rendering citations">§</a></h3>
-<p id="4076f58">When a <span class="code">Q&lt;&gt;</span> marker or <span class="code">=place citation:</span> list is to be rendered, the renderer must determine the <span class="important">citation style</span> in which the markers and the citations list are to be formatted (<span class="important">i.e.</span> ACM, APA, Chicago, IEEE, Harvard, <span class="important">etc.</span>) The actual formatting of the markers and citations is specified by pointing the renderer to a specific CSL style file, perhaps via a command-line flag when invoking the renderer. </p>
-<p id="aaaa655">However, the required styling information may also be hard-coded directly into a document, by specifying an empty <span class="code">citation</span> block with the <span class="code">:style</span> option. The <span class="code">:style</span> value may be specified either as a full URL for the corresponding CSL style file: </p>
+<p id="25ac5f3">When a <span class="code">Q&lt;&gt;</span> marker or <span class="code">=place citation:</span> list is to be rendered, the renderer must determine the <span class="important">citation style</span> in which the markers and the citations list are to be formatted (<span class="important">i.e.</span> ACM, APA, Chicago, IEEE, Harvard, <span class="important">etc.</span>) </p>
+<p id="e157fac">The default citation style for a RakuDoc document is <a href="https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl#"> IEEE </a> or simply <span class="code">:citation-style&lt;ieee&gt;</span>. </p>
+<p id="93c99d4">However, the required styling information may also be hard-coded directly into a document, by specifying the <span class="code">:citation-style</span> option in the outermost, typically <span class="code">rakudoc</span>, block. </p>
+<p id="26ce212">The <span class="code">:citation-style</span> value may be specified either as a full URL for the corresponding CSL style file: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">=for citation  :style&lt; https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl &gt;</span>
+<span class="rainbow-rakudoc_markup">=begin rakudoc</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">citation-style</span>&lt;&nbsp;https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl&nbsp;&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">...<br>=end rakudoc</span><span class="rainbow-rakudoc_markup"></span>
 </pre>
 </div>
                 </div>
@@ -3684,35 +3686,35 @@ We will use: F&lt;
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">=for citation  :style&lt; chicago-author-date &gt;</span>
+<span class="rainbow-rakudoc_text">=begin rakudoc :citation-style&lt; chicago-author-date &gt;</span>
 </pre>
 </div>
                 </div>
-            <p id="147f62b">Such a style specification may appear anywhere in a RakuDoc document, although it would typically be placed either at the beginning of the file, or just before the <span class="code">=place</span> directive that will insert the list of citations. For example: </p>
+            <p id="3c8a3ae">A CSL locale is also required, and the default locale for a RakuDoc source is <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml#"> en-GB </a>, or <span class="code"> :citation-locale&lt; en-GB &gt;</span>. </p>
+<div class="nested"><p id="84ce5b7">Note: the <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml#"> en-US locale </a> was rejected as the default because it overpunctuates abbreviations. </p></div>
+<p id="3811253">The citation-locale may be hard-wired into a RakuDoc document, using the <span class="code">rakudoc</span> block’s <span class="code">:citation-locale</span> option, which takes an <a href="https://en.wikipedia.org/wiki/IETF_language_tag#"> IETF BCP 47 language tag </a> specifying the desired locale: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">=head Bibliography<br><br></span><span class="rainbow-rakudoc_markup">=for citation</span><span class="rainbow-rakudoc_markup">  </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">style</span>&lt;&nbsp;acm-sigplan&nbsp;&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">=place citation:*</span>
+<span class="rainbow-rakudoc_text">=begin rakudoc :citation-locale&lt; de-CH &gt;</span>
 </pre>
 </div>
                 </div>
-            <p id="cc563ae">If a CSL locale is also required, the renderer should allow that to be specified on the command-line as well, or it can be hard-wired into a RakuDoc document, using the <span class="code">citation</span> block’s <span class="code">:locale</span> option, which takes an <a href="https://en.wikipedia.org/wiki/IETF_language_tag#"> IETF BCP 47 language tag </a> specifying the desired locale: </p>
-
-                <div class="raku-code">
-                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
-                    <label>RakuDoc</label>
-                    <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_text">=citation :locale&lt; de-CH &gt;</span>
-</pre>
-</div>
-                </div>
-            <p id="ffccda2">If the document contains two or more such style specifications, or two or more locales, the final one of each that was encountered within the document is the one used. If no such style specification is found, and the renderer is not otherwise invoked with an indication of the desired citation style, then the renderer is free to format citations in whatever default style it deems appropriate. A suitable default style might be <a href="https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl#"> IEEE </a> and a suitable default locale might be <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml#"> en-GB </a>. </p>
-<div class="nested"><p id="9d6a5ba">Note: the <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml#"> en-US locale </a> is <span class="basis"><span class="important">not</span></span> recommended as a default, both because it overpunctuates abbreviations and because its rendering of dates as MM/DD/YYYY ought be neither condoned nor encouraged. </p></div>
-<p id="a1a4681">The specification order of the original <span class="code">citation</span> data within a RakuDoc document is entirely unrelated to its final rendering. The relevant style specification will determine how the final list-of-citations should be ordered (<span class="important">e.g.</span> by first author, by citation marker, by cited order, <span class="important">etc.</span>) and also how the corresponding <span class="code">Q&lt;&gt;</span> markers within the text should be labelled and formatted. </p>
+            <p id="a1a4681">The specification order of the original <span class="code">citation</span> data within a RakuDoc document is entirely unrelated to its final rendering. The relevant style specification will determine how the final list-of-citations should be ordered (<span class="important">e.g.</span> by first author, by citation marker, by cited order, <span class="important">etc.</span>) and also how the corresponding <span class="code">Q&lt;&gt;</span> markers within the text should be labelled and formatted. </p>
 <p id="a58469d">When rendering to output formats that support intradocument linkages (such as HTML), renderers may wish to link each rendered bibliographic marker to the corresponding bibliographic reference in the rendered bibliographic list, and perhaps back-link the reference to the marker as well. This approach is encouraged, but not required. </p>
+<p id="e37e2d6">Since the <span class="code">rakudoc</span> block is just a block, the two citation option can be set using a <span class="code">config</span> directive, <span class="important">e.g.</span>, </p>
 
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=config rakudoc :citation-style&lt; chicago-author-date &gt; :citation-locale&lt; de-CH &gt;</span>
+</pre>
+</div>
+                </div>
+            
 <div class="id-target" id="Missing citations"></div><h3 id="Missing_citations" class="heading raku-webs-h3 "><a href="#">Missing citations</a><a class="raku-webs-anchor" href="#Missing citations">§</a></h3>
 <p id="5316cd7">If any <span class="code">Q&lt;&gt;</span> contains a citation identifier that is not present anywhere in the document’s citation data, and if the author has explicitly requested a listing for that non-existent citation dataset (<span class="important">e.g.</span> by specifying a <span class="code">=place citation:*</span> or <span class="code">=place citation:cited</span>), then the missing dataset must be listed in such a way that it is clearly marked as absent/unknown. </p>
 <p id="6ba0a58">The missing listing must also still be associated with a suitable marker generated for the orphaned <span class="code">Q&lt;&gt;</span> code when the citations are listed. For example, if a <span class="code">Q&lt;Wall42&gt;</span> or <span class="code">Q&lt;SapWho99&gt;</span> appears in the text, but there are no datasets in any <span class="code">citation</span> block that contain those particular citation identifiers, then the markers must still be rendered appropriately in the text, as something like: </p>
@@ -4802,13 +4804,13 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="c82bc6b"><span class="code">:pc</span> </p></td><td class="">use titlecase for first character of each word, preserve ALLCAPS words, lowercase for the rest</td></tr>
 <tr class="procedural"><td class=""><p id="1957fc0"><span class="code">:lang&lt;</span><span class="important">xx</span><span class="code">&gt;</span> </p></td><td class=""><p id="22f792f">use numbering and/or ordinal system for ISO 639-1 language <span class="important">xx</span> <span class="important">(if supported)</span> </p></td><td class=""></td></tr>
 </tbody></table>
-<div id="Options_for_C&lt;citation&gt;_block"></div>
-<table class="table is-striped is-bordered"><caption>Options for C<citation> block</caption><tbody class="procedural">
-<tr class="procedural"><td class="">Options</td><td class="">Meaning</td></tr>
-<tr class="procedural"><td class=""><p id="67c806f"><span class="code">:load&lt;</span><span class="important">URL</span><span class="code">&gt;</span> </p></td><td class="">Import citation data from the specified URL</td></tr>
-<tr class="procedural"><td class=""><p id="60a5b49"><span class="code">:category&lt;</span><span class="important">CatName(s)</span><span class="code">&gt;</span> </p></td><td class="">Include the block’s citation data in the specified category or categories</td></tr>
-<tr class="procedural"><td class=""><p id="d3f38eb"><span class="code">:style&lt;</span><span class="important">NAME/URL</span><span class="code">&gt;</span> </p></td><td class="">When rendering, format the citation list using the CSL style format specified by the name or by the URL</td></tr>
-<tr class="procedural"><td class=""><p id="5a298c6"><span class="code">:locale&lt;</span><span class="important">TAG</span><span class="code">&gt;</span> </p></td><td class="">When rendering, format the citation list using the CSL locale conventions specified by the specified IETF BCP 47 language tag</td></tr>
+<div id="Options_related_to_citations"></div>
+<table class="table is-striped is-bordered"><caption>Options related to citations</caption><tbody class="procedural">
+<tr class="procedural"><td class="">Block base</td><td class="">Options</td><td class="">Meaning</td></tr>
+<tr class="procedural"><td class="">citation</td><td class=""><p id="67c806f"><span class="code">:load&lt;</span><span class="important">URL</span><span class="code">&gt;</span> </p></td><td class="">Import citation data from the specified URL</td></tr>
+<tr class="procedural"><td class="">citation</td><td class=""><p id="60a5b49"><span class="code">:category&lt;</span><span class="important">CatName(s)</span><span class="code">&gt;</span> </p></td><td class="">Include the block’s citation data in the specified category or categories</td></tr>
+<tr class="procedural"><td class="">rakudoc</td><td class=""><p id="82bd38d"><span class="code">:citation-style&lt;</span><span class="important">NAME/URL</span><span class="code">&gt;</span> </p></td><td class="">When rendering, format the citation list using the CSL style format specified by the name or by the URL</td></tr>
+<tr class="procedural"><td class="">rakudoc</td><td class=""><p id="63039b1"><span class="code">:citation-locale&lt;</span><span class="important">TAG</span><span class="code">&gt;</span> </p></td><td class="">When rendering, format the citation list using the CSL locale conventions specified by the specified IETF BCP 47 language tag</td></tr>
 </tbody></table>
 <h1 id="Licence" class="heading raku-webs-h1 "><a href="#">Licence</a><a class="raku-webs-anchor" href="#Licence">§</a></h1>
 Artistic-2.0
@@ -4844,10 +4846,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 22:54 UTC on 2026-02-23
+                Rendered at 10:58 UTC on 2026-02-27
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 22:53 UTC on 2026-02-23
+                Source last modified&nbsp;at 10:58 UTC on 2026-02-27
             </div>
         </nav>
     </div>

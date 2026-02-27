@@ -4267,7 +4267,7 @@ with the C«citation:» scheme. For example:
 This places a custom B«I<list-of-citations>» that is specially produced by the renderer,
 using every dataset from B«I<all>» of the document’s C«=citation» blocks, and applying
 a user-selected citation style – specified either within the document via
-a C«:style» option (see below), or a style externally selected for the renderer
+a C«:citation-style» option (see below), or a style externally selected for the renderer
 in some way (I<e.g.> via a command-line argument or environment variable).
 
 To have the renderer include only particular citations, you can specify
@@ -4325,50 +4325,41 @@ block can be specified as belonging to multiple categories. For example:
 
 When a C«Q<>» marker or C«=place citation:» list is to be rendered, the renderer
 must determine the I<citation style> in which the markers and the citations list
-are to be formatted (I<i.e.> ACM, APA, Chicago, IEEE, Harvard, I<etc.>) The actual
-formatting of the markers and citations is specified by pointing the renderer
-to a specific CSL style file, perhaps via a command-line flag when invoking
-the renderer.
+are to be formatted (I<i.e.> ACM, APA, Chicago, IEEE, Harvard, I<etc.>)
+
+The default citation style for a RakuDoc document is
+L< IEEE | https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl >
+or simply C«:citation-style<ieee>».
 
 However, the required styling information may also be hard-coded directly into a document,
-by specifying an empty C«citation» block with the C«:style» option. The C«:style» value
+by specifying the C«:citation-style» option in the outermost, typically C<rakudoc>, block.
+
+The C«:citation-style» value
 may be specified either as a full URL for the corresponding CSL style file:
 =begin code :lang<rakudoc>
-=for citation  :style< https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl >
+=begin rakudoc :citation-style< https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl >
+...
+=end rakudoc
 =end code
 ...or as just the standard name of the CSL style (without its filepath prefix or extension suffix):
 =begin code :lang<rakudoc>
-=for citation  :style< chicago-author-date >
+=begin rakudoc :citation-style< chicago-author-date >
 =end code
 
-Such a style specification may appear anywhere in a RakuDoc document, although
-it would typically be placed either at the beginning of the file, or just before
-the C«=place» directive that will insert the list of citations. For example:
-=begin code :lang<rakudoc>
-=head Bibliography
+A CSL locale is also required, and the default locale for a RakuDoc source is
+L< en-GB | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml >,
+or C« :citation-locale< en-GB >».
 
-=for citation  :style< acm-sigplan >
+=nested Note: the L< en-US locale | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml >
+was rejected as the default because it overpunctuates abbreviations.
 
-=place citation:*
-=end code
-
-If a CSL locale is also required, the renderer should allow that to be specified
-on the command-line as well, or it can be hard-wired into a RakuDoc document,
-using the C«citation» block’s C«:locale» option, which takes an L< IETF BCP 47 language tag | https://en.wikipedia.org/wiki/IETF_language_tag >
+The citation-locale may be hard-wired into a RakuDoc document,
+using the C«rakudoc» block’s C«:citation-locale» option,
+which takes an L< IETF BCP 47 language tag | https://en.wikipedia.org/wiki/IETF_language_tag >
 specifying the desired locale:
 =begin code :lang<rakudoc>
-=citation :locale< de-CH >
+=begin rakudoc :citation-locale< de-CH >
 =end code
-
-If the document contains two or more such style specifications, or two or more locales,
-the final one of each that was encountered within the document is the one used.
-If no such style specification is found, and the renderer is not otherwise invoked with
-an indication of the desired citation style, then the renderer is free to format citations
-in whatever default style it deems appropriate. A suitable default style might be L< IEEE | https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl >
-and a suitable default locale might be L< en-GB | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml >.
-
-=nested Note: the L< en-US locale | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml > is B«I<not>» recommended as a default, both because it overpunctuates abbreviations
-and because its rendering of dates as MM/DD/YYYY ought be neither condoned nor encouraged.
 
 The specification order of the original C«citation» data within a RakuDoc document
 is entirely unrelated to its final rendering. The relevant style specification
@@ -4380,6 +4371,12 @@ When rendering to output formats that support intradocument linkages (such as HT
 renderers may wish to link each rendered bibliographic marker to the
 corresponding bibliographic reference in the rendered bibliographic list, and perhaps
 back-link the reference to the marker as well. This approach is encouraged, but not required.
+
+Since the C<rakudoc> block is just a block, the two citation option can be set
+using a C<config> directive, I<e.g.>,
+=begin code :lang<RakuDoc>
+=config rakudoc :citation-style< chicago-author-date > :citation-locale< de-CH >
+=end code
 
 =head3 Missing citations
 
@@ -6064,21 +6061,26 @@ in a pop-up that activates on hover or mouse-click
 	=cell
 =end table2
 
-=begin table2 :caption«Options for C<citation> block» :toc
+=begin table2 :caption«Options related to citations» :toc
 =row :heading
+=cell Block base
 =cell Options
 =cell Meaning
 =row
+=cell citation
 =cell C«:load<»I<URL>C«>»
 =cell Import citation data from the specified URL
 =row
+=cell citation
 =cell C«:category<»I<CatName(s)>C«>»
 =cell Include the block’s citation data in the specified category or categories
 =row
-=cell C«:style<»I<NAME/URL>C«>»
+=cell rakudoc
+=cell C«:citation-style<»I<NAME/URL>C«>»
 =cell When rendering, format the citation list using the CSL style format specified by the name or by the URL
 =row
-=cell C«:locale<»I<TAG>C«>»
+=cell rakudoc
+=cell C«:citation-locale<»I<TAG>C«>»
 =cell When rendering, format the citation list using the CSL locale conventions specified by the specified IETF BCP 47 language tag
 =end table2
 
