@@ -4332,7 +4332,7 @@ L< IEEE | https://raw.githubusercontent.com/citation-style-language/styles/maste
 or simply C«:citation-style<ieee>».
 
 However, the required styling information may also be hard-coded directly into a document,
-by specifying the C«:citation-style» option in the outermost, typically C<rakudoc>, block.
+by specifying the C«:citation-style» option on the outermost block of the document, typically a C<rakudoc> block.
 
 The C«:citation-style» value
 may be specified either as a full URL for the corresponding CSL style file:
@@ -4351,7 +4351,7 @@ L< en-GB | https://raw.githubusercontent.com/citation-style-language/locales/mas
 or C« :citation-locale< en-GB >».
 
 =nested Note: the L< en-US locale | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml >
-was rejected as the default because it overpunctuates abbreviations.
+was rejected as the default because it overpunctuates abbreviations and because it uses the month-day-year date sequence.
 
 The citation-locale may be hard-wired into a RakuDoc document,
 using the C«rakudoc» block’s C«:citation-locale» option,
@@ -4359,6 +4359,19 @@ which takes an L< IETF BCP 47 language tag | https://en.wikipedia.org/wiki/IETF_
 specifying the desired locale:
 =begin code :lang<rakudoc>
 =begin rakudoc :citation-locale< de-CH >
+=end code
+
+Since the C<rakudoc> block is just a block, the two citation options can also be set
+using a C<config> directive. Note, however, that they will only be applied if the
+C<config> is then followed by an actual C<rakudoc> block, like so:
+=begin code :lang<RakuDoc> :allow<B I>
+B<=config rakudoc :citation-style< chicago-author-date > :citation-locale< de-CH >>
+
+I<=comment And later...>
+
+=begin rakudoc
+...
+=end rakudoc
 =end code
 
 The specification order of the original C«citation» data within a RakuDoc document
@@ -4372,11 +4385,6 @@ renderers may wish to link each rendered bibliographic marker to the
 corresponding bibliographic reference in the rendered bibliographic list, and perhaps
 back-link the reference to the marker as well. This approach is encouraged, but not required.
 
-Since the C<rakudoc> block is just a block, the two citation option can be set
-using a C<config> directive, I<e.g.>,
-=begin code :lang<RakuDoc>
-=config rakudoc :citation-style< chicago-author-date > :citation-locale< de-CH >
-=end code
 
 =head3 Missing citations
 
@@ -6081,7 +6089,7 @@ in a pop-up that activates on hover or mouse-click
 =row
 =cell rakudoc
 =cell C«:citation-locale<»I<TAG>C«>»
-=cell When rendering, format the citation list using the CSL locale conventions specified by the specified IETF BCP 47 language tag
+=cell When rendering, format the citation list using the CSL locale conventions selected by the specified IETF BCP 47 language tag
 =end table2
 
 =place semantic:LICENSE :caption<Licence>
