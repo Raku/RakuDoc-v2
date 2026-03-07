@@ -709,7 +709,7 @@ function swap_toc_index(div, activate) {
             <p id="5fd3fad">This configures the <span class="code">C&lt;&gt;</span> markup instruction to recognize nested <span class="code">B&lt;&gt;</span> and <span class="code">I&lt;&gt;</span> markup instructions (both of which would otherwise be treated as verbatim within a <span class="code">C&lt;&gt;</span> instruction). </p>
 <p id="39742a9">To avoid ambiguities <a href="#Naming_rules">Naming rules</a> are applied to blocks and markup instructions. </p>
 <p id="177e0ac">Note that since the <span class="code">=config</span> directive applies to <span class="important">block types</span>, <span class="code">=config item ...</span> and <span class="code">=config numitem ...</span> are equivalent. More information about <span class="important">block types</span> can be found in the section on <a href="#Block_type,_level_and_enumeration">Block type, level and enumeration</a>. </p></li>
-<li class="item" data-bullet="•" style="--level:0;"> <p id="fdeaf3f"><span class="basis">=document</span> specifies option values that over-ride defaults to options applicable to the whole document and are applied when the final rendering is completed. </p>
+<li class="item" data-bullet="•" style="--level:0;"> <p id="2aa28f8"><span class="basis">=document</span> specifies new default values for options applicable to the whole document. These values are applied when the final rendering is completed. </p>
 <p id="c90c700">The syntax is: </p>
 
                 <div class="raku-code">
@@ -717,11 +717,11 @@ function swap_toc_index(div, activate) {
                     <label><b>allow</b> styling</label>
                     <div><pre class="nohighlights">
     =document <span class="replace">DOCUMENT OPTIONS</span>
-    =         <span class="replace">OPTION EXTRA DOCUMENT OPTIONS</span>
+    =         <span class="replace">OPTIONAL EXTRA DOCUMENT OPTIONS</span>
 </pre>
 </div>
                 </div>
-            <p id="f35315a">A renderer may allow for customisable options, which should be mixed case, see <a href="Naming rules#">Naming rules</a>. </p></li>
+            <p id="90ab0bb">A renderer may provide custom options not specified here. These should have mixed-case names, see <a href="Naming rules#">Naming rules</a>. </p></li>
 <li class="item" data-bullet="•" style="--level:0;"> <p id="34eafb0"><span class="basis">=place</span> specifies a source of information that is to be placed in the current block. The general syntax of <span class="basis">=place</span> is </p>
 
                 <div class="raku-code">
@@ -889,7 +889,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
                 </div>
             <h1 id="Directives" class="heading raku-webs-h1 "><a href="#">Directives</a><a class="raku-webs-anchor" href="#Directives">§</a></h1>
 <p id="a6cf5a8">Directives are similar in form to <span class="important">block</span> instructions, but they do not have the extended or delimited forms. If a directive name is preceded by a <span class="code">=begin</span>, <span class="code">=for</span> or <span class="code">=end</span>, then an error will be thrown. </p>
-<p id="9b23155">Directives cannot be enumerated. If a directive is prefixed by <span class="code">num</span>, then a warning will be generated and the prefix removed. </p>
+<p id="4151875">Directives cannot be enumerated. If a directive is prefixed by <span class="code">num</span>, then a warning will be generated and the prefix ignored. </p>
 <h2 id="Aliases" class="heading raku-webs-h2 "><a href="#">Aliases</a><a class="raku-webs-anchor" href="#Aliases">§</a></h2>
 <p id="9e406c0">The <span class="code">=alias</span> directive provides a way to define block-scoped synonyms for longer RakuDoc sequences, (meta)object declarators from the code, or even entire chunks of ambient source. These synonyms can then be inserted into subsequent RakuDoc using the <a href="#Alias_placements"><span class="code">A&lt;&gt; formatting code</span></a>. </p>
 <p id="f28ef43">An <span class="code">=alias</span> is scoped from immediately after its declaration up to the end of the innermost surrounding RakuDoc block. </p>
@@ -998,7 +998,7 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
             <p id="217ef78">There is more discussion of <span class="code">=config</span> in the context of <a href="#Formatting_codes">Formatting codes</a>. </p>
 
 <div class="id-target" id="Document management"></div><h2 id="Document_management" class="heading raku-webs-h2 "><a href="#">Document management</a><a class="raku-webs-anchor" href="#Document management">§</a></h2>
-<p id="e35a4b5">The <span class="code">=document</span> directive allows the author to over-ride document level options values. It is required that all document level options have suitable default values, some of which are specified in this document. Those that are not specified here are left to the renderer developer. </p>
+<p id="09c9ba9">The <span class="code">=document</span> directive allows the author to override the values of document-level options. It is required that all document-level options have suitable default values, some of which are specified in this document. Any defaults that are not specified here are left to the discretion of the developer of each renderer. </p>
 <p id="229bc77">Unlike the <span class="code">=config</span> and other directives, the <span class="code">=document</span> directive is <span class="basis">not</span> lexically scoped. Hence, one or more <span class="code">=document</span> directives may be specified anywhere in a RakuDoc document and their effects are cumulative. That is, the options passed to each successive <span class="code">=document</span> directive are accumulated and concatenated to determine the final set of options. Hence, the two directives: </p>
 
                 <div class="raku-code">
@@ -1029,15 +1029,15 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 </pre>
 </div>
                 </div>
-            <p id="79e52f7">... because the <span class="code">:auto-toc</span> and <span class="code">:auto-index</span> options in later <span class="code">=document</span> directives override those in earlier directives (which is the usual RakuDoc way). </p>
+            <p id="82ef9ba">... because the <span class="code">:auto-toc</span> and <span class="code">:auto-index</span> options in later <span class="code">=document</span> directives override those in earlier directives (which is the usual RakuDoc behaviour). </p>
 <p id="6a06392">The following document level options are specified: </p>
 <div id="Document_level_options"></div>
 <table class="table is-striped is-bordered"><caption>Document level options</caption><tbody class="procedural">
 <tr class="procedural"><th class="">Option name</th><th class="">Default</th><th class="">Description</th></tr>
-<tr class="procedural"><td class=""><p id="048eb25"><span class="code">:error</span> </p></td><td class="">True</td><td class="">If True, a warning of an error condition is rendered at the end of the document.</td></tr>
-<tr class="procedural"><td class=""><p id="704c3b1"><span class="code">:auto-toc</span> </p></td><td class=""><p id="b2c55b9">False unless over-ridden by the presence of <span class="code">=head</span> or semantic blocks. </p></td><td class=""><p id="e0d5c71">Whether to automatically generate a Table of Contents, or mandate no automatic rendering of a Table of Contents, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>. </p></td></tr>
-<tr class="procedural"><td class=""><p id="e5836f0"><span class="code">:auto-index</span> </p></td><td class=""><p id="279bbd5">False unless over-ridden by the presence of <span class="code">X&lt; ... &gt;</span> markup. </p></td><td class=""><p id="4e9efe2">Whether to automatically generate an Index, or mandate no automatic rendering of an Index, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>. </p></td></tr>
-<tr class="procedural"><td class=""><p id="4fbf271"><span class="code">:auto-citations</span> </p></td><td class=""><p id="f89759d">False unless over-ridden by the presence of <span class="code">Q&lt; ... &gt;</span> markup. </p></td><td class=""><p id="dc6080e">Whether to automatically generate a Citations list, or mandate no automatic rendering of a Citations list, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>. </p></td></tr>
+<tr class="procedural"><td class=""><p id="048eb25"><span class="code">:error</span> </p></td><td class="">True</td><td class="">If True, warnings for any error conditions are rendered at the end of the document.</td></tr>
+<tr class="procedural"><td class=""><p id="704c3b1"><span class="code">:auto-toc</span> </p></td><td class=""><p id="ed3bdd8">False unless overridden by the presence of <span class="code">=head</span> or semantic blocks. </p></td><td class=""><p id="e0d5c71">Whether to automatically generate a Table of Contents, or mandate no automatic rendering of a Table of Contents, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>. </p></td></tr>
+<tr class="procedural"><td class=""><p id="e5836f0"><span class="code">:auto-index</span> </p></td><td class=""><p id="a9e131a">False unless overridden by the presence of <span class="code">X&lt; ... &gt;</span> markup. </p></td><td class=""><p id="4e9efe2">Whether to automatically generate an Index, or mandate no automatic rendering of an Index, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>. </p></td></tr>
+<tr class="procedural"><td class=""><p id="4fbf271"><span class="code">:auto-citations</span> </p></td><td class=""><p id="35709f2">False unless overridden by the presence of <span class="code">Q&lt; ... &gt;</span> markup. </p></td><td class=""><p id="dc6080e">Whether to automatically generate a Citations list, or mandate no automatic rendering of a Citations list, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>. </p></td></tr>
 <tr class="procedural"><td class=""><p id="05522fc"><span class="code">:lang</span> </p></td><td class="">en</td><td class="">The language of the content of the document.</td></tr>
 <tr class="procedural"><td class=""><p id="88b0045"><span class="code">:citation-style</span> </p></td><td class="">ieee</td><td class=""><p id="6145054">The style used to format citations. More detail can be found in <a href="#Citations">Citations</a>. </p></td></tr>
 <tr class="procedural"><td class=""><p id="f4b3d55"><span class="code">:citation-locale</span> </p></td><td class="">en-GB</td><td class=""><p id="f8cc74e">The locale used to format citation dates and numbers. More detail can be found in <a href="#Citations">Citations</a>. </p></td></tr>
@@ -1356,11 +1356,11 @@ And this is a <span class="basis">L&lt;link to the Raku Programming Language|htt
 <div class="id-target" id="Document scope"></div><h3 id="Document_scope" class="heading raku-webs-h3 "><a href="#">Document scope</a><a class="raku-webs-anchor" href="#Document scope">§</a></h3>
 <p id="c0cd8c7">A RakuDoc document starts with the first RakuDoc block or directive supplied by the parser to the renderer from a file, either as an AST or <span class="code">$=pod</span> structure, and ends with the last such directive or block. Once the document has ended, the document level options are evaluated and applied to render the document and create its output. Note that a RakuDoc document may be embedded within a Raku module or program using one or more <span class="important">rakudoc</span> blocks. </p>
 <p id="aa7d4be">A <span class="code">=begin rakudoc</span> declaration (or equivalently a <span class="code">=begin pod</span>) has the effect that the lines following it are consider RakuDoc text or blocks, and are not treated by the parser as Raku code. </p>
-<p id="13cb7ac">An <span class="code">=end rakudoc</span> will signal a return to the ambient code. </p>
+<p id="421d260">An <span class="code">=end rakudoc</span> (or <span class="code">=end pod</span>) will signal a return to the ambient code. </p>
 <p id="97a2060">A <span class="important">rakudoc</span> block does <span class="basis">not</span> start a new block scope and continues the previous document scope. </p>
-<p id="900b413">If <span class="code">rakudoc</span> blocks are nested, for example, a RakuDoc source containing it's own (possibly implied) <span class="code">=begin rakudoc</span> statement, is included in another RakuDoc source by means of a <span class="code">=place</span> statement, then the embedded rakudoc block does not create a new block scope. This means that any <span class="code">=config</span> statements in an embedded RakuDoc source will apply to the document or block scope in which the source is embedded. </p>
+<p id="d74f194"><span class="code">rakudoc</span> blocks may be nested, but do not create additional scopes. For example, if a RakuDoc source containing its own (possibly implied) <span class="code">=begin rakudoc</span> statement is included in another RakuDoc source by means of a <span class="code">=place</span> statement, then the embedded <span class="code">rakudoc</span> block does not create a new block scope. This means that any <span class="code">=config</span> statements in an embedded RakuDoc source will apply to the document or block scope in which the source is embedded. </p>
 <p id="7365893">Contrast this to a <span class="code">section</span> block, which <span class="basis">does</span> create a new block scope. </p>
-<p id="063d114">There are metadata which affect the document, as tabulated <a href="#DocumentOptions">in the sytax section</a>. These options may changed at any time in a RakuDoc documment with a <span class="code">=document</span> directive. The option values are evaluated at the end of the document scope, so the last directives are the most significant. </p>
+<p id="f12e386">The metadata that affect an entire document are tabulated <a href="#DocumentOptions">in the syntax section</a>. These options may changed at any time in a RakuDoc documment with a <span class="code">=document</span> directive. The option values are evaluated at the end of the document scope, so the last directives are the most significant. </p>
 
 <div class="id-target" id="Enumerated blocks"></div><h2 id="Enumerated_blocks" class="heading raku-webs-h2 "><a href="#">Enumerated blocks</a><a class="raku-webs-anchor" href="#Enumerated blocks">§</a></h2>
 <p id="3daaa12">RakuDoc allows for the customisable numbering of any block, not just headings and items. Moreover, the enumeration, which is generated automatically by the renderer, can be referred to later in the text using the <span class="code">A&lt; ... &gt;</span> markup code. The automatic enumeration is controlled using a construct that is largely independent of blocks: <span class="important">counters</span>. </p>
@@ -1782,8 +1782,8 @@ hier-enum(&nbsp;CounterN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;Counte
 
 <div class="id-target" id="Custom tables of contents"></div><h3 id="Custom_tables_of_contents" class="heading raku-webs-h3 "><a href="#">Custom tables of contents</a><a class="raku-webs-anchor" href="#Custom tables of contents">§</a></h3>
 <p id="67f4d19">The implicit heading level of a block in the Table of Contents (TOC) is always equal to its <span class="important">block level</span>. Hence <span class="code">head1</span> is implicitly level-1, while <span class="code">formula3</span> is implicitly level-3. </p>
-<p id="52b4901">The default TOC is created from <span class="code">=head</span> and semantic blocks (<span class="important">e.g.</span> SYNOPSIS), which are defined to have the <span class="code">:toc</span> option set to <span class="basis">True</span>. The semantic blocks <span class="code">=TITLE</span> and <span class="code">=SUBTITLE</span> are not typically included in a Table of Contents, and so are defined to have the <span class="code">:!toc</span> option. </p>
-<p id="67f64e3">Other blocks may be added to the default Table of Contents by explicitly adding the <span class="code">:toc</span> option. To add a block (or block type) to the default (or <span class="important">head</span>) TOC, configure it with an explicit <span class="code">:toc</span> option: </p>
+<p id="b674503">The default TOC is created from <span class="code">=head</span> and semantic blocks (<span class="important">e.g.</span> <span class="code">SYNOPSIS</span>), which are defined to have the <span class="code">:toc</span> option set to <span class="basis">True</span>. The semantic blocks <span class="code">=TITLE</span> and <span class="code">=SUBTITLE</span> are not typically included in a Table of Contents, and so are defined to have the <span class="code">:!toc</span> option. </p>
+<p id="9f1f056">Other blocks may be added to the default Table of Contents. To add a block (or block type) to the default (or <span class="important">head</span>) TOC, configure it with an explicit <span class="code">:toc</span> option: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1793,8 +1793,28 @@ hier-enum(&nbsp;CounterN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;Counte
 </pre>
 </div>
                 </div>
-            <p id="8d2e3fb">If you want first-level formulas in the TOC, preconfigure <span class="code">=formula1</span> with <span class="code">:toc</span> and then use <span class="code">=formula1</span> or <span class="code">=formula</span> to specify each formula; if you want just one particular table as a third-level TOC entry, specify: <span class="code">=for table3 :toc</span> </p>
-<p id="3904d93">You can also specify that a particular block or block type belongs to one or more other TOCs, by specifying the TOC name(s) as an optional argument to <span class="code">:toc</span>. For example: </p>
+            <p id="663e232">If you want all first-level formulas to be listed in the TOC, preconfigure <span class="code">=formula1</span> with <span class="code">:toc</span>: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=config formula1 :toc</span>
+</pre>
+</div>
+                </div>
+            <p id="9819417">Then use <span class="code">=formula1</span> or <span class="code">=formula</span> to specify each formula. </p>
+<p id="9d1bfad">On the other hand, if you want only one particular table included as a third-level TOC entry, specify the <span class="code">:toc</span> option on just that one block: </p>
+
+                <div class="raku-code">
+                    <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
+                    <label>RakuDoc</label>
+                    <div><pre class="nohighlights">
+<span class="rainbow-rakudoc_text">=for table3 :toc</span>
+</pre>
+</div>
+                </div>
+            <p id="3904d93">You can also specify that a particular block or block type belongs to one or more other TOCs, by specifying the TOC name(s) as an optional argument to <span class="code">:toc</span>. For example: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1804,7 +1824,7 @@ hier-enum(&nbsp;CounterN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;Counte
 </pre>
 </div>
                 </div>
-            <p id="0fd34a2">Then in the location in the text where the custom table of contents is required use a <span class="code">=place</span> directive. More detail about constraining the TOC levels can be found in the section on <a href="#Placement links">placements</a>. A simple example would be: </p>
+            <p id="27640d4">To insert these other TOCs into a document, use a <span class="code">=place</span> directive at the location where each custom table of contents is required. If you do not want your other TOCs to be listed in the main TOC, add the <span class="code">:!toc</span> option to the placements. For example: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -1814,7 +1834,8 @@ hier-enum(&nbsp;CounterN&nbsp;)&nbsp;&nbsp;→&nbsp;&nbsp;hier-enum(&nbsp;Counte
 </pre>
 </div>
                 </div>
-            
+            <p id="36314af">More detail about constraining the TOC levels can be found in the section on <a href="#Placement links">placements</a>. </p>
+
 <div class="id-target" id="Formatting of blocks"></div><h3 id="Formatting_of_blocks" class="heading raku-webs-h3 "><a href="#">Formatting of blocks</a><a class="raku-webs-anchor" href="#Formatting of blocks">§</a></h3>
 <p id="69c575f">The <span class="code">:form</span> metaoption allows the author to modify the way in which enumerated blocks are rendered. It can be used to alter the position where the enumeration value appears, and to add extra text around the various components of a block. </p>
 <p id="177a548">All para-ish blocks have a default format of <span class="code">:form&lt;%N. %D&gt;</span> (<span class="important">e.g.</span> <span class="basis"><span class="important">1. Block data here</span></span>). All head-ish blocks have a default format of <span class="code">:form&lt;%T %A. %C&gt;</span> (<span class="important">e.g.</span> <span class="basis"><span class="important">Table 1. Caption here</span></span>), except for <span class="code">=numhead</span>, which has a default of <span class="code">:form&lt;%N. %D&gt;</span> (<span class="important">e.g.</span> <span class="basis"><span class="important">1. Heading here</span></span>). </p>
@@ -3690,7 +3711,7 @@ We will use: F&lt;
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
                     <label>RakuDoc</label>
                     <div><pre class="nohighlights">
-<span class="rainbow-rakudoc_markup">=begin rakudoc</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">=document :citation-style&lt; https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl &gt;<br>...<br>=end rakudoc</span><span class="rainbow-rakudoc_markup"></span>
+<span class="rainbow-rakudoc_text">=document :citation-style&lt; https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl &gt;</span>
 </pre>
 </div>
                 </div>
@@ -3705,7 +3726,7 @@ We will use: F&lt;
 </div>
                 </div>
             <p id="3c8a3ae">A CSL locale is also required, and the default locale for a RakuDoc source is <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-GB.xml#"> en-GB </a>, or <span class="code"> :citation-locale&lt; en-GB &gt;</span>. </p>
-<div class="nested"><p id="09de0b4">Note: the <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml#"> en-US locale </a> was rejected as the default because it overpunctuates abbreviations and because it uses the month-day-year date sequence. </p></div>
+<div class="nested"><p id="60104d1">Note: the <a href="https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml#"> en-US locale </a> was not chosen as the default because it overpunctuates abbreviations and because it uses the month-day-year date sequence. </p></div>
 <p id="4e8a49d">The citation-locale may be hard-wired into a RakuDoc document, using the document level <span class="code">:citation-locale</span> option, which takes an <a href="https://en.wikipedia.org/wiki/IETF_language_tag#"> IETF BCP 47 language tag </a> specifying the desired locale: </p>
 
                 <div class="raku-code">
@@ -3716,7 +3737,7 @@ We will use: F&lt;
 </pre>
 </div>
                 </div>
-            <p id="cf58dbc">The specification order of the original <span class="code">citation</span> data within a RakuDoc document is entirely unrelated to its final rendering. </p>
+            <p id="1925c06">The specification order of the original <span class="code">citation</span> data within a RakuDoc document is entirely unrelated to its final rendering; the order is always determined by the specified citation style and locale. </p>
 <p id="a58469d">When rendering to output formats that support intradocument linkages (such as HTML), renderers may wish to link each rendered bibliographic marker to the corresponding bibliographic reference in the rendered bibliographic list, and perhaps back-link the reference to the marker as well. This approach is encouraged, but not required. </p>
 
 <div class="id-target" id="Missing citations"></div><h3 id="Missing_citations" class="heading raku-webs-h3 "><a href="#">Missing citations</a><a class="raku-webs-anchor" href="#Missing citations">§</a></h3>
@@ -3926,11 +3947,11 @@ We will use: F&lt;
                 </div>
             
 <div class="id-target" id="Table of Contents, Index, and Citations"></div><h2 id="Table_of_Contents,_Index,_and_Citations" class="heading raku-webs-h2 "><a href="#">Table of Contents, Index, and Citations</a><a class="raku-webs-anchor" href="#Table of Contents, Index, and Citations">§</a></h2>
-<p id="20e5c3c">When a renderer parses a file containing RakuDoc, heading (from <span class="code">=headN</span> and semantic block statements), <span class="code">X&lt;&gt;</span>, and <span class="code">Q&lt;&gt;</span> markup information is collected. </p>
-<p id="a7f5e4f">This information, if it exists, is expected to be rendered in an automatic <span class="important">Table of Contents</span>, <span class="important">Index</span>, or <span class="important">Citations list</span>, and placed in a manner determined by the renderer (<span class="important">e.g.</span> to create a sidebar with the Table of Contents). </p>
+<p id="b508bd8">When a renderer parses a file containing RakuDoc, information is collected about headings (from <span class="code">=headN</span> and semantic block statements), as well as <span class="code">X&lt;&gt;</span> and <span class="code">Q&lt;&gt;</span> markup codes. </p>
+<p id="9afca19">This information, if it exists, is expected to be rendered in an automatic <span class="important">Table of Contents</span>, <span class="important">Index</span>, or <span class="important">Citations list</span>, and placed in a manner determined by the renderer (<span class="important">e.g.</span> as a sidebar Table of Contents, or as a separate Index or Bibliography at the end of the main text). </p>
 <p id="526c102">The information may also be filtered and placed by the author using <a href="#Placement_links">a <span class="code">P&lt;&gt;</span> markup instruction</a>. </p>
-<p id="ac776e1">To avoid reduplication, if an author uses a <span class="code">=place</span> statement to filter information that would be automatically rendered, the automated rendering is cancelled. The paradigm here is the author can take contol and make finer adjustements. </p>
-<p id="02816e8">Additionally, some authors do not want any <span class="important">Table of Contents</span>, <span class="important">Index</span>, or <span class="important">Citations list</span>. The automated generation of these structures can be canceled with the document level <span class="code">:auto-toc</span> meta option: </p>
+<p id="3901ad4">To avoid duplication, if an author uses a <span class="code">=place</span> statement to filter information that would be automatically rendered, the automated rendering is cancelled. In this way, the author can circumvent the automated rendering of information and take explicit control to make finer adjustments. </p>
+<p id="16177a8">Additionally, some authors may not want any <span class="important">Table of Contents</span>, <span class="important">Index</span>, or <span class="important">Citations list</span>. The automated generation of these structures can be prevented via the appropriate document-level meta option: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -3940,7 +3961,7 @@ We will use: F&lt;
 </pre>
 </div>
                 </div>
-            <p id="b00c09a">Renderers will typically have captions for automatically generated content. These can also be changed using the <span class="important">:auto-XXX</span> meta options: </p>
+            <p id="e4eea65">Renderers will typically add default captions or titles for automatically generated content. These can also be changed using the various <span class="important">:auto-...</span> meta options: </p>
 
                 <div class="raku-code">
                     <button class="copy-code" title="Copy code"><i class="far fa-clipboard"></i></button>
@@ -3950,10 +3971,10 @@ We will use: F&lt;
 </pre>
 </div>
                 </div>
-            <p id="2d73b78">Setting <span class="code">:toc</span> on a block will include the contents of the block in the Table of Contents. Including the entire block contents is usually not desirable, so the <span class="code">:caption&lt;...&gt; </span> meta option can be used to provide a text for the Table of Contents. </p>
+            <p id="a88c5f8">Setting <span class="code">:toc</span> on a block will cause the complete contents of that block to be included in the Table of Contents. Including the entire block contents is usually not desirable, so the <span class="code">:caption&lt;...&gt; </span> meta option can be used to provide a more appropriate text for the Table of Contents. </p>
 <p id="642e0fb">Setting <span class="code">:!toc</span> will prevent a block's information from being included in the Table of Contents. </p>
-<p id="42d460b">When a builtin block, such as <span class="important">table</span>, needs to be entered into the <span class="important">Table of Contents</span> and styled like a &lt;=head2&gt;, then use <span class="important">=table2</span>. </p>
-<p id="d81721e">Custom Tables of contents can be created to group, <span class="important">e.g.</span> tables, formulas, or code examples together. This is described in <a href="#Custom_tables_of_contents">Custom tables of contents</a>. Note that placing information gathered for custom Tables of Content will not cancel the automated generation of the default <span class="important">head</span> Table of Contents. </p>
+<p id="0f76f98">When a builtin block, such as <span class="important">table</span>, needs to be entered into the <span class="important">Table of Contents</span> and styled like a <span class="code">=head2</span>, then use <span class="important">=table2</span> instead of <span class="important">table</span>. </p>
+<p id="d321d92">Custom Tables of Contents can be created to group together tables, formulas, code examples, <span class="important">etc.</span>. This is described in <a href="#Custom_tables_of_contents">Custom tables of contents</a>. Note that placing information gathered for custom Tables of Content will <span class="basis">not</span> cancel the automated generation of the default <span class="important">head</span> Table of Contents. </p>
 
 <div class="id-target" id="Developer or delta notes"></div><h2 id="Developer_or_delta_notes" class="heading raku-webs-h2 "><a href="#">Developer or delta notes</a><a class="raku-webs-anchor" href="#Developer or delta notes">§</a></h2>
 <p id="d0a71d0">When a set of source files is related to a project with versions (such as the Raku language), documentation may get out of date, or may only apply to features of a future release. </p>
@@ -4686,7 +4707,7 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <table class="table is-striped is-bordered"><caption>Blocks</caption><tbody class="procedural">
 <tr class="procedural"><th class="">Block typename</th><th class="">Specifies</th></tr>
 <tr class="procedural"><td class=""><p id="2bcef59">=cell </p></td><td class="">Contents of a table cell, only valid in a procedural table context</td></tr>
-<tr class="procedural"><td class=""><p id="5f33e3c"><span class="code">citation</span> </p></td><td class="">Specify a list of citation datasets in one of several standard citation markup languages</td></tr>
+<tr class="procedural"><td class=""><p id="fce2d55">=citation </p></td><td class="">Specify a list of citation datasets in one of several standard citation markup languages</td></tr>
 <tr class="procedural"><td class=""><p id="a75b87f">=code </p></td><td class="">Verbatim pre-formatted sample source code</td></tr>
 <tr class="procedural"><td class=""><p id="086cfa8">=input </p></td><td class="">Pre-formatted sample input</td></tr>
 <tr class="procedural"><td class=""><p id="9815fe2">=output </p></td><td class="">Pre-formatted sample output</td></tr>
@@ -4867,10 +4888,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 14:35 UTC on 2026-03-06
+                Rendered at 21:02 UTC on 2026-03-07
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 14:35 UTC on 2026-03-06
+                Source last modified&nbsp;at 21:00 UTC on 2026-03-07
             </div>
         </nav>
     </div>

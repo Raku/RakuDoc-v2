@@ -242,17 +242,17 @@ Note that since the C<=config> directive applies to I<block types>, C<=config it
 about I<block types> can be found in the section on L<Block type, level and enumeration|#Block type, level and enumeration>.
 =end item
 =begin item
-B<=document> specifies option values that over-ride defaults to options applicable to the whole document and are applied
+B<=document> specifies new default values for options applicable to the whole document. These values are applied
 when the final rendering is completed.
 
 
 The syntax is:
 =begin code :allow< R > :lang<RakuDoc>
     =document R<DOCUMENT OPTIONS>
-    =         R<OPTION EXTRA DOCUMENT OPTIONS>
+    =         R<OPTIONAL EXTRA DOCUMENT OPTIONS>
 =end code
 
-A renderer may allow for customisable options, which should be mixed case, see L<Naming rules>.
+A renderer may provide custom options not specified here. These should have mixed-case names, see L<Naming rules>.
 =end item
 =begin item
 B<=place> specifies a source of information that is to be placed in the current block. The general
@@ -462,7 +462,7 @@ have the extended or delimited forms. If a directive name is preceded by
 a C<=begin>, C<=for> or C<=end>, then an error will be thrown.
 
 Directives cannot be enumerated. If a directive is prefixed by C<num>, then
-a warning will be generated and the prefix removed.
+a warning will be generated and the prefix ignored.
 
 =head2 Aliases
 
@@ -628,10 +628,9 @@ There is more discussion of C<=config> in the context of L<Formatting codes|#For
 
 =head2 Document management
 
-The C<=document> directive allows the author to over-ride document level options values.
-It is required that all document level options have suitable default values, some of which
-are specified in this document. Those that are not specified here are left to the renderer
-developer.
+The C<=document> directive allows the author to override the values of document-level options.
+It is required that all document-level options have suitable default values, some of which
+are specified in this document. Any defaults that are not specified here are left to the discretion of the developer of each renderer.
 
 Unlike the C<=config> and other directives, the C<=document> directive is B<not> lexically scoped.
 Hence, one or more C<=document> directives may be specified anywhere in a RakuDoc document
@@ -654,7 +653,7 @@ set of options. Hence, the two directives:
 =end code
 
 ... because the C<:auto-toc> and C<:auto-index> options in later C<=document> directives
-override those in earlier directives (which is the usual RakuDoc way).
+override those in earlier directives (which is the usual RakuDoc behaviour).
 
 The following document level options are specified:
 =begin table :caption<Document level options> :id<DocumentOptions>
@@ -665,20 +664,20 @@ The following document level options are specified:
 =row
 =cell C<:error>
 =cell True
-=cell If True, a warning of an error condition is rendered at the end of the document.
+=cell If True, warnings for any error conditions are rendered at the end of the document.
 =row
 =cell C<:auto-toc>
-=cell False unless over-ridden by the presence of C<=head> or semantic blocks.
+=cell False unless overridden by the presence of C<=head> or semantic blocks.
 =cell Whether to automatically generate a Table of Contents, or mandate no automatic rendering of a Table of Contents,
 more in L<Table of Contents, Index, and Citations>.
 =row
 =cell C<:auto-index>
-=cell False unless over-ridden by the presence of C«X< ... >» markup.
+=cell False unless overridden by the presence of C«X< ... >» markup.
 =cell Whether to automatically generate an Index, or mandate no automatic rendering of an Index,
 more in L<Table of Contents, Index, and Citations>.
 =row
 =cell C<:auto-citations>
-=cell False unless over-ridden by the presence of C«Q< ... >» markup.
+=cell False unless overridden by the presence of C«Q< ... >» markup.
 =cell Whether to automatically generate a Citations list, or mandate no automatic rendering of a Citations list,
 more in L<Table of Contents, Index, and Citations>.
 =row
@@ -1162,18 +1161,18 @@ A C<=begin rakudoc> declaration (or equivalently a C<=begin pod>) has the effect
 it are consider RakuDoc text or blocks, and are not
 treated by the parser as Raku code.
 
-An C<=end rakudoc> will signal a return to the ambient code.
+An C<=end rakudoc> (or C<=end pod>) will signal a return to the ambient code.
 
 A I<rakudoc> block does B<not> start a new block scope and continues the previous document scope.
 
-If C<rakudoc> blocks are nested, for example, a RakuDoc source containing it's own (possibly implied) C<=begin rakudoc>
-statement, is included in another RakuDoc source by means of a C<=place> statement, then the embedded
-rakudoc block does not create a new block scope. This means that any C<=config> statements in an embedded
+C<rakudoc> blocks may be nested, but do not create additional scopes. For example, if a RakuDoc source containing its own (possibly implied) C<=begin rakudoc>
+statement is included in another RakuDoc source by means of a C<=place> statement, then the embedded
+C<rakudoc> block does not create a new block scope. This means that any C<=config> statements in an embedded
 RakuDoc source will apply to the document or block scope in which the source is embedded.
 
 Contrast this to a C<section> block, which B<does> create a new block scope.
 
-There are metadata which affect the document, as tabulated L<in the sytax section|#DocumentOptions>.
+The metadata that affect an entire document are tabulated L<in the syntax section|#DocumentOptions>.
 These options may changed at any time in a RakuDoc documment with a C<=document> directive. The option
 values are evaluated at the end of the document scope, so the last directives are the most significant.
 
@@ -1712,11 +1711,11 @@ happen to share the same name.
 The implicit heading level of a block in the Table of Contents (TOC) is always equal to its I<block level>.
 Hence C«head1» is implicitly level-1, while C«formula3» is implicitly level-3.
 
-The default TOC is created from C<=head> and semantic blocks (I<e.g.> SYNOPSIS), which are defined to have
+The default TOC is created from C<=head> and semantic blocks (I<e.g.> C<SYNOPSIS>), which are defined to have
 the C<:toc> option set to B<True>. The semantic blocks C<=TITLE> and C<=SUBTITLE> are not typically included
 in a Table of Contents, and so are defined to have the C<:!toc> option.
 
-Other blocks may be added to the default Table of Contents by explicitly adding the C«:toc» option.
+Other blocks may be added to the default Table of Contents.
 To add a block (or block type) to the default (or I<head>) TOC, configure it with an explicit
 C«:toc» option:
 =begin code :lang<RakuDoc>
@@ -1728,9 +1727,17 @@ C«:toc» option:
 =end table
 =end code
 
-If you want first-level formulas in the TOC, preconfigure C«=formula1» with C«:toc»
-and then use C«=formula1» or C«=formula» to specify each formula;
-if you want just one particular table as a third-level TOC entry, specify: C«=for table3 :toc»
+If you want all first-level formulas to be listed in the TOC, preconfigure C«=formula1» with C«:toc»:
+=begin code :lang<RakuDoc>
+=config formula1 :toc
+=end code
+Then use C«=formula1» or C«=formula» to specify each formula.
+
+On the other hand, if you want only one particular table included as a third-level TOC entry,
+specify the C<:toc> option on just that one block:
+=begin code :lang<RakuDoc>
+=for table3 :toc
+=end code
 
 You can also specify that a particular block or block type belongs to one or more
 other TOCs, by specifying the TOC name(s) as an optional argument to C«:toc».
@@ -1745,12 +1752,12 @@ For example:
 =end table
 =end code
 
-Then in the location in the text where the custom table of contents is required use a C<=place> directive.
-More detail about constraining the TOC levels can be found in the section on L<placements| #Placement links>.
-A simple example would be:
+To insert these other TOCs into a document, use a C<=place> directive at the location where each custom table of contents is required.
+If you do not want your other TOCs to be listed in the main TOC, add the C<:!toc> option to the placements. For example:
 =begin code :lang<RakuDoc>
 =place toc:Diagrams :!toc :caption<List of Diagrams>
 =end code
+More detail about constraining the TOC levels can be found in the section on L<placements| #Placement links>.
 
 =head3 Formatting of blocks
 
@@ -4405,10 +4412,7 @@ by specifying the C«:citation-style» option in the L<document scope|#Document 
 The C«:citation-style» value
 may be specified either as a full URL for the corresponding CSL style file:
 =begin code :lang<rakudoc>
-=begin rakudoc
 =document :citation-style< https://raw.githubusercontent.com/citation-style-language/styles/refs/heads/master/apa-numeric-superscript-brackets.csl >
-...
-=end rakudoc
 =end code
 ...or as just the standard name of the CSL style (without its filepath prefix or extension suffix):
 =begin code :lang<rakudoc>
@@ -4420,7 +4424,7 @@ L< en-GB | https://raw.githubusercontent.com/citation-style-language/locales/mas
 or C« :citation-locale< en-GB >».
 
 =nested Note: the L< en-US locale | https://raw.githubusercontent.com/citation-style-language/locales/master/locales-en-US.xml >
-was rejected as the default because it overpunctuates abbreviations and because it uses the month-day-year date sequence.
+was not chosen as the default because it overpunctuates abbreviations and because it uses the month-day-year date sequence.
 
 The citation-locale may be hard-wired into a RakuDoc document,
 using the document level C«:citation-locale» option,
@@ -4431,7 +4435,7 @@ specifying the desired locale:
 =end code
 
 The specification order of the original C«citation» data within a RakuDoc document
-is entirely unrelated to its final rendering.
+is entirely unrelated to its final rendering; the order is always determined by the specified citation style and locale.
 
 When rendering to output formats that support intradocument linkages (such as HTML),
 renderers may wish to link each rendered bibliographic marker to the
@@ -4807,42 +4811,43 @@ For example:
 
 =head2 Table of Contents, Index, and Citations
 
-When a renderer parses a file containing RakuDoc, heading (from C<=headN> and semantic block statements),
-C«X<>», and C«Q<>» markup information is collected.
+When a renderer parses a file containing RakuDoc, information is collected about headings (from C<=headN> and semantic block statements),
+as well as C«X<>» and C«Q<>» markup codes.
 
 This information, if it exists, is expected to be rendered in an automatic I<Table of Contents>, I<Index>, or
-I<Citations list>, and placed in a manner determined by the renderer (I<e.g.> to create a sidebar with the Table of Contents).
+I<Citations list>, and placed in a manner determined by the renderer (I<e.g.> as a sidebar Table of Contents, or as a separate Index or Bibliography at the end of the main text).
 
 The information may also be filtered and placed by the author using L<a C<P<>> markup instruction|#Placement links>.
 
-To avoid reduplication, if an author uses a C<=place> statement to filter information that would be automatically rendered,
-the automated rendering is cancelled. The paradigm here is the author can take contol and make finer adjustements.
+To avoid duplication, if an author uses a C<=place> statement to filter information that would be automatically rendered,
+the automated rendering is cancelled. In this way, the author can circumvent the automated rendering of information
+and take explicit control to make finer adjustments.
 
-Additionally, some authors do not want any I<Table of Contents>, I<Index>, or
-I<Citations list>. The automated generation of these structures can be canceled with the document level C<:auto-toc> meta option:
+Additionally, some authors may not want any I<Table of Contents>, I<Index>, or
+I<Citations list>. The automated generation of these structures can be prevented via the appropriate document-level meta option:
 =begin code :lang<RakuDoc>
 =document :!auto-toc :!auto-index
 =end code
 
-Renderers will typically have captions for automatically generated content. These can also be changed using the I<:auto-XXX> meta options:
+Renderers will typically add default captions or titles for automatically generated content. These can also be changed using the various I<:auto-...> meta options:
 
 =begin code :lang<RakuDoc>
 =document :auto-toc<Contents> :auto-index<Glossary> :auto-citations<List of References>
 =end code
 
 Setting C<:toc> on a
-block will include the contents of the block in the Table of Contents. Including the entire block
+block will cause the complete contents of that block to be included in the Table of Contents. Including the entire block
 contents is usually not desirable,
-so the C<:caption<...> > meta option can be used to provide a text for the Table of Contents.
+so the C<:caption<...> > meta option can be used to provide a more appropriate text for the Table of Contents.
 
 Setting C<:!toc> will prevent a block's information from being included in the Table of Contents.
 
 When a builtin block, such as I<table>, needs to be entered into the I<Table of Contents> and styled like a
-<=head2>, then use I<=table2>.
+C<=head2>, then use I<=table2> instead of I<table>.
 
-Custom Tables of contents can be created to group, I<e.g.> tables, formulas, or code examples together. This is
+Custom Tables of Contents can be created to group together tables, formulas, code examples, I<etc.>. This is
 described in L<Custom tables of contents|#Custom tables of contents>. Note that placing information gathered
-for custom Tables of Content will not cancel the automated generation
+for custom Tables of Content will B<not> cancel the automated generation
 of the default I<head> Table of Contents.
 
 =head2 Developer or delta notes
@@ -5708,7 +5713,7 @@ in a pop-up that activates on hover or mouse-click
         =cell V<=cell>
         =cell Contents of a table cell, only valid in a procedural table context
     =row
-        =cell C«citation»
+        =cell V<=citation>
         =cell Specify a list of citation datasets in one of several standard citation markup languages
     =row
         =cell V<=code>
