@@ -77,8 +77,10 @@ A paragraph to illustrate R<Replacement> formatting.
 
 A paragraph to illustrate T<Terminal> formatting.
 
-A paragraph to illustrate several G<G undefined type>,
-W<W undefined type>, Y<Y undefined type> formatting; warnings are expected.
+A paragraph to illustrate W<Weighty> formatting.
+
+A paragraph to illustrate the two G<G undefined type> and
+Y<Y undefined type> formatting codes; warnings are expected.
 
 Various entities are possible such as E<171> or the same thing using
 unicode E<LEFT-POINTING DOUBLE ANGLE QUOTATION MARK>. Entities

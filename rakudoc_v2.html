@@ -4013,13 +4013,14 @@ We will use: F&lt;
 <table class="table is-striped is-bordered">	<thead>
 		<tr><th>Inline markup</th><th>Instruction</th><th>Mnemonic</th><th>HTML equivalent</th><th>Markdown equivalent</th></tr>
 	</thead>	<tbody>
-		<tr><td>Basis</td><td><p id="97aaf21">B&lt;text&gt;     </p></td><td>&quot;B for Basis&quot;</td><td><p id="d4ce0cb"><span class="code">&lt;strong&gt;text&lt;/strong&gt;</span></p></td><td>**text**</td></tr>
-		<tr><td>Important</td><td><p id="ac90f13">I&lt;text&gt;     </p></td><td>&quot;I for Important&quot;</td><td><p id="9b9e89d"><span class="code">&lt;em&gt;text&lt;/em&gt;</span>        </p></td><td>*text*</td></tr>
-		<tr><td>Unusual</td><td><p id="2d9d3f8">U&lt;text&gt;     </p></td><td>&quot;U for Unusual&quot;</td><td><p id="4196b44"><span class="code">&lt;ins&gt;text&lt;/ins&gt;</span>      </p></td><td>&lt;ins&gt;text&lt;/ins&gt;</td></tr>
-		<tr><td>Struck out</td><td><p id="3d8e4a8">O&lt;text&gt;     </p></td><td>&quot;O for Out&quot;</td><td><p id="ba9004b"><span class="code">&lt;del&gt;text&lt;/del&gt;</span>      </p></td><td>~~text~~</td></tr>
-		<tr><td>Superscript</td><td><p id="9384a2a">H&lt;text&gt;     </p></td><td>&quot;H for High text&quot;</td><td><p id="7c43b44"><span class="code">&lt;sup&gt;text&lt;/sup&gt;</span>      </p></td><td>&lt;sup&gt;text&lt;/sup&gt;</td></tr>
-		<tr><td>Subscript</td><td><p id="72e2c2f">J&lt;text&gt;     </p></td><td>&quot;J for Junior text&quot;</td><td><p id="f46678b"><span class="code">&lt;sub&gt;text&lt;/sub&gt;</span>      </p></td><td>&lt;sub&gt;text&lt;sub&gt;</td></tr>
-		<tr><td>Code</td><td><p id="42a0dd0">C&lt;text&gt;     </p></td><td>&quot;C for Code&quot;</td><td><p id="c3ddb93"><span class="code">&lt;code&gt;text&lt;/code&gt;</span>    </p></td><td>`text`</td></tr>
+		<tr><td>Basis</td><td><p id="97aaf21">B&lt;text&gt;     </p></td><td>&quot;B for Basis&quot;</td><td><p id="09d550b"><span class="code">&lt;strong&gt;text&lt;/strong&gt;</span>                              </p></td><td>**text**</td></tr>
+		<tr><td>Important</td><td><p id="ac90f13">I&lt;text&gt;     </p></td><td>&quot;I for Important&quot;</td><td><p id="cbfa311"><span class="code">&lt;em&gt;text&lt;/em&gt;</span>                                      </p></td><td>*text*</td></tr>
+		<tr><td>Unusual</td><td><p id="2d9d3f8">U&lt;text&gt;     </p></td><td>&quot;U for Unusual&quot;</td><td><p id="1ec019e"><span class="code">&lt;ins&gt;text&lt;/ins&gt;</span>                                    </p></td><td>&lt;ins&gt;text&lt;/ins&gt;</td></tr>
+		<tr><td>Struck out</td><td><p id="3d8e4a8">O&lt;text&gt;     </p></td><td>&quot;O for Out&quot;</td><td><p id="c37e36f"><span class="code">&lt;del&gt;text&lt;/del&gt;</span>                                    </p></td><td>~~text~~</td></tr>
+		<tr><td>Superscript</td><td><p id="9384a2a">H&lt;text&gt;     </p></td><td>&quot;H for High text&quot;</td><td><p id="df0f265"><span class="code">&lt;sup&gt;text&lt;/sup&gt;</span>                                    </p></td><td>&lt;sup&gt;text&lt;/sup&gt;</td></tr>
+		<tr><td>Subscript</td><td><p id="72e2c2f">J&lt;text&gt;     </p></td><td>&quot;J for Junior text&quot;</td><td><p id="3d7dc1f"><span class="code">&lt;sub&gt;text&lt;/sub&gt;</span>                                    </p></td><td>&lt;sub&gt;text&lt;sub&gt;</td></tr>
+		<tr><td>Code</td><td><p id="42a0dd0">C&lt;text&gt;     </p></td><td>&quot;C for Code&quot;</td><td><p id="9255041"><span class="code">&lt;code&gt;text&lt;/code&gt;</span>                                  </p></td><td>`text`</td></tr>
+		<tr><td>Weighty</td><td><p id="60195a0">W&lt;text&gt;     </p></td><td>&quot;W for Weighty&quot;</td><td><p id="55fae23"><span class="code"><span style="font-variant: small-caps;">text</span></span></p></td><td><p id="55fae23"><span class="code"><span style="font-variant: small-caps;">text</span></span></p></td></tr>
 			</tbody>
 </table>
 <p id="dfc0446">The table contains suggested HTML and Markdown equivalents; a renderer may choose other representations. </p>
@@ -4630,6 +4631,7 @@ S&lt;  <span class="important">DISPLAY-TEXT</span>  &gt;
 T&lt;  <span class="important">DISPLAY-TEXT</span>  &gt;
 U&lt;  <span class="important">DISPLAY-TEXT</span>  &gt;
 V&lt;  <span class="important">DISPLAY-TEXT</span>  &gt;
+W&lt;  <span class="important">DISPLAY-TEXT</span>  &gt;
 </pre>
 </div>
                 </div></div>
@@ -4656,7 +4658,8 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <p id="128be33">The markup codes <span class="code">A</span>, <span class="code">E</span>, <span class="code">F</span>, <span class="code">L</span>, and <span class="code">P</span> may be specified <span class="basis">without</span> a display text, in which case, the renderer (as elsewhere provided in this specification) may provide an automatic rendering if the metadata component fails to produce a renderable result. If an explicit display text is provided (<span class="important">i.e.</span> to the left of a <span class="code">|</span>), that text overrides the default alternate rendering. </p>
 
 <div class="id-target" id="Metadata only"></div><h4 id="Metadata_only" class="heading raku-webs-h4 "><a href="#">Metadata only</a><a class="raku-webs-anchor" href="#Metadata only">§</a></h4>
-<div class="nested"><p id="8b8d0e7">Z&lt;  METADATA=<span class="basis">COMMENT</span> &gt; </p></div>
+<div class="nested"><p id="5eb7cc4">Q&lt;  METADATA=<span class="basis">CITATION REFERENCES</span> &gt; Z&lt;  METADATA=<span class="basis">COMMENT</span> &gt; </p></div>
+<p id="6bdb6bb">The quotation code <span class="code">Q&lt;&gt; </span> has a semicolon list akin to a metadata list, which is replaced in the rendered text with properly styled citations. </p>
 <p id="8f3a34f">The comment code <span class="code">Z&lt;&gt; </span> is intended not to have a display text so the contents of a comment can be considered as pure metadata. </p>
 
 <div class="id-target" id="Implementor considerations"></div><h1 id="Implementor_considerations" class="heading raku-webs-h1 "><a href="#">Implementor considerations</a><a class="raku-webs-anchor" href="#Implementor considerations">§</a></h1>
@@ -4813,7 +4816,7 @@ X&lt;  <span class="important">DISPLAY-TEXT </span>  |  METADATA=<span class="ba
 <tr class="procedural"><td class=""><p id="affb7d8">T&lt;...&gt; </p></td><td class="">Terminal output (typically rendered fixed-width)</td></tr>
 <tr class="procedural"><td class=""><p id="128bc17">U&lt;...&gt; </p></td><td class="">Unusual (typically rendered with underlining)</td></tr>
 <tr class="procedural"><td class=""><p id="9ed6f84">V&lt;...&gt; </p></td><td class="">Verbatim (internal markup instructions ignored)</td></tr>
-<tr class="procedural"><td class=""><p id="7544071">W&lt;...&gt; </p></td><td class="">(This markup code is not yet defined, but is reserved for future use)</td></tr>
+<tr class="procedural"><td class=""><p id="7544071">W&lt;...&gt; </p></td><td class="">Weighty (typically rendered with small caps)</td></tr>
 <tr class="procedural"><td class=""><p id="aaa3427">X&lt;...|..,..;...&gt; </p></td><td class=""><p id="a7ffbf1">Index entry (X&lt;display text|entry,subentry;...&gt;) </p></td></tr>
 <tr class="procedural"><td class=""><p id="9958cde">Y&lt;...&gt; </p></td><td class="">(This markup code is not yet defined, but is reserved for future use)</td></tr>
 <tr class="procedural"><td class=""><p id="3de4df1">Z&lt;...&gt; </p></td><td class="">Zero-width comment (contents never rendered)</td></tr>
@@ -4888,10 +4891,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2.rakudoc/rakudoc_v2</span>
             </div>
             <div class="level-item">
-                Rendered at 21:02 UTC on 2026-03-07
+                Rendered at 08:24 UTC on 2026-03-17
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 21:00 UTC on 2026-03-07
+                Source last modified&nbsp;at 08:22 UTC on 2026-03-17
             </div>
         </nav>
     </div>

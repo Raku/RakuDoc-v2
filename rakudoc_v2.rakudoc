@@ -4913,15 +4913,16 @@ equivalent might involve a bold font.
 
 The following should be made available in all renderers.
 =for table :!toc :caption('')
-    Inline markup   Instruction      Mnemonic              HTML equivalent           Markdown equivalent
-    =============   ===========      ===================   ==================        ===================
-    Basis           V«B<text>»       "B for Basis"         C«<strong>text</strong>»  **text**
-    Important       V«I<text>»       "I for Important"     C«<em>text</em>»          *text*
-    Unusual         V«U<text>»       "U for Unusual"       C«<ins>text</ins>»        <ins>text</ins>
-    Struck out      V«O<text>»       "O for Out"           C«<del>text</del>»        ~~text~~
-    Superscript     V«H<text>»       "H for High text"     C«<sup>text</sup>»        <sup>text</sup>
-    Subscript       V«J<text>»       "J for Junior text"   C«<sub>text</sub>»        <sub>text<sub>
-    Code            V«C<text>»       "C for Code"          C«<code>text</code>»      `text`
+    Inline markup   Instruction      Mnemonic              HTML equivalent                                         Markdown equivalent
+    =============   ===========      ===================   ==================                                      ===================
+    Basis           V«B<text>»       "B for Basis"         C«<strong>text</strong>»                                **text**
+    Important       V«I<text>»       "I for Important"     C«<em>text</em>»                                        *text*
+    Unusual         V«U<text>»       "U for Unusual"       C«<ins>text</ins>»                                      <ins>text</ins>
+    Struck out      V«O<text>»       "O for Out"           C«<del>text</del>»                                      ~~text~~
+    Superscript     V«H<text>»       "H for High text"     C«<sup>text</sup>»                                      <sup>text</sup>
+    Subscript       V«J<text>»       "J for Junior text"   C«<sub>text</sub>»                                      <sub>text<sub>
+    Code            V«C<text>»       "C for Code"          C«<code>text</code>»                                    `text`
+    Weighty         V«W<text>»       "W for Weighty"       C«<span style="font-variant: small-caps;">text</span>»  C«<span style="font-variant: small-caps;">text</span>»
 
 The table contains suggested HTML and Markdown equivalents; a renderer may
 choose other representations.
@@ -5604,6 +5605,7 @@ SV«< » I<DISPLAY-TEXT> V« >»
 TV«< » I<DISPLAY-TEXT> V« >»
 UV«< » I<DISPLAY-TEXT> V« >»
 VV«< » I<DISPLAY-TEXT> V« >»
+WV«< » I<DISPLAY-TEXT> V« >»
 =end code
 =end nested
 
@@ -5635,8 +5637,12 @@ that text overrides the default alternate rendering.
 =head4 Metadata only
 
 =begin nested
+QV«< » METADATA=B<CITATION REFERENCES>V« >»
 ZV«< » METADATA=B<COMMENT>V« >»
 =end nested
+
+The quotation code C<Q<> > has a semicolon list akin to a metadata list, which is
+replaced in the rendered text with properly styled citations.
 
 The comment code C<Z<> > is intended not to have a display text so the contents of a comment
 can be considered as pure metadata.
@@ -6033,7 +6039,7 @@ in a pop-up that activates on hover or mouse-click
         =cell Verbatim (internal markup instructions ignored)
     =row
         =cell V<W<...>>
-        =cell (This markup code is not yet defined, but is reserved for future use)
+        =cell Weighty (typically rendered with small caps)
     =row
         =cell V<X<...|..,..;...>>
         =cell Index entry (V<X<display text|entry,subentry;...>>)
