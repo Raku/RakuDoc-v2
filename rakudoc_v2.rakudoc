@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc
 =SUBTITLE Raku markup for documenting Raku software to aid development and use.
-=VERSION 2.20.3
+=VERSION 2.20.4
 =for LICENSE :hidden
 Artistic-2.0
 =begin AUTHORS :hidden
@@ -4918,11 +4918,11 @@ The following should be made available in all renderers.
     Basis           V«B<text>»       "B for Basis"         C«<strong>text</strong>»                                **text**
     Important       V«I<text>»       "I for Important"     C«<em>text</em>»                                        *text*
     Unusual         V«U<text>»       "U for Unusual"       C«<ins>text</ins>»                                      <ins>text</ins>
+    Weighty         V«W<text>»       "W for Weighty"       C«<span style="font-variant: small-caps;">text</span>»  C«<span style="font-variant: small-caps;">text</span>»
     Struck out      V«O<text>»       "O for Out"           C«<del>text</del>»                                      ~~text~~
     Superscript     V«H<text>»       "H for High text"     C«<sup>text</sup>»                                      <sup>text</sup>
     Subscript       V«J<text>»       "J for Junior text"   C«<sub>text</sub>»                                      <sub>text<sub>
     Code            V«C<text>»       "C for Code"          C«<code>text</code>»                                    `text`
-    Weighty         V«W<text>»       "W for Weighty"       C«<span style="font-variant: small-caps;">text</span>»  C«<span style="font-variant: small-caps;">text</span>»
 
 The table contains suggested HTML and Markdown equivalents; a renderer may
 choose other representations.
@@ -5994,7 +5994,7 @@ in a pop-up that activates on hover or mouse-click
         =cell High text (typically rendered superscript)
     =row
         =cell V<I<...>>
-        =cell Important (typically rendered in italics)
+        =cell Important content (typically rendered in italics)
     =row
         =cell V<J<...>>
         =cell Junior text (typically rendered subscript)
@@ -6012,16 +6012,16 @@ in a pop-up that activates on hover or mouse-click
         =cell Note (not rendered inline, but visible in some way: footnote, sidenote, pop-up, etc.))
     =row
         =cell V<O<...>>
-        =cell Struck out
+        =cell Struck out content
     =row
         =cell V<P<...|...>>
         =cell Placement link
     =row
         =cell V«Q< ID >»
-        =cell Marker citing the dataset with identifier I<ID>
+        =cell Marker citing the bibliographic dataset with identifier I<ID>
     =row
         =cell V«Q< ID1 ; ID2 , TEXT ; ETC. >»
-        =cell Marker citing multiple datasets with identifiers I<ID1, ID2, ETC.>, some with textual annotations as well
+        =cell Marker citing multiple bibliographic datasets with identifiers I<ID1, ID2, ETC.>, some with textual annotations as well
     =row
         =cell V<R<...>>
         =cell Replaceable component or metasyntax
@@ -6033,13 +6033,13 @@ in a pop-up that activates on hover or mouse-click
         =cell Terminal output (typically rendered fixed-width)
     =row
         =cell V<U<...>>
-        =cell Unusual (typically rendered with underlining)
+        =cell Unusual content (typically rendered with underlining)
     =row
         =cell V<V<...>>
         =cell Verbatim (internal markup instructions ignored)
     =row
         =cell V<W<...>>
-        =cell Weighty (typically rendered with small caps)
+        =cell Weighty content (typically rendered with small caps)
     =row
         =cell V<X<...|..,..;...>>
         =cell Index entry (V<X<display text|entry,subentry;...>>)
