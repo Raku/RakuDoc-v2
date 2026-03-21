@@ -788,7 +788,8 @@ will produce ...
 
 =place https://raku.org/img/camelia-logo.png :!toc :caption<Raku's mascot> :alt<A multicoloured butterfly>
 
-Use C<=place3 ... :toc> to include it in the Table of Contents as a C<=head3> caption.
+Use C<=place ... :toc :headlevel(3)> to treat the C<:caption> text as a C<=head3>,
+and include it in the Table of Contents as a C<=head3> caption.
 
 =nested Note that when any of the C<toc:>, C<index:>, or C<citation:> schemas is used, the automatic rendering
 of a full Tables of Contents, Index, or Citations list will be cancelled. See L<Table of Contents, Index, and Citations|#Table of Contents, Index, and Citations>
