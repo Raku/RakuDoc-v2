@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+    <meta charset="UTF-8" />
+        <title>Proving a renderer</title>
+    <style>@charset "UTF-8";
+/*! Vanilla CSS */
+span.basis {
+  font-weight: 800;
+}
+
+span.important {
+  font-style: italic;
+}
+
+span.unusual {
+  text-decoration: underline;
+}
+
+span.code {
+  font-weight: 500;
+  background-color: linen;
+  display: inline-block;
+  margin: 2px;
+  padding: 2px;
+}
+
+span.overstrike {
+  text-decoration: line-through;
+}
+
+span.high {
+  vertical-align: super;
+}
+
+span.junior {
+  vertical-align: sub;
+}
+
+span.replace {
+  font-style: small-caps;
+  text-shadow: -1px 1px;
+}
+
+span.indexed {
+  text-shadow: 1px 1px orange;
+}
+span.indexed:hover::before {
+  content: attr(data-index-text);
+  translate: 0 -1.5em;
+  position: absolute;
+  opacity: 75%;
+  background-color: turquoise;
+  color: indigo;
+}
+
+span.keyboard {
+  text-shadow: 1px 1px;
+}
+
+span.terminal {
+  text-decoration: overline underline;
+}
+
+span.footnote {
+  vertical-align: super;
+}
+
+span.developer-version {
+  display: none;
+  color: red;
+}
+span.developer-version span.developer-note {
+  font-family: "Brush Script MT", cursive;
+}
+span.developer-version:hover {
+  display: inline-block;
+  transform: translate(50px, 100px);
+  z-index: 5;
+}
+
+span.bad-markdown {
+  text-shadow: 1px 1px red;
+}
+
+pre.code-block {
+  background-color: #eee;
+  margin: 1rem;
+  padding: 0 1rem 1rem 1rem;
+}
+
+pre.input-block {
+  background-color: #eee;
+  margin: 1rem;
+  padding: 0 1rem 1rem 1rem;
+}
+pre.input-block::before {
+  content: "--- input ---";
+  display: block;
+  text-shadow: -2px -2px 4px black;
+  color: white;
+  padding-bottom: 1rem;
+}
+
+pre.output-block {
+  background-color: #eee;
+  margin: 1rem;
+  padding: 0 1rem 1rem 1rem;
+}
+pre.output-block::before {
+  content: "--- output ---";
+  display: block;
+  text-shadow: 2px 2px 4px black;
+  color: white;
+  padding-bottom: 1rem;
+}
+
+div.defn-text {
+  margin-left: 1rem;
+}
+
+div.defn-term {
+  font-weight: bold;
+  font-style: italic;
+}
+div.defn-term .N {
+  margin-right: 5px;
+}
+
+div.id-target {
+  display: none;
+}
+
+div.nested {
+  margin-left: 5rem;
+}
+
+div.toc .toc-item {
+  margin-left: calc(var(--level) * 1rem);
+}
+div.toc .toc-item::before {
+  content: attr(data-bullet);
+}
+div.toc .toc-item a {
+  padding-left: 0.4rem;
+}
+
+div.index-section {
+  margin-left: calc((var(--level) - 1) * 1rem);
+  /*
+  	> a.index-ref {
+  	    white-space: nowrap;
+  	    display:inline-block;
+  	    width: 1em;
+  	    + span {
+  	        display: none;
+  	        width: 0;
+  	    }
+  	    &:hover+span {
+  	        display: inline-block;
+  	        position: absolute;
+  	        width: auto;
+  	        z-index: 5;
+  	        background-color: seashell;
+  	    }
+  	}
+  	*/
+}
+div.index-section[data-index-level="1"] {
+  text-shadow: 1px 1px orange;
+}
+div.index-section > a.index-ref {
+  margin-left: calc(var(--level) * 1rem);
+  display: block;
+  width: auto;
+  white-space: normal;
+}
+
+span.developer-note {
+  display: none;
+  width: 0;
+  color: blue;
+  text-shadow: 2px 2px 5px green;
+}
+
+span.developer-version {
+  display: none;
+  width: 0;
+  color: red;
+  text-shadow: 2px 2px 5px green;
+}
+
+.delta::before, span.developer-text::before {
+  content: "ℹ";
+  vertical-align: super;
+}
+.delta:hover .developer-version, span.developer-text:hover .developer-version {
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+  transform: translate(0.5rem, -1rem);
+}
+.delta:hover .developer-note, span.developer-text:hover .developer-note {
+  display: inline-block;
+  position: absolute;
+  width: auto;
+  z-index: 5;
+  margin-left: 1rem;
+}
+
+span.developer-text:hover {
+  text-decoration: overline;
+}
+
+div.footer {
+  border-top: 2px dashed;
+  margin: 1rem 0;
+  padding: 2rem;
+}
+div.footer .footer-field {
+  display: inline-block;
+}
+div.footer .footer-line {
+  display: block;
+}
+
+.heading > a {
+  color: maroon;
+  text-decoration: none;
+}
+
+h.title {
+  font-size: larger;
+}
+
+.rakudoc-table table, .rakudoc-table th, .rakudoc-table td {
+  border: 1px solid lightgray;
+  border-collapse: collapse;
+}
+.rakudoc-table .table {
+  padding: 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-inline: auto;
+  border: 1px solid black;
+}
+.rakudoc-table .table td, .rakudoc-table .table td {
+  padding: 5px;
+}
+.rakudoc-table .table caption {
+  margin-bottom: 5px;
+}
+
+tbody.procedural tr.procedural .procedural-cell-left {
+  text-align: left;
+}
+
+tbody.procedural tr.procedural .procedural-cell-centre {
+  text-align: center;
+}
+
+tbody.procedural tr.procedural .procedural-cell-center {
+  text-align: center;
+}
+
+tbody.procedural tr.procedural .procedural-cell-right {
+  text-align: right;
+}
+
+tbody.procedural tr.procedural .procedural-cell-top {
+  vertical-align: text-top;
+}
+
+tbody.procedural tr.procedural .procedural-cell-middle {
+  vertical-align: baseline;
+}
+
+tbody.procedural tr.procedural .procedural-cell-bottom {
+  vertical-align: text-bottom;
+}
+
+tbody.procedural tr.procedural .procedural-cell-label {
+  font-weight: bold;
+}
+
+li.item {
+  padding-left: 0.4rem;
+  margin-left: calc(var(--level) * 1rem);
+}
+li.item::marker {
+  content: attr(data-bullet);
+}
+
+li.numitem {
+  padding-left: 0.4rem;
+}
+li.numitem::marker {
+  content: attr(data-bullet);
+}
+
+div.rakudoc-image-placement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rakudoc-placement-error {
+  display: flex;
+  justify-content: sapace-around;
+  align-items: center;
+  color: red;
+  font-weight: bold;
+}
+
+.raku-anchor {
+  font-size: 0.9em;
+  text-decoration: none;
+  visibility: hidden;
+}
+
+.heading:hover .raku-anchor {
+  visibility: visible;
+  padding-left: 5px;
+}
+
+.enumeration-N {
+  margin: 0 5px 0 5px;
+}
+
+/*# sourceMappingURL=vanilla.css.map */
+</style>
+
+    </head>
+    <body>
+    <div id="Proving_a_renderer"></div><h1 class="title">Proving a renderer</h1>
+
+	A file with many RakuDoc components and some idea about what is expected.
+
+<div class="toc">
+<h2 class="toc-caption">Table of Contents</h2><div class="toc-item" style="--level:0;" data-bullet=""><a href="#SYNOPSIS">SYNOPSIS</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Purpose">Purpose</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#This_is_a_first_heading">This is a first heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#This_is_a_second_level_heading">This is a second level heading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#This_is_third_level_heading">This is third level heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#This_is_a_numbered_heading,_level_1">This is a numbered heading, level 1</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#This_is_a_second_level_heading_0">This is a second level heading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#A_third_level">A third level</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Another_third_level">Another third level</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Back_to_second">Back to second</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#A_third_level_0">A third level</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Another_third_level_0">Another third level</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Lists">Lists</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Taking_a_bullet">Taking a bullet</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Blocks_that_are_processed_differently">Blocks that are processed differently</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Unrelenting_hype">Unrelenting hype</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#This_is_an_extraordinary_paragraph">This is an extraordinary paragraph</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Some_tables">Some tables</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Adding_index_entries_to_your_text">Adding index entries to your text</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Scoping_examples">Scoping examples</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Placements">Placements</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Enumerated_blocks">Enumerated blocks</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#PHYSICS">PHYSICS</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Newtonian">Newtonian</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Relativistic">Relativistic</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#PHYSICS_0">PHYSICS</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Newtonian_0">Newtonian</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Relativistic_0">Relativistic</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Second_heading">Second heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Subsubheading_0">Subsubheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Second_heading_0">Second heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Subheading_0">Subheading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Second_heading_0">Second heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#LICENSE_0">LICENSE</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#VERSION_0">VERSION</a></div>
+</div>
+
+    <h1 id="SYNOPSIS" class="heading "><a href="#" title="go to top of document">SYNOPSIS</a><a class="raku-anchor" title="direct link" href="#SYNOPSIS">§</a></h1>
+<p id="4c4dada">Assuming a new renderer has been developed and installed (eg using <span class="important">zef</span>) at <span class="basis">Rakudoc::To::MyRender</span>, the render this file using a <span class="code">raku --rakudoc=MyRenderer</span> terminal command. The renderer will be consistent with the RakuDoc v2 specification if all the blocks are rendered appropriately, and warnings are generated by the statements marked as incorrect below. </p>
+
+<h1 id="Purpose" class="heading "><a href="#" title="go to top of document">Purpose</a><a class="raku-anchor" title="direct link" href="#Purpose">§</a></h1>
+<p>This file is intended to prove a RakuDoc v2 renderer. It can be used in several ways:</p>
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;" > to generate the AST representation of all the RakuDoc components in the specification</li>
+<li class="item" data-bullet="•" style ="--level:0;" > to prove a renderer that a new renderer should be able to process this file</li>
+<li class="item" data-bullet="•" style ="--level:0;" > to visualise how the final output of a RakuDoc source will look after processing</li>
+</ul>
+<p>An attempt has been made to utilise all RakuDoc components, it is not an exhaustive test of all components in all possible combinations. Please suggest additional combinations if they turn out to have unusual effects.</p>
+<p id="198d613">Several <span class="important">mistakes</span> have been included where the RakuDoc v2 specification indicates how inconsistent behaviours or unknown components should be handled. </p>
+<p>The the end of the rendering of this source file, a number of warning messages should be included.</p>
+
+<div class="id-target" id="Short table of contents"></div><h1 id="Short_table_of_contents" class="heading "><a href="#" title="go to top of document">Short table of contents</a><a class="raku-anchor" title="direct link" href="#Short table of contents">§</a></h1>
+<div class="toc">
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#SYNOPSIS">SYNOPSIS</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Purpose">Purpose</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#This_is_a_first_heading">This is a first heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#This_is_a_numbered_heading,_level_1">This is a numbered heading, level 1</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Lists">Lists</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Blocks_that_are_processed_differently">Blocks that are processed differently</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#This_is_an_extraordinary_paragraph">This is an extraordinary paragraph</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Some_tables">Some tables</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Adding_index_entries_to_your_text">Adding index entries to your text</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Scoping_examples">Scoping examples</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Placements">Placements</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Enumerated_blocks">Enumerated blocks</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#PHYSICS">PHYSICS</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#PHYSICS_0">PHYSICS</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Second_heading">Second heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Second_heading_0">Second heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Heading_0">Heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Second_heading_0">Second heading</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#LICENSE_0">LICENSE</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#VERSION_0">VERSION</a></div>
+</div>
+
+
+
+<div class="id-target" id="A short index"></div><h1 id="A_short_index" class="heading "><a href="#" title="go to top of document">A short index</a><a class="raku-anchor" title="direct link" href="#A short index">§</a></h1>
+<div class="index">
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">elements to be placed</span><a class="index-ref" href="#index-entry-elements_to_be_placed">This is third level heading</a>
+</div>
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">formatting code</span><a class="index-ref" href="#index-entry-formatting_code">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">index</span><a class="index-ref" href="#index-entry-index">Adding index entries to your text</a><a class="index-ref" href="#index-entry-two_or_more_separate_entries_in_the_index">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">inline formatting</span><a class="index-ref" href="#index-entry-formatting_code">Adding index entries to your text</a>
+</div>
+
+</div>
+
+
+
+<div class="id-target" id="This is a first heading"></div><h1 id="This_is_a_first_heading" class="heading "><a href="#" title="go to top of document">This is a first heading</a><a class="raku-anchor" title="direct link" href="#This is a first heading">§</a></h1>
+<p>text</p>
+
+<div class="id-target" id="This is a second level heading"></div><h2 id="This_is_a_second_level_heading" class="heading "><a href="#" title="go to top of document">This is a second level heading</a><a class="raku-anchor" title="direct link" href="#This is a second level heading">§</a></h2>
+<p>text</p>
+
+<div class="id-target" id="This is third level heading"></div><h3 id="This_is_third_level_heading" class="headingdelta delta"><span class="developer-version">v2<span class="developer-note">developers can attach notes to blocks associated with versions</span></span>
+
+<a href="#" title="go to top of document">This is third level heading</a><a class="raku-anchor" title="direct link" href="#This is third level heading">§</a></h3>
+<p id="6f28794">A paragraph to illustrate <span class="basis">Basis type</span> formatting. </p>
+<p id="91b6460">A paragraph to illustrate <span class="important">Important type</span> formatting. </p>
+<p id="a219505">A paragraph to illustrate <span class="unusual">Unusual type</span> formatting. </p>
+<p id="8b7807f">A paragraph to illustrate <span class="overstrike">Strikethrough type</span> formatting. </p>
+<p id="6c77298">A paragraph to illustrate <span class="high">Superscript type</span> formatting. (For text output, many terminals do not support superscript/subscript font positions, so consider using a colouration as well.) </p>
+<p id="b71b308">A paragraph to illustrate <span class="junior">Subscript type</span> formatting. </p>
+<p id="0eebf75">A paragraph to illustrate <span class="code">Code type</span> formatting. It can contain other markup, eg. <span class="code">A&lt;&gt; markup</span>. </p>
+<p id="e1dc119">A paragraph to illustrate Verbatim type formatting. It can contain other RakuDoc, eg. P&lt;defn:Happy&gt; without executing it. </p>
+<p id="844bb77">A paragraph to illustrate some &gt;&lt; formatting (in the source has Z&lt;Zero width&gt; between &gt;&lt; ). </p>
+<p id="a3a0780">A paragraph to illustrate <span class="keyboard">Keyboard</span> formatting. </p>
+<p id="6dd251b">A paragraph to illustrate <span class="replace">Replacement</span> formatting. </p>
+<p id="4839274">A paragraph to illustrate <span class="terminal">Terminal</span> formatting. </p>
+<p id="d1cea2c">A paragraph to illustrate several <span class="bad-markdown">G&lt;G undefined type&gt;</span>, <span class="bad-markdown">Q&lt;Q undefined type&gt;</span>, <span class="bad-markdown">W&lt;W undefined type&gt;</span>, <span class="bad-markdown">Y&lt;Y undefined type&gt;</span> formatting; warnings are expected. </p>
+<p id="55df88f">Various entities are possible such as « or the same thing using unicode «. Entities can be double unicodes, such as 🇺🇦, which is the Ukrainian flag. </p>
+<p id="1c04399">In case you have forgotten, here is something aliased at the start: Do not consider this a disquisition of possible combinations. </p>
+<p id="0c2d15c">This is an example of an Alias where A&lt;DECLARATION&gt; was replaced by the contents of the =alias directive. Aliases are scoped, see below, but cannot be specified before being used in the document. Here is an undeclared forward reference, which was written as A&lt;an undeclared|XXX&gt;. The use of an undeclared alias causes a warning. </p>
+<p id="19ff975">We can also make an inline <span class="basis">definition</span>. This whole paragraph will be referenced later. </p>
+<p id="9858a53">A developer note <span class="developer-text">can be attached<span class="developer-version">v1.2.3 ^.. v2.0.0<span class="developer-note"> highly deprecated</span></span></span> to text. A renderer may show the text or only show it for contexts compliant with the version. </p>
+<p id="3f70975">But a note without meta no versioning here is ignored and a warning generated. </p>
+<p id="2613d38">When we want a formula <span class="code">\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}</span> use F&lt;&gt; markup. </p>
+<p id="bf10a46">Links can be made internally <a href="#This_is_a_first_heading">say to the first heading</a> or externally <a href="https://docs.raku.org">say to the raku documentation site</a>. </p>
+<p id="1551c4d">A renderer should provide the opportunity to customise text using M&lt;...|..,..;...&gt; markup. The renderer <span class="code">should not recognise this functionality</span> and issue a warning. </p>
+<p id="1c08f96">A note <a id="such_as_this_one" href="#fn_target_such_as_this_one"><span class="footnote">[ 1 ]</span></a> will not itself be rendered inline, but the text will be rendered in a footnote or popup. A marker or number will be rendered to point to the text. </p>
+<p id="b23dc3c">Suppose we want to place the definition 
+
+&#x2997;  <div class="defn-text"><p id="19ff975">We can also make an inline <span class="basis">definition</span>. This whole paragraph will be referenced later. </p>
+</div>
+&#x2998; here. And to confound pedants, here is a definition 
+
+&#x2997;  <div class="defn-text"><div class="defn-term">Happy</div>
+
+<div class="defn-text">when not blue </div>
+
+</div>
+&#x2998; defined using a <span class="code">=defn</span> block. </p>
+<p id="839cb63">Normally extra spaces are removed with paragraphs, but sometimes we truly dot dot dot&nbsp;&nbsp; dash dash dash&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; want them. </p>
+<p id="b553c84">Good text will contain <span class="indexed" id="index-entry-elements_to_be_placed">elements to be placed</span> in an index. The index has already been placed at the start of the document, although content is generated here. </p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;This is a numbered heading, level 1&lt;/span&gt;"></div><h1 id="This_is_a_numbered_heading,_level_1" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.</span><span class="enumeration-D">This is a numbered heading, level 1</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;This is a numbered heading, level 1&lt;/span&gt;">§</a></h1>
+<p>text</p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;This is a second level heading&lt;/span&gt;"></div><h2 id="This_is_a_second_level_heading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.1.</span><span class="enumeration-D">This is a second level heading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;This is a second level heading&lt;/span&gt;">§</a></h2>
+<p>text</p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;A third level&lt;/span&gt;"></div><h3 id="A_third_level" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.1.1.</span><span class="enumeration-D">A third level</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;A third level&lt;/span&gt;">§</a></h3>
+<p>text</p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Another third level&lt;/span&gt;"></div><h3 id="Another_third_level" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.1.2.</span><span class="enumeration-D">Another third level</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Another third level&lt;/span&gt;">§</a></h3>
+<p>text</p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Back to second&lt;/span&gt;"></div><h2 id="Back_to_second" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.2.</span><span class="enumeration-D">Back to second</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Back to second&lt;/span&gt;">§</a></h2>
+<p>text</p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.2.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;A third level&lt;/span&gt;"></div><h3 id="A_third_level_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.2.1.</span><span class="enumeration-D">A third level</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.2.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;A third level&lt;/span&gt;">§</a></h3>
+<p>Although this heading has the same text in the heading, the Table of Contents should provide a unique target for it (this may not be possible in some formats such as MarkDown)</p>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;3.2.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Another third level&lt;/span&gt;"></div><h3 id="Another_third_level_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">3.2.2.</span><span class="enumeration-D">Another third level</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;3.2.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Another third level&lt;/span&gt;">§</a></h3>
+<p>text</p>
+<h1 id="Lists" class="heading "><a href="#" title="go to top of document">Lists</a><a class="raku-anchor" title="direct link" href="#Lists">§</a></h1>
+<p>Unnumbered up to four levels of bulleting are required, a renderer can offer more.</p>
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;" > The start of a unnumbered item list</li>
+<li class="item" data-bullet="•" style ="--level:0;" > Next item</li>
+<li class="item" data-bullet="▹" style ="--level:1;" > now next level</li>
+<li class="item" data-bullet="▹" style ="--level:1;" > another at two</li>
+<li class="item" data-bullet="‣" style ="--level:2;" > a third level</li>
+<li class="item" data-bullet="⁃" style ="--level:3;" > fourth level</li>
+<li class="item" data-bullet="⁃" style ="--level:3;" > fourth level</li>
+<li class="item" data-bullet="∙" style ="--level:4;" > level five</li>
+<li class="item" data-bullet="∙" style ="--level:4;" > level six</li>
+<li class="item" data-bullet="∙" style ="--level:4;" > level seven</li>
+<li class="item" data-bullet="•" style ="--level:0;" > reset to level one</li>
+<li class="item" data-bullet="‣" style ="--level:2;" > jump levels</li>
+</ul>
+<p></p>
+<p><p id="7831d5d">to put space between lists, probably a <span class="code">=para</span> without text is needed. </p></p>
+
+<ul class="item-list"> <li class="numitem" data-bullet="1.">The start of a numbered item list</li>
+  <li class="numitem" data-bullet="2.">Next item</li>
+  <li class="numitem" data-bullet="2.1.">now next level</li>
+  <li class="numitem" data-bullet="2.2.">another at two</li>
+  <li class="numitem" data-bullet="2.2.1.">a third level</li>
+  <li class="numitem" data-bullet="3.">reset to level one</li>
+  <li class="numitem" data-bullet="3.1.1.">jump levels</li>
+ <li class="item" data-bullet="•" style ="--level:0;" > an unnumbered item</li>
+ <li class="numitem" data-bullet="4.1.">but we can resume after a break</li>
+ </ul>
+<p></p>
+
+<div class="defn-term">Definitions</div>
+
+<div class="defn-text">can be placed in lists </div>
+
+<div class="defn-term">Happy</div>
+
+<div class="defn-text">when not blue </div>
+
+<div class="defn-term">Blue</div>
+
+<div class="defn-text">when not happy </div>
+
+<div class="defn-term">Being assertive</div>
+
+<div class="defn-text"><p id="0280481">Just <span class="basis">shout</span> why don't you? </p>
+</div>
+
+<p><p></p></p>
+<p>This is an ordinary paragraph</p>
+
+<div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Lemma 1</span></div>
+
+<div class="defn-text">do not make trouble </div>
+
+<div class="defn-term"><span class="enumeration-N">2.</span><span class="enumeration-D">Lemma 2</span></div>
+
+<div class="defn-text">do not shout at people </div>
+
+<div class="defn-term"><span class="enumeration-N">3.</span><span class="enumeration-D">Lemma 3</span></div>
+
+<div class="defn-text">just phone the SWAT team </div>
+
+<p>An ordinary paragraph creates the definition list.</p>
+
+<div class="defn-term"><span class="enumeration-N">4.</span><span class="enumeration-D">Lemma 4</span></div>
+
+<div class="defn-text">Claim you are the victim here </div>
+
+
+<div class="id-target" id="Taking a bullet"></div><h2 id="Taking_a_bullet" class="heading "><a href="#" title="go to top of document">Taking a bullet</a><a class="raku-anchor" title="direct link" href="#Taking a bullet">§</a></h2>
+<p>The project originally consisted of five phases, of which two are already complete and two have been abandoned:</p>
+
+<ul class="item-list"><li class="item" data-bullet="☑" style ="--level:0;" > Investigate existing solutions</li>
+<li class="item" data-bullet="☑" style ="--level:0;" > Define a minimal initial feature set</li>
+<li class="item" data-bullet="☐" style ="--level:0;" > Implement this minimal set of features</li>
+<li class="item" data-bullet="☒" style ="--level:0;" > Secure 100 million in venture capital</li>
+<li class="item" data-bullet="☒" style ="--level:0;" > Abscond to the Bahamas with the cash</li>
+</ul>
+<div class="rakudoc-section "><p>The major sources of sustainable energy are:</p>
+<ul class="item-list"><li class="item" data-bullet="🌍" style ="--level:0;" > wind</li>
+<li class="item" data-bullet="🌍" style ="--level:0;" > hydroelectric</li>
+<li class="item" data-bullet="🌍" style ="--level:0;" > solar</li>
+<li class="item" data-bullet="🌍" style ="--level:0;" > geothermal</li>
+<li class="item" data-bullet="🌍" style ="--level:0;" > fusion</li>
+<li class="item" data-bullet="🤞" style ="--level:1;" > (eventually)</li>
+</ul>
+
+</div>
+
+<div class="id-target" id="Blocks that are processed differently"></div><h1 id="Blocks_that_are_processed_differently" class="heading "><a href="#" title="go to top of document">Blocks that are processed differently</a><a class="raku-anchor" title="direct link" href="#Blocks that are processed differently">§</a></h1>
+<pre class="code-block">my $x = 2;
+# a brilliant program!
+
+</pre>
+<pre class="code-block">my $x = 3;
+# a renderer <span class="basis">should</span> observe the basis markup
+# and the <span class="keyboard">markup</span> but render R&lt;markup&gt; verbatim
+</pre>
+<pre class="code-block"># indenting causes an implicit code block
+my $raku = 'fantastic';
+
+
+</pre>
+<pre class="input-block">This is a text with <span class="basis">basis</span> markup that conserves
+all spacing      when trying    to get column
+just using       white spaces   naively
+better           to             use tables
+</pre>
+<pre class="output-block">This is almost the same as input
+but may have a different styling
+</pre>
+<div class="nested"><div class="nested">Occasionally some text that is inset from the margin is required. So enclose it in a nested block.</div></div>
+<p>The following semantic block was included at the beginning in source, but it is now included here.</p>
+
+<div class="id-target" id="Unrelenting hype"></div><h1 id="Unrelenting_hype" class="heading "><a href="#" title="go to top of document">Unrelenting hype</a><a class="raku-anchor" title="direct link" href="#Unrelenting hype">§</a></h1>
+Richard Hainsworth, aka finanalyst
+
+
+
+
+<div class="id-target" id="Fabulous identity"></div><h1 id="Formula_cannot_be_rendered" class="heading "><a href="#" title="go to top of document">Fabulous identity</a><a class="raku-anchor" title="direct link" href="#Fabulous identity">§</a></h1>
+<div class="formula">e^{i\pi}+1=0</div>
+<div class="id-target" id="UNKNOWN MyBlock"></div><h1 id="A_customised_block" class="heading "><a href="#" title="go to top of document">UNKNOWN MyBlock</a><a class="raku-anchor" title="direct link" href="#UNKNOWN MyBlock">§</a></h1>
+=begin MyBlock :caption&lt;A customised block&gt; :headlevel(2)<br><br>Actually it fails because no customisation has been made.<br>It<br>should<br>be<br>rendered without spaces&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;being chewed up.<br>=end MyBlock<br><br>
+
+<p><p id="4c10339">Some silly text which will have its own <span class="basis">extraordinary</span> ToC entry </p></p>
+<p id="b660fd8">You are reminded that: Do not consider this a disquisition of possible combinations. </p>
+
+<div class="id-target" id="Some tables"></div><h1 id="Some_tables" class="heading "><a href="#" title="go to top of document">Some tables</a><a class="raku-anchor" title="direct link" href="#Some tables">§</a></h1>
+<div id="A_visual_table" class="rakudoc-table">
+<table class="table"><caption>A visual table</caption>	<thead>
+		<tr><th>Animal</th><th>Legs</th><th>Eats</th></tr>
+	</thead>	<tbody>
+		<tr><td>Zebra</td><td>4</td><td>Cookies</td></tr>
+		<tr><td>Human</td><td>2</td><td>Pizza</td></tr>
+		<tr><td>Shark</td><td>0</td><td>Fish</td></tr>
+			</tbody>
+</table></div>
+<div id="A_visual_table_with_a_stupendously_long_caption" class="rakudoc-table">
+<table class="table"><caption>A visual table with a stupendously long caption</caption>	<thead>
+		<tr><th>Animal</th><th>Legs</th><th>Eats</th></tr>
+	</thead>	<tbody>
+		<tr><td>Zebra</td><td>4</td><td>Cookies</td></tr>
+		<tr><td>Human</td><td>2</td><td>Pizza</td></tr>
+		<tr><td>Shark</td><td>0</td><td>Fish</td></tr>
+			</tbody>
+</table></div>
+<div id="A_procedural_table" class="rakudoc-table">
+<table class="table"><caption>A procedural table</caption><tbody class="procedural">
+<tr class="procedural"><th rowspan="2" class="">Date</th><th colspan="3" class="">Samples</th><th rowspan="2" class="">Mean</th></tr>
+<tr class="procedural"><th class=""><p id="be4f23a"><span class="important">Sample 1</span> </p></th><th class=""><p id="ea75ec8"><span class="important">Sample 2</span> </p></th><th class=""><p id="7932f80"><span class="important">Sample 3</span> </p></th></tr>
+<tr class="procedural"><td class="">2023-03-08</td><td class="">0.4</td><td class="">0.1</td><td class="">0.3</td><td class="">0.26667</td></tr>
+<tr class="procedural"><td class="">2023-04-14</td><td class="">0.8</td><td class="">0.6</td><td class="">0.5</td><td class="">0.63333</td></tr>
+<tr class="procedural"><td class="">2023-06-23</td><td class="">0.2</td><td class="">0.9</td><td class="">0.0</td><td class="">0.36667</td></tr>
+<tr class="procedural"><td class="procedural-cell-label">Mean:</td><td class="">0.46667</td><td class="">0.53333</td><td class="">0.26667</td><td class="">0.42222</td></tr>
+</tbody></table></div>
+
+<div class="id-target" id="Adding index entries to your text"></div><h1 id="Adding_index_entries_to_your_text" class="heading "><a href="#" title="go to top of document">Adding index entries to your text</a><a class="raku-anchor" title="direct link" href="#Adding index entries to your text">§</a></h1>
+<p id="77c7fc4">An <span class="indexed" id="index-entry-index_entry">index entry</span> is an inline <span class="indexed" id="index-entry-formatting_code">formatting code</span> that is rendered normally (i.e. with no special identifying styling) within the text, but which is also added to the <span class="indexed" id="index-entry-index">index</span>. <span class="indexed" id="index-entry-Index_entries">Index entries</span> may be specified with <span class="indexed" id="index-entry-subentries">subentries</span>, including <span class="indexed" id="index-entry-multilevel_subentries">multilevel subentries</span>, though a renderer is not required to represent anything more than the <span class="indexed" id="index-entry-first_level">first level</span>. A single index entry can specify <span class="indexed" id="index-entry-two_or_more_separate_entries_in_the_index">two or more separate entries in the index</span>, all of which will refer back to the same point in the text. </p>
+
+<div class="id-target" id="Scoping examples"></div><h1 id="Scoping_examples" class="heading "><a href="#" title="go to top of document">Scoping examples</a><a class="raku-anchor" title="direct link" href="#Scoping examples">§</a></h1>
+<p>Configuration and aliases are scoped.</p>
+<p id="8673122">Without configuration <span class="code">embedded B&lt;markup&gt; is rendered</span> verbatim. </p>
+<div class="rakudoc-section "><p id="0b14cdb">With configuration <span class="code">embedded <span class="basis">basis</span> markup</span> is rendered. </p>
+<p id="77125d7">How short the season when roses are red. </p>
+</div>
+<p id="642d6e6">But configuration directives <span class="code">only B&lt;apply&gt; inside</span> a block scope. </p>
+<p id="fda2c59">Did I mention before that: Do not consider this a disquisition of possible combinations. </p>
+<h1 id="Placements" class="heading "><a href="#" title="go to top of document">Placements</a><a class="raku-anchor" title="direct link" href="#Placements">§</a></h1>
+<p>Renderers are required to place text and RakuDoc sources, but may fallback to text messages for other formats.</p>
+
+<div class="id-target" id="Text placement"></div><h1 id="Text_placement" class="heading "><a href="#" title="go to top of document">Text placement</a><a class="raku-anchor" title="direct link" href="#Text placement">§</a></h1>
+Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/fanciful-disclaimer.txt｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣
+
+
+<div class="id-target" id="RakuDoc placement"></div><h1 id="RakuDoc_placement" class="heading "><a href="#" title="go to top of document">RakuDoc placement</a><a class="raku-anchor" title="direct link" href="#RakuDoc placement">§</a></h1>
+Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/bootiful-disclaimer.rakudoc｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣
+
+
+<div class="id-target" id="HTML placement"></div><h1 id="HTML_placement" class="heading "><a href="#" title="go to top of document">HTML placement</a><a class="raku-anchor" title="direct link" href="#HTML placement">§</a></h1>
+Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/paneful-disclaimer.html｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣
+
+
+<div class="id-target" id="JPEG image placement"></div><h1 id="JPEG_image_placement" class="heading "><a href="#" title="go to top of document">JPEG image placement</a><a class="raku-anchor" title="direct link" href="#JPEG image placement">§</a></h1>
+Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/camelia.jpeg｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣
+
+
+<div class="id-target" id="Png image placement"></div><h1 id="Png_image_placement" class="heading "><a href="#" title="go to top of document">Png image placement</a><a class="raku-anchor" title="direct link" href="#Png image placement">§</a></h1>
+Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/camelia.png｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣
+
+
+<div class="id-target" id="Enumerated blocks"></div><h1 id="Enumerated_blocks" class="heading "><a href="#" title="go to top of document">Enumerated blocks</a><a class="raku-anchor" title="direct link" href="#Enumerated blocks">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;11.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;PHYSICS&lt;/span&gt;"></div><h1 id="PHYSICS" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">11.</span><span class="enumeration-D">PHYSICS</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;11.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;PHYSICS&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;11.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Newtonian&lt;/span&gt;"></div><h2 id="Newtonian" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">11.1.</span><span class="enumeration-D">Newtonian</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;11.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Newtonian&lt;/span&gt;">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;11.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Relativistic&lt;/span&gt;"></div><h2 id="Relativistic" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">11.2.</span><span class="enumeration-D">Relativistic</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;11.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Relativistic&lt;/span&gt;">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-T&quot;&gt;Formula&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;2.&lt;/span&gt;&lt;span class=&quot;enumeration-C&quot;&gt;Mass-Energy Equivalence&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-T">Formula</span><span class="enumeration-N">2.</span><span class="enumeration-C">Mass-Energy Equivalence</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-T&quot;&gt;Formula&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;2.&lt;/span&gt;&lt;span class=&quot;enumeration-C&quot;&gt;Mass-Energy Equivalence&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;L&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;PHYSICS&lt;/span&gt;"></div><h1 id="PHYSICS_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">L</span> - <span class="enumeration-D">PHYSICS</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;L&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;PHYSICS&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Newtonian&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Newtonian_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Newtonian</span> [subtopic <span class="enumeration-A">L</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Newtonian&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Relativistic&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;]"></div><h2 id="Relativistic_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Relativistic</span> [subtopic <span class="enumeration-A">L</span><span class="enumeration-N">2</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Relativistic&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;3&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Mass-Energy Equivalence&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">3</span>: <span class="enumeration-C">Mass-Energy Equivalence</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;3&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Mass-Energy Equivalence&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Mass-Energy Equivalence&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Mass-Energy Equivalence</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Mass-Energy Equivalence&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;M&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">M</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;M&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">M</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;13.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">13.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;13.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">4.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;5&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">5</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;5&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">5.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;6&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">6</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;6&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;13.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">13.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;13.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">6.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">7.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">7</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<p>Here we can use the formula enumerations, viz.</p>
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;" > <p id="611f1df">Default is  </p></li>
+<li class="item" data-bullet="•" style ="--level:0;" > <p id="f9f895f">Instance configured is  </p></li>
+</ul>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;N&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">N</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;N&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">N</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;14.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">14.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;14.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">8.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;8&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">8</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;8&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">9.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;9&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">9</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;9&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;14.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">14.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;14.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">2.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">1</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;O&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">O</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;O&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;O&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">O</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;O&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;15.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">15.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;15.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">1</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">2.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;15.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">15.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;15.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">2.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">1</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;P&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">P</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;P&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">P</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;P&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;16.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">16.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;16.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">3.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">5.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;6&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">6</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;6&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;16.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">16.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;16.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">7.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">8.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;9&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">9</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;9&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;Q&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">Q</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;Q&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">Q</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;17.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">17.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;17.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">3.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;17.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">17.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;17.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">5.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">6.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">7</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;R&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">R</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;R&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">R</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;18.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">18.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;18.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">3.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;18.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">18.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;18.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">2.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;3&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">3</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;3&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;S&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">S</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;S&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;S&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">S</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;S&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;19.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">19.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;19.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">19.1.1.1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">1</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">19.1.1.2.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;19.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">19.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;19.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">19.1.2.1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">19.1.2.2.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">1</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;T&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">T</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;T&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">T</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;20.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">20.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;20.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">20.1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">20.3.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;20.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">20.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;20.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">20.5.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">20.6.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">7</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;U&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Second heading&lt;/span&gt;"></div><h1 id="Second_heading" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">U</span> - <span class="enumeration-D">Second heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;U&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Second heading&lt;/span&gt;">§</a></h1>
+<div id="Caption_for_next_table" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">21.8.</span><span class="enumeration-C">Caption for next table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;V&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">V</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;V&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">V</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;V&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;22.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">22.1.1.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;22.1.1.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">22.1.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">22.3.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<div class="id-target" id="&lt;span class=&quot;enumeration-N&quot;&gt;22.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;"></div><h3 id="Subsubheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-N">22.1.2.</span><span class="enumeration-D">Subsubheading</span></a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-N&quot;&gt;22.1.2.&lt;/span&gt;&lt;span class=&quot;enumeration-D&quot;&gt;Subsubheading&lt;/span&gt;">§</a></h3>
+<div class="rakudoc-section "><div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1000.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;5&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">5</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;5&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div><div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">1001.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+</div>
+
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;W&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Second heading&lt;/span&gt;"></div><h1 id="Second_heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">W</span> - <span class="enumeration-D">Second heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;W&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Second heading&lt;/span&gt;">§</a></h1>
+<div id="Caption_for_next_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">23.6.</span><span class="enumeration-C">Caption for next table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for next formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">7</span>: <span class="enumeration-C">Caption for next formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;7&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for next formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+</div>
+<div class="rakudoc-section ">
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;X&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;"></div><h1 id="Heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">X</span> - <span class="enumeration-D">Heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;X&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Heading&lt;/span&gt;">§</a></h1>
+
+<ul class="item-list"> <li class="numitem" data-bullet="2.">Item the first</li>
+  <li class="numitem" data-bullet="3.">Item the second</li>
+ </ul>
+<div id="Caption_for_first_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">3.</span><span class="enumeration-C">Caption for first table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<ul class="item-list"> <li class="numitem" data-bullet="4.">Item the third</li>
+ </ul>
+
+<div class="id-target" id="&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]"></div><h2 id="Subheading_0" class="heading "><a href="#" title="go to top of document"><span class="enumeration-D">Subheading</span> [subtopic <span class="enumeration-A">X</span><span class="enumeration-N">1</span>]</a><a class="raku-anchor" title="direct link" href="#&lt;span class=&quot;enumeration-D&quot;&gt;Subheading&lt;/span&gt; [subtopic &lt;span class=&quot;enumeration-A&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;enumeration-N&quot;&gt;1&lt;/span&gt;]">§</a></h2>
+
+<ul class="item-list"> <li class="numitem" data-bullet="5.">Item the fourth</li>
+ </ul>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">2</span>: <span class="enumeration-C">Caption for first formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;2&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for first formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<ul class="item-list"> <li class="numitem" data-bullet="6.">Item the fifth</li>
+ </ul>
+<div id="Caption_for_second_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">4.</span><span class="enumeration-C">Caption for second table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;3&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">3</span>: <span class="enumeration-C">Caption for second formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;3&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for second formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<ul class="item-list"> <li class="numitem" data-bullet="7.">Item the sixth</li>
+ </ul>
+
+<div class="id-target" id="TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;Y&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Second heading&lt;/span&gt;"></div><h1 id="Second_heading_0" class="heading "><a href="#" title="go to top of document">TOPIC <span class="enumeration-A">Y</span> - <span class="enumeration-D">Second heading</span></a><a class="raku-anchor" title="direct link" href="#TOPIC &lt;span class=&quot;enumeration-A&quot;&gt;Y&lt;/span&gt; - &lt;span class=&quot;enumeration-D&quot;&gt;Second heading&lt;/span&gt;">§</a></h1>
+
+<ul class="item-list"> <li class="numitem" data-bullet="8.">Item the seventh</li>
+ </ul>
+<div id="Caption_for_next_table_0" class="rakudoc-table">
+<table class="table"><caption><span class="enumeration-T">Table</span><span class="enumeration-N">5.</span><span class="enumeration-C">Caption for next table</span></caption>	<tbody>
+		<tr><td>one</td><td>two</td></tr>
+			</tbody>
+</table></div>
+
+<div class="id-target" id="Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for next formula&lt;/span&gt;"></div><h1 id="Formula_cannot_be_rendered_0" class="heading "><a href="#" title="go to top of document">Equation <span class="enumeration-N">4</span>: <span class="enumeration-C">Caption for next formula</span></a><a class="raku-anchor" title="direct link" href="#Equation &lt;span class=&quot;enumeration-N&quot;&gt;4&lt;/span&gt;: &lt;span class=&quot;enumeration-C&quot;&gt;Caption for next formula&lt;/span&gt;">§</a></h1>
+<div class="formula">E = MC²</div>
+<ul class="item-list"> <li class="numitem" data-bullet="9.">Item the eighth</li>
+ </ul>
+
+</div>
+<p>Text finishes after version number</p>
+<h1 id="Credits" class="heading "><a href="#" title="go to top of document">Credits</a><a class="raku-anchor" title="direct link" href="#Credits">§</a></h1>
+Richard Hainsworth, aka finanalyst
+
+
+
+
+<div class="id-target" id="LICENSE"></div><h1 id="LICENSE_0" class="heading "><a href="#" title="go to top of document">LICENSE</a><a class="raku-anchor" title="direct link" href="#LICENSE">§</a></h1>
+Artistic-2.0
+
+
+
+
+<div class="id-target" id="VERSION"></div><h1 id="VERSION_0" class="heading "><a href="#" title="go to top of document">VERSION</a><a class="raku-anchor" title="direct link" href="#VERSION">§</a></h1>
+ <div class="rakudoc-version">VERSION&nbsp&nbsp&nbsp&nbspv0.2.1</div> 
+    <div class="footnotes">
+    <h2 class="footnote-caption">Footnotes</h2>
+    <div class="footnote">1<a id="fn_target_such_as_this_one" href="#such_as_this_one"> |^| </a>such as this one</div>
+    </div>
+
+<div class="index">
+<h2 class="index-caption">Index</h2><div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">elements to be placed</span><a class="index-ref" href="#index-entry-elements_to_be_placed">This is third level heading</a>
+</div>
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">formatting code</span><a class="index-ref" href="#index-entry-formatting_code">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">index</span><a class="index-ref" href="#index-entry-index">Adding index entries to your text</a><a class="index-ref" href="#index-entry-two_or_more_separate_entries_in_the_index">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="2" style="--level:2">
+<span class="index-entry">entry</span><a class="index-ref" href="#index-entry-index_entry">Adding index entries to your text</a><a class="index-ref" href="#index-entry-Index_entries">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="3" style="--level:3">
+<span class="index-entry">nested</span><a class="index-ref" href="#index-entry-two_or_more_separate_entries_in_the_index">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="2" style="--level:2">
+<span class="index-entry">multiple entries</span><a class="index-ref" href="#index-entry-two_or_more_separate_entries_in_the_index">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="2" style="--level:2">
+<span class="index-entry">subentry</span><a class="index-ref" href="#index-entry-subentries">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="3" style="--level:3">
+<span class="index-entry">multilevel</span><a class="index-ref" href="#index-entry-multilevel_subentries">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="3" style="--level:3">
+<span class="index-entry">rendering</span><a class="index-ref" href="#index-entry-first_level">Adding index entries to your text</a>
+</div>
+<div class="index-section" data-index-level="1" style="--level:1">
+<span class="index-entry">inline formatting</span><a class="index-ref" href="#index-entry-formatting_code">Adding index entries to your text</a>
+</div>
+
+</div>
+
+    
+<div class="footer">
+    Rendered from<span class="footer-field">&nbsp;resources/compliance-rendering/rakudociem-ipsum.rakudoc/rakudociem-ipsum</span>
+<span class="footer-field">&nbsp;at 15:39 UTC on 2026-01-10</span>
+<span class="footer-line">Source last modified at 10:54 UTC on 2026-01-09</span>
+<div class="warnings">    <div class="warnings">
+    <h2 class="warnings-caption">Warnings</h2>
+        <ol>
+        <li>｢G｣ is not defined, but is reserved for future use in block ｢rakudoc｣ with heading ｢This is third level heading｣.</li>
+<li>｢Q｣ is not defined, but is reserved for future use in block ｢rakudoc｣ with heading ｢This is third level heading｣.</li>
+<li>｢W｣ is not defined, but is reserved for future use in block ｢rakudoc｣ with heading ｢This is third level heading｣.</li>
+<li>｢Y｣ is not defined, but is reserved for future use in block ｢rakudoc｣ with heading ｢This is third level heading｣.</li>
+<li>Unknown or as yet undeclared alias ｢XXX｣ in block ｢rakudoc｣ with heading ｢This is third level heading｣ over-riden by ｢an undeclared｣</li>
+<li>Δ&lt;&gt; markup ignored because it has no version/note content ｢Δ&lt;no versioning here&gt;｣ in block ｢rakudoc｣ with heading ｢This is third level heading｣.</li>
+<li>Markup-M failed: template ｢PayMeMoreApp｣ does not exist. Got ｢M&lt;should not recognise this functionality|PayMeMoreApp; user-id&gt;｣</li>
+<li>No template exists for custom block ｢MyBlock｣. It has been rendered as unknown in block ｢MyBlock｣ with heading ｢MyBlock｣.</li>
+<li>Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/fanciful-disclaimer.txt｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣</li>
+<li>Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/bootiful-disclaimer.rakudoc｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣</li>
+<li>Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/paneful-disclaimer.html｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣</li>
+<li>Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/camelia.jpeg｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣</li>
+<li>Link ｢https://github.com/Raku/RakuDoc-GAMMA/raw/main/compliance-files/camelia.png｣ caused LibCurl Exception, response code ｢0｣ with error ｢Could not resolve host: github.com｣</li>
+
+        </ol>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
