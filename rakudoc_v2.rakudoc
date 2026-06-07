@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc
 =SUBTITLE Raku markup for documenting Raku software to aid development and use.
-=VERSION 2.20.4
+=VERSION 2.20.5
 =for LICENSE :hidden
 Artistic-2.0
 =begin AUTHORS :hidden
@@ -348,6 +348,26 @@ is ignored. Note that horizontal and vertical whitespace can be included inside 
 and may be significant (eg, Verbatim blocks).
 
 =end item
+
+Naturally, the contents of blocks may contain embedded RakuDoc markup codes, but not all blocks
+may contain other blocks. These rules are:
+
+=item  Abbreviated- and extended-form blocks can I<never> contain any other kind of block.
+
+=item  The delimited form of the following D<atomic blocks> may I<B<not>> contain any other kind of block:
+C<citation>, C<code>, C<comment>, C<data>, C<formula>, C<head>, C<input>, C<output>
+
+=item  The delimited form of the following D<paragraph-level blocks> may contain only atomic blocks:
+C<defn>, C<item>, C<para>
+
+=item  The delimited form of the following D<container blocks> may contain I<any> other kind of block
+(including other container blocks): C<cell>, C<nested>, C<pod>, C<rakudoc>, C<section>, C<SEMANTIC>
+
+=item  The delimited form of the C<table> block may directly contain only C<cell> and/or C<comment> blocks.
+=item2 I<Note, however, that C<cell> blocks may themselves contain any other kind of block, which means
+that C<table> blocks may B<indirectly> contain any other kind of block.>
+=item2 I<A C<table> may also contain C<row> and C<column> directives, which are not blocks.>
+
 
 =head2 Markup instruction syntax
 
