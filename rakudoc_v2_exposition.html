@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="en"
+           class="theme-light"
+           style="scroll-padding-top:var(--bulma-navbar-height)" >
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>RakuDoc Exposition</title>
+<link rel="icon" href="https://irclogs.raku.org/favicon.ico">
+<style>@charset "UTF-8";
+/*! Vanilla CSS */
+span.basis {
+  font-weight: 800;
+}
+
+span.important {
+  font-style: italic;
+}
+
+span.unusual {
+  text-decoration: underline;
+}
+
+span.weighty {
+  font-variant: small-caps;
+}
+
+span.code {
+  font-weight: 500;
+  background-color: linen;
+  display: inline-block;
+  margin: 2px;
+  padding: 2px;
+}
+
+span.overstrike {
+  text-decoration: line-through;
+}
+
+span.high {
+  vertical-align: super;
+}
+
+span.junior {
+  vertical-align: sub;
+}
+
+span.replace {
+  font-style: italic;
+  font-variant-caps: small-caps;
+  text-shadow: -1px 1px;
+}
+
+span.indexed {
+  text-shadow: 1px 1px orange;
+}
+span.indexed:hover::before {
+  content: attr(data-index-text);
+  translate: 0 -1.5em;
+  position: absolute;
+  opacity: 75%;
+  background-color: turquoise;
+  color: indigo;
+}
+
+span.keyboard {
+  text-shadow: 1px 1px;
+}
+
+span.terminal {
+  text-decoration: overline underline;
+}
+
+span.footnote {
+  vertical-align: super;
+}
+
+a.footnote-anchor {
+  text-decoration: none;
+}
+
+span.developer-version {
+  display: none;
+  color: red;
+}
+span.developer-version span.developer-note {
+  font-family: "Brush Script MT", cursive;
+}
+span.developer-version:hover {
+  display: inline-block;
+  transform: translate(50px, 100px);
+  z-index: 5;
+}
+
+span.bad-markdown {
+  text-shadow: 1px 1px red;
+}
+
+.raku-code pre.rakudoc:first-child {
+  background-color: #eee;
+  margin: 0 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+.raku-code .code-caption {
+  color: maroon;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-style: italic;
+  margin: 0 0 1rem 1rem;
+}
+
+.raku-input pre.rakudoc:first-child {
+  background-color: #eee;
+  margin: 0 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+.raku-input .input-caption {
+  color: maroon;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-style: italic;
+  margin: 0 0 1rem 1rem;
+}
+
+.raku-output pre.rakudoc:first-child {
+  background-color: #eee;
+  margin: 0 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+.raku-output .output-caption {
+  color: maroon;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-style: italic;
+  margin: 0 0 1rem 1rem;
+}
+
+div.defn-text {
+  margin-left: 1rem;
+}
+div.defn-text p {
+  margin: 0;
+}
+
+div.defn-term {
+  font-weight: bold;
+  font-style: italic;
+}
+div.defn-term .N {
+  margin-right: 5px;
+}
+
+div.id-target {
+  display: none;
+}
+
+div.nested {
+  margin-left: 5rem;
+}
+
+div.toc .toc-item {
+  margin-left: calc(var(--level) * 1rem);
+}
+div.toc .toc-item::before {
+  content: attr(data-bullet);
+}
+div.toc .toc-item a {
+  padding-left: 0.4rem;
+}
+
+div.index-section {
+  margin-left: calc((var(--level) - 1) * 1rem);
+  /*
+  	> a.index-ref {
+  	    white-space: nowrap;
+  	    display:inline-block;
+  	    width: 1em;
+  	    + span {
+  	        display: none;
+  	        width: 0;
+  	    }
+  	    &:hover+span {
+  	        display: inline-block;
+  	        position: absolute;
+  	        width: auto;
+  	        z-index: 5;
+  	        background-color: seashell;
+  	    }
+  	}
+  	*/
+}
+div.index-section[data-index-level="1"] {
+  text-shadow: 1px 1px orange;
+}
+div.index-section > a.index-ref {
+  margin-left: calc(var(--level) * 1rem);
+  display: block;
+  width: auto;
+  white-space: normal;
+}
+
+span.developer-note {
+  display: none;
+  width: 0;
+  color: blue;
+  text-shadow: 2px 2px 5px green;
+}
+
+span.developer-version {
+  display: none;
+  width: 0;
+  color: red;
+  text-shadow: 2px 2px 5px green;
+}
+
+.delta::before, span.developer-text::before {
+  content: "🛈";
+  vertical-align: super;
+}
+.delta:hover .developer-version, span.developer-text:hover .developer-version {
+  display: inline-block;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+  transform: translate(0.5rem, -1rem);
+}
+.delta:hover .developer-note, span.developer-text:hover .developer-note {
+  display: inline-block;
+  position: absolute;
+  width: auto;
+  z-index: 5;
+  margin-left: 1rem;
+}
+
+span.developer-text:hover {
+  text-decoration: overline;
+}
+
+div.footer {
+  border-top: 2px dashed;
+  margin: 1rem 0;
+  padding: 2rem;
+}
+div.footer .footer-field {
+  display: inline-block;
+}
+div.footer .footer-line {
+  display: block;
+}
+
+.heading > a {
+  color: maroon;
+  text-decoration: none;
+}
+
+h.title {
+  font-size: larger;
+}
+
+.rakudoc-table {
+  display: flex;
+  align-content: flex-start;
+  flex-direction: column;
+  margin: 1rem;
+  width: fit-content;
+}
+.rakudoc-table table, .rakudoc-table th, .rakudoc-table td {
+  border: 1px solid lightgray;
+  border-collapse: collapse;
+}
+.rakudoc-table .table-caption.rakudoc {
+  color: maroon;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-style: italic;
+}
+.rakudoc-table .table {
+  padding: 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: 1px solid black;
+}
+.rakudoc-table .table td, .rakudoc-table .table td {
+  padding: 5px;
+}
+.rakudoc-table .table caption {
+  margin-bottom: 5px;
+}
+
+tbody.procedural tr.procedural .procedural-cell-left {
+  text-align: left;
+}
+
+tbody.procedural tr.procedural .procedural-cell-centre {
+  text-align: center;
+}
+
+tbody.procedural tr.procedural .procedural-cell-center {
+  text-align: center;
+}
+
+tbody.procedural tr.procedural .procedural-cell-right {
+  text-align: right;
+}
+
+tbody.procedural tr.procedural .procedural-cell-top {
+  vertical-align: text-top;
+}
+
+tbody.procedural tr.procedural .procedural-cell-middle {
+  vertical-align: baseline;
+}
+
+tbody.procedural tr.procedural .procedural-cell-bottom {
+  vertical-align: text-bottom;
+}
+
+tbody.procedural tr.procedural .procedural-cell-label {
+  font-weight: bold;
+}
+
+li.item {
+  padding-left: 0.4rem;
+  margin-left: calc(var(--level) * 1rem);
+}
+li.item::marker {
+  content: attr(data-bullet);
+}
+li.item.extended-item > p {
+  margin: 0;
+}
+
+li.numitem {
+  padding-left: 0.4rem;
+}
+li.numitem::marker {
+  content: attr(data-bullet);
+}
+
+div.rakudoc-image-placement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rakudoc-placement-error {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: red;
+  font-weight: bold;
+}
+
+.raku-anchor {
+  font-size: 0.9em;
+  text-decoration: none;
+  visibility: hidden;
+}
+
+.heading:hover .raku-anchor {
+  visibility: visible;
+  padding-left: 5px;
+}
+
+.enumeration-N {
+  margin: 0 5px 0 5px;
+}
+
+.formula {
+  margin: 1rem;
+}
+.formula .formula-caption {
+  color: maroon;
+  padding: 0.2rem 0 1rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+p span.numpara {
+  position: absolute;
+  text-indent: -3rem;
+}
+
+div.extended-para {
+  margin: 1rem 0;
+}
+div.extended-para span.numpara {
+  position: absolute;
+  text-indent: -3rem;
+}
+div.extended-para p.extended-para {
+  margin: 0.5rem 0;
+}
+
+.rakudoc-singlepage {
+  margin-left: 4rem;
+}
+
+/*# sourceMappingURL=vanilla.css.map */
+</style>
+<style>/* bulma */
+#page-nav{width:25%;position:fixed}#page-nav .panel-block .toc{overflow-y:scroll;height:65vh}#page-nav .panel-block .index{overflow-y:scroll;height:65vh}#mobile-nav{margin-top:1.75rem}.main-footer{z-index:1;position:relative}.toc-item{margin-left:calc(var(--level)*1rem)}.toc-item::before{content:attr(data-bullet)}.toc-item:hover{background:var(--bulma-background)}.toc-item a{padding-left:.4rem;text-decoration:none;color:var(--bulma-text)}
+</style>
+<style>/* bulma */
+.content p+ul.item-list{margin-top:0}.content p+ol.item-list{margin-top:0}.delta:hover{border:var(--bulma-border-hover) 1px solid}.navbar-start{margin-bottom:1rem}table{width:fit-content;margin:auto}table caption{font-weight:bold}
+</style>
+<style>/* bulma */
+/*! Styling for Raku doc-website */.raku-webs.title{color:#a30031;text-align:center;margin-bottom:2rem}.raku-webs.subtitle{text-align:center;margin-top:1.25rem}.heading>a{color:#a30031}.raku-webs-h1{font-size:1.375rem;font-weight:500;padding:.35rem;text-align:center;margin-top:.75rem;margin-bottom:1rem;background:var(--bulma-background-active);border:1px solid hsl(221,14%,86%);border-bottom:3px solid #a30031;scroll-margin-top:4.625rem}.raku-webs-h2{font-size:1.375rem;font-weight:500;padding:.25rem;margin-top:.75rem;margin-bottom:1rem;border-bottom:3px solid #a30031;scroll-margin-top:4rem}.raku-webs-h3{font-size:1.25rem;font-weight:500;margin-top:.75rem;margin-bottom:1rem;scroll-margin-top:4rem}.raku-webs-h4{font-size:1rem;font-weight:500;margin-bottom:1rem;scroll-margin-top:4rem}.raku-webs-h5{font-size:.875rem;font-weight:500;margin-bottom:1rem;scroll-margin-top:3rem}.raku-webs-h6{font-size:.75rem;font-weight:600;margin-bottom:1rem;scroll-margin-top:3rem}a.raku-webs-anchor{font-size:.9em;text-decoration:none;visibility:hidden;vertical-align:super}a.raku-webs-anchor:hover{color:var(--bulma-link)}.raku-webs-h1:hover a.raku-webs-anchor,.raku-webs-h2:hover a.raku-webs-anchor,.raku-webs-h3:hover a.raku-webs-anchor,.raku-webs-h4:hover a.raku-webs-anchor,.raku-webs-h5:hover a.raku-webs-anchor,.raku-webs-h6:hover a.raku-webs-anchor{visibility:visible;padding-left:5px}nav.raku-webs.panel{padding-top:1.5em}span.code{background-color:var(--bulma-border-weak);border-radius:5px}span.Elucid8-ui{margin-left:.5em;margin-right:.5em}.tooltip{position:relative;display:inline-block}.tooltip .tooltiptext{visibility:hidden;width:150%;background-color:#555;color:#fff;text-align:center;border-radius:6px;padding:5px 0;position:absolute;z-index:1;top:125%;right:-25%;opacity:0;transition:opacity .3s}.tooltip:hover .tooltiptext{visibility:visible;opacity:1}#Elucid8_choice .tooltiptext{right:100%;width:200%}.navbar.raku-webs{background:var(--bulma-background-active)}.raku-webs .navbar-item{color:var(--bulma-text);text-shadow:-0.1px 0 var(--bulma-link),0 .1px var(--bulma-link),.1px 0 var(--bulma-link),0 -0.1px var(--bulma-link)}.raku-webs .navbar-item.is-selected{color:var(--bulma-background)}@media screen and (min-width: 1024px){#MainText .content.listing{column-count:2}}@media screen and (max-width: 1023px){#MainText .content.listing{column-count:1}}#Camelia{max-height:2.75em}.navbar-tm-logo{position:absolute;z-index:35;top:.35rem;right:-0.35rem;font-size:.75rem}.raku-webs.index-section{margin-left:calc((var(--level) - 1)*1rem)}.raku-webs.index-section[data-index-level="1"]{text-shadow:1px 1px orange}.raku-webs.index-section>a.index-ref{margin-left:calc(var(--level)*1rem);display:block;width:auto;white-space:normal}.rakudoc-table{display:flex;align-content:center;flex-direction:column}.rakudoc-table .table-caption{margin-inline:auto;color:#a30031;font-size:1.375rem}@media screen and (min-width: 1024px){div.extended-para span.numpara,p span.numpara{position:absolute;text-indent:-3rem}}@media screen and (max-width: 1023px){div.extended-para span.numpara,p span.numpara{position:absolute;text-indent:-1.5rem}}@media(prefers-color-scheme: dark){.latex-equation>img{filter:invert(1) brightness(2)}}.raku-webs .hero-body{background:linear-gradient(180deg, #051A33 0.2%, #3F103A 1%, #9F0046 82.29%, #B3004F 100%);mix-blend-mode:normal}.raku-webs .hero-body .title,.raku-webs .hero-body .subtitle{color:#fff}.raku-webs .card-content .icon.is-large{height:6rem;width:6rem;font-size:96px}.raku-webs .links-block .icon.is-large{height:6rem;width:6rem;font-size:96px}.raku-webs .card .button{width:200px}.raku-webs .card-home{box-shadow:unset !important}
+</style>
+<style>/* bulma */
+label.chevronToggle{top:5rem;color:var(--bulma-info)}label.chevronToggle:hover{color:var(--bulma-warning-40)}label.chevronToggle input#navbar-toc-toggle{opacity:0;height:0;width:0}label.chevronToggle input#navbar-toc-toggle~.checkmark{display:inline-block;position:relative}label.chevronToggle input#navbar-toc-toggle~.checkmark.off{opacity:1;visibility:visible;width:1rem}label.chevronToggle input#navbar-toc-toggle~.checkmark.on,label.chevronToggle input#navbar-toc-toggle~.checkmark.on.overlap{opacity:0;visibility:hidden;width:0}label.chevronToggle input#navbar-toc-toggle:checked~.checkmark.off{opacity:0;visibility:hidden;width:0}label.chevronToggle input#navbar-toc-toggle:checked~.checkmark.on,label.chevronToggle input#navbar-toc-toggle:checked~.checkmark.on.overlap{opacity:1;visibility:visible;width:1rem}label.chevronToggle input#navbar-toc-toggle:checked~.checkmark.on.overlap{color:var(--bulma-danger);bottom:-1.75px}label.chevronToggle input#navbar-toc-toggle:hover~.tooltiptext.off{opacity:1;visibility:visible;width:10rem;left:0;right:0;padding:0 1px}label.chevronToggle input#navbar-toc-toggle:hover~.tooltiptext.on{opacity:0;visibility:hidden;width:0}label.chevronToggle input#navbar-toc-toggle:checked:hover~.tooltiptext.on{opacity:1;visibility:visible;width:10rem;left:0;right:0;padding:0 1px}label.chevronToggle input#navbar-toc-toggle:checked:hover~.tooltiptext.off{opacity:0;visibility:hidden;width:0}@media screen and (min-width: 769px){label.chevronToggle .on{top:.5rem;left:calc(25vw - 3.5rem)}label.chevronToggle .off{top:.5rem;left:-3.5rem}}@media screen and (max-width: 768px){label.chevronToggle .on,.off{top:-1.5rem;left:-3.5rem}}
+</style>
+<style>/* graphviz */
+div.graphviz{display:flex;justify-content:space-around;align-items:center;margin:auto;margin-bottom:1rem}.graphviz-error{display:flex;justify-content:space-around;align-items:center;color:red;font-weight:bold}.graphviz-error span.data{color:green}
+</style>
+<style>/* hilite */
+:root{--base-color-scalar: #2458a2;--base-color-array: #B01030;--base-color-hash: #00a693;--base-color-code: #209cee;--base-color-keyword: #008c7e;--base-color-operator: #1ca24f;--base-color-type: #d12c4c;--base-color-routine: #489fdc;--base-color-string: #369ec6;--base-color-string-delimiter: #1d90d2;--base-color-escape: #2b2b2b;--base-color-text: #2a2a2a;--base-color-comment: #4aa36c;--base-color-regex-special: #00996f;--base-color-regex-literal: #a52a2a;--base-color-regex-delimiter: #aa00aa;--base-color-doc-text: #2b9e71;--base-color-doc-markup: #d02b4c}.raku-code{position:relative;margin:0 1rem 0 1rem}.raku-code button.copy-code{cursor:pointer;opacity:0;padding:0 .25rem .25rem .25rem;position:absolute}.raku-code .code-caption{margin:0}.raku-code:hover button.copy-code{opacity:.5}.raku-code label{float:right;font-size:xx-small;font-style:italic;height:auto;padding-right:0}.raku-code pre.browser-hl{padding:7px}.raku-code .code-name{padding-top:.75rem;padding-left:1.25rem;font-weight:500}.raku-code pre{display:inline-block;overflow:scroll;width:100%}.raku-code .rakudoc-in-code{padding:1.25rem 1.5rem}.raku-code .section{padding:0rem}.raku-code .nohighlights{background:none;color:inherit}.raku-code .rainbow-name_scalar{color:var(--base-color-scalar);font-weight:500}.raku-code .rainbow-name_array{color:var(--base-color-array);font-weight:500}.raku-code .rainbow-name_hash{color:var(--base-color-hash);font-weight:500}.raku-code .rainbow-name_code{color:var(--base-color-code);font-weight:500}.raku-code .rainbow-keyword{color:var(--base-color-keyword);font-weight:500}.raku-code .rainbow-operator{color:var(--base-color-operator);font-weight:500}.raku-code .rainbow-type{color:var(--base-color-type);font-weight:500}.raku-code .rainbow-routine{color:var(--base-color-routine);font-weight:500}.raku-code .rainbow-string{color:var(--base-color-string);font-weight:500}.raku-code .rainbow-string_delimiter{color:var(--base-color-string-delimiter);font-weight:500}.raku-code .rainbow-escape{color:var(--base-color-escape);font-weight:500}.raku-code .rainbow-text{color:var(--base-color-text);font-weight:500}.raku-code .rainbow-comment{color:var(--base-color-comment);font-weight:500}.raku-code .rainbow-regex_special{color:var(--base-color-regex-special);font-weight:500}.raku-code .rainbow-regex_literal{color:var(--base-color-regex-literal);font-weight:500}.raku-code .rainbow-regex_delimiter{color:var(--base-color-regex-delimiter);font-weight:500}.raku-code .rainbow-rakudoc_text{color:var(--base-color-doc-text);font-weight:500}.raku-code .rainbow-rakudoc_markup{color:var(--base-color-doc-markup);font-weight:500}
+</style>
+<style>/* latexformula */
+div.latex-equation{display:flex;justify-content:space-between}div.latex-equation a.logo img{width:60%;border:gray solid 1px;border-radius:5px}span.latex-formula{display:inline-block;cursor:crosshair}span.latex-formula a{display:none}span.latex-formula:hover>a{display:inline-block;position:absolute;transform:translate(-3rem, -2rem);background:#faebd7}.latex-render-error{color:red;font-weight:bold}
+</style>
+<style>/* listfiles */
+.listf-container{display:flex;flex-direction:column;margin-bottom:1.25rem;font-size:1rem;font-weight:500;line-height:1.5;border:1px solid #ccc;border-bottom:5px solid #d9d9d9;box-shadow:0 2px 3px 0 rgba(0,0,0,.07)}.listf-container .listf-caption{display:flex;justify-content:center;background:#f2f2f2;border-bottom:1px solid #ccc;color:#83858d}.listf-container .listf-file{display:inline-block;border-top:1px solid #ccc;border-bottom:1px solid #ccc;break-inside:avoid}.listf-container .listf-file .listf-link{display:inline-block;width:100%;text-align:center;padding-top:.25rem}.listf-container .listf-file p.desc{padding-left:.5rem;padding-right:.5rem;margin-bottom:.25rem}.listf-error{color:red;font-size:xlarge}
+</style>
+<style>/* leafletmap */
+.leaflet-map-rakudoc{margin-bottom:1rem}.leaflet-map-rakudoc div{margin:auto}
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""
+/>
+
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+<script src="https://rawgit.com/farzher/fuzzysort/master/fuzzysort.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""
+></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/haskell.min.js"></script>
+<script src="https://unpkg.com/leaflet-providers@latest/leaflet-providers.js"
+></script>
+
+
+<script>    // Hilite-helper.js
+    document.addEventListener('DOMContentLoaded', function () {
+        // trigger the highlighter for non-Raku code
+        hljs.highlightAll();
+
+        // copy code block to clipboard adapted from solution at
+        // https://stackoverflow.com/questions/34191780/javascript-copy-string-to-clipboard-as-text-html
+        // if behaviour problems with different browsers add stylesheet code from that solution.
+        const copyButtons = Array.from(document.querySelectorAll('.copy-code'));
+        copyButtons.forEach( function( button ) {
+        var codeElement = button.nextElementSibling.nextElementSibling; // skip the label and get the div
+        button.addEventListener( 'click', function(insideButton) {
+            var container = document.createElement('div');
+            container.innerHTML = codeElement.innerHTML;
+                container.style.position = 'fixed';
+                container.style.pointerEvents = 'none';
+                container.style.opacity = 0;
+                document.body.appendChild(container);
+                window.getSelection().removeAllRanges();
+                var range = document.createRange();
+                range.selectNode(container);
+                window.getSelection().addRange(range);
+                document.execCommand("copy", false);
+                document.body.removeChild(container);
+            });
+        });
+    });
+</script>
+<script>// BulmaHelper.js
+var change_theme = function (theme) {
+    document.querySelector('html').className = '';
+    document.querySelector('html').classList.add('theme-' + theme);
+};
+var persisted_theme = function () { return localStorage.getItem('theme') };
+var persist_theme = function (theme) { localStorage.setItem('theme', theme) };
+
+var persisted_tocState = function () { return localStorage.getItem('tocOpen') };
+var persist_tocState = function (tocState) { localStorage.setItem('tocOpen', tocState ) };
+
+var originalIndex;
+var originalTOC;
+var matchTocState = function ( state ) {
+    if (document.getElementById("TOC") == null) { return };
+    if ( state ) {
+        document.getElementById("TOC").classList.remove('is-hidden');
+        document.getElementById("page-nav").classList.remove('is-hidden');
+        document.getElementById("mobile-nav").classList.remove('is-hidden');
+        document.getElementById("MainText").classList.add('is-three-quarters');
+        document.getElementById("MainText").classList.add('column');
+        document.getElementById("MainText").classList.remove('px-5');
+        persist_tocState( 'open');
+    }
+    else {
+        document.getElementById("TOC").classList.add('is-hidden');
+        document.getElementById("page-nav").classList.add('is-hidden');
+        document.getElementById("mobile-nav").classList.add('is-hidden');
+        document.getElementById("MainText").classList.remove('is-three-quarters');
+        document.getElementById("MainText").classList.remove('column');
+        document.getElementById("MainText").classList.add('px-5');
+        persist_tocState( 'closed' );
+    }
+}
+var setTocState = function ( state ) {
+    if (document.getElementById("TOC") == null) { return };
+    if ( state === 'closed') {
+        document.getElementById("TOC").classList.add('is-hidden');
+        document.getElementById("page-nav").classList.add('is-hidden');
+        document.getElementById("mobile-nav").classList.add('is-hidden');
+        document.getElementById("MainText").classList.remove('is-three-quarters');
+        document.getElementById("MainText").classList.remove('column');
+        document.getElementById("MainText").classList.add('px-5');
+        document.getElementById("navbar-toc-toggle").checked = false;
+    }
+    else {
+        document.getElementById("TOC").classList.remove('is-hidden');
+        document.getElementById("page-nav").classList.remove('is-hidden');
+        document.getElementById("mobile-nav").classList.remove('is-hidden');
+        document.getElementById("MainText").classList.add('is-three-quarters');
+        document.getElementById("MainText").classList.add('column');
+        document.getElementById("MainText").classList.remove('px-5');
+        document.getElementById("navbar-toc-toggle").checked = true;
+    }
+};
+window.addEventListener('load', function () {
+    // initialise if localStorage is set
+    let theme = persisted_theme();
+    if ( theme == null ) {
+        theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        change_theme(theme);
+        persist_theme(theme);
+    }
+    let tocState = persisted_tocState();
+    if ( tocState == null ) {
+        setTocState( 'open' )
+    }
+    else {
+        setTocState( tocState );
+        persist_tocState( tocState );
+    }
+    // Add listeners
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+            });
+        });
+    };
+    // initialise window state
+    document.getElementById('changeTheme').addEventListener('click', function () {
+        let theme = persisted_theme() === 'light' ? 'dark' : 'light';
+        change_theme(theme);
+        persist_theme(theme);
+    });
+    if (document.getElementById("navbar-toc-toggle") !== null ) {
+        document.getElementById("navbar-toc-toggle").addEventListener('change', function() {
+            matchTocState( this.checked )
+        });
+        document.getElementById('toc-tab').addEventListener('click', function () { swap_toc_index('','toc') });
+        document.getElementById('index-tab').addEventListener('click', function () { swap_toc_index('','index') });
+        document.getElementById('mtoc-tab').addEventListener('click', function () { swap_toc_index('m','toc') });
+        document.getElementById('mindex-tab').addEventListener('click', function () { swap_toc_index('m','index') });
+        originalTOC = document.getElementById('toc-menu').getHTML();
+        originalIndex = document.getElementById('index-menu').getHTML();
+        document.getElementById("page-nav-search").addEventListener('keyup', function (event) {
+            filtersearch(event, 'toc-menu', 'index-menu', 'page-nav')
+        });
+        document.getElementById("mobile-nav-search").addEventListener('keyup', function (event) {
+            filtersearch(event, 'mtoc-menu', 'mindex-menu', 'mobile-nav')
+        });
+    }
+});
+function filtersearch(event, toc,index,nav) {
+    document.getElementById(toc).innerHTML = originalTOC;
+    document.getElementById(index).innerHTML = originalIndex;
+    var searchText = event.srcElement.value.toLowerCase();
+    if (searchText.length === 0) return;
+    var menuListElements = document.getElementById(nav).querySelectorAll('.toc-item, .index-section');
+    var matchingListElements = Array.from(menuListElements).filter(function (item) {
+        var el;
+        if ( item.classList.contains('toc-item') ) {
+            el = item.querySelector('a');
+        } else {
+            el = item.querySelector('.index-entry')
+        }
+        var listItemHTML = el.innerHTML;
+        var fuzzyRes = fuzzysort.go(searchText, [listItemHTML])[0];
+        if (fuzzyRes === undefined || fuzzyRes.score <= 0) {
+            return false;
+        }
+        var res = fuzzyRes.highlight('<b>','</b>');
+        if (res !== null) {
+            el.innerHTML = res;
+            return true;
+        } else {
+            return false;
+        }
+    });
+    menuListElements.forEach(function(elem){elem.classList.add('is-hidden')});
+    matchingListElements.forEach(function(elem){elem.classList.remove('is-hidden')});
+};
+function swap_toc_index(div, activate) {
+    let disactivate = (activate == 'toc') ? 'index' : 'toc';
+    document.getElementById( div + activate + '-tab').classList.add('is-active');
+    document.getElementById( div + disactivate + '-menu').classList.add('is-hidden');
+    document.getElementById( div + disactivate + '-tab').classList.remove('is-active');
+    document.getElementById( div + activate + '-menu').classList.remove('is-hidden');
+}
+</script>
+
+
+        <link rel="icon" href="https://irclogs.raku.org/favicon.ico">
+    </head>
+    <body class="has-navbar-fixed-top">
+        <nav class="navbar is-fixed-top raku-webs" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+     <figure class="navbar-item">
+        <img id="Camelia" class="is-rounded" src="https://avatars.githubusercontent.com/u/58170775">
+        <span class="navbar-tm-logo">tm</span>
+     </figure>
+        <div class="navbar-start navbar-item">
+    <label class="chevronToggle tooltip">
+        <input id="navbar-toc-toggle" type="checkbox" />
+        <span class="checkmark on is-hidden-mobile"><i class="fa fa-chevron-left fa-2x"></i></span>
+        <span class="checkmark off is-hidden-mobile"><i class="fa fa-chevron-right fa-2x"></i></span>
+        <span class="checkmark on is-hidden-tablet"><i class="fa fa-chevron-down fa-2x"></i></span>
+        <span class="checkmark off is-hidden-tablet"><i class="fa fa-chevron-up fa-2x"></i></span>
+        <span class="tooltiptext on">Close Table of contents for this page</span>
+        <span class="tooltiptext off">Open Table of contents for this page</span>
+    </label>
+    </div>
+
+     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+       <span aria-hidden="true"></span>
+       <span aria-hidden="true"></span>
+       <span aria-hidden="true"></span>
+       <span aria-hidden="true"></span>
+     </a>
+     </div>
+    <div id="navMenu" class="navbar-menu">
+    <div class="navbar-start navbar-item is-hidden-touch"></div> <!-- empty item so remainder are centered -->
+    <a id="changeTheme" class="navbar-item">ChangeTheme</a>
+</div>
+
+</nav>
+
+        <nav class="raku-webs panel is-hidden-mobile" id="page-nav">
+  <div class="panel-block">
+    <p class="control has-icons-left">
+      <input class="input" type="text" placeholder="🔍" id="page-nav-search"/>
+      <span class="icon is-left">
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </span>
+    </p>
+  </div>
+  <p class="panel-tabs">
+    <a id="toc-tab">Table of Contents</a>
+    <a id="index-tab">Index</a>
+  </p>
+    <aside id="toc-menu" class="panel-block">
+    <div class="raku-webs toc"><div class="toc-item" style="--level:0;" data-bullet=""><a href="#VERSION">VERSION</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Documenting_code_vs_documenting_software">Documenting code vs documenting software</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Case_1:_You_are_writing_internal_documentation_to_aid_software_design">Case 1: You are writing internal documentation to aid software design</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Case_2:_You_are_writing_external_documentation_to_accompany_some_software">Case 2: You are writing external documentation to accompany some software</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Text-oriented_RakuDoc">Text-oriented RakuDoc</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Block_scope">Block scope</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Sections">Sections</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Counts_and_counters">Counts and counters</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Each_counter_has_a_restart_status">Each counter has a restart status </a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#A_note_about_using_:counter_and_:restart-after/restart-except-after_together">A note about using :counter and :restart-after/restart-except-after together </a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Tables">Tables</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Visual_description_of_simple_tables">Visual description of simple tables</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Valid_tables">Valid tables</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Invalid_tables">Invalid tables</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Unexpected_tables">Unexpected tables</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Procedural_description_of_tables">Procedural description of tables</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Formulae">Formulae</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Citations">Citations</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_blocks">Citation blocks</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Implied_code_and_indentation">Implied code and indentation</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Metadata">Metadata</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Instructions_with_side_effects">Instructions with side effects</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Display_and_metadata">Display and metadata</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Display_only_codes">Display only codes</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Metadata_and_(optional)_display_text">Metadata and (optional) display text</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Metadata_only">Metadata only</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Summary_of_RakuDoc_syntax">Summary of RakuDoc syntax</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Directives">Directives</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Blocks">Blocks</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Metadata_options">Metadata options</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Markup_instructions">Markup instructions</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#:form_components">:form components</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Options_for_form_fields">Options for form fields</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Options_related_to_citations">Options related to citations</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Licence">Licence</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
+</div>
+
+    </aside>
+    <aside id="index-menu" class="panel-block is-hidden">
+    <p>No Index for this page</p>
+    </aside>
+</nav>
+
+<div class="columns">
+    <div id="TOC" class="column is-one-quarter">
+            <div id="siteNavigation">
+        <!-- the following panel appears at the top of the page when form format is small -->
+        <nav class="panel is-hidden-tablet" id="mobile-nav">
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input class="input" type="text" placeholder="🔍" id="mobile-nav-search"/>
+              <span class="icon is-left">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </span>
+            </p>
+          </div>
+          <p class="panel-tabs">
+            <a id="mtoc-tab">Table of Contents</a>
+            <a id="mindex-tab">Index</a>
+          </p>
+            <aside id="mtoc-menu" class="panel-block">
+            <div class="raku-webs toc"><div class="toc-item" style="--level:0;" data-bullet=""><a href="#VERSION">VERSION</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Documenting_code_vs_documenting_software">Documenting code vs documenting software</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Case_1:_You_are_writing_internal_documentation_to_aid_software_design">Case 1: You are writing internal documentation to aid software design</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Case_2:_You_are_writing_external_documentation_to_accompany_some_software">Case 2: You are writing external documentation to accompany some software</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Text-oriented_RakuDoc">Text-oriented RakuDoc</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Block_scope">Block scope</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Sections">Sections</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Counts_and_counters">Counts and counters</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Each_counter_has_a_restart_status">Each counter has a restart status </a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#A_note_about_using_:counter_and_:restart-after/restart-except-after_together">A note about using :counter and :restart-after/restart-except-after together </a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Tables">Tables</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Visual_description_of_simple_tables">Visual description of simple tables</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Valid_tables">Valid tables</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Invalid_tables">Invalid tables</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Unexpected_tables">Unexpected tables</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Procedural_description_of_tables">Procedural description of tables</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Formulae">Formulae</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Citations">Citations</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Citation_blocks">Citation blocks</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Implied_code_and_indentation">Implied code and indentation</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Metadata">Metadata</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Instructions_with_side_effects">Instructions with side effects</a></div>
+<div class="toc-item" style="--level:2;" data-bullet="‣"><a href="#Display_and_metadata">Display and metadata</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Display_only_codes">Display only codes</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Metadata_and_(optional)_display_text">Metadata and (optional) display text</a></div>
+<div class="toc-item" style="--level:3;" data-bullet="⁃"><a href="#Metadata_only">Metadata only</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Summary_of_RakuDoc_syntax">Summary of RakuDoc syntax</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Directives">Directives</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Blocks">Blocks</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Metadata_options">Metadata options</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Markup_instructions">Markup instructions</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#:form_components">:form components</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Options_for_form_fields">Options for form fields</a></div>
+<div class="toc-item" style="--level:1;" data-bullet="▹"><a href="#Options_related_to_citations">Options related to citations</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Licence">Licence</a></div>
+<div class="toc-item" style="--level:0;" data-bullet=""><a href="#Credits">Credits</a></div>
+</div>
+
+            </aside>
+            <aside id="mindex-menu" class="panel-block is-hidden">
+            <p>No Index for this page</p>
+            </aside>
+        </nav>
+    </div>
+
+    </div>
+    <div id="MainText" class="column section container">
+        <section class="section">
+  <div class="container">
+<div id="RakuDoc_Exposition"></div><h1 class="raku-webs title">RakuDoc Exposition</h1>
+
+<p class="raku-webs subtitle">Additional notes and examples for the RakuDoc specification</p>
+  </div>
+</section>
+
+        <div class="content px-4 ">
+        
+<div class="id-target" id="VERSION&amp;nbsp&amp;nbsp&amp;nbsp&amp;nbsp2.20.4"></div><h1 id="VERSION" class="heading raku-webs-h1 "><a href="#">VERSION&nbsp&nbsp&nbsp&nbsp2.20.4</a><a class="raku-webs-anchor" href="#VERSION&amp;nbsp&amp;nbsp&amp;nbsp&amp;nbsp2.20.4">§</a></h1>
+
+<div class="id-target" id="Documenting code vs documenting software"></div><h1 id="Documenting_code_vs_documenting_software" class="heading raku-webs-h1 "><a href="#">Documenting code vs documenting software</a><a class="raku-webs-anchor" href="#Documenting code vs documenting software">§</a></h1>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Two use cases for RakuDoc">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p id="Para">RakuDoc is a markup language with simple instructions for simple tasks and more complex structures to suit larger projects. There is a clear distinction between documentation intended to help maintain and develop the software, and the visual presentation of information needed by a newcomer to understand how to use software.</p>
+
+<p id="Para_0">Consider the two ways in which documentation is used...</p>
+
+<div class="id-target" id="Case 1: You are writing internal documentation to aid software design"></div><h2 id="Case_1:_You_are_writing_internal_documentation_to_aid_software_design" class="heading raku-webs-h2 "><a href="#">Case 1: You are writing internal documentation to aid software design</a><a class="raku-webs-anchor" href="#Case 1: You are writing internal documentation to aid software design">§</a></h2>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+    unit class Beginners;
+
+    <span class="basis">#| a variable to hold number of people</span>
+    has $.participants;
+
+    <span class="basis">#| data that is initially provided by default, but will be overwritten</span>
+    has $.new-participant = <span class="basis">$=finish</span>;
+
+    ... # code
+
+    <span class="basis">=finish</span>
+    default data string for a new participant
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>A RakuDoc compliant editor or Integrated Design Environment will pick up the text following <span class="code">#|</span> and put it into a pop-up menu whenever you select (<span class="important">e.g.</span> hover over) a use of <span class="code">$.participants</span>. </p>
+
+<p>The <span class="code">=finish</span> statement marks the last piece of code. Everything after it is treated as a string and placed in the <span class="code">$=finish</span> variable. </p>
+
+<div class="id-target" id="Case 2: You are writing external documentation to accompany some software"></div><h2 id="Case_2:_You_are_writing_external_documentation_to_accompany_some_software" class="heading raku-webs-h2 "><a href="#">Case 2: You are writing external documentation to accompany some software</a><a class="raku-webs-anchor" href="#Case 2: You are writing external documentation to accompany some software">§</a></h2>
+
+<p id="Para_1">Consider the following short description:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">    =begin rakudoc</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    =TITLE Tutorial about Flavorizing<br></span><span class="rainbow-rakudoc_markup">    =SUBTITLE</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    A short tutorial on Flavorizing your quarks<br><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =head Starting out<br><br>    In the section you will learn about how to add flavors to quarks produced<br>    by the </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Imagiton</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text">.<br>    It goes without saying that these techniques should </span><span class="rainbow-rakudoc_markup">B&lt;</span><span class="rainbow-rakudoc_text">NOT</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> be carried out<br>    without a precocious child nearby; they will strain the imagination of<br>    an ossified adult.<br><br>    =head2 What is a flavour<br><br>    It is well-known (see the </span><span class="rainbow-rakudoc_markup">L&lt;</span><span class="rainbow-rakudoc_text">Wikipedia article</span><span class="rainbow-rakudoc_markup">|</span><span class="rainbow-rakudoc_markup">https://en.wikipedia.org/wiki/Flavour_(particle_physics)</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>    that quarks </span><span class="rainbow-rakudoc_markup">N&lt;</span><span class="rainbow-rakudoc_text">a quark is a constituent of a hadron</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> come in six flavors, for example:<br>    =item Up<br>    =item Bottom<br>    =item Charm<br><br>    </span><span class="rainbow-rakudoc_markup">Z&lt;</span><span class="rainbow-rakudoc_text"> Lots more text </span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>    =end rakudoc</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>To indicate that all of the markup above is not Raku code, it is enclosed in a block labelled <span class="important">rakudoc</span>. This is an example of the <span class="basis">delimited</span> form of the <span class="basis">rakudoc</span> block (so named because it is specified between <span class="code">=begin</span> and <span class="code">=end</span> directives). </p>
+
+<p>The <span class="code">=TITLE</span>, <span class="code">=SUBTITLE</span>, and <span class="code">=SYNOPSIS</span> are <span class="important">semantic blocks</span> containing standard information that can be searched by other tools. For all other purposes, they can be considered to the same as <span class="code">=head</span> <span class="important">blocks</span>. </p>
+
+<p>A <span class="code">=head</span> block begins a top-level heading. The <span class="code">=head2</span> is a second level heading. These are examples of the <span class="basis">abbreviated</span> form of RakuDoc blocks. Any non-empty text lines following a heading specifier are collectively treated as the text of the heading. </p>
+
+<p>The <span class="code">=item</span> components are abbreviated blocks containing text entries that constitute the items of a list. There is no need to start or stop a list explicitly; the renderer will place each consecutive <span class="code">=item</span> in a single list. The first non-<span class="code">=item</span> paragraph or block will end the list. </p>
+
+<p>Within the text there are several examples of inline markup instructions, which have the form <span class="replace">Upper Unicode character</span> <span class="basis"> &lt; </span> <span class="basis"> &gt; </span>. In the example above, we used: <span class="code">I&lt;...&gt;</span>, <span class="code">B&lt;...&gt;</span>, <span class="code">N&lt;...&gt;</span>, <span class="code">L&lt;...&gt;</span>, and <span class="code">Z&lt;...&gt;</span>. These are for Important, Basis, Note (a footnote), Link, and Zero (a comment) markup. </p>
+
+<div class="id-target" id="Text-oriented RakuDoc"></div><h1 id="Text-oriented_RakuDoc" class="heading raku-webs-h1 "><a href="#">Text-oriented RakuDoc</a><a class="raku-webs-anchor" href="#Text-oriented RakuDoc">§</a></h1>
+
+<div class="id-target" id="Block scope"></div><h2 id="Block_scope" class="heading raku-webs-h2 "><a href="#">Block scope</a><a class="raku-webs-anchor" href="#Block scope">§</a></h2>
+<h3 id="Sections" class="heading raku-webs-h3 "><a href="#">Sections</a><a class="raku-webs-anchor" href="#Sections">§</a></h3>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Sections">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p>Providing metadata to a <span class="code">=begin section</span> block definition is <span class="basis">not</span> the same as declaring metadata using a <span class="code">=config</span> directive. Metadata in a config is provided to all matching blocks in the current block scope. Metadata in the <span class="code">=begin section</span> declaration is only applied to the section itself, not to the blocks it contains. </p>
+
+<p id="Para_2">For example, suppose the following RakuDoc text was included in a source file</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">    =begin section</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">delta</span>(v2.3.2-,&nbsp;<span class="rainbow-string_delimiter">&quot;</span><span class="rainbow-string">removed due to conflict with chancellor's role</span><span class="rainbow-string_delimiter">&quot;</span>)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    =head2 role Fool<br><br>    This role is especially important in authoritarian kingdoms to remind kings of their humanity.<br><br>    =end section</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p id="Para_3">which might render as:</p>
+<div class="nested"><div class="rakudoc-section delta"><span class="developer-version">2.3.2- removed due to conflict with chancellor's role</span>
+
+
+<div class="id-target" id="role Fool"></div><h2 id="role_Fool" class="heading raku-webs-h2 "><a href="#">role Fool</a><a class="raku-webs-anchor" href="#role Fool">§</a></h2>
+
+<p id="Para_4">This role is especially important in authoritarian kingdoms to remind kings of their humanity.</p>
+</div></div>
+
+<p>If a user indicates to a renderer that they wish to view documentation valid in (for example) <span class="code">v3.1.1</span> then, because <span class="code">v3.1.1</span> is after <span class="code">v2.3.2</span>, the section above – including the nested <span class="code">=head2</span> block and the following plain paragraph – would not be rendered. </p>
+
+<p>If however, a user indicates they wish to view documentation for <span class="code">v2</span>, the renderer would render the section above, including an indication the section will be removed after <span class="code">v2.3.2</span>. </p>
+
+<div class="id-target" id="Counts and counters"></div><h2 id="Counts_and_counters" class="heading raku-webs-h2 "><a href="#">Counts and counters</a><a class="raku-webs-anchor" href="#Counts and counters">§</a></h2>
+
+<div class="id-target" id="Each counter has a restart status"></div><h3 id="Each_counter_has_a_restart_status" class="heading raku-webs-h3 "><a href="#">Each counter has a restart status</a><a class="raku-webs-anchor" href="#Each counter has a restart status">§</a></h3>
+
+<p><span class="important">[This section elaborates <a href="Counts and counters#">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p>A <span class="code">:restart</span> is useful to restart a specific counter that would otherwise continue. For example, to cause a specially prefixed series of tables to reset after a heading: </p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>text</label>
+    <div><pre class="nohighlights">1. Concept
+    Table 1.1. List of requirements
+    Table 1.2. List of resources
+    Table 1.3. List of constraints
+
+2. Implementation
+    Table 2.1. Implementation schedule
+    Table 2.2. Resource suppliers
+    Table 2.3. Costings vs actual expenditure</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p id="Para_5">To manually reset the second series of tables, you could specify them like so:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+=counter table1 :prefix&lt;head1&gt;
+
+=numhead Concept
+    =for numtable :caption&lt; List of requirements &gt;
+    =for numtable :caption&lt; List of resources &gt;
+    =for numtable :caption&lt; List of constraints &gt;
+
+=numhead Implementation
+    <span class="basis">=counter table :restart</span>
+    =for numtable :caption&lt; Implementation schedule &gt;
+    =for numtable :caption&lt; Resource suppliers &gt;
+    =for numtable :caption&lt; Costings vs actual expenditure &gt;
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>Note that, because a counter’s restart status persists until the next time it generates an enumeration, that <span class="code">:restart</span> could be placed <span class="basis"><span class="important">anywhere</span></span> before the specific table whose numbering is to be restarted. For example, it could instead be specified immediately after the final table under the first heading: </p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+=numhead Concept
+    =for numtable :caption&lt; List of requirements &gt;
+    =for numtable :caption&lt; List of resources &gt;
+    =for numtable :caption&lt; List of constraints &gt;
+    <span class="basis">=counter table :restart</span>
+
+=numhead Implementation
+    =for numtable :caption&lt; Implementation schedule &gt;
+    =for numtable :caption&lt; Resource suppliers &gt;
+    =for numtable :caption&lt; Costings vs actual expenditure &gt;
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>The <span class="code">:!restart</span> variant is useful to allow “list-like” numbered blocks, such as <span class="code">numitem</span> or <span class="code">numdefn</span> to preserve their enumeration sequences despite intervening blocks that would normally restart those sequences. For example, to allow an aside to be placed in the middle of a numbered list of items, without breaking the numbered sequence: </p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>text</label>
+    <div><pre class="nohighlights">My nefarious plan is:
+
+    1. Kidnap every being who knows the secret recipe for Nuka-Cola
+
+    2. Demand a ransom of ONE MILLION DOLLARS
+
+    (Note: need to work out how to get away cleanly from the exchange location)
+
+    3. Profit!</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p id="Para_6">You could achieve this with something like:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_text">=para My nefarious plan is:<br><br>=item Kidnap every being who knows the secret recipe for Nuka-Cola<br><br>=item Demand a ransom of ONE MILLION DOLLARS<br><br>=para (Note: need to work out how to get away cleanly from the exchange location)<br><br>=counter item :!restart<br>=item  Profit!</span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+<div class="rakudoc-section ">
+<p>The <span class="code">:restart(<span class="replace">INTEGER</span>)</span> form of the metaoption is useful for specialized numbering schemes, such as starting from zero instead of <span class="code">1</span>: </p>
+</div>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>Raku highlighting</label>
+    <div><pre class="nohighlights"><span class="rainbow-operator">=</span><span class="rainbow-name">counter</span>&nbsp;<span class="rainbow-name">head1</span>&nbsp;:<span class="rainbow-routine">restart</span>(<span class="rainbow-num_literal">0</span>)</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p id="Para_7">...or to enumerate blocks in a non-monotonically increasing sequence for some reason:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_text">The values that can be ORed together in the bitset are:<br><br>    =counter item :restart(1)<br>    =numitem Read flag<br><br>    =counter item :restart(2)<br>    =numitem Write flag<br><br>    =counter item :restart(4)<br>    =numitem Execute flag<br><br>    =counter item :restart(8)<br>    =numitem Self-destruct flag (be careful with this one!)</span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<div class="id-target" id="A note about using :counter and :restart-after/restart-except-after together"></div><h3 id="A_note_about_using_:counter_and_:restart-after/restart-except-after_together" class="heading raku-webs-h3 "><a href="#">A note about using :counter and :restart-after/restart-except-after together</a><a class="raku-webs-anchor" href="#A note about using :counter and :restart-after/restart-except-after together">§</a></h3>
+
+<p>It should be remembered, whereas a <span class="code">=config NAME</span> directive changes the behaviour for the block named <span class="code">NAME</span>, a <span class="code">=counter NAME</span> directive changes the behaviour for the counter named <span class="basis"><span class="important"><span class="code">NAME</span></span></span>, <span class="basis">not</span> for the block named <span class="code">NAME</span>. </p>
+
+<p id="Para_8">Usually this distinction does not matter because, by default, blocks use the counter with their own name. But it can lead to seemingly non-obvious behaviours when blocks and counters with the same name are both configured at the same time.</p>
+
+<p id="Para_9">For example, consider the following:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_text">=config  table2 :counter&lt; head2 &gt;<br>=counter table2 :restart-after&lt; table1 &gt;</span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>After this configuration, one might expect <span class="code">table2</span> blocks to restart at <span class="code">1</span> after each <span class="code">table1</span> block. But they do not. Instead, they restart after each <span class="code">head1</span> block. </p>
+
+<p>This is because the <span class="code">table2</span> block is now using the counter named <span class="basis"><span class="important"><span class="code">head2</span></span></span>, and that counter (by default) is restarted after every <span class="code">head1</span> block. Or, to put it another way, it is true that the <span class="basis"><span class="important"><span class="code">table2</span></span></span> counter will be restarted after every <span class="code">table1</span> block, but that will not matter because the <span class="code">table2</span> block is no longer using the <span class="basis"><span class="important"><span class="code">table2</span></span></span> counter at all. </p>
+
+<p>This kind of apparent violation of expectation usually indicates design confusion on the part of the document’s author. For example, the author seems to indicate that they want each <span class="code">table2</span> block to be numbered as if it were a <span class="code">head2</span> <span class="important">(Intent A)</span>, but they also want the numbering for <span class="code">table2</span> blocks to be restarted after every <span class="code">table1</span> block <span class="important">(Intent B)</span>. </p>
+
+<p>However, restarting after every <span class="code">table1</span> block is <span class="important">not</span> how the numbering of <span class="code">head2</span> blocks works, so if that did happen then each <span class="code">table2</span> block would <span class="basis"><span class="important">not</span></span> be being numbered as if it were a <span class="code">head2</span> block. So <span class="important">Intent B</span> intrinsically contradicts <span class="important">Intent A</span>. </p>
+
+<p>Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser (or the entire universe!) because <span class="code">=config</span> and <span class="code">=counter</span> configure different elements (<span class="important">i.e.</span> blocks and counters respectively), even when those elements happen to share the same name. </p>
+<h2 id="Tables" class="heading raku-webs-h2 "><a href="#">Tables</a><a class="raku-webs-anchor" href="#Tables">§</a></h2>
+
+<div class="id-target" id="Visual description of simple tables"></div><h3 id="Visual_description_of_simple_tables" class="heading raku-webs-h3 "><a href="#">Visual description of simple tables</a><a class="raku-webs-anchor" href="#Visual description of simple tables">§</a></h3>
+
+<div class="id-target" id="Valid tables"></div><h4 id="Valid_tables" class="heading raku-webs-h4 "><a href="#">Valid tables</a><a class="raku-webs-anchor" href="#Valid tables">§</a></h4>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Visual description of simple tables">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p id="Para_10">Following are examples of valid tables...</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    The Shoveller   Eddie Stevens     King Arthur's singing shovel<br>    Blue Raja       Geoffrey Smith    Master of cutlery<br>    Mr Furious      Roy Orson         Ticking time bomb of fury<br>    The Bowler      Carol Pinnsler    Haunted bowling ball<br>=end table</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    Constants           1<br>    Variables           10<br>    Subroutines         33<br>    Everything else     57</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=for table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    mouse    | mice<br>    horse    | horses<br>    elephant | elephants</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    Animal | Legs |    Eats<br>    =======================<br>    Zebra  +   4  + Cookies<br>    Human  +   2  +   Pizza<br>    Shark  +   0  +    Fish</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        Superhero     | Secret          |<br>                      | Identity        | Superpower<br>        ==============|=================|================================<br>        The Shoveller | Eddie Stevens   | King Arthur's singing shovel</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br>                        Secret<br>        Superhero       Identity          Superpower<br>        =============   ===============   ===================<br>        The Shoveller   Eddie Stevens     King Arthur's<br>                                          singing shovel<br><br>        Blue Raja       Geoffrey Smith    Master of cutlery<br><br>        Mr Furious      Roy Orson         Ticking time bomb<br>                                          of fury<br><br>        The Bowler      Carol Pinnsler    Haunted bowling ball<br><br>=end table</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    X | O |<br>   ---+---+---<br>      | X | O<br>   ---+---+---<br>      |   | X</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    X   O<br>   ===========<br>        X   O<br>   ===========<br>            X</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text"><br>foo<br>bar<br><br>=end table</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<div class="id-target" id="Invalid tables"></div><h4 id="Invalid_tables" class="heading raku-webs-h4 "><a href="#">Invalid tables</a><a class="raku-webs-anchor" href="#Invalid tables">§</a></h4>
+
+<p id="Para_11">Following are examples of invalid tables, and they should trigger an unhandled exception during parsing.</p>
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Using two or more different column separators in the same row is not allowed:</li>
+</ul>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+=begin table
+r0c0  <span class="basis">+</span>  r0c1  <span class="basis">|</span>  r0c3
+=end table
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Using both visual and whitespace column separators in the same table is not allowed:</li>
+</ul>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>text</label>
+    <div><pre class="nohighlights">=begin table
+r0c0 +  r0c1 | r0c3
+r1c0    r0c1   r0c3
+=end table</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Specifying consecutive interior row separators without an intervening row is not allowed:</li>
+</ul>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+=begin table
+r0c0 |  r0c1
+<span class="basis">============</span>
+<span class="basis">============</span>
+r1c0 |  r1c1
+=end table
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<div class="id-target" id="Unexpected tables"></div><h4 id="Unexpected_tables" class="heading raku-webs-h4 "><a href="#">Unexpected tables</a><a class="raku-webs-anchor" href="#Unexpected tables">§</a></h4>
+
+<p id="Para_12">Following are examples of valid tables that are probably intended to be two columns. However, the columns in these examples are not aligned well, so each will parse as a single-column table.</p>
+
+<ul class="item-list"><li class="item extended-item" data-bullet="•" style ="--level:0;"  >Unaligned columns with WS column separators:<p class="extended-item">Notice the second row has the two words separated by only <span class="basis">one</span> WS character, while it takes at least <span class="basis">two</span> adjacent WS characters to define a column separation. <span class="basis">This is a valid table but will be parsed as a single-column table</span>.</p></li>
+</ul>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">r0c0    r0c1<br>    r1c0 r0c1<br>=end table</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<ul class="item-list"><li class="item extended-item" data-bullet="•" style ="--level:0;"  >Unaligned columns with visual column separators:<p class="extended-item">Notice the second row has the two words separated by a visible character ('|') but the character is not recognized as a column separator because it doesn't have an adjacent WS character on both sides of it. Although this is a legal table, the result will not be what the user intended because the first row has two columns while the second row has only one column, and it will thus have an empty second column.</p></li>
+</ul>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin table</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">r0c0  |  r0c1<br> r1c0 |r0c1<br>=end table</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<div class="id-target" id="Procedural description of tables"></div><h3 id="Procedural_description_of_tables" class="heading raku-webs-h3 "><a href="#">Procedural description of tables</a><a class="raku-webs-anchor" href="#Procedural description of tables">§</a></h3>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Procedural description of tables">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p>The fundamental idea is that a procedural <span class="code">=table</span> sets up a semi-infinite 2D grid of cells, all of which are initially empty. The grid also tracks the fill position (<span class="important">$POS</span>: the next empty cell to be filled), and the fill direction (<span class="important">$DIR</span>: the direction to move <span class="important">$POS</span> after filling; either <span class="important">across</span> or <span class="important">down</span>). </p>
+
+<p id="Para_13">Let’s see how it works...</p>
+
+<p id="Para_14">The following RakuDoc specification:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin table</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">caption</span>&lt;Experimental&nbsp;data&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    =row :header<br></span><span class="rainbow-rakudoc_markup">        =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">row-span</span>(2)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        Date<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">        =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">column-span</span>(3)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        Samples<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">        =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">row-span</span>(2)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        Mean<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =row :header<br>        =cell </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Sample 1</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>        =cell </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Sample 2</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>        =cell </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Sample 3</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup">    =row</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">    =column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">        =cell 2023-03-08<br>        =cell 2023-04-14<br>        =cell 2023-06-23<br></span><span class="rainbow-rakudoc_markup">    =column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">        =cell 0.4<br>        =cell 0.8<br>        =cell 0.2<br></span><span class="rainbow-rakudoc_markup">    =column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">        =cell 0.1<br>        =cell 0.6<br>        =cell 0.9<br></span><span class="rainbow-rakudoc_markup">    =column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">        =cell 0.3<br>        =cell 0.5<br>        =cell 0.0<br></span><span class="rainbow-rakudoc_markup">    =column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">        =cell 0.26667<br>        =cell 0.63333<br>        =cell 0.36667<br></span><span class="rainbow-rakudoc_markup">    =row</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">        =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">label</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">        Mean:<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">        =cell 0.46667<br>        =cell 0.53333<br>        =cell 0.26667<br>        =cell 0.42222<br></span><span class="rainbow-rakudoc_markup">=end table<br></span><span class="rainbow-rakudoc_text"> code<br>produces the following table:<br>in table :!toc :caption&lt;Experimental data&gt;<br>=row :header<br></span><span class="rainbow-rakudoc_markup">    =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">row-span</span>(2)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    Date<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">    =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">column-span</span>(3)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    Samples<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">    =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">row-span</span>(2)<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    Mean<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">=row :header<br>    =cell </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Sample 1</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>    =cell </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Sample 2</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br>    =cell </span><span class="rainbow-rakudoc_markup">I&lt;</span><span class="rainbow-rakudoc_text">Sample 3</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"><br></span><span class="rainbow-rakudoc_markup">=row</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">=column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =cell 2023-03-08<br>    =cell 2023-04-14<br>    =cell 2023-06-23<br></span><span class="rainbow-rakudoc_markup">=column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =cell 0.4<br>    =cell 0.8<br>    =cell 0.2<br></span><span class="rainbow-rakudoc_markup">=column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =cell 0.1<br>    =cell 0.6<br>    =cell 0.9<br></span><span class="rainbow-rakudoc_markup">=column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =cell 0.3<br>    =cell 0.5<br>    =cell 0.0<br></span><span class="rainbow-rakudoc_markup">=column</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =cell 0.26667<br>    =cell 0.63333<br>    =cell 0.36667<br></span><span class="rainbow-rakudoc_markup">=row</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_markup">    =for cell</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">label</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    Mean:<br></span><span class="rainbow-rakudoc_markup"></span><span class="rainbow-rakudoc_text">    =cell 0.46667<br>    =cell 0.53333<br>    =cell 0.26667<br>    =cell 0.42222<br>=end table<br><br>Let’s examine how that specification creates that layout, step by step.<br>Note that, in the following diagram, the various symbols have these meanings:<br></span><span class="rainbow-rakudoc_markup">=begin code</span><span class="rainbow-rakudoc_markup"> </span><span class="rainbow-rakudoc_markup">:</span><span class="rainbow-keyword"></span><span class="rainbow-rakudoc_markup">lang</span>&lt;text&gt;<span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">    ┌───┐<br>    │   │ : An empty table cell<br>    └───┘<br>    ┌───┐<br>    │ → │ : The empty cell at $POS; $DIR is currently &quot;across&quot;<br>    └───┘<br>    ┌───┐<br>    │ ↓ │ : The empty cell at $POS; $DIR is currently &quot;down&quot;<br>    └───┘<br>    ┌───┐<br>    │+++│ : The most recently filled cell<br>    └───┘<br>    ┌───┐<br>    │###│ : A previously filled cell<br>    └───┘</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p id="Para_15">And now the step-by-step explanation:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>text</label>
+    <div><pre class="nohighlights">    =begin table                   ┌───┬───┬───┬───┬───┬───┬┈┈
+                                   │ → │   │   │   │   │   │
+    (Create a new table grid       ├───┼───┼───┼───┼───┼───┼┈┈
+     Default $POS is [0,0]         │   │   │   │   │   │   │
+     Default $DIR is across)       ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row :header                   ┌───┬───┬───┬───┬───┬───┬┈┈
+                                   │ → │   │   │   │   │   │
+    (Previous action was not =cell ├───┼───┼───┼───┼───┼───┼┈┈
+     So set $DIR to &quot;across&quot;       │   │   │   │   │   │   │
+     and don't change $POS)        ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =for cell :row-span(2)         ┌───┬───┬───┬───┬───┬───┬┈┈
+    Date                           │+++│ → │   │   │   │   │
+                                   │+++│───┼───┼───┼───┼───┼┈┈
+    (Fill in 1x2 cells             │+++│   │   │   │   │   │
+     starting from $POS            ├───┼───┼───┼───┼───┼───┼┈┈
+     Then move $POS to             │   │   │   │   │   │   │
+     first empty cell              ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =for cell :column-span(3)      ┌───┬───────────┬───┬───┬┈┈
+    Samples                        │###│+++++++++++│ → │   │
+                                   │###├───┬───┬───┼───┼───┼┈┈
+    (Fill in 3x1 cells             │###│   │   │   │   │   │
+     starting from $POS            ├───┼───┼───┼───┼───┼───┼┈┈
+     Then move $POS to             │   │   │   │   │   │   │
+     first empty cell              ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =for cell :row-span(2)         ┌───┬───────────┬───┬───┬┈┈
+    Mean                           │###│###########│+++│ → │
+                                   │###├───┬───┬───┤+++│───┼┈┈
+    (Fill in 1x2 cells             │###│   │   │   │+++│   │
+     starting from $POS            ├───┼───┼───┼───┼───┼───┼┈┈
+     Then move $POS to             │   │   │   │   │   │   │
+     first empty cell              ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row :header                   ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Find the next row at or       │###├───┬───┬───┤###│───┼┈┈
+     below the current $POS        │###│ → │   │   │###│   │
+     that has an empty cell        ├───┼───┼───┼───┼───┼───┼┈┈
+     to the left of $POS, then     │   │   │   │   │   │   │
+     move $POS to the leftmost     ├───┼───┼───┼───┼───┼───┼┈┈
+     cell on that row, and set     │   │   │   │   │   │   │
+     $DIR to &quot;across&quot;)             ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell Sample 1                 ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Fill in 1x1 cell at $POS      │###├───┬───┬───┤###│───┼┈┈
+     then move $POS to             │###│+++│ → │   │###│   │
+     the first empty cell          ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell Sample 2                 ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Fill in 1x1 cell at $POS      │###├───┬───┬───┤###│───┼┈┈
+     then move $POS to             │###│###│+++│ → │###│   │
+     the first empty cell          ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell Sample 3                 ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Fill in 1x1 cell at $POS      │###├───┬───┬───┤###│───┼┈┈
+     then move $POS to             │###│###│###│+++│###│ → │
+     the first empty cell          ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row                           ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Move $POS down to the         │###├───┬───┬───┤###│───┼┈┈
+     next row with an empty cell   │###│###│###│###│###│   │
+     that's to the left of $POS    ├───┼───┼───┼───┼───┼───┼┈┈
+     and to left-most empty cell   │ → │   │   │   │   │   │
+     on that row)                  ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =column                        ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Previous action was not a     │###├───┬───┬───┤###│───┼┈┈
+     =cell so set $DIR to &quot;down&quot;,  │###│###│###│###│###│   │
+     with no other effect)         ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │ ↓ │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell 2023-03-08               ┌───┬───────────┬───┬───┬┈┈
+    =cell 2023-04-14               │###│###########│###│   │
+    =cell 2023-06-23               │###├───┬───┬───┤###│───┼┈┈
+                                   │###│###│###│###│###│   │
+    (Each =cell block              ├───┼───┼───┼───┼───┼───┼┈┈
+     fills in a 1x1 cell           │+++│   │   │   │   │   │
+     at $POS, then moves           ├───┼───┼───┼───┼───┼───┼┈┈
+     $POS to the first empty       │+++│   │   │   │   │   │
+     cell in $DIR direction)       ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │+++│   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │ ↓ │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =column                        ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Previous action was           │###├───┬───┬───┤###│───┼┈┈
+     a =cell, so move $POS         │###│###│###│###│###│   │
+     to the uppermost empty        ├───┼───┼───┼───┼───┼───┼┈┈
+     cell in the first non-full    │###│ ↓ │   │   │   │   │
+     column to the right,          ├───┼───┼───┼───┼───┼───┼┈┈
+     and set $DIR to &quot;down&quot;)       │###│   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │###│   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell 0.4                      ┌───┬───────────┬───┬───┬┈┈
+    =cell 0.8                      │###│###########│###│   │
+    =cell 0.2                      │###├───┬───┬───┤###│───┼┈┈
+                                   │###│###│###│###│###│   │
+    (Each =cell block              ├───┼───┼───┼───┼───┼───┼┈┈
+     fills in a 1x1 cell           │###│+++│   │   │   │   │
+     at $POS, then moves           ├───┼───┼───┼───┼───┼───┼┈┈
+     $POS to the first empty       │###│+++│   │   │   │   │
+     cell in $DIR direction)       ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │###│+++│   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │ ↓ │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =column                        ┌───┬───────────┬───┬───┬┈┈
+    =cell 0.1                      │###│###########│###│   │
+    =cell 0.6                      │###├───┬───┬───┤###│───┼┈┈
+    =cell 0.9                      │###│###│###│###│###│   │
+    =column                        ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.3                      │###│###│+++│+++│+++│   │
+    =cell 0.5                      ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.0                      │###│###│+++│+++│+++│   │
+    =column                        ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.26667                  │###│###│+++│+++│+++│   │
+    =cell 0.63333                  ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.36667                  │   │   │   │   │ ↓ │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+    (Rinse and repeat)             ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row                           ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    ($POS row is entirely empty    │###├───┬───┬───┤###│───┼┈┈
+     so it's the first row with    │###│###│###│###│###│   │
+     an empty cell to the left     ├───┼───┼───┼───┼───┼───┼┈┈
+     of $POS, so stay on current   │###│###│###│###│###│   │
+     row and move $POS to the      ├───┼───┼───┼───┼───┼───┼┈┈
+     left-most empty cell in row;  │###│###│###│###│###│   │
+     change $DIR to &quot;across&quot;)      ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │###│###│###│###│###│   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │ → │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =for cell :label               ┌───┬───────────┬───┬───┬┈┈
+    Mean:                          │###│###########│###│   │
+    =cell 0.46667                  │###├───┬───┬───┤###│───┼┈┈
+    =cell 0.53333                  │###│###│###│###│###│   │
+    =cell 0.26667                  ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.42222                  │###│###│###│###│###│   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+    (Fill in 1x1 cells,            │###│###│###│###│###│   │
+     moving $POS each time         ├───┼───┼───┼───┼───┼───┼┈┈
+     in the direction              │###│###│###│###│###│   │
+     specified by $DIR)            ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │+++│+++│+++│+++│+++│ → │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =end table                     ┌───┬───────────┬───┐
+                                   │###│###########│###│
+    (Terminate grid-filling        │###├───┬───┬───┤###│
+     then trim the table to        │###│###│###│###│###│
+     the bounding box around       ├───┼───┼───┼───┼───┤
+     all filled cells)             │###│###│###│###│###│
+                                   ├───┼───┼───┼───┼───┤
+                                   │###│###│###│###│###│
+                                   ├───┼───┼───┼───┼───┤
+                                   │###│###│###│###│###│
+                                   ├───┼───┼───┼───┼───┤
+                                   │###│###│###│###│###│
+                                   └───┴───┴───┴───┴───┘</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+<h2 id="Formulae" class="heading raku-webs-h2 "><a href="#">Formulae</a><a class="raku-webs-anchor" href="#Formulae">§</a></h2>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Formulae">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p>Implementors of renderers are <span class="basis"><span class="important">not</span></span> required to render the instructions (<span class="important">e.g.</span> the LaTeX code) in a formula; it is acceptable for a renderer to render the contents of a <span class="code">=formula</span> or <span class="code">F&lt;&gt;</span> in some other way than as a fully realized mathematical equation. </p>
+
+<p id="Para_16">For example, the following two formulae:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>text</label>
+    <div><pre class="nohighlights">We will use the identity: F&lt;\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}&gt;
+
+...where the value of pi can be inferred from Euler’s Identity:
+
+=formula e^{i\pi}+1=0</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p id="Para_17">...may either be rendered “accurately”:</p>
+<div class="nested">
+<p>We will use the identity:  <span  class="latex-formula"><img src="https://latex.codecogs.com/svg.image?\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}" />
+<a class="logo" href="https://www.codecogs.com"><img src="https://www.codecogs.com/images/poweredbycodecogs.png" border="0" alt="CodeCogs - An Open Source Scientific Library"></a>
+</span> </p>
+
+<p id="Para_18">...where the value of pi can be inferred from Euler’s Identity:</p>
+<div class="formula" id="Formula"><div class="latex-equation"><img src="https://latex.codecogs.com/svg.image?e^{i\pi}+1=0" />
+<a class="logo" href="https://www.codecogs.com"><img src="https://www.codecogs.com/images/poweredbycodecogs.png" border="0" alt="CodeCogs - An Open Source Scientific Library"></a>
+</div><div class="formula-caption"></div>
+                    </div></div>
+
+<p id="Para_19">... or may be converted to a suitable Unicode approximation:</p>
+<div class="nested">
+<p id="Para_20">We will use the identity: ∑ 1/n² = 𝜋²/6</p>
+
+<p id="Para_21">...where the value of pi can be inferred from Euler’s Identity:</p>
+
+<p>e<span class="high">iπ</span> + 1 = 0 </p></div>
+
+<p id="Para_22">... or may even left as raw LaTeX (perhaps with some kind of visual marker indicating that it is unprocessed):</p>
+<div class="nested">
+<p>We will use the identity: <span class="important"><span class="unusual">\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}</span></span> </p>
+
+<p id="Para_23">... where the value of pi can be inferred from Euler’s Identity:</p>
+
+<p><span class="important"><span class="unusual">e^{i\pi}+1=0</span></span> </p></div>
+<h2 id="Citations" class="heading raku-webs-h2 "><a href="#">Citations</a><a class="raku-webs-anchor" href="#Citations">§</a></h2>
+
+<div class="id-target" id="Citation blocks"></div><h3 id="Citation_blocks" class="heading raku-webs-h3 "><a href="#">Citation blocks</a><a class="raku-webs-anchor" href="#Citation blocks">§</a></h3>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Citation blocks">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p>The full citation dataset for each individual reference work is specified in a <span class="code">citation</span> block, as structured textual data in any of the following notations: CSL-JSON, CSL-YAML, CSL-Raku, RIS, MODS, BiBLaTeX, BibTeX, BibTeXML, or Medline/PubMed (XML or NBIB). All of these formats are widely used citation-data-interchange standards, except for CSL-Raku, which is just CSL-JSON/CSL-YAML data transposed into the native Raku syntax for a list of hashes. </p>
+
+<p id="Para_24">For example:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  Citation source data specified in <span class="basis">CSL-Raku</span></span>
+=begin citation
+    {
+        note            =&gt; &quot;Fields can be specified as key =&gt; value pairs&quot;
+        id              =&gt; &quot;rakudoc-evo-chapter&quot;,
+        type            =&gt; &quot;chapter&quot;,
+        title           =&gt; &quot;The Evolution of RakuDoc&quot;,
+        author          =&gt; [ { family =&gt; &quot;Hainsworth&quot;, given =&gt; &quot;Richard&quot;   },
+                             { family =&gt; &quot;Mattijsen&quot;,  given =&gt; &quot;Elizabeth&quot; },
+                             { family =&gt; &quot;Conway&quot;,     given =&gt; &quot;Damian&quot;    },
+                           ],
+        editor          =&gt; [ { family =&gt; &quot;Smith&quot;, given =&gt; &quot;Jane&quot; } ],
+        container-title =&gt; &quot;Modern Markup Systems&quot;,
+        publisher       =&gt; &quot;Butterfly Press&quot;,
+        publisher-place =&gt; &quot;Amsterdam&quot;,
+        page            =&gt; &quot;42-65&quot;,
+        issued          =&gt; { date-parts =&gt; [[2024, 5, 12]] },
+        ISBN            =&gt; &quot;978-3-16-148410-0&quot;,
+    },
+    {
+                   :note&lt; Fields can also be specified as adverbial pairs &gt;
+                     :id&lt; json-vs-xml-meta &gt;
+                   :type&lt; article-journal &gt;
+                  :title&lt; A Performance Analysis of JSON vs XML in Academic Metadata &gt;
+                 :author[ { family =&gt; &quot;Doe&quot;, given =&gt; &quot;John&quot;, ORCID =&gt; &quot;0000-0001-2345-6789&quot; } ]
+        :container-title&lt; Journal of Digital Humanities &gt;
+                 :volume( 12 )
+                  :issue( 3 )
+                   :page&lt; 101-115 &gt;
+                    :DO<span class="important"> 10.1000/jdh.2024.03.01 </span>
+                 :issued{ date-parts =&gt; [[2024]] }
+    }
+=end citation
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  This citation data is in <span class="basis">CSL-JSON</span> format</span>
+=begin citation
+    [
+        {
+                   &quot;id&quot;: &quot;mercurio2025&quot;,
+                 &quot;type&quot;: &quot;book&quot;,
+                &quot;title&quot;: &quot;The Morphological Beauty of Raku Grammars&quot;,
+               &quot;author&quot;: [ {&quot;family&quot;: &quot;Mercurio&quot;, &quot;given&quot;: &quot;Silvia&quot;} ],
+               &quot;issued&quot;: {&quot;date-parts&quot;: [[2025, 3, 14]]},
+            &quot;publisher&quot;: &quot;Butterfly Press&quot;,
+                 &quot;ISBN&quot;: &quot;978-1-2345-6789-0&quot;
+        }
+    ]
+=end citation
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  This citation data is <span class="basis">CSL-YAML</span></span>
+=for citation
+    - id:    starlight2024
+      type:  article-journal
+      title: &quot;Asynchronous Concurrency: A Journey Through Raku Supplies&quot;
+      author:
+          - family: Starlight
+            given:  Orion
+      container-title: &quot;The Reactive Programmer's Quarterly&quot;
+      issued:
+          date-parts: [[2024, 11]]
+      volume: 12
+      issue:  4
+      page:   45-60
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  This citation is in <span class="basis">BibLaTeX</span> format</span>
+=citation  @article{zenraku2024,
+               author = {Wall, Larry},
+               title = {The Zen of Raku},
+               journaltitle = {Journal of Camel Studies},
+               date = {2024-05-12},
+               volume = {42},
+               number = {3},
+               pages = {101-115},
+               url = {https://example.org/raku},
+               urldate = {2026-01-23}
+           }
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  This citation is in <span class="basis">BibTeXML</span> format</span>
+=begin citation
+    &lt;bibtex:file xmlns:bibtex=&quot;http://bibtexml.sf.net/&quot;&gt;
+      &lt;bibtex:entry id=&quot;mercurio2025&quot;&gt;
+        &lt;bibtex:book&gt;
+          &lt;bibtex:author&gt;Silvia Mercurio&lt;/bibtex:author&gt;
+          &lt;bibtex:title&gt;The Morphological Beauty of Raku Grammars&lt;/bibtex:title&gt;
+          &lt;bibtex:publisher&gt;Butterfly Press&lt;/bibtex:publisher&gt;
+          &lt;bibtex:year&gt;2025&lt;/bibtex:year&gt;
+          &lt;bibtex:month&gt;March&lt;/bibtex:month&gt;
+          &lt;bibtex:isbn&gt;978-1-2345-6789-0&lt;/bibtex:isbn&gt;
+        &lt;/bibtex:book&gt;
+      &lt;/bibtex:entry&gt;
+    &lt;/bibtex:file&gt;
+=end citation
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  This is <span class="basis">RIS</span> data</span>
+=begin citation
+    TY  - JOUR
+    ID  - thorne2023
+    AU  - Thorne, Alistair
+    TI  - Optimization Strategies for MoarVM Bytecode
+    JO  - Journal of Virtual Machine Design
+    PY  - 2023/08/21/
+    VL  - 9
+    IS  - 2
+    SP  - 210
+    EP  - 235
+    SN  - 1234-5678
+    ER  -
+=end citation
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment  This is <span class="basis">MODS</span></span>
+=begin citation
+    &lt;mods xmlns=&quot;http://www.loc.gov/mods/v3&quot; ID=&quot;Vasiliev26&quot;&gt;
+        &lt;titleInfo&gt;
+            &lt;title&gt;Functional Purity in a Multi-Paradigm World&lt;/title&gt;
+        &lt;/titleInfo&gt;
+        &lt;name type=&quot;personal&quot;&gt;
+            &lt;namePart type=&quot;given&quot;&gt;Elena&lt;/namePart&gt;
+            &lt;namePart type=&quot;family&quot;&gt;Vasiliev&lt;/namePart&gt;
+            &lt;role&gt;
+                &lt;roleTerm type=&quot;text&quot;&gt;author&lt;/roleTerm&gt;
+            &lt;/role&gt;
+        &lt;/name&gt;
+        &lt;originInfo&gt;
+            &lt;publisher&gt;Deep Space Coding Collective&lt;/publisher&gt;
+            &lt;dateIssued&gt;2026&lt;/dateIssued&gt;
+        &lt;/originInfo&gt;
+        &lt;typeOfResource&gt;text&lt;/typeOfResource&gt;
+        &lt;genre&gt;technical report&lt;/genre&gt;
+    &lt;/mods&gt;
+=end citation
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment This citation is in <span class="basis">PubMed/Medline NBIB</span> format</span>
+=citation
+    PMID- 39876543
+    STAT- Publisher
+    DA  - 2025/08/15
+    TI  - The Semantic Elegance of Raku Grammars.
+    BTI - The Semantic Elegance of Raku Grammars
+    AU  - Mercurio S
+    LA  - eng
+    PT  - Book
+    PB  - Butterfly Press
+    SN  - 978-1-2345-9876-0
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+<span class="important">=comment This citation is in <span class="basis">PubMed/Medline XML</span> format</span>
+=citation
+   &lt;PubmedArticleSet&gt;
+     &lt;PubmedArticle&gt;
+       &lt;MedlineCitation Status=&quot;Publisher&quot;&gt;
+         &lt;PMID Version=&quot;1&quot;&gt;98765432&lt;/PMID&gt;
+         &lt;Article PubModel=&quot;Print&quot;&gt;
+           &lt;Journal&gt;
+             &lt;ISSN IssnType=&quot;Print&quot;&gt;1234-567X&lt;/ISSN&gt;
+             &lt;JournalIssue&gt;
+               &lt;Volume&gt;14&lt;/Volume&gt;
+               &lt;Issue&gt;1&lt;/Issue&gt;
+               &lt;PubDate&gt;
+                 &lt;Year&gt;2026&lt;/Year&gt;
+                 &lt;Month&gt;Jan&lt;/Month&gt;
+                 &lt;Day&gt;30&lt;/Day&gt;
+               &lt;/PubDate&gt;
+             &lt;/JournalIssue&gt;
+             &lt;Title&gt;International Journal of Perl and Raku&lt;/Title&gt;
+           &lt;/Journal&gt;
+           &lt;ArticleTitle&gt;Concurrent Processing in RakuDoc: A Performance Analysis.&lt;/ArticleTitle&gt;
+           &lt;Pagination&gt;
+             &lt;MedlinePgn&gt;102-115&lt;/MedlinePgn&gt;
+           &lt;/Pagination&gt;
+           &lt;AuthorList CompleteYN=&quot;Y&quot;&gt;
+             &lt;Author ValidYN=&quot;Y&quot;&gt;
+               &lt;LastName&gt;Generic&lt;/LastName&gt;
+               &lt;ForeName&gt;A&lt;/ForeName&gt;
+             &lt;/Author&gt;
+             &lt;Author ValidYN=&quot;Y&quot;&gt;
+               &lt;LastName&gt;Researcher&lt;/LastName&gt;
+               &lt;ForeName&gt;B&lt;/ForeName&gt;
+             &lt;/Author&gt;
+           &lt;/AuthorList&gt;
+           &lt;Language&gt;eng&lt;/Language&gt;
+           &lt;PublicationTypeList&gt;
+             &lt;PublicationType&gt;Journal Article&lt;/PublicationType&gt;
+           &lt;/PublicationTypeList&gt;
+         &lt;/Article&gt;
+       &lt;/MedlineCitation&gt;
+     &lt;/PubmedArticle&gt;
+   &lt;/PubmedArticleSet&gt;
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<div class="id-target" id="Implied code and indentation"></div><h2 id="Implied_code_and_indentation" class="heading raku-webs-h2 "><a href="#">Implied code and indentation</a><a class="raku-webs-anchor" href="#Implied code and indentation">§</a></h2>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Implied code and indentation">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p>Each block creates a virtual margin (at the column before its leading <span class="code">=</span>) and that virtual margin extends <span class="basis"><span class="important">only</span></span> to the end of the block (<span class="important">i.e.</span> <span class="basis">not</span> to the start of the next named block). </p>
+
+<p>Care must be taken with <span class="important">abbreviated</span> and <span class="important">extended</span> blocks where the block ends at the next blank line. </p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin rakudoc</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">This is an ordinary paragraph<br><br>    While this is not an ordinary paragraph;<br>    it is a code block.<br><br>    =head Mumble mumble<br><br>    Surprisingly, this is a code block<br>        (with fancy indentation too)<br><br>This is just an ordinary paragraph.<br><br>=end rakudoc</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>The <span class="important">Surprisingly...</span> paragraph is a code block because each block only sets the virtual margin within that block, and the <span class="code">=head</span> block terminates at the blank line immediately after the <span class="code">=head</span> line, and before the apparent code block begins. At which point, the virtual margin reverts to the previous virtual margin set by the surrounding <span class="code">=begin rakudoc</span>...<span class="code">=end rakudoc</span> block. </p>
+
+<p id="Para_25">The current virtual margin terminates at the end of the block whose opener set it, and not at the start of the next block that sets a virtual margin. In other words, the virtual margin is a local feature of each individual block, not a collective feature of the entire document, and therefore a block’s virtual margin always ends at the end of the block itself (and reverts at that point to the virtual margin of the surrounding block, if any).</p>
+
+<p id="Para_26">Which means:</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label>RakuDoc</label>
+    <div><pre class="nohighlights"><span class="rainbow-rakudoc_markup">=begin rakudoc</span><span class="rainbow-rakudoc_markup"><br></span><span class="rainbow-rakudoc_text">This is an ordinary paragraph<br><br>    While this is not<br>    This is a code block<br><br>    =head Mumble mumble<br><br>    This IS also a code block<br>       because the preceding =head's virtual margin ended<br>       at the end of the preceding =head block, which was<br>       at the preceding blank line. So the virtual margin for<br>       this implicit block is the virtual margin of the surrounding<br>       </span><span class="rainbow-rakudoc_markup">C&lt;</span><span class="rainbow-rakudoc_text">=begin rakudoc ... =end rakudoc</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> block. This block is indented<br>       relative to that </span><span class="rainbow-rakudoc_markup">C&lt;</span><span class="rainbow-rakudoc_text">=rakudoc block</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text">'s virtual margin, so it's<br>       a code block.<br><br>This is a para block<br>    (with fancy indentation too, because the indentation of first line alone<br>     determines whether an implicit block is a </span><span class="rainbow-rakudoc_markup">C&lt;</span><span class="rainbow-rakudoc_text">=para</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> or a </span><span class="rainbow-rakudoc_markup">C&lt;</span><span class="rainbow-rakudoc_text">=code</span><span class="rainbow-rakudoc_markup">&gt;</span><span class="rainbow-rakudoc_text"> block,<br>     and all subsequent lines, regardless of their indentation, become part<br>     of that block ... until the end of the implicit block, which occurs at<br>     the next blank line or the next explicit RakuDoc block or directive.)<br><br>=end rakudoc</span><span class="rainbow-rakudoc_markup"></span></pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>And if, instead, you wanted the block straight after the <span class="code">=head</span> to be an implicit paragraph block (<span class="important">i.e.</span> not an implicit code block), you'd write it: </p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+=begin rakudoc
+This is an ordinary paragraph
+
+    While this is not
+    This is a code block
+
+    <span class="basis">=begin section</span>
+
+    =head Mumble mumble
+
+    This is a para block, NOT a code block
+       because the virtual margin for this implicit block
+       is the virtual margin of the surrounding
+       =begin section ... =end section block.
+       The first line of this implicit block is NOT indented
+       relative to that =section block's virtual margin,
+       so it's a para block.
+
+    <span class="basis">=end section</span>
+
+This is a para block too...because its first line is not indented
+   relative to the virtual margin of the current =begin rakudoc ... =end rakudoc block.
+
+=end rakudoc
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+<h1 id="Metadata" class="heading raku-webs-h1 "><a href="#">Metadata</a><a class="raku-webs-anchor" href="#Metadata">§</a></h1>
+
+<div class="id-target" id="Instructions with side effects"></div><h2 id="Instructions_with_side_effects" class="heading raku-webs-h2 "><a href="#">Instructions with side effects</a><a class="raku-webs-anchor" href="#Instructions with side effects">§</a></h2>
+
+<div class="id-target" id="Display and metadata"></div><h3 id="Display_and_metadata" class="heading raku-webs-h3 "><a href="#">Display and metadata</a><a class="raku-webs-anchor" href="#Display and metadata">§</a></h3>
+
+<p><span class="important">[This section elaborates <a href="rakudoc:rakudoc_v2_specification.rakudoc#Metadata">the corresponding entry in the RakuDoc specification</a>]</span> </p>
+
+<p id="Para_27">Markup codes may contain only display text or may contain a mix of display and meta information. This section clarifies these groups.</p>
+
+<p>If a markup code may contain both display text and meta information, the character <span class="code">|</span> is used to delimit the two components. In order to use <span class="code">|</span> inside a display text, it must be escaped (<span class="code">\|</span>) or specified as an entity (<span class="code">E&lt;VERTICAL LINE&gt;</span>). </p>
+
+<div class="id-target" id="Display only codes"></div><h4 id="Display_only_codes" class="heading raku-webs-h4 "><a href="#">Display only codes</a><a class="raku-webs-anchor" href="#Display only codes">§</a></h4>
+
+<p>The following codes may <span class="important">only</span> contain display text: </p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+B&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+C&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+H&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+I&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+J&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+K&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+N&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+O&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+R&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+S&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+T&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+U&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+V&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+W&lt; <span class="replace">DISPLAY-TEXT</span>  &gt;
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<div class="id-target" id="Metadata and (optional) display text"></div><h4 id="Metadata_and_(optional)_display_text" class="heading raku-webs-h4 "><a href="#">Metadata and (optional) display text</a><a class="raku-webs-anchor" href="#Metadata and (optional) display text">§</a></h4>
+
+<p id="Para_28">The following codes may (and, in some cases, must) contain both a display text and some kind of metadata.</p>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+A&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=ALIAS-NAME</span>            &gt;
+D&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=SYNONYMS</span>              &gt;
+Δ&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=VERSION-ETC</span>           &gt;
+E&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=HTML/UNICODE-ENTITIES</span> &gt;
+F&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=LATEX-FORM</span>            &gt;
+L&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=TARGET-URI</span>            &gt;
+M&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=WHATEVER</span>              &gt;
+P&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=REPLACEMENT-URI</span>       &gt;
+X&lt; <span class="replace">DISPLAY-TEXT </span>  | <span class="replace">METADATA=INDEX-ENTRY</span>           &gt;
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>The markup codes <span class="code">A</span>, <span class="code">E</span>, <span class="code">F</span>, <span class="code">L</span>, and <span class="code">P</span> may be specified <span class="basis">without</span> a display text, in which case the specification permits the renderer to provide an automatic rendering if the metadata component fails to produce a renderable result. If an explicit display text is provided (<span class="important">i.e.</span> to the left of a <span class="code">|</span>), that text overrides the default alternate rendering. </p>
+
+<div class="id-target" id="Metadata only"></div><h4 id="Metadata_only" class="heading raku-webs-h4 "><a href="#">Metadata only</a><a class="raku-webs-anchor" href="#Metadata only">§</a></h4>
+    
+    <div class="raku-code">
+    <button class="copy-code" title="Copy code">⿻</button>
+    <label><b>allow</b> styling</label>
+    <div><pre class="nohighlights">
+Q&lt; <span class="replace">METADATA=CITATION REFERENCES</span> &gt;
+Z&lt; <span class="replace">METADATA=COMMENT</span> &gt;
+</pre>
+</div>
+    <div class="code-caption">Code</div>
+    </div>
+    
+
+<p>The quotation code <span class="code">Q&lt;&gt;</span> has a semicolon list akin to a metadata list, which is replaced in the rendered text with properly styled citations. </p>
+
+<p>The comment code <span class="code">Z&lt;&gt;</span> is intended not to have a display text so the contents of a comment can be considered as pure metadata. </p>
+
+<div class="id-target" id="Summary of RakuDoc syntax"></div><h1 id="Summary_of_RakuDoc_syntax" class="heading raku-webs-h1 "><a href="#">Summary of RakuDoc syntax</a><a class="raku-webs-anchor" href="#Summary of RakuDoc syntax">§</a></h1>
+<div id="Directives" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Directive</th><th class="">Specifies</th></tr>
+<tr class="procedural"><td class=""><span class="code">=alias</span></td><td class="">Define a RakuDoc macro</td></tr>
+<tr class="procedural"><td class=""><span class="code">=begin</span></td><td class="">Start of an explicitly terminated block</td></tr>
+<tr class="procedural"><td class=""><span class="code">=column</span></td><td class="">Start a new column in a procedural table</td></tr>
+<tr class="procedural"><td class=""><span class="code">=config</span></td><td class="">Block-scoped modifications to a block or markup instruction</td></tr>
+<tr class="procedural"><td class=""><span class="code">=counter</span></td><td class="">Block-scoped reconfiguration of a counter</td></tr>
+<tr class="procedural"><td class=""><span class="code">=document</span></td><td class="">Change the default for document level options</td></tr>
+<tr class="procedural"><td class=""><span class="code">=end</span></td><td class="">Explicit termination of a <span class="code">=begin</span> block</td></tr>
+<tr class="procedural"><td class=""><span class="code">=finish</span></td><td class="">No ambient blocks after this point</td></tr>
+<tr class="procedural"><td class=""><span class="code">=for</span></td><td class="">Start of an implicitly (blank-line) terminated block</td></tr>
+<tr class="procedural"><td class=""><span class="code">=place</span></td><td class="">Place into the document some text loaded from, or generated by, a URI</td></tr>
+<tr class="procedural"><td class=""><span class="code">=row</span></td><td class="">Start a new row in a procedural table</td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">Directives</div></div><div class="rakudoc-section "><div id="Blocks" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Block typename</th><th class="">Specifies</th></tr>
+<tr class="procedural"><td class=""><span class="code">=cell</span></td><td class="">Contents of a table cell, only valid in a procedural table context</td></tr>
+<tr class="procedural"><td class=""><span class="code">=citation</span></td><td class="">Specify a list of citation datasets in one of several standard citation markup languages</td></tr>
+<tr class="procedural"><td class=""><span class="code">=code</span></td><td class="">Verbatim pre-formatted sample source code</td></tr>
+<tr class="procedural"><td class=""><span class="code">=input</span></td><td class="">Pre-formatted sample input</td></tr>
+<tr class="procedural"><td class=""><span class="code">=output</span></td><td class="">Pre-formatted sample output</td></tr>
+<tr class="procedural"><td class=""><span class="code">=comment</span></td><td class="">Content to be ignored by all renderers</td></tr>
+<tr class="procedural"><td class=""><span class="code">=head</span></td><td class="">First-level heading</td></tr>
+<tr class="procedural"><td class=""><span class="code">=head<span class="replace">N</span></span></td><td class="">Nth-level heading</td></tr>
+<tr class="procedural"><td class=""><span class="code">=defn</span></td><td class="">Definition of a term</td></tr>
+<tr class="procedural"><td class=""><span class="code">=item</span></td><td class="">First-level list item</td></tr>
+<tr class="procedural"><td class=""><span class="code">=item<span class="replace">N</span></span></td><td class="">Nth-level list item</td></tr>
+<tr class="procedural"><td class=""><span class="code">=nested</span></td><td class="">Nest block contents within the current context</td></tr>
+<tr class="procedural"><td class=""><span class="code">=para</span></td><td class="">Ordinary paragraph</td></tr>
+<tr class="procedural"><td class=""><span class="code">=rakudoc</span></td><td class="">No &quot;ambient&quot; blocks inside</td></tr>
+<tr class="procedural"><td class=""><span class="code">=section</span></td><td class="">Defines a lexical scope within the document</td></tr>
+<tr class="procedural"><td class=""><span class="code">=pod</span></td><td class="">Legacy equivalent to <span class="code">=rakudoc</span> (use is deprecated)</td></tr>
+<tr class="procedural"><td class=""><span class="code">=table</span></td><td class="">Visual or procedural table</td></tr>
+<tr class="procedural"><td class=""><span class="code">=formula</span></td><td class="">Render content as a LaTeX formula</td></tr>
+<tr class="procedural"><td class=""><span class="code">=data</span></td><td class="">Raku data section</td></tr>
+<tr class="procedural"><td class=""><span class="code">=<span class="replace">NAMED</span></span></td><td class="">Semantic blocks (<span class="code">=SYNOPSIS</span>, <span class="code">=TITLE</span>, <span class="important">etc.</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">=<span class="replace">CustomName</span></span></td><td class="">User-defined block (must have mixed-case name)</td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">Blocks</div></div>
+</div>
+<div class="rakudoc-section "><div id="Metadata_options" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Metadata option</th><th class="">Blocks applied to</th><th class="">Description</th></tr>
+<tr class="procedural"><td rowspan="4" class="procedural-cell-top "><span class="code">:allow</span></td><td class=""><span class="code">=code</span></td><td rowspan="4" class="procedural-cell-top ">Allow specific mark-up codes in otherwise verbatim blocks</td></tr>
+<tr class="procedural"><td class=""><span class="code">=input</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=output</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=table</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">:id</span></td><td class="">all blocks</td><td class="">Specify the anchor for a block</td></tr>
+<tr class="procedural"><td rowspan="8" class="procedural-cell-top "><span class="code">:toc</span></td><td class=""><span class="code">=para</span></td><td rowspan="8" class="procedural-cell-top ">Include content or caption in the Table of Contents</td></tr>
+<tr class="procedural"><td class=""><span class="code">=nested</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=code</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=input</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=output</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=table</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=formula</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=place</span></td></tr>
+<tr class="procedural"><td rowspan="4" class="procedural-cell-top "><span class="code">:!toc</span></td><td class="">SEMANTIC block</td><td rowspan="4" class="procedural-cell-top ">Do not include content or caption in the Table of Contents</td></tr>
+<tr class="procedural"><td class="">Custom block</td></tr>
+<tr class="procedural"><td class=""><span class="code">=head<span class="replace">N</span></span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=numhead<span class="replace">N</span></span></td></tr>
+<tr class="procedural"><td rowspan="2" class="procedural-cell-top "><span class="code">:headlevel</span></td><td class="">All blocks</td><td rowspan="2" class="procedural-cell-top ">Override the automatic level of the block type within a Table of Contents</td></tr>
+<tr class="procedural"><td class="">(but typically for para-ish blocks)</td></tr>
+<tr class="procedural"><td rowspan="9" class="procedural-cell-top "><span class="code">:caption</span></td><td class="">SEMANTIC block</td><td rowspan="9" class="procedural-cell-top ">Caption to be associated with a block in the Table of Contents</td></tr>
+<tr class="procedural"><td class="">Custom block</td></tr>
+<tr class="procedural"><td class=""><span class="code">=nested</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=code</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=input</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=output</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=table</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=formula</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=place</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">:hidden</span></td><td class="">SEMANTIC block</td><td class="">Remove block from rendered text and from Table of Contents (use <span class="code">P&lt;semantic: ...&gt;</span> to inject elsewhere)</td></tr>
+<tr class="procedural"><td rowspan="4" class="procedural-cell-top "><span class="code">:header</span></td><td class=""><span class="code">=table</span> (procedural semantics only)</td><td rowspan="4" class="procedural-cell-top ">Specify rows, columns, or cells to be rendered as column headers in a table</td></tr>
+<tr class="procedural"><td class=""><span class="code">=cell</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=row</span> directive</td></tr>
+<tr class="procedural"><td class=""><span class="code">=column</span> directive</td></tr>
+<tr class="procedural"><td rowspan="4" class="procedural-cell-top "><span class="code">:label</span></td><td class=""><span class="code">=table</span> (procedural semantics only)</td><td rowspan="4" class="procedural-cell-top ">Specify rows, columns, or cells to be rendered as labels (row headers) in a table</td></tr>
+<tr class="procedural"><td class=""><span class="code">=cell</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=row</span> directive</td></tr>
+<tr class="procedural"><td class=""><span class="code">=column</span> directive</td></tr>
+<tr class="procedural"><td rowspan="4" class="procedural-cell-top "><span class="code">:align&lt;<span class="replace">ALIGNMENTS</span>&gt;</span></td><td class=""><span class="code">=table</span> (procedural semantics only)</td><td rowspan="4" class="procedural-cell-top ">Specify how cell contents are to be vertically and/or horizontally aligned</td></tr>
+<tr class="procedural"><td class=""><span class="code">=cell</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=row</span> directive</td></tr>
+<tr class="procedural"><td class=""><span class="code">=column</span> directive</td></tr>
+<tr class="procedural"><td class=""><span class="code">:row-span(<span class="replace">HEIGHT</span>)</span></td><td class=""><span class="code">=cell</span></td><td class="">Specify how many rows a single cell should span in a procedural table</td></tr>
+<tr class="procedural"><td class=""><span class="code">:column-span(<span class="replace">WIDTH</span>)</span></td><td class=""><span class="code">=cell</span></td><td class="">Specify how many columns a single cell should span in a procedural table</td></tr>
+<tr class="procedural"><td class=""><span class="code">:span(<span class="replace">WIDTH</span>, <span class="replace">HEIGHT</span>)</span></td><td class=""><span class="code">=cell</span></td><td class="">A shorthand for <span class="code">:column-span(<span class="replace">WIDTH</span>) :row-span(<span class="replace">HEIGHT</span>)</span></td></tr>
+<tr class="procedural"><td rowspan="10" class="procedural-cell-top "><span class="code">:delta</span></td><td class=""><span class="code">=table</span></td><td rowspan="10" class="procedural-cell-top ">Developer information associated with a block</td></tr>
+<tr class="procedural"><td class=""><span class="code">=formula</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=nested</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=code</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=input</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=output</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=head<span class="replace">N</span></span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=numhead<span class="replace">N</span></span></td></tr>
+<tr class="procedural"><td class="">SEMANTIC block</td></tr>
+<tr class="procedural"><td class="">Custom block</td></tr>
+<tr class="procedural"><td rowspan="2" class=""><span class="code">:bullet&lt;<span class="replace">CHAR</span>&gt;</span></td><td class=""><span class="code">=item</span></td><td rowspan="2" class="">Replace the default bullet with one or more characters, or entities specified with <span class="code">E&lt; &gt;</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">=item<span class="replace">N</span></span></td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">Metadata options</div></div>
+</div>
+<div class="rakudoc-section "><div id="Markup_instructions" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Markup instruction</th><th class="">Specifies</th></tr>
+<tr class="procedural"><td class=""><span class="code">A&lt;...|...&gt;</span></td><td class="">Alias to be replaced by contents of the specified <span class="code">=alias</span> directive (<span class="code">A&lt;<span class="replace">alt text</span> | <span class="replace">aliasname</span>&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">B&lt;...&gt;</span></td><td class="">Basis/focus of sentence (typically rendered bold)</td></tr>
+<tr class="procedural"><td class=""><span class="code">C&lt;...&gt;</span></td><td class="">Code (typically rendered fixed-width)</td></tr>
+<tr class="procedural"><td class=""><span class="code">D&lt;...&gt;</span></td><td class="">Definition inline (<span class="code">D&lt;<span class="replace">term being defined</span> | <span class="replace">synonym1</span>; <span class="replace">synonym2</span>&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">Δ&lt;...|...;...&gt;</span></td><td class="">Delta note (<span class="code">Δ&lt;<span class="replace">visible text</span> | <span class="replace">version</span>; <span class="replace">notification text</span>&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">E&lt;...|...;...</span>&gt;</td><td class="">Entity (HTML or Unicode) description (<span class="code">E&lt;<span class="replace">entity1</span>; <span class="replace">entity2</span>; <span class="replace">multi</span>,<span class="replace">glyph</span>;...</span>&gt;)</td></tr>
+<tr class="procedural"><td class=""><span class="code">F&lt;...|...&gt;</span></td><td class="">Inline content for a formula (<span class="code">F&lt;<span class="replace">alt text</span> | <span class="replace">LaTeX notation</span>&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">G&lt;...&gt;</span></td><td class=""><span class="important">(This markup code is not yet defined, but is reserved for future use)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">H&lt;...&gt;</span></td><td class="">High text (typically rendered superscript)</td></tr>
+<tr class="procedural"><td class=""><span class="code">I&lt;...&gt;</span></td><td class="">Important content (typically rendered in italics)</td></tr>
+<tr class="procedural"><td class=""><span class="code">J&lt;...&gt;</span></td><td class="">Junior text (typically rendered subscript)</td></tr>
+<tr class="procedural"><td class=""><span class="code">K&lt;...&gt;</span></td><td class="">Keyboard input (typically rendered fixed-width)</td></tr>
+<tr class="procedural"><td class=""><span class="code">L&lt;...|...&gt;</span></td><td class="">Link (<span class="code">L&lt;<span class="replace">display text</span> | <span class="replace">destination URI</span>&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">M&lt;...|..,..;...&gt;</span></td><td class="">Markup extra (<span class="code">M&lt;<span class="replace">display text</span> | <span class="replace">functionality</span>; <span class="replace">param</span>,<span class="replace">sub-type</span>;<span class="replace">...</span>&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">N&lt;...&gt;</span></td><td class="">Note (not rendered inline, but made visible in some way: footnote, sidenote, pop-up, <span class="important">etc.</span>))</td></tr>
+<tr class="procedural"><td class=""><span class="code">O&lt;...&gt;</span></td><td class="">Struck-out content</td></tr>
+<tr class="procedural"><td class=""><span class="code">P&lt;...|...&gt;</span></td><td class="">Placement link (<span class="code">P&lt; <span class="replace">alt text</span> | <span class="replace">source URI</span> &gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">Q&lt;...&gt;</span></td><td class="">Marker citing one or more bibliographic datasets via identifiers with possible text annotations (<span class="code">Q&lt; <span class="replace">ID1</span> ; <span class="replace">ID2</span>, <span class="replace">text</span>; <span class="replace">etc.</span> &gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">R&lt;...&gt;</span></td><td class="">Replaceable component or metasyntax</td></tr>
+<tr class="procedural"><td class=""><span class="code">S&lt;...&gt;</span></td><td class="">Space characters to be preserved</td></tr>
+<tr class="procedural"><td class=""><span class="code">T&lt;...&gt;</span></td><td class="">Terminal output (typically rendered fixed-width)</td></tr>
+<tr class="procedural"><td class=""><span class="code">U&lt;...&gt;</span></td><td class="">Unusual content (typically rendered with underlining)</td></tr>
+<tr class="procedural"><td class=""><span class="code">V&lt;...&gt;</span></td><td class="">Verbatim (internal markup instructions ignored)</td></tr>
+<tr class="procedural"><td class=""><span class="code">W&lt;...&gt;</span></td><td class="">Weighty content (typically rendered with small caps)</td></tr>
+<tr class="procedural"><td class=""><span class="code">X&lt;...|..,..;...&gt;</span></td><td class="">Index entry (<span class="code">X&lt; <span class="replace">display text</span> | <span class="replace">entry</span>,<span class="replace">subentry</span> ; ...&gt;</span>)</td></tr>
+<tr class="procedural"><td class=""><span class="code">Y&lt;...&gt;</span></td><td class=""><span class="important">(This markup code is not yet defined, but is reserved for future use)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">Z&lt;...&gt;</span></td><td class="">Zero-width comment (contents never rendered)</td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">Markup instructions</div></div>
+</div>
+<div id=":form_components" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Field</th><th class="">Meaning</th><th class=""><span class="code">:lc</span> or informal shortcut</th></tr>
+<tr class="procedural"><td class=""><span class="code">%A</span></td><td class="">enumeration value as an ASCII capital alpha</td><td class=""><span class="code">%a</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%B</span> or <span class="code">%ব</span></td><td class="">enumeration value in Bengali numerals <span class="important">(if supported)</span></td><td class=""><span class="code">%b</span> <span class="important">(no effect)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%C</span></td><td class="">caption <span class="important">(if any)</span></td><td class=""><span class="code">%c</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%D</span></td><td class="">block’s data</td><td class=""><span class="code">%d</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%H</span> or <span class="code">%ह</span></td><td class="">enumeration value in Hindu numerals <span class="important">(if supported)</span></td><td class=""><span class="code">%h</span> <span class="important">(no effect)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%J</span> or <span class="code">%業</span></td><td class="">enumeration value in Japanese numerals <span class="important">(if supported)</span></td><td class=""><span class="code">%j</span> or <span class="code">%並</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%N</span></td><td class="">enumeration value as a cardinal number</td><td class=""><span class="code">%n</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%R</span></td><td class="">enumeration value in Roman numerals <span class="important">(if supported)</span></td><td class=""><span class="code">%r</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%T</span></td><td class="">the name of the block’s <span class="code">num</span>-less type in Titlecase</td><td class=""><span class="code">%t</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%Z</span> or <span class="code">%大</span></td><td class="">enumeration value in Chinese numerals <span class="important">(if supported)</span></td><td class=""><span class="code">%z</span> or <span class="code">%小</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">%%</span></td><td class="">a literal <span class="code">%</span> <span class="important">(only required if literal <span class="code">%</span> is followed by a letter)</span></td><td class=""></td></tr>
+<tr class="procedural"><td class=""><span class="code">%:</span></td><td class="">a literal <span class="code">:</span> <span class="important">(only required if literal <span class="code">:</span> is followed by a letter)</span></td><td class=""></td><td class=""></td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">:form components</div></div><div class="rakudoc-section "><div id="Options_for_form_fields" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Field option</th><th class="">Meaning</th></tr>
+<tr class="procedural"><td class=""><span class="code">:ord</span></td><td class="">use ordinal instead of cardinal number <span class="important">(if available in requested language)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">:lc</span></td><td class="">use lowercase or informal notation <span class="important">(if any)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">:uc</span></td><td class="">use uppercase or formal notation <span class="important">(if any)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">:tc</span></td><td class="">use titlecase <span class="important">(uppercase first character only)</span></td></tr>
+<tr class="procedural"><td class=""><span class="code">:tclc</span></td><td class="">use titlecase for first character, lowercase for the rest</td></tr>
+<tr class="procedural"><td class=""><span class="code">:sc</span></td><td class="">use titlecase for first character of each sentence, preserve ALLCAPS words, lowercase for the rest</td></tr>
+<tr class="procedural"><td class=""><span class="code">:pc</span></td><td class="">use titlecase for first character of each word, preserve ALLCAPS words, lowercase for the rest</td></tr>
+<tr class="procedural"><td class=""><span class="code">:lang&lt;<span class="replace">xx</span>&gt;</span></td><td class="">use numbering and/or ordinal system for ISO 639-1 language <span class="replace">xx</span> <span class="important">(if supported)</span></td><td class=""></td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">Options for form fields</div></div>
+</div>
+<div class="rakudoc-section "><div id="Options_related_to_citations" class="rakudoc-table">
+<table class="table is-striped is-bordered"><tbody class="procedural">
+<tr class="procedural"><th class="">Block or directive</th><th class="">Option</th><th class="">Meaning</th></tr>
+<tr class="procedural"><td class=""><span class="code">=citation</span></td><td class=""><span class="code">:load&lt;<span class="replace">URL</span>&gt;</span></td><td class="">Import citation data from the specified URL</td></tr>
+<tr class="procedural"><td class=""><span class="code">=citation</span></td><td class=""><span class="code">:category&lt;<span class="replace">CatName(s)</span>&gt;</span></td><td class="">Include the block’s citation data in the specified category or categories</td></tr>
+<tr class="procedural"><td class=""><span class="code">=document</span></td><td class=""><span class="code">:citation-style&lt;<span class="replace">name or URL</span>&gt;</span></td><td class="">When rendering, format all citation lists using the CSL style format specified by the name or by the URL</td></tr>
+<tr class="procedural"><td class=""><span class="code">=document</span></td><td class=""><span class="code">:citation-locale&lt;<span class="replace">tag</span>&gt;</span></td><td class="">When rendering, format all citation lists using the CSL locale conventions selected by the specified IETF BCP 47 language tag</td></tr>
+</tbody></table>
+<div class="table-caption rakudoc">Options related to citations</div></div>
+</div>
+<h1 id="Licence" class="heading raku-webs-h1 "><a href="#">Licence</a><a class="raku-webs-anchor" href="#Licence">§</a></h1>
+Artistic-2.0
+
+
+
+<h1 id="Credits" class="heading raku-webs-h1 "><a href="#">Credits</a><a class="raku-webs-anchor" href="#Credits">§</a></h1>
+
+<ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Damian Conway (@thoughtstream)</li>
+<li class="item" data-bullet="•" style ="--level:0;"  >Richard Hainsworth (@finanalyst)</li>
+<li class="item" data-bullet="•" style ="--level:0;"  >Elizabeth Mattijen (@lizmat)</li>
+<li class="item" data-bullet="•" style ="--level:0;"  >Aliaksandr Zahatski (@zag)</li>
+</ul>
+
+
+
+
+        </div>
+        <div class="content px-4">
+        
+        </div>
+        <div class="content px-4">
+        
+        </div>
+    </div>
+</div>
+
+        <footer class="footer main-footer">
+    <div class="container px-4">
+        <nav class="level">
+            <div class="level-item">
+                Rendered from&nbsp;<span class="footer-field">./rakudoc_v2_exposition.rakudoc/rakudoc_v2_exposition</span>
+            </div>
+            <div class="level-item">
+                Rendered at 10:23 UTC on 2026-06-10
+            </div>
+            <div class="level-item">
+                Source last modified&nbsp;at 10:18 UTC on 2026-06-10
+            </div>
+        </nav>
+    </div>
+    
+</footer>
+
+    </body>
+</html>

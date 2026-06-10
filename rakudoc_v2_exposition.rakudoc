@@ -1,0 +1,1837 @@
+=begin rakudoc :kind("Language") :subkind("Language") :category("reference")
+=TITLE RakuDoc Exposition
+=SUBTITLE Additional notes and examples for the RakuDoc specification
+=VERSION 2.20.5
+=for LICENSE :hidden
+Artistic-2.0
+=begin AUTHORS :hidden
+=item Damian Conway (@thoughtstream)
+=item Richard Hainsworth (@finanalyst)
+=item Elizabeth Mattijen (@lizmat)
+=item Aliaksandr Zahatski (@zag)
+=end AUTHORS
+
+=head1 Documenting code vs documenting software
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Two use cases for RakuDoc>]>
+
+RakuDoc is a markup language with simple instructions for simple tasks and more
+complex structures to suit larger projects. There is a clear distinction between
+documentation intended to help maintain and develop the software, and the visual
+presentation of information needed by a newcomer to understand how to use software.
+
+Consider the two ways in which documentation is used...
+
+=head2 Case 1: You are writing internal documentation to aid software design
+=begin code :allow<B> :lang<raku>
+    unit class Beginners;
+
+    B<#| a variable to hold number of people>
+    has $.participants;
+
+    B<#| data that is initially provided by default, but will be overwritten>
+    has $.new-participant = B<$=finish>;
+
+    ... # code
+
+    B<=finish>
+    default data string for a new participant
+=end code
+
+A RakuDoc compliant editor or Integrated Design Environment will pick up the text following C<#|>
+and put it into a pop-up menu whenever you select (I<e.g.> hover over) a use of C<$.participants>.
+
+The C<=finish> statement marks the last piece of code. Everything after it is treated as a string and placed
+in the C<$=finish> variable.
+
+
+=head2 Case 2: You are writing external documentation to accompany some software
+
+Consider the following short description:
+
+=begin code :lang<RakuDoc>
+    =begin rakudoc
+    =TITLE Tutorial about Flavorizing
+    =SUBTITLE
+    A short tutorial on Flavorizing your quarks
+
+    =head Starting out
+
+    In the section you will learn about how to add flavors to quarks produced
+    by the I<Imagiton>.
+    It goes without saying that these techniques should B<NOT> be carried out
+    without a precocious child nearby; they will strain the imagination of
+    an ossified adult.
+
+    =head2 What is a flavour
+
+    It is well-known (see the L<Wikipedia article|https://en.wikipedia.org/wiki/Flavour_(particle_physics)>
+    that quarks N<a quark is a constituent of a hadron> come in six flavors, for example:
+    =item Up
+    =item Bottom
+    =item Charm
+
+    Z< Lots more text >
+    =end rakudoc
+=end code
+
+To indicate that all of the markup above is not Raku code, it is enclosed in a block labelled I<rakudoc>.
+This is an example of the B<delimited> form of the B<rakudoc> block (so named because it is
+specified between C<=begin> and C<=end> directives).
+
+The C<=TITLE>, C<=SUBTITLE>, and C<=SYNOPSIS> are I<semantic blocks> containing standard information that can be searched
+by other tools. For all other purposes, they can be considered to the same as C<=head> I<blocks>.
+
+A C<=head> block begins a top-level heading. The C<=head2> is a second level heading.
+These are examples of the B<abbreviated> form of RakuDoc blocks. Any non-empty text lines
+following a heading specifier are collectively treated as the text of the heading.
+
+The C<=item> components are abbreviated blocks containing text entries that constitute the items of a list.
+There is no need to start or stop a list explicitly; the renderer will place each consecutive
+C<=item> in a single list. The first non-C<=item> paragraph or block will end the list.
+
+Within the text there are several examples of inline markup instructions, which have the form R<Upper Unicode character> B<< < >> B<< > >>.
+In the example above, we used: C<I<...>>, C<B<...>>, C<N<...>>, C<L<...>>, and C<Z<...>>. These are for Important, Basis, Note (a footnote), Link, and Zero (a comment) markup.
+
+
+=head Text-oriented RakuDoc
+=head2 Block scope
+=head3 Sections
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Sections>]>
+
+Providing metadata to a C<=begin section> block definition is B<not> the same as declaring metadata using a
+C<=config> directive. Metadata in a config is provided to all matching blocks in the current block scope.
+Metadata in the C<=begin section> declaration is only applied to the section itself, not to the blocks it
+contains.
+
+For example, suppose the following RakuDoc text was included in a source file
+=begin code :lang<RakuDoc>
+    =begin section :delta(v2.3.2-, "removed due to conflict with chancellor's role")
+    =head2 role Fool
+
+    This role is especially important in authoritarian kingdoms to remind kings of their humanity.
+
+    =end section
+=end code
+which might render as:
+=begin nested
+    =begin section :delta(v2.3.2-, "removed due to conflict with chancellor's role")
+    =for head2 :!toc
+    role Fool
+
+    This role is especially important in authoritarian kingdoms to remind kings of their humanity.
+
+    =end section
+=end nested
+
+If a user indicates to a renderer that they wish to view documentation valid in (for example) C<v3.1.1>
+then, because C<v3.1.1> is after C<v2.3.2>, the section above – including the nested C<=head2> block and the following plain paragraph – would not be rendered.
+
+If however, a user indicates they wish to view documentation for C<v2>, the renderer would render the section above,
+including an indication the section will be removed after C<v2.3.2>.
+
+
+=head2 Counts and counters
+=head3 Each counter has a B«I<restart status>»
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|Counts and counters>]>
+
+A C«:restart» is useful to restart a specific counter that would otherwise continue.
+For example, to cause a specially prefixed series of tables to reset after a heading:
+=begin code :lang<text>
+1. Concept
+    Table 1.1. List of requirements
+    Table 1.2. List of resources
+    Table 1.3. List of constraints
+
+2. Implementation
+    Table 2.1. Implementation schedule
+    Table 2.2. Resource suppliers
+    Table 2.3. Costings vs actual expenditure
+=end code
+
+To manually reset the second series of tables, you could specify them like so:
+=begin code :lang<rakudoc> :allow<B>
+=counter table1 :prefix<head1>
+
+=numhead Concept
+    =for numtable :caption< List of requirements >
+    =for numtable :caption< List of resources >
+    =for numtable :caption< List of constraints >
+
+=numhead Implementation
+    B<=counter table :restart>
+    =for numtable :caption< Implementation schedule >
+    =for numtable :caption< Resource suppliers >
+    =for numtable :caption< Costings vs actual expenditure >
+=end code
+
+Note that, because a counter’s restart status persists until the next time it
+generates an enumeration, that C«:restart» could be placed B«I<anywhere>» before
+the specific table whose numbering is to be restarted. For example, it could
+instead be specified immediately after the final table under the first heading:
+
+=begin code :lang<rakudoc> :allow<B>
+=numhead Concept
+    =for numtable :caption< List of requirements >
+    =for numtable :caption< List of resources >
+    =for numtable :caption< List of constraints >
+    B<=counter table :restart>
+
+=numhead Implementation
+    =for numtable :caption< Implementation schedule >
+    =for numtable :caption< Resource suppliers >
+    =for numtable :caption< Costings vs actual expenditure >
+=end code
+
+The C«:!restart» variant is useful to allow “list-like” numbered blocks,
+such as C«numitem» or C«numdefn» to preserve their enumeration sequences despite
+intervening blocks that would normally restart those sequences.
+For example, to allow an aside to be placed in the middle of a numbered
+list of items, without breaking the numbered sequence:
+
+=begin code :lang<text>
+My nefarious plan is:
+
+    1. Kidnap every being who knows the secret recipe for Nuka-Cola
+
+    2. Demand a ransom of ONE MILLION DOLLARS
+
+    (Note: need to work out how to get away cleanly from the exchange location)
+
+    3. Profit!
+=end code
+
+You could achieve this with something like:
+
+=begin code :lang<rakudoc>
+=para My nefarious plan is:
+
+=item Kidnap every being who knows the secret recipe for Nuka-Cola
+
+=item Demand a ransom of ONE MILLION DOLLARS
+
+=para (Note: need to work out how to get away cleanly from the exchange location)
+
+=counter item :!restart
+=item  Profit!
+=end code
+
+=begin section
+=config C :allow<R>
+The C«:restart(R<INTEGER>)» form of the metaoption is useful for specialized numbering schemes,
+such as starting from zero instead of C«1»:
+=end section
+
+=begin code
+=counter head1 :restart(0)
+=end code
+
+...or to enumerate blocks in a non-monotonically increasing sequence for some reason:
+
+=begin code :lang<rakudoc>
+The values that can be ORed together in the bitset are:
+
+    =counter item :restart(1)
+    =numitem Read flag
+
+    =counter item :restart(2)
+    =numitem Write flag
+
+    =counter item :restart(4)
+    =numitem Execute flag
+
+    =counter item :restart(8)
+    =numitem Self-destruct flag (be careful with this one!)
+=end code
+
+
+=head3 A note about using C«:counter» and C«:restart-after»/C«restart-except-after» together
+
+It should be remembered, whereas a C«=config NAME» directive changes the behaviour
+for the block named C«NAME», a C«=counter NAME» directive changes the behaviour
+for the counter named B«I<C«NAME»>», B<not> for the block named C«NAME».
+
+Usually this distinction does not matter because, by default, blocks use the counter
+with their own name. But it can lead to seemingly non-obvious behaviours when blocks
+and counters with the same name are both configured at the same time.
+
+For example, consider the following:
+=begin code :lang<rakudoc>
+=config  table2 :counter< head2 >
+=counter table2 :restart-after< table1 >
+=end code
+
+After this configuration, one might expect C«table2» blocks to restart at C«1»
+after each C«table1» block. But they do not. Instead, they restart
+after each C«head1» block.
+
+This is because the C«table2» block is now using the counter named B«I<C«head2»>»,
+and that counter (by default) is restarted after every C«head1» block.
+Or, to put it another way, it is true that the B«I<C«table2»>» counter
+will be restarted after every C«table1» block, but that will not matter
+because the C«table2» block is no longer using the B«I<C«table2»>» counter at all.
+
+This kind of apparent violation of expectation usually indicates design confusion
+on the part of the document’s author. For example, the author seems to indicate that
+they want each C«table2» block to be numbered as if it were a C«head2» I<(Intent A)>,
+but they also want the numbering for C«table2» blocks to be restarted after
+every C«table1» block I<(Intent B)>.
+
+However, restarting after every C«table1» block is I<not> how the numbering
+of C«head2» blocks works, so if that did happen then each C«table2» block
+would B«I<not>» be being numbered as if it were a C«head2» block.
+So I<Intent B> intrinsically contradicts I<Intent A>.
+
+Fortunately, this kind of logical contradiction does not blow up the RakuDoc parser
+(or the entire universe!) because C«=config» and C«=counter» configure different
+elements (I<i.e.> blocks and counters respectively), even when those elements
+happen to share the same name.
+
+
+=head2 Tables
+=head3 Visual description of simple tables
+=head4 Valid tables
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Visual description of simple tables>]>
+
+Following are examples of valid tables...
+
+=begin code :lang<RakuDoc>
+=begin table
+    The Shoveller   Eddie Stevens     King Arthur's singing shovel
+    Blue Raja       Geoffrey Smith    Master of cutlery
+    Mr Furious      Roy Orson         Ticking time bomb of fury
+    The Bowler      Carol Pinnsler    Haunted bowling ball
+=end table
+=end code
+
+=begin code :lang<RakuDoc>
+=table
+    Constants           1
+    Variables           10
+    Subroutines         33
+    Everything else     57
+
+=end code
+
+=begin code :lang<RakuDoc>
+=for table
+    mouse    | mice
+    horse    | horses
+    elephant | elephants
+
+=end code
+
+=begin code :lang<RakuDoc>
+=table
+    Animal | Legs |    Eats
+    =======================
+    Zebra  +   4  + Cookies
+    Human  +   2  +   Pizza
+    Shark  +   0  +    Fish
+
+=end code
+
+=begin code :lang<RakuDoc>
+=table
+        Superhero     | Secret          |
+                      | Identity        | Superpower
+        ==============|=================|================================
+        The Shoveller | Eddie Stevens   | King Arthur's singing shovel
+
+=end code
+
+=begin code :lang<RakuDoc>
+=begin table
+
+                        Secret
+        Superhero       Identity          Superpower
+        =============   ===============   ===================
+        The Shoveller   Eddie Stevens     King Arthur's
+                                          singing shovel
+
+        Blue Raja       Geoffrey Smith    Master of cutlery
+
+        Mr Furious      Roy Orson         Ticking time bomb
+                                          of fury
+
+        The Bowler      Carol Pinnsler    Haunted bowling ball
+
+=end table
+=end code
+
+=begin code :lang<RakuDoc>
+=table
+    X | O |
+   ---+---+---
+      | X | O
+   ---+---+---
+      |   | X
+
+=end code
+
+=begin code :lang<RakuDoc>
+=table
+    X   O
+   ===========
+        X   O
+   ===========
+            X
+
+=end code
+
+=begin code :lang<RakuDoc>
+=begin table
+
+foo
+bar
+
+=end table
+=end code
+
+
+=head4 Invalid tables
+
+Following are examples of invalid tables, and they should
+trigger an unhandled exception during parsing.
+
+=item Using two or more different column separators in the same row is not allowed:
+
+=begin code :lang<text> :allow<B>
+=begin table
+r0c0  B<+>  r0c1  B<|>  r0c3
+=end table
+=end code
+
+=item  Using both visual and whitespace column separators in the same table is not allowed:
+
+=begin code :lang<text>
+=begin table
+r0c0 +  r0c1 | r0c3
+r1c0    r0c1   r0c3
+=end table
+=end code
+
+=item Specifying consecutive interior row separators without an intervening row is not allowed:
+
+=begin code :lang<text> :allow<B>
+=begin table
+r0c0 |  r0c1
+B<============>
+B<============>
+r1c0 |  r1c1
+=end table
+=end code
+
+
+=head4 Unexpected tables
+
+Following are examples of valid tables that are probably intended to
+be two columns. However, the columns in these examples are not aligned well, so each
+will parse as a single-column table.
+
+=begin item
+Unaligned columns with WS column separators:
+
+Notice the second row has the two words separated by only B<one> WS
+character, while it takes at least B<two> adjacent WS characters to define
+a column separation. B<This is a valid table but will be parsed as a
+single-column table>.
+=end item
+
+=begin code :lang<RakuDoc>
+=begin table
+r0c0    r0c1
+    r1c0 r0c1
+=end table
+=end code
+
+
+=begin item
+Unaligned columns with visual column separators:
+
+Notice the second row has the two words separated by a visible
+character (V<'|'>) but the character is not recognized as a column
+separator because it doesn't have an adjacent WS character on both
+sides of it.  Although this is a legal table, the result will not
+be what the user intended because the first row has two
+columns while the second row has only one column, and it will thus have
+an empty second column.
+=end item
+
+=begin code :lang<RakuDoc>
+=begin table
+r0c0  |  r0c1
+ r1c0 |r0c1
+=end table
+=end code
+
+
+=head3 Procedural description of tables
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Procedural description of tables>]>
+
+The fundamental idea is that a procedural C<=table> sets up a semi-infinite 2D grid of cells,
+all of which are initially empty. The grid also tracks the fill position (I<$POS>: the next empty cell to be filled),
+and the fill direction (I<$DIR>: the direction to move I<$POS> after filling; either I<across> or I<down>).
+
+Let’s see how it works...
+
+The following RakuDoc specification:
+=begin code :lang<RakuDoc>
+=begin table :caption<Experimental data>
+    =row :header
+        =for cell :row-span(2)
+        Date
+        =for cell :column-span(3)
+        Samples
+        =for cell :row-span(2)
+        Mean
+    =row :header
+        =cell I<Sample 1>
+        =cell I<Sample 2>
+        =cell I<Sample 3>
+    =row
+    =column
+        =cell 2023-03-08
+        =cell 2023-04-14
+        =cell 2023-06-23
+    =column
+        =cell 0.4
+        =cell 0.8
+        =cell 0.2
+    =column
+        =cell 0.1
+        =cell 0.6
+        =cell 0.9
+    =column
+        =cell 0.3
+        =cell 0.5
+        =cell 0.0
+    =column
+        =cell 0.26667
+        =cell 0.63333
+        =cell 0.36667
+    =row
+        =for cell :label
+        Mean:
+        =cell 0.46667
+        =cell 0.53333
+        =cell 0.26667
+        =cell 0.42222
+=end table
+ code
+produces the following table:
+in table :!toc :caption<Experimental data>
+=row :header
+    =for cell :row-span(2)
+    Date
+    =for cell :column-span(3)
+    Samples
+    =for cell :row-span(2)
+    Mean
+=row :header
+    =cell I<Sample 1>
+    =cell I<Sample 2>
+    =cell I<Sample 3>
+=row
+=column
+    =cell 2023-03-08
+    =cell 2023-04-14
+    =cell 2023-06-23
+=column
+    =cell 0.4
+    =cell 0.8
+    =cell 0.2
+=column
+    =cell 0.1
+    =cell 0.6
+    =cell 0.9
+=column
+    =cell 0.3
+    =cell 0.5
+    =cell 0.0
+=column
+    =cell 0.26667
+    =cell 0.63333
+    =cell 0.36667
+=row
+    =for cell :label
+    Mean:
+    =cell 0.46667
+    =cell 0.53333
+    =cell 0.26667
+    =cell 0.42222
+=end table
+
+Let’s examine how that specification creates that layout, step by step.
+Note that, in the following diagram, the various symbols have these meanings:
+=begin code :lang<text>
+    ┌───┐
+    │   │ : An empty table cell
+    └───┘
+    ┌───┐
+    │ → │ : The empty cell at $POS; $DIR is currently "across"
+    └───┘
+    ┌───┐
+    │ ↓ │ : The empty cell at $POS; $DIR is currently "down"
+    └───┘
+    ┌───┐
+    │+++│ : The most recently filled cell
+    └───┘
+    ┌───┐
+    │###│ : A previously filled cell
+    └───┘
+=end code
+
+And now the step-by-step explanation:
+=begin code :lang<text>
+    =begin table                   ┌───┬───┬───┬───┬───┬───┬┈┈
+                                   │ → │   │   │   │   │   │
+    (Create a new table grid       ├───┼───┼───┼───┼───┼───┼┈┈
+     Default $POS is [0,0]         │   │   │   │   │   │   │
+     Default $DIR is across)       ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row :header                   ┌───┬───┬───┬───┬───┬───┬┈┈
+                                   │ → │   │   │   │   │   │
+    (Previous action was not =cell ├───┼───┼───┼───┼───┼───┼┈┈
+     So set $DIR to "across"       │   │   │   │   │   │   │
+     and don't change $POS)        ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =for cell :row-span(2)         ┌───┬───┬───┬───┬───┬───┬┈┈
+    Date                           │+++│ → │   │   │   │   │
+                                   │+++│───┼───┼───┼───┼───┼┈┈
+    (Fill in 1x2 cells             │+++│   │   │   │   │   │
+     starting from $POS            ├───┼───┼───┼───┼───┼───┼┈┈
+     Then move $POS to             │   │   │   │   │   │   │
+     first empty cell              ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =for cell :column-span(3)      ┌───┬───────────┬───┬───┬┈┈
+    Samples                        │###│+++++++++++│ → │   │
+                                   │###├───┬───┬───┼───┼───┼┈┈
+    (Fill in 3x1 cells             │###│   │   │   │   │   │
+     starting from $POS            ├───┼───┼───┼───┼───┼───┼┈┈
+     Then move $POS to             │   │   │   │   │   │   │
+     first empty cell              ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =for cell :row-span(2)         ┌───┬───────────┬───┬───┬┈┈
+    Mean                           │###│###########│+++│ → │
+                                   │###├───┬───┬───┤+++│───┼┈┈
+    (Fill in 1x2 cells             │###│   │   │   │+++│   │
+     starting from $POS            ├───┼───┼───┼───┼───┼───┼┈┈
+     Then move $POS to             │   │   │   │   │   │   │
+     first empty cell              ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row :header                   ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Find the next row at or       │###├───┬───┬───┤###│───┼┈┈
+     below the current $POS        │###│ → │   │   │###│   │
+     that has an empty cell        ├───┼───┼───┼───┼───┼───┼┈┈
+     to the left of $POS, then     │   │   │   │   │   │   │
+     move $POS to the leftmost     ├───┼───┼───┼───┼───┼───┼┈┈
+     cell on that row, and set     │   │   │   │   │   │   │
+     $DIR to "across")             ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell Sample 1                 ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Fill in 1x1 cell at $POS      │###├───┬───┬───┤###│───┼┈┈
+     then move $POS to             │###│+++│ → │   │###│   │
+     the first empty cell          ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell Sample 2                 ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Fill in 1x1 cell at $POS      │###├───┬───┬───┤###│───┼┈┈
+     then move $POS to             │###│###│+++│ → │###│   │
+     the first empty cell          ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell Sample 3                 ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Fill in 1x1 cell at $POS      │###├───┬───┬───┤###│───┼┈┈
+     then move $POS to             │###│###│###│+++│###│ → │
+     the first empty cell          ├───┼───┼───┼───┼───┼───┼┈┈
+     in $DIR direction)            │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row                           ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Move $POS down to the         │###├───┬───┬───┤###│───┼┈┈
+     next row with an empty cell   │###│###│###│###│###│   │
+     that's to the left of $POS    ├───┼───┼───┼───┼───┼───┼┈┈
+     and to left-most empty cell   │ → │   │   │   │   │   │
+     on that row)                  ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =column                        ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Previous action was not a     │###├───┬───┬───┤###│───┼┈┈
+     =cell so set $DIR to "down",  │###│###│###│###│###│   │
+     with no other effect)         ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │ ↓ │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell 2023-03-08               ┌───┬───────────┬───┬───┬┈┈
+    =cell 2023-04-14               │###│###########│###│   │
+    =cell 2023-06-23               │###├───┬───┬───┤###│───┼┈┈
+                                   │###│###│###│###│###│   │
+    (Each =cell block              ├───┼───┼───┼───┼───┼───┼┈┈
+     fills in a 1x1 cell           │+++│   │   │   │   │   │
+     at $POS, then moves           ├───┼───┼───┼───┼───┼───┼┈┈
+     $POS to the first empty       │+++│   │   │   │   │   │
+     cell in $DIR direction)       ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │+++│   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │ ↓ │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =column                        ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    (Previous action was           │###├───┬───┬───┤###│───┼┈┈
+     a =cell, so move $POS         │###│###│###│###│###│   │
+     to the uppermost empty        ├───┼───┼───┼───┼───┼───┼┈┈
+     cell in the first non-full    │###│ ↓ │   │   │   │   │
+     column to the right,          ├───┼───┼───┼───┼───┼───┼┈┈
+     and set $DIR to "down")       │###│   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │###│   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =cell 0.4                      ┌───┬───────────┬───┬───┬┈┈
+    =cell 0.8                      │###│###########│###│   │
+    =cell 0.2                      │###├───┬───┬───┤###│───┼┈┈
+                                   │###│###│###│###│###│   │
+    (Each =cell block              ├───┼───┼───┼───┼───┼───┼┈┈
+     fills in a 1x1 cell           │###│+++│   │   │   │   │
+     at $POS, then moves           ├───┼───┼───┼───┼───┼───┼┈┈
+     $POS to the first empty       │###│+++│   │   │   │   │
+     cell in $DIR direction)       ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │###│+++│   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │   │ ↓ │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+
+    =column                        ┌───┬───────────┬───┬───┬┈┈
+    =cell 0.1                      │###│###########│###│   │
+    =cell 0.6                      │###├───┬───┬───┤###│───┼┈┈
+    =cell 0.9                      │###│###│###│###│###│   │
+    =column                        ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.3                      │###│###│+++│+++│+++│   │
+    =cell 0.5                      ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.0                      │###│###│+++│+++│+++│   │
+    =column                        ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.26667                  │###│###│+++│+++│+++│   │
+    =cell 0.63333                  ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.36667                  │   │   │   │   │ ↓ │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+    (Rinse and repeat)             ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =row                           ┌───┬───────────┬───┬───┬┈┈
+                                   │###│###########│###│   │
+    ($POS row is entirely empty    │###├───┬───┬───┤###│───┼┈┈
+     so it's the first row with    │###│###│###│###│###│   │
+     an empty cell to the left     ├───┼───┼───┼───┼───┼───┼┈┈
+     of $POS, so stay on current   │###│###│###│###│###│   │
+     row and move $POS to the      ├───┼───┼───┼───┼───┼───┼┈┈
+     left-most empty cell in row;  │###│###│###│###│###│   │
+     change $DIR to "across")      ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │###│###│###│###│###│   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │ → │   │   │   │   │   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =for cell :label               ┌───┬───────────┬───┬───┬┈┈
+    Mean:                          │###│###########│###│   │
+    =cell 0.46667                  │###├───┬───┬───┤###│───┼┈┈
+    =cell 0.53333                  │###│###│###│###│###│   │
+    =cell 0.26667                  ├───┼───┼───┼───┼───┼───┼┈┈
+    =cell 0.42222                  │###│###│###│###│###│   │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+    (Fill in 1x1 cells,            │###│###│###│###│###│   │
+     moving $POS each time         ├───┼───┼───┼───┼───┼───┼┈┈
+     in the direction              │###│###│###│###│###│   │
+     specified by $DIR)            ├───┼───┼───┼───┼───┼───┼┈┈
+                                   │+++│+++│+++│+++│+++│ → │
+                                   ├───┼───┼───┼───┼───┼───┼┈┈
+                                   ┊   ┊   ┊   ┊   ┊   ┊   ┊
+
+
+    =end table                     ┌───┬───────────┬───┐
+                                   │###│###########│###│
+    (Terminate grid-filling        │###├───┬───┬───┤###│
+     then trim the table to        │###│###│###│###│###│
+     the bounding box around       ├───┼───┼───┼───┼───┤
+     all filled cells)             │###│###│###│###│###│
+                                   ├───┼───┼───┼───┼───┤
+                                   │###│###│###│###│###│
+                                   ├───┼───┼───┼───┼───┤
+                                   │###│###│###│###│###│
+                                   ├───┼───┼───┼───┼───┤
+                                   │###│###│###│###│###│
+                                   └───┴───┴───┴───┴───┘
+=end code
+
+
+=head2 Formulae
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Formulae>]>
+
+Implementors of renderers are B<I<not>> required to render the instructions (I<e.g.> the LaTeX code)
+in a formula; it is acceptable for a renderer to render the contents
+of a C<=formula> or C«F<>» in some other way than as a fully realized mathematical equation.
+
+For example, the following two formulae:
+=begin code :lang<text>
+We will use the identity: F<\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}>
+
+...where the value of pi can be inferred from Euler’s Identity:
+
+=formula e^{i\pi}+1=0
+=end code
+
+...may either be rendered “accurately”:
+=begin nested
+We will use the identity: F<\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}>
+
+...where the value of pi can be inferred from Euler’s Identity:
+
+=for formula :!toc :caption('')
+e^{i\pi}+1=0
+=end nested
+
+... or may be converted to a suitable Unicode approximation:
+
+=begin nested
+We will use the identity: ∑ 1/n² = 𝜋²/6
+
+...where the value of pi can be inferred from Euler’s Identity:
+
+eH<iπ> + 1 = 0
+
+=end nested
+
+... or may even left as raw LaTeX (perhaps with some kind of visual marker indicating
+that it is unprocessed):
+
+=begin nested
+We will use the identity: I<U<V<\sum \frac{1}{n^{2}} = \frac{\pi^{2}}{6}>>>
+
+... where the value of pi can be inferred from Euler’s Identity:
+
+I<U<V<e^{i\pi}+1=0>>>
+=end nested
+
+
+=head2 Citations
+=head3 Citation blocks
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Citation blocks>]>
+
+The full citation dataset for each individual reference work is specified in
+a C«citation» block, as structured textual data in any of the following notations:
+CSL-JSON, CSL-YAML, CSL-Raku, RIS, MODS, BiBLaTeX, BibTeX, BibTeXML, or Medline/PubMed (XML or NBIB).
+All of these formats are widely used citation-data-interchange standards, except for CSL-Raku,
+which is just CSL-JSON/CSL-YAML data transposed into the native Raku syntax for a list of hashes.
+
+For example:
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  Citation source data specified in B<CSL-Raku>>
+=begin citation
+    {
+        note            => "Fields can be specified as key => value pairs"
+        id              => "rakudoc-evo-chapter",
+        type            => "chapter",
+        title           => "The Evolution of RakuDoc",
+        author          => [ { family => "Hainsworth", given => "Richard"   },
+                             { family => "Mattijsen",  given => "Elizabeth" },
+                             { family => "Conway",     given => "Damian"    },
+                           ],
+        editor          => [ { family => "Smith", given => "Jane" } ],
+        container-title => "Modern Markup Systems",
+        publisher       => "Butterfly Press",
+        publisher-place => "Amsterdam",
+        page            => "42-65",
+        issued          => { date-parts => [[2024, 5, 12]] },
+        ISBN            => "978-3-16-148410-0",
+    },
+    {
+                   :note< Fields can also be specified as adverbial pairs >
+                     :id< json-vs-xml-meta >
+                   :type< article-journal >
+                  :title< A Performance Analysis of JSON vs XML in Academic Metadata >
+                 :author[ { family => "Doe", given => "John", ORCID => "0000-0001-2345-6789" } ]
+        :container-title< Journal of Digital Humanities >
+                 :volume( 12 )
+                  :issue( 3 )
+                   :page< 101-115 >
+                    :DOI< 10.1000/jdh.2024.03.01 >
+                 :issued{ date-parts => [[2024]] }
+    }
+=end citation
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  This citation data is in B<CSL-JSON> format>
+=begin citation
+    [
+        {
+                   "id": "mercurio2025",
+                 "type": "book",
+                "title": "The Morphological Beauty of Raku Grammars",
+               "author": [ {"family": "Mercurio", "given": "Silvia"} ],
+               "issued": {"date-parts": [[2025, 3, 14]]},
+            "publisher": "Butterfly Press",
+                 "ISBN": "978-1-2345-6789-0"
+        }
+    ]
+=end citation
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  This citation data is B<CSL-YAML>>
+=for citation
+    - id:    starlight2024
+      type:  article-journal
+      title: "Asynchronous Concurrency: A Journey Through Raku Supplies"
+      author:
+          - family: Starlight
+            given:  Orion
+      container-title: "The Reactive Programmer's Quarterly"
+      issued:
+          date-parts: [[2024, 11]]
+      volume: 12
+      issue:  4
+      page:   45-60
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  This citation is in B<BibLaTeX> format>
+=citation  @article{zenraku2024,
+               author = {Wall, Larry},
+               title = {The Zen of Raku},
+               journaltitle = {Journal of Camel Studies},
+               date = {2024-05-12},
+               volume = {42},
+               number = {3},
+               pages = {101-115},
+               url = {https://example.org/raku},
+               urldate = {2026-01-23}
+           }
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  This citation is in B<BibTeXML> format>
+=begin citation
+    <bibtex:file xmlns:bibtex="http://bibtexml.sf.net/">
+      <bibtex:entry id="mercurio2025">
+        <bibtex:book>
+          <bibtex:author>Silvia Mercurio</bibtex:author>
+          <bibtex:title>The Morphological Beauty of Raku Grammars</bibtex:title>
+          <bibtex:publisher>Butterfly Press</bibtex:publisher>
+          <bibtex:year>2025</bibtex:year>
+          <bibtex:month>March</bibtex:month>
+          <bibtex:isbn>978-1-2345-6789-0</bibtex:isbn>
+        </bibtex:book>
+      </bibtex:entry>
+    </bibtex:file>
+=end citation
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  This is B<RIS> data>
+=begin citation
+    TY  - JOUR
+    ID  - thorne2023
+    AU  - Thorne, Alistair
+    TI  - Optimization Strategies for MoarVM Bytecode
+    JO  - Journal of Virtual Machine Design
+    PY  - 2023/08/21/
+    VL  - 9
+    IS  - 2
+    SP  - 210
+    EP  - 235
+    SN  - 1234-5678
+    ER  -
+=end citation
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment  This is B<MODS>>
+=begin citation
+    <mods xmlns="http://www.loc.gov/mods/v3" ID="Vasiliev26">
+        <titleInfo>
+            <title>Functional Purity in a Multi-Paradigm World</title>
+        </titleInfo>
+        <name type="personal">
+            <namePart type="given">Elena</namePart>
+            <namePart type="family">Vasiliev</namePart>
+            <role>
+                <roleTerm type="text">author</roleTerm>
+            </role>
+        </name>
+        <originInfo>
+            <publisher>Deep Space Coding Collective</publisher>
+            <dateIssued>2026</dateIssued>
+        </originInfo>
+        <typeOfResource>text</typeOfResource>
+        <genre>technical report</genre>
+    </mods>
+=end citation
+
+=end code
+=begin code :lang<rakudoc> :allow<I B>
+I<=comment This citation is in B<PubMed/Medline NBIB> format>
+=citation
+    PMID- 39876543
+    STAT- Publisher
+    DA  - 2025/08/15
+    TI  - The Semantic Elegance of Raku Grammars.
+    BTI - The Semantic Elegance of Raku Grammars
+    AU  - Mercurio S
+    LA  - eng
+    PT  - Book
+    PB  - Butterfly Press
+    SN  - 978-1-2345-9876-0
+
+=end code
+=begin code :lang<rakudoc> :allow<I B V>
+I<=comment This citation is in B<PubMed/Medline XML> format>
+=citation
+   <PubmedArticleSet>
+     <PubmedArticle>
+       <MedlineCitation Status="Publisher">
+         <PMID Version="1">98765432</PMID>
+         <Article PubModel="Print">
+           <Journal>
+             <ISSN IssnType="Print">1234-567X</ISSN>
+             <JournalIssue>
+               <Volume>14</Volume>
+               <Issue>1</Issue>
+               <PubDate>
+                 <Year>2026</Year>
+                 <Month>Jan</Month>
+                 <Day>30</Day>
+               </PubDate>
+             </JournalIssue>
+             <Title>International Journal of Perl and Raku</Title>
+           </Journal>
+           <ArticleTitle>Concurrent Processing in RakuDoc: A Performance Analysis.</ArticleTitle>
+           <Pagination>
+             <MedlinePgn>102-115</MedlinePgn>
+           </Pagination>
+           <AuthorList CompleteYN="Y">
+             <Author ValidYN="Y">
+               <LastName>Generic</LastName>
+               <ForeName>A</ForeName>
+             </Author>
+             <Author ValidYN="Y">
+               <LastName>Researcher</LastName>
+               <ForeName>V<B></ForeName>
+             </Author>
+           </AuthorList>
+           <Language>eng</Language>
+           <PublicationTypeList>
+             <PublicationType>Journal Article</PublicationType>
+           </PublicationTypeList>
+         </Article>
+       </MedlineCitation>
+     </PubmedArticle>
+   </PubmedArticleSet>
+=end code
+
+
+=head2 Implied code and indentation
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Implied code and indentation>]>
+
+Each block creates a virtual margin (at the column before its leading C<=>)
+and that virtual margin extends B<I<only>> to the end of the block (I<i.e.> B<not> to the start
+of the next named block).
+
+Care must be taken with I<abbreviated> and I<extended> blocks where the block ends at the
+next blank line.
+
+=begin code :lang<RakuDoc>
+=begin rakudoc
+This is an ordinary paragraph
+
+    While this is not an ordinary paragraph;
+    it is a code block.
+
+    =head Mumble mumble
+
+    Surprisingly, this is a code block
+        (with fancy indentation too)
+
+This is just an ordinary paragraph.
+
+=end rakudoc
+=end code
+
+The I<Surprisingly...> paragraph is a code block because each block only sets the virtual margin within that block,
+and the C<=head> block terminates at the blank line immediately after
+the C<=head> line, and before the apparent code block begins.
+At which point, the virtual margin reverts to the previous virtual margin
+set by the surrounding C<=begin rakudoc>...C<=end rakudoc> block.
+
+The current virtual margin terminates at the end of the block whose opener set it,
+and not at the start of the next block that sets a virtual margin.
+In other words, the virtual margin is a local feature of each individual block, not a collective feature
+of the entire document, and therefore a block’s virtual margin always ends at the end of the block itself
+(and reverts at that point to the virtual margin of the surrounding block, if any).
+
+Which means:
+=begin code :lang<RakuDoc>
+=begin rakudoc
+This is an ordinary paragraph
+
+    While this is not
+    This is a code block
+
+    =head Mumble mumble
+
+    This IS also a code block
+       because the preceding =head's virtual margin ended
+       at the end of the preceding =head block, which was
+       at the preceding blank line. So the virtual margin for
+       this implicit block is the virtual margin of the surrounding
+       C<=begin rakudoc ... =end rakudoc> block. This block is indented
+       relative to that C<=rakudoc block>'s virtual margin, so it's
+       a code block.
+
+This is a para block
+    (with fancy indentation too, because the indentation of first line alone
+     determines whether an implicit block is a C<=para> or a C<=code> block,
+     and all subsequent lines, regardless of their indentation, become part
+     of that block ... until the end of the implicit block, which occurs at
+     the next blank line or the next explicit RakuDoc block or directive.)
+
+=end rakudoc
+=end code
+
+And if, instead, you wanted the block straight after the C<=head> to be
+an implicit paragraph block (I<i.e.> not an implicit code block),
+you'd write it:
+
+=begin code :lang<RakuDoc> :allow<B>
+=begin rakudoc
+This is an ordinary paragraph
+
+    While this is not
+    This is a code block
+
+    B<=begin section>
+
+    =head Mumble mumble
+
+    This is a para block, NOT a code block
+       because the virtual margin for this implicit block
+       is the virtual margin of the surrounding
+       =begin section ... =end section block.
+       The first line of this implicit block is NOT indented
+       relative to that =section block's virtual margin,
+       so it's a para block.
+
+    B<=end section>
+
+This is a para block too...because its first line is not indented
+   relative to the virtual margin of the current =begin rakudoc ... =end rakudoc block.
+
+=end rakudoc
+=end code
+
+
+=head Metadata
+=head2 Instructions with side effects
+=head3 Display and metadata
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Metadata>]>
+
+Markup codes may contain only display text or may contain
+a mix of display and meta information. This section clarifies these groups.
+
+If a markup code may contain both display text and meta information, the character C<|> is used
+to delimit the two components. In order to use C<|> inside a display text, it must be escaped (C<\|>) or
+specified as an entity (C«E<VERTICAL LINE>»).
+
+=head4 Display only codes
+
+The following codes may I<only> contain display text:
+=begin code :allow<B R V> :lang<RakuDoc>
+BV«< » R<DISPLAY-TEXT> V« >»
+CV«< » R<DISPLAY-TEXT> V« >»
+HV«< » R<DISPLAY-TEXT> V« >»
+IV«< » R<DISPLAY-TEXT> V« >»
+JV«< » R<DISPLAY-TEXT> V« >»
+KV«< » R<DISPLAY-TEXT> V« >»
+NV«< » R<DISPLAY-TEXT> V« >»
+OV«< » R<DISPLAY-TEXT> V« >»
+RV«< » R<DISPLAY-TEXT> V« >»
+SV«< » R<DISPLAY-TEXT> V« >»
+TV«< » R<DISPLAY-TEXT> V« >»
+UV«< » R<DISPLAY-TEXT> V« >»
+VV«< » R<DISPLAY-TEXT> V« >»
+WV«< » R<DISPLAY-TEXT> V« >»
+=end code
+
+=head4 Metadata and (optional) display text
+
+The following codes may (and, in some cases, must) contain both a display text
+and some kind of metadata.
+
+=begin code :allow<B R V> :lang<RakuDoc>
+AV«< » R<DISPLAY-TEXT > V« | » R<METADATA=ALIAS-NAME>            >
+DV«< » R<DISPLAY-TEXT > V« | » R<METADATA=SYNONYMS>              >
+ΔV«< » R<DISPLAY-TEXT > V« | » R<METADATA=VERSION-ETC>           >
+EV«< » R<DISPLAY-TEXT > V« | » R<METADATA=HTML/UNICODE-ENTITIES> >
+FV«< » R<DISPLAY-TEXT > V« | » R<METADATA=LATEX-FORM>            >
+LV«< » R<DISPLAY-TEXT > V« | » R<METADATA=TARGET-URI>            >
+MV«< » R<DISPLAY-TEXT > V« | » R<METADATA=WHATEVER>              >
+PV«< » R<DISPLAY-TEXT > V« | » R<METADATA=REPLACEMENT-URI>       >
+XV«< » R<DISPLAY-TEXT > V« | » R<METADATA=INDEX-ENTRY>           >
+=end code
+
+The markup codes C<A>, C<E>, C<F>, C<L>, and C<P> may be specified B<without> a display text,
+in which case the specification permits the renderer to
+provide an automatic rendering if the metadata component fails to produce a renderable result.
+If an explicit display text is provided (I<i.e.> to the left of a C<|>),
+that text overrides the default alternate rendering.
+
+=head4 Metadata only
+
+=begin code :allow<V R> :lang<RakuDoc>
+QV«< » R<METADATA=CITATION REFERENCES> >
+ZV«< » R<METADATA=COMMENT> >
+=end code
+
+The quotation code C<Q<> > has a semicolon list akin to a metadata list, which is
+replaced in the rendered text with properly styled citations.
+
+The comment code C<Z<> > is intended not to have a display text so the contents of a comment
+can be considered as pure metadata.
+
+
+=head Summary of RakuDoc syntax
+
+=begin table2 :caption<Directives> :toc
+    =row :header
+        =cell Directive
+        =cell Specifies
+    =row
+        =cell C<=alias>
+        =cell Define a RakuDoc macro
+    =row
+        =cell C<=begin>
+        =cell Start of an explicitly terminated block
+    =row
+        =cell C<=column>
+        =cell Start a new column in a procedural table
+    =row
+        =cell C<=config>
+        =cell Block-scoped modifications to a block or markup instruction
+    =row
+        =cell C<=counter>
+        =cell Block-scoped reconfiguration of a counter
+    =row
+        =cell C<=document>
+        =cell Change the default for document level options
+    =row
+        =cell C<=end>
+        =cell Explicit termination of a C<=begin> block
+    =row
+        =cell C<=finish>
+        =cell No ambient blocks after this point
+    =row
+        =cell C<=for>
+        =cell Start of an implicitly (blank-line) terminated block
+    =row
+        =cell C<=place>
+        =cell Place into the document some text loaded from, or generated by, a URI
+    =row
+        =cell C<=row>
+        =cell Start a new row in a procedural table
+=end table2
+
+=begin section
+=config C :allow<R>
+=begin table2 :caption<Blocks> :toc
+    =row :header
+        =cell Block typename
+        =cell Specifies
+    =row
+        =cell C<=cell>
+        =cell Contents of a table cell, only valid in a procedural table context
+    =row
+        =cell C<=citation>
+        =cell Specify a list of citation datasets in one of several standard citation markup languages
+    =row
+        =cell C<=code>
+        =cell Verbatim pre-formatted sample source code
+    =row
+        =cell C<=input>
+        =cell Pre-formatted sample input
+    =row
+        =cell C<=output>
+        =cell Pre-formatted sample output
+    =row
+        =cell C<=comment>
+        =cell Content to be ignored by all renderers
+    =row
+        =cell C<=head>
+        =cell First-level heading
+    =row
+        =cell C<=headR<N>>
+        =cell Nth-level heading
+    =row
+        =cell C<=defn>
+        =cell Definition of a term
+    =row
+        =cell C<=item>
+        =cell First-level list item
+    =row
+        =cell C<=itemR<N>>
+        =cell Nth-level list item
+    =row
+        =cell C<=nested>
+        =cell Nest block contents within the current context
+    =row
+        =cell C<=para>
+        =cell Ordinary paragraph
+    =row
+        =cell C<=rakudoc>
+        =cell No "ambient" blocks inside
+    =row
+        =cell C<=section>
+        =cell Defines a lexical scope within the document
+    =row
+        =cell C<=pod>
+        =cell Legacy equivalent to C<=rakudoc> (use is deprecated)
+    =row
+        =cell C<=table>
+        =cell Visual or procedural table
+    =row
+        =cell C<=formula>
+        =cell Render content as a LaTeX formula
+    =row
+        =cell C<=data>
+        =cell Raku data section
+    =row
+        =cell C<=R<NAMED>>
+        =cell Semantic blocks (C<=SYNOPSIS>, C<=TITLE>, I<etc.>)
+    =row
+        =cell C<=R<CustomName>>
+        =cell User-defined block (must have mixed-case name)
+=end table2
+=end section
+
+=begin section
+=config C :allow<R>
+=begin table2 :caption<Metadata options> :toc
+    =row :header
+        =cell Metadata option
+        =cell Blocks applied to
+        =cell Description
+    =row
+        =column
+            =for cell :row-span(4) :align<top>
+            C<:allow>
+
+        =column
+            =cell C<=code>
+            =cell C<=input>
+            =cell C<=output>
+            =cell C<=table>
+        =column
+            =for cell :row-span(4) :align<top>
+            Allow specific mark-up codes in otherwise verbatim blocks
+
+    =row
+        =cell C<:id>
+        =cell all blocks
+        =cell Specify the anchor for a block
+
+    =row
+        =column
+            =for cell :row-span(8) :align<top>
+            C<:toc>
+
+        =column
+            =cell C<=para>
+            =cell C<=nested>
+            =cell C<=code>
+            =cell C<=input>
+            =cell C<=output>
+            =cell C<=table>
+            =cell C<=formula>
+            =cell C<=place>
+
+        =column
+            =for cell :row-span(8) :align<top>
+            Include content or caption in the Table of Contents
+
+    =row
+        =column
+            =for cell :row-span(4) :align<top>
+            C<:!toc>
+
+        =column
+            =cell SEMANTIC block
+            =cell Custom block
+            =cell C<=headR<N>>
+            =cell C<=numheadR<N>>
+
+        =column
+            =for cell :row-span(4) :align<top>
+            Do not include content or caption in the Table of Contents
+
+    =row
+        =column
+            =for cell :row-span(2) :align<top>
+            C<:headlevel>
+
+        =column
+            =cell All blocks
+            =cell (but typically for para-ish blocks)
+
+        =column
+            =for cell :row-span(2) :align<top>
+            Override the automatic level of the block type within a Table of Contents
+
+    =row
+        =column
+            =for cell :row-span(9) :align<top>
+            C<:caption>
+
+        =column
+            =cell SEMANTIC block
+            =cell Custom block
+            =cell C<=nested>
+            =cell C<=code>
+            =cell C<=input>
+            =cell C<=output>
+            =cell C<=table>
+            =cell C<=formula>
+            =cell C<=place>
+
+        =column
+            =for cell :row-span(9) :align<top>
+            Caption to be associated with a block in the Table of Contents
+    =row
+        =cell C<:hidden>
+        =cell SEMANTIC block
+        =cell Remove block from rendered text and from Table of Contents (use C<P<semantic: ...>> to inject elsewhere)
+
+    =row
+        =column
+            =for cell :row-span(4) :align<top>
+            C<:header>
+
+        =column
+            =cell C<=table> (procedural semantics only)
+            =cell C<=cell>
+            =cell C<=row> directive
+            =cell C<=column> directive
+
+        =column
+            =for cell :row-span(4) :align<top>
+            Specify rows, columns, or cells to be rendered as column headers in a table
+
+    =row
+        =column
+            =for cell :row-span(4) :align<top>
+            C<:label>
+
+        =column
+            =cell C<=table> (procedural semantics only)
+            =cell C<=cell>
+            =cell C<=row> directive
+            =cell C<=column> directive
+
+        =column
+            =for cell :row-span(4) :align<top>
+            Specify rows, columns, or cells to be rendered as labels (row headers) in a table
+
+    =row
+        =column
+            =for cell :row-span(4) :align<top>
+            C<:align<R<ALIGNMENTS>>>
+
+        =column
+            =cell C<=table> (procedural semantics only)
+            =cell C<=cell>
+            =cell C<=row> directive
+            =cell C<=column> directive
+
+        =column
+            =for cell :row-span(4) :align<top>
+            Specify how cell contents are to be vertically and/or horizontally aligned
+
+    =row
+            =cell C<:row-span(R<HEIGHT>)>
+            =cell C<=cell>
+            =cell Specify how many rows a single cell should span in a procedural table
+
+    =row
+            =cell C<:column-span(R<WIDTH>)>
+            =cell C<=cell>
+            =cell Specify how many columns a single cell should span in a procedural table
+
+    =row
+            =cell C<:span(R<WIDTH>, R<HEIGHT>)>
+            =cell C<=cell>
+            =cell A shorthand for C<:column-span(R<WIDTH>) :row-span(R<HEIGHT>)>
+
+    =row
+        =column
+            =for cell :row-span(10) :align<top>
+            C<:delta>
+
+        =column
+            =cell C<=table>
+            =cell C<=formula>
+            =cell C<=nested>
+            =cell C<=code>
+            =cell C<=input>
+            =cell C<=output>
+            =cell C<=headR<N>>
+            =cell C<=numheadR<N>>
+            =cell SEMANTIC block
+            =cell Custom block
+
+        =column
+            =for cell :row-span(10) :align<top>
+            Developer information associated with a block
+    =row
+        =column
+            =for cell :row-span(2)
+            C<:bullet<R<CHAR>>>
+        =column
+            =cell C<=item>
+            =cell C<=itemR<N>>
+        =column
+            =for cell :row-span(2)
+            Replace the default bullet with one or more characters, or entities specified with C<E< >>
+
+=end table2
+=end section
+
+=begin section
+=config C :allow<R V>
+=begin table2 :caption<Markup instructions> :toc
+
+    =row :header
+        =cell Markup instruction
+        =cell Specifies
+    =row
+        =cell C<A<...|...>>
+        =cell Alias to be replaced by contents of the specified C<=alias> directive
+              (C<A<R<alt text> | R<aliasname>>>)
+    =row
+        =cell C<B<...>>
+        =cell Basis/focus of sentence (typically rendered bold)
+    =row
+        =cell C<C<...>>
+        =cell Code (typically rendered fixed-width)
+    =row
+        =cell C<D<...>>
+        =cell Definition inline (C<D<R<term being defined> | R<synonym1>; R<synonym2>>>)
+    =row
+        =cell C<Δ<...|...;...>>
+        =cell Delta note (C<Δ<R<visible text> | R<version>; R<notification text>>>)
+    =row
+        =cell C<EV«<»...|...;...>>
+        =cell Entity (HTML or Unicode) description (C<EV«<»R<entity1>; R<entity2>; R<multi>,R<glyph>;...>>)
+    =row
+        =cell C<F<...|...>>
+        =cell Inline content for a formula (C<F<R<alt text> | R<LaTeX notation>>>)
+    =row
+        =cell C<G<...>>
+        =cell I<(This markup code is not yet defined, but is reserved for future use)>
+    =row
+        =cell C<H<...>>
+        =cell High text (typically rendered superscript)
+    =row
+        =cell C<I<...>>
+        =cell Important content (typically rendered in italics)
+    =row
+        =cell C<J<...>>
+        =cell Junior text (typically rendered subscript)
+    =row
+        =cell C<K<...>>
+        =cell Keyboard input (typically rendered fixed-width)
+    =row
+        =cell C<L<...|...>>
+        =cell Link (C<L<R<display text> | R<destination URI>>>)
+    =row
+        =cell C<M<...|..,..;...>>
+        =cell Markup extra (C<M<R<display text> | R<functionality>; R<param>,R<sub-type>;R<...>>>)
+    =row
+        =cell C<N<...>>
+        =cell Note (not rendered inline, but made visible in some way: footnote, sidenote, pop-up, I<etc.>))
+    =row
+        =cell C<O<...>>
+        =cell Struck-out content
+    =row
+        =cell C<P<...|...>>
+        =cell Placement link (C<P< R<alt text> | R<source URI> >>)
+    =row
+        =cell C«Q<...>»
+        =cell Marker citing one or more bibliographic datasets via identifiers
+              with possible text annotations (C<QV«<» R<ID1> ; R<ID2>, R<text>; R<etc.> V«>»>)
+    =row
+        =cell C<RV«<»...V«>»>
+        =cell Replaceable component or metasyntax
+    =row
+        =cell C<S<...>>
+        =cell Space characters to be preserved
+    =row
+        =cell C<T<...>>
+        =cell Terminal output (typically rendered fixed-width)
+    =row
+        =cell C<U<...>>
+        =cell Unusual content (typically rendered with underlining)
+    =row
+        =cell C<VV«<»...V«>»>
+        =cell Verbatim (internal markup instructions ignored)
+    =row
+        =cell C<W<...>>
+        =cell Weighty content (typically rendered with small caps)
+    =row
+        =cell C<X<...|..,..;...>>
+        =cell Index entry (C<X< R<display text> | R<entry>,R<subentry> ; ...>>)
+    =row
+        =cell C<Y<...>>
+        =cell I<(This markup code is not yet defined, but is reserved for future use)>
+    =row
+        =cell C<Z<...>>
+        =cell Zero-width comment (contents never rendered)
+    =row
+=end table2
+=end section
+=begin table2 :caption<:form components> :toc
+=row :header
+	=cell Field
+	=cell Meaning
+	=cell C«:lc» or informal shortcut
+=row
+	=cell C«%A»
+	=cell enumeration value as an ASCII capital alpha
+	=cell C«%a»
+=row
+	=cell C«%B» or C«%ব»
+	=cell enumeration value in Bengali numerals I<(if supported)>
+	=cell C«%b» I<(no effect)>
+=row
+	=cell C«%C»
+	=cell caption I<(if any)>
+	=cell C«%c»
+=row
+	=cell C«%D»
+	=cell block’s data
+	=cell C«%d»
+=row
+	=cell C«%H» or C«%ह»
+	=cell enumeration value in Hindu numerals I<(if supported)>
+	=cell C«%h» I<(no effect)>
+=row
+	=cell C«%J» or C«%業»
+	=cell enumeration value in Japanese numerals I<(if supported)>
+	=cell C«%j» or C«%並»
+=row
+	=cell C«%N»
+	=cell enumeration value as a cardinal number
+	=cell C«%n»
+=row
+	=cell C«%R»
+	=cell enumeration value in Roman numerals I<(if supported)>
+	=cell C«%r»
+=row
+	=cell C«%T»
+	=cell the name of the block’s C«num»-less type in Titlecase
+	=cell C«%t»
+=row
+	=cell C«%Z» or C«%大»
+	=cell enumeration value in Chinese numerals I<(if supported)>
+	=cell C«%z» or C«%小»
+=row
+	=cell C«%%»
+	=cell a literal C«%» I<(only required if literal C«%» is followed by a letter)>
+	=cell
+=row
+	=cell C«%:»
+	=cell a literal C«:» I<(only required if literal C«:» is followed by a letter)>
+	=cell
+	=cell
+=end table2
+
+=begin section
+=config C :allow<R>
+=begin table2 :caption<Options for form fields> :toc
+=row :header
+	=cell Field option
+	=cell Meaning
+=row
+	=cell C«:ord»
+	=cell use ordinal instead of cardinal number I<(if available in requested language)>
+=row
+	=cell C«:lc»
+	=cell use lowercase or informal notation I<(if any)>
+=row
+	=cell C«:uc»
+	=cell use uppercase or formal notation I<(if any)>
+=row
+	=cell C«:tc»
+	=cell use titlecase I<(uppercase first character only)>
+=row
+	=cell C«:tclc»
+	=cell use titlecase for first character, lowercase for the rest
+=row
+	=cell C«:sc»
+	=cell use titlecase for first character of each sentence, preserve ALLCAPS words, lowercase for the rest
+=row
+	=cell C«:pc»
+	=cell use titlecase for first character of each word, preserve ALLCAPS words, lowercase for the rest
+=row
+	=cell C«:lang<R<xx>>»
+	=cell use numbering and/or ordinal system for ISO 639-1 language R<xx> I<(if supported)>
+	=cell
+=end table2
+=end section
+
+=begin section
+=config C :allow<R>
+=begin table2 :caption«Options related to citations» :toc
+=row :header
+=cell Block or directive
+=cell Option
+=cell Meaning
+=row
+=cell C<=citation>
+=cell C«:load<R<URL>>»
+=cell Import citation data from the specified URL
+=row
+=cell C<=citation>
+=cell C«:category<R<CatName(s)>>»
+=cell Include the block’s citation data in the specified category or categories
+=row
+=cell C<=document>
+=cell C«:citation-style<R<name or URL>>»
+=cell When rendering, format all citation lists using the CSL style format specified by the name or by the URL
+=row
+=cell C<=document>
+=cell C«:citation-locale<R<tag>>»
+=cell When rendering, format all citation lists using the CSL locale conventions selected by the specified S<IETF BCP 47> language tag
+=end table2
+=end section
+
+=place semantic:LICENSE :caption<Licence>
+=place semantic:AUTHORS :caption<Credits>
+=end rakudoc
