@@ -283,8 +283,6 @@ may contain other blocks. These rules are:
 
 =item  Abbreviated- and extended-form blocks can I<never> contain any other kind of block.
 
-=item  The delimited form of the following D<atomic blocks> may I<B<not>> contain any other kind of block:
-C<citation>, C<code>, C<comment>, C<data>, C<formula>, C<head>, C<input>, C<output>
 =item  The delimited form of the following D<atomic blocks> do I<B<not>> contain any other kind of block
 (I<i.e.> they treat their contents as pure data, even if those contents happen to resemble a block definition):
 C<citation>, C<code>, C<comment>, C<data>, C<formula>, C<head>, C<input>, C<output>
