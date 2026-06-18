@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc
 =SUBTITLE Raku markup for documenting Raku software to aid development and use.
-=VERSION 2.20.6
+=VERSION 2.20.7
 =for LICENSE :hidden
 Artistic-2.0
 =begin AUTHORS :hidden
@@ -287,8 +287,8 @@ may contain other blocks. These rules are:
 (I<i.e.> they treat their contents as pure data, even if those contents happen to resemble a block definition):
 C<citation>, C<code>, C<comment>, C<data>, C<formula>, C<head>, C<input>, C<output>
 
-=item  The delimited form of the following D<paragraph-level blocks> may contain only atomic blocks:
-C<defn>, C<item>, C<para>
+=item  The delimited form of the following D<paragraph-level blocks> may contain only atomic blocks
+or L<implicit paragraphs|#Ordinary paragraphs>: C<defn>, C<item>, C<para>
 
 =item  The delimited form of the following D<container blocks> may contain I<any> other kind of block
 (including other container blocks): C<cell>, C<nested>, C<pod>, C<rakudoc>, C<section>, C<SEMANTIC>
