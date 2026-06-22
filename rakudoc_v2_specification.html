@@ -1234,7 +1234,7 @@ function swap_toc_index(div, activate) {
 <p id="Para_11">Naturally, the contents of blocks may contain embedded RakuDoc markup codes, but not all blocks may contain other blocks. These rules are:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Abbreviated- and extended-form blocks can <span class="important">never</span> contain any other kind of block.</li>
-<li class="item" data-bullet="•" style ="--level:0;"  >The delimited form of the following <span class="basis">atomic blocks</span> do <span class="important"><span class="basis">not</span></span> contain any other kind of block (<span class="important">i.e.</span> they treat their contents as pure data, even if those contents happen to resemble a block definition): <span class="code">citation</span>, <span class="code">code</span>, <span class="code">comment</span>, <span class="code">data</span>, <span class="code">formula</span>, <span class="code">head</span>, <span class="code">input</span>, <span class="code">output</span></li>
+<li class="item" data-bullet="•" style ="--level:0;"  >The delimited form of the following <span class="basis">atomic blocks</span> do <span class="important"><span class="basis">not</span></span> contain any other kind of block (<span class="important">i.e.</span> they treat their contents as pure data, even if those contents happen to resemble a block definition): <span class="code">citation</span>, <span class="code">code</span>, <span class="code">comment</span>, <span class="code">data</span>, <span class="code">formula</span>, <span class="code">head</span>, <span class="code">input</span>, <span class="code">output</span>, <a href="#User-defined_blocks">custom blocks</a></li>
 <li class="item" data-bullet="•" style ="--level:0;"  >The delimited form of the following <span class="basis">paragraph-level blocks</span> may contain only atomic blocks or <a href="#Ordinary_paragraphs">implicit paragraphs</a>: <span class="code">defn</span>, <span class="code">item</span>, <span class="code">para</span></li>
 <li class="item" data-bullet="•" style ="--level:0;"  >The delimited form of the following <span class="basis">container blocks</span> may contain <span class="important">any</span> other kind of block (including other container blocks): <span class="code">cell</span>, <span class="code">nested</span>, <span class="code">pod</span>, <span class="code">rakudoc</span>, <span class="code">section</span>, <span class="code">SEMANTIC</span></li>
 <li class="item" data-bullet="•" style ="--level:0;"  >The delimited form of the <span class="code">table</span> block may directly contain only <span class="code">cell</span> and/or <span class="code">comment</span> blocks.</li>
@@ -1509,14 +1509,23 @@ The major sources of sustainable energy are:
 <p id="Para_28">The following document level options are specified:</p>
 <div id="Document_level_options" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><th class="">Option name</th><th class="">Default</th><th class="">Description</th></tr>
-<tr class="procedural"><td class=""><span class="code">:error</span></td><td class="">True</td><td class="">If True, warnings for any error conditions are rendered at the end of the document.</td></tr>
+<tr class="procedural"><th class="">
+<p id="Para_29">Option name</p></th><th class="">
+<p id="Para_30">Default</p></th><th class="">
+<p id="Para_31">Description</p></th></tr>
+<tr class="procedural"><td class=""><span class="code">:error</span></td><td class="">
+<p id="Para_32">True</p></td><td class="">
+<p id="Para_33">If True, warnings for any error conditions are rendered at the end of the document.</p></td></tr>
 <tr class="procedural"><td class=""><span class="code">:auto-toc</span></td><td class="">False unless overridden by the presence of <span class="code">=head</span> or semantic blocks.</td><td class="">Whether to automatically generate a Table of Contents, or mandate no automatic rendering of a Table of Contents, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>.</td></tr>
 <tr class="procedural"><td class=""><span class="code">:auto-index</span></td><td class="">False unless overridden by the presence of <span class="code">X&lt; ... &gt;</span> markup.</td><td class="">Whether to automatically generate an Index, or mandate no automatic rendering of an Index, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>.</td></tr>
 <tr class="procedural"><td class=""><span class="code">:auto-citations</span></td><td class="">False unless overridden by the presence of <span class="code">Q&lt; ... &gt;</span> markup.</td><td class="">Whether to automatically generate a Citations list, or mandate no automatic rendering of a Citations list, more in <a href="Table of Contents, Index, and Citations#">Table of Contents, Index, and Citations</a>.</td></tr>
-<tr class="procedural"><td class=""><span class="code">:lang</span></td><td class="">en</td><td class="">The language of the content of the document.</td></tr>
-<tr class="procedural"><td class=""><span class="code">:citation-style</span></td><td class="">ieee</td><td class="">The style used to format citations. More detail can be found in <a href="#Citations">Citations</a>.</td></tr>
-<tr class="procedural"><td class=""><span class="code">:citation-locale</span></td><td class="">en-GB</td><td class="">The locale used to format citation dates and numbers. More detail can be found in <a href="#Citations">Citations</a>.</td></tr>
+<tr class="procedural"><td class=""><span class="code">:lang</span></td><td class="">
+<p id="Para_34">en</p></td><td class="">
+<p id="Para_35">The language of the content of the document.</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">:citation-style</span></td><td class="">
+<p id="Para_36">ieee</p></td><td class="">The style used to format citations. More detail can be found in <a href="#Citations">Citations</a>.</td></tr>
+<tr class="procedural"><td class=""><span class="code">:citation-locale</span></td><td class="">
+<p id="Para_37">en-GB</p></td><td class="">The locale used to format citation dates and numbers. More detail can be found in <a href="#Citations">Citations</a>.</td></tr>
 </tbody></table>
 <div class="table-caption rakudoc">Document level options</div></div>
 <div class="id-target" id="Document termination"></div><h2 id="Document_termination" class="heading raku-webs-h2 "><a href="#">Document termination</a><a class="raku-webs-anchor" href="#Document termination">§</a></h2>
@@ -1542,7 +1551,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_29">This will generate the following output:</p>
+<p id="Para_38">This will generate the following output:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1561,7 +1570,7 @@ say %h.raku;
 
 <p>The <span class="code">=place</span> instruction is a directive that tells the renderer to obtain text, information, or an object from another source. </p>
 
-<p id="Para_30">The rendered version of the data placed in the text is considered to form its own block scope.</p>
+<p id="Para_39">The rendered version of the data placed in the text is considered to form its own block scope.</p>
 
 <p>An in-line version of <span class="code">=place</span> is <span class="code">P&lt;...&gt;</span>, which is described in more detail in the section on markup codes. </p>
 
@@ -1578,7 +1587,7 @@ say %h.raku;
 			</tbody>
 </table>
 </div>
-<p id="Para_31">Meanwhile, the kind of content being placed is inferred from the final extension of the URL. For example:</p>
+<p id="Para_40">Meanwhile, the kind of content being placed is inferred from the final extension of the URL. For example:</p>
 <div id="Table_1" class="rakudoc-table">
 <table class="table is-striped is-bordered">	<thead>
 		<tr><th>Extension</th><th>How to treat the contents</th></tr>
@@ -1593,9 +1602,9 @@ say %h.raku;
 			</tbody>
 </table>
 </div>
-<p id="Para_32">Renderers are not required to render anything other than plaintext and RakuDoc, but may also support other formats if they wish.</p>
+<p id="Para_41">Renderers are not required to render anything other than plaintext and RakuDoc, but may also support other formats if they wish.</p>
 
-<p id="Para_33">In the case where a URL does not end in a recognized extension:</p>
+<p id="Para_42">In the case where a URL does not end in a recognized extension:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1606,7 +1615,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_34">...then the type of content (and hence rendering) may be inferred from the schema:</p>
+<p id="Para_43">...then the type of content (and hence rendering) may be inferred from the schema:</p>
 <div id="Table_2" class="rakudoc-table">
 <table class="table is-striped is-bordered">	<thead>
 		<tr><th>Schema</th><th>Inferred content type if no final extension</th></tr>
@@ -1628,7 +1637,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_35">will produce ...</p>
+<p id="Para_44">will produce ...</p>
 
 <div class="id-target" id="Raku’s mascot"></div><h1 id="Raku’s_mascot" class="heading raku-webs-h1 "><a href="#">Raku’s mascot</a><a class="raku-webs-anchor" href="#Raku’s mascot">§</a></h1>
 <div class="rakudoc-image-placement">
@@ -1661,23 +1670,23 @@ say %h.raku;
 
 <div class="id-target" id="Code-oriented RakuDoc"></div><h1 id="Code-oriented_RakuDoc" class="heading raku-webs-h1 "><a href="#">Code-oriented RakuDoc</a><a class="raku-webs-anchor" href="#Code-oriented RakuDoc">§</a></h1>
 
-<p id="Para_36">The following RakuDoc components are primarily intended for use when editing Raku code within an editor. Standalone renderers may ignore them.</p>
+<p id="Para_45">The following RakuDoc components are primarily intended for use when editing Raku code within an editor. Standalone renderers may ignore them.</p>
 
 <div class="id-target" id="Declarator blocks"></div><h2 id="Declarator_blocks" class="heading raku-webs-h2 "><a href="#">Declarator blocks</a><a class="raku-webs-anchor" href="#Declarator blocks">§</a></h2>
 
-<p id="Para_37">Declarator blocks differ from other blocks in that they do not have a specific type. Instead, they are attached to a particular element of the ambient source code.</p>
+<p id="Para_46">Declarator blocks differ from other blocks in that they do not have a specific type. Instead, they are attached to a particular element of the ambient source code.</p>
 
 <p>Declarator blocks are introduced by a special comment: either <span class="code">#|</span> or <span class="code">#=</span>, which must be immediately followed by either a space or an opening bracket character, such as a curly brace <span class="code">{</span>, <span class="code">(</span> or <span class="code">«</span>. If followed by a space, the block is terminated by the end of line; if followed by one or more opening bracket characters, the block may extend over multiple lines and is terminated by the matching sequence of closing bracket characters. </p>
 
-<p id="Para_38">RakuDoc markup instructions may be used inside declarator blocks.</p>
+<p id="Para_47">RakuDoc markup instructions may be used inside declarator blocks.</p>
 
 <p>Blocks starting with <span class="code">#|</span> are attached to the code after them, and blocks starting with <span class="code">#=</span> are attached to the code before them. </p>
 
-<p id="Para_39">Since declarator blocks are attached to source code, they can be used to document classes, roles, subroutines and in general any statement or block.</p>
+<p id="Para_48">Since declarator blocks are attached to source code, they can be used to document classes, roles, subroutines and in general any statement or block.</p>
 
 <p>The <span class="code">WHY</span> method can be used on these classes, roles, subroutines, <span class="important">etc.</span> to return the attached RakuDoc value. </p>
 
-<p id="Para_40">For example:</p>
+<p id="Para_49">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1688,7 +1697,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_41">These declarations can extend to several lines. For example:</p>
+<p id="Para_50">These declarations can extend to several lines. For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1699,7 +1708,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_42">A useful idiom is to place trailing declarator blocks on the parameters of the MAIN sub. These comments will be picked up automatically by USAGE.</p>
+<p id="Para_51">A useful idiom is to place trailing declarator blocks on the parameters of the MAIN sub. These comments will be picked up automatically by USAGE.</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1746,9 +1755,9 @@ say %h.raku;
 
 <div class="id-target" id="Text-oriented RakuDoc"></div><h1 id="Text-oriented_RakuDoc" class="heading raku-webs-h1 "><a href="#">Text-oriented RakuDoc</a><a class="raku-webs-anchor" href="#Text-oriented RakuDoc">§</a></h1>
 
-<p id="Para_43">The RakuDoc instructions in this section are primarily intended for text-oriented rendering. However, text-oriented and code-oriented RakuDoc can be freely intermixed with Raku code in a single file; this may help to create code that is well-documented.</p>
+<p id="Para_52">The RakuDoc instructions in this section are primarily intended for text-oriented rendering. However, text-oriented and code-oriented RakuDoc can be freely intermixed with Raku code in a single file; this may help to create code that is well-documented.</p>
 
-<p id="Para_44">When a Raku compiler parses a file, line contents are expected to be Raku code (ambient text). When a RakuDoc block is finished, the next line is assumed to revert to ambient text.</p>
+<p id="Para_53">When a Raku compiler parses a file, line contents are expected to be Raku code (ambient text). When a RakuDoc block is finished, the next line is assumed to revert to ambient text.</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1819,7 +1828,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_45">which would produce:</p>
+<p id="Para_54">which would produce:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1833,7 +1842,7 @@ say %h.raku;
 <p>A document has an <span class="important">inherent numbering</span> for every heading, but only the <span class="code">=numhead<span class="replace">N</span></span> block makes the numeration visible in the heading and in the Table of Contents. </p>
 </div>
 
-<p id="Para_46">Note that, even though renderers are not required to distinctly render more than the first four levels of heading, they are required to correctly honour arbitrarily nested numberings. That is:</p>
+<p id="Para_55">Note that, even though renderers are not required to distinctly render more than the first four levels of heading, they are required to correctly honour arbitrarily nested numberings. That is:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1844,7 +1853,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_47">should produce something like:</p>
+<p id="Para_56">should produce something like:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1862,7 +1871,7 @@ say %h.raku;
 
 <p>The <span class="code">section</span> block will typically only be used in the delimited form so that the document writer can define an explicit block scope. The <span class="code">=begin section</span> declaration starts a new block scope, and the <span class="code">=end section</span> returns the scope to the previous one. Unlike an <span class="code">=end rakudoc</span>, an <span class="code">=end section</span> does not always change the scope back to ambient code. It only does so when its corresponding <span class="code">=begin section</span> changed the scope <span class="important">from</span> ambient code. In contrast, an <span class="code">=end rakudoc</span> always reverts to ambient code. </p>
 
-<p id="Para_48">Sections may be embedded within other sections.</p>
+<p id="Para_57">Sections may be embedded within other sections.</p>
 <div class="rakudoc-section ">
 <p>When a <span class="code">=begin section</span> is not present, a renderer may apply the following heuristic to determine the block scope (assuming <span class="replace">X</span>, <span class="replace">Y</span>, and <span class="replace">Z</span> are digits such that <span class="code">0 &lt; <span class="replace">X</span> &lt; <span class="replace">Y</span> &lt; <span class="replace">Z</span></span>): </p>
 
@@ -1922,7 +1931,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_49">or configured for all subsequent blocks in the same scope:</p>
+<p id="Para_58">or configured for all subsequent blocks in the same scope:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1944,7 +1953,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_50">...or else have both block types subscribe to the same user-defined counter (which would be autogenerated as soon as it is first used):</p>
+<p id="Para_59">...or else have both block types subscribe to the same user-defined counter (which would be autogenerated as soon as it is first used):</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -1979,7 +1988,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_51">This might be rendered something like...</p>
+<p id="Para_60">This might be rendered something like...</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2005,7 +2014,7 @@ say %h.raku;
     </div>
     
 
-<p id="Para_52">This would be rendered as something like</p>
+<p id="Para_61">This would be rendered as something like</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2042,7 +2051,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
     </div>
     
 
-<p id="Para_53">...are equivalent to:</p>
+<p id="Para_62">...are equivalent to:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2064,7 +2073,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
     </div>
     
 
-<p id="Para_54">...are equivalent to:</p>
+<p id="Para_63">...are equivalent to:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2086,7 +2095,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
     </div>
     
 
-<p id="Para_55">...is equivalent to:</p>
+<p id="Para_64">...is equivalent to:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2099,7 +2108,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
 
 <div class="id-target" id="Counts and counters"></div><h2 id="Counts_and_counters" class="heading raku-webs-h2 "><a href="#">Counts and counters</a><a class="raku-webs-anchor" href="#Counts and counters">§</a></h2>
 
-<p id="Para_56">The counters to which blocks can subscribe are independent constructs that are created and maintained for each RakuDoc document by every compliant renderer. Counters are entirely separate from the blocks they service, though the two constructs do interact in several ways that will be described hereafter.</p>
+<p id="Para_65">The counters to which blocks can subscribe are independent constructs that are created and maintained for each RakuDoc document by every compliant renderer. Counters are entirely separate from the blocks they service, though the two constructs do interact in several ways that will be described hereafter.</p>
 
 <p>Counters have a range of features useful for generating enumerations: an <span class="important">individual value</span>, a <span class="important">hierarchical prefix</span>, a <span class="important">restart status</span>, and various possible <span class="important">restart triggers</span>. </p>
 
@@ -2245,7 +2254,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
 <p>Note that, as the first example above indicates, having to specify <span class="important">all</span> the “superordinate” trigger blocks for each automatic counter restart is rather tedious, so we define that specifying a particular trigger blockname in a <span class="code">:restart-after&lt; <span class="replace">blocknameN</span> &gt;</span> implies <span class="important">“...restart after <span class="code"><span class="replace">blocknameN</span></span> or any <span class="basis"><span class="important">superordinate</span></span> block of the same base name.”</span> </p>
 </div>
 
-<p id="Para_57">In other words, the previous table-and-formula example (though still perfectly valid) could be simplified to:</p>
+<p id="Para_66">In other words, the previous table-and-formula example (though still perfectly valid) could be simplified to:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2269,7 +2278,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
     </div>
     
 
-<p id="Para_58">Or we coulld construct special counters for a set of user-defined item-like blocks, as follows:</p>
+<p id="Para_67">Or we coulld construct special counters for a set of user-defined item-like blocks, as follows:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2287,7 +2296,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
 
 <p>Note that having to specify hierarchical subordinate excluded subitems all the way down is also tedious, so we define that any excluded blockname in a <span class="code">:restart-except-after</span> implies <span class="important">“...restart after any block except this block or any <span class="basis"><span class="important">subordinate</span></span> block of the same base name.”</span> </p>
 
-<p id="Para_59">Hence the previous example of reinstating normal item restarting behaviour could also be simplified to:</p>
+<p id="Para_68">Hence the previous example of reinstating normal item restarting behaviour could also be simplified to:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2317,17 +2326,20 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
 <p>Renderers are not required to implement the <span class="code">:form</span> metaoption, but if they do then a conformant renderer must support at least the following field types: </p>
 <div id="Field_types" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><td class="">Field</td><td class="">Insert next enumeration value as...</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_69">Field</p></td><td class="">
+<p id="Para_70">Insert next enumeration value as...</p></td></tr>
 <tr class="procedural"><td class=""><span class="code">%N</span></td><td class="">the corresponding Indo-Arabic numerals: <span class="important">1, 2, 3, <span class="important">etc.</span></span></td></tr>
 <tr class="procedural"><td class=""><span class="code">%A</span></td><td class="">the corresponding ASCII capital alpha: <span class="important">A, B, C ... Z, AA, AB, AC, <span class="important">etc.</span></span></td></tr>
 <tr class="procedural"><td class=""><span class="code">%T</span></td><td class="">the name of the block type in Titlecase without the leading <span class="code">num</span> or trailing level number: <span class="important">Head, Item, Table, Formula, Defn, <span class="important">etc.</span></span></td></tr>
-<tr class="procedural"><td class=""><span class="code">%C</span></td><td class="">the caption of the block (if any)</td></tr>
+<tr class="procedural"><td class=""><span class="code">%C</span></td><td class="">
+<p id="Para_71">the caption of the block (if any)</p></td></tr>
 <tr class="procedural"><td class=""><span class="code">%D</span></td><td class="">the data contained in the block (<span class="important">i.e.</span> its contents)</td></tr>
 <tr class="procedural"><td class=""><span class="code">%%</span></td><td class="">a literal <span class="code">%</span></td></tr>
 <tr class="procedural"><td class=""><span class="code">%:</span></td><td class="">a literal <span class="code">:</span></td></tr>
 </tbody></table>
 <div class="table-caption rakudoc">Field types</div></div>
-<p id="Para_60">So, for example, the following enumerated elements:</p>
+<p id="Para_72">So, for example, the following enumerated elements:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2338,7 +2350,7 @@ The deadline is noon at the location of the main office, see Article 10.</pre>
     </div>
     
 
-<p id="Para_61">...would normally be rendered something like:</p>
+<p id="Para_73">...would normally be rendered something like:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2357,7 +2369,7 @@ Formula 1. Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_62">But the following pre-configurations:</p>
+<p id="Para_74">But the following pre-configurations:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2368,7 +2380,7 @@ Formula 1. Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_63">...would cause the document to be rendered differently:</p>
+<p id="Para_75">...would cause the document to be rendered differently:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2400,7 +2412,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_64">...would be rendered something like:</p>
+<p id="Para_76">...would be rendered something like:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2429,7 +2441,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_65">...requires two fields, because it expects to interpolate two enumeration values: the enumeration value of the current first-level heading, plus its own second-level enumeration value.</p>
+<p id="Para_77">...requires two fields, because it expects to interpolate two enumeration values: the enumeration value of the current first-level heading, plus its own second-level enumeration value.</p>
 
 <p>In that example, the first field (<span class="code">%A</span>) would be replaced by the current <span class="code">numhead1</span> enumeration value, and the second field (<span class="code">%N</span>) would be replaced by the current <span class="code">numhead2</span> value. </p>
 
@@ -2489,7 +2501,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_66">...would be rendered:</p>
+<p id="Para_78">...would be rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2513,10 +2525,12 @@ Equation 1: Mass-Energy Equivalence</pre>
 
 <p>Some enumeration formats (<span class="important">e.g.</span> alphabetic characters or Roman numerals) have uppercase and lowercase variants or close analogies thereto (<span class="important">e.g.</span> “Business” vs “ordinary” notation in Chinese and Japanese numbers). Other fields may benefit from other casing strategies (<span class="important">e.g.</span> Sentencecase, or ProperCase). </p>
 
-<p id="Para_67">To select which case-variant a field uses, append one of the following options:</p>
+<p id="Para_79">To select which case-variant a field uses, append one of the following options:</p>
 <div id="Form_field_case_options" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><td class="">Option</td><td class="">How the contents of the field are rendered</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_80">Option</p></td><td class="">
+<p id="Para_81">How the contents of the field are rendered</p></td></tr>
 <tr class="procedural"><td class=""><span class="code">:uc</span></td><td class="">EVERYTHING IN <span class="basis"><span class="important">U</span></span><span class="important">PPER</span><span class="basis"><span class="important">C</span></span><span class="important">ASE</span> OR AS “FORMAL/BUSINESS” NUMERALS</td></tr>
 <tr class="procedural"><td class=""><span class="code">:lc</span></td><td class="">everything in <span class="basis"><span class="important">l</span></span><span class="important">ower</span><span class="basis"><span class="important">c</span></span><span class="important">ase</span> or as “ordinary/everyday” numerals</td></tr>
 <tr class="procedural"><td class=""><span class="code">:tc</span></td><td class="">First character in <span class="basis"><span class="important">t</span></span><span class="important">itle</span><span class="basis"><span class="important">c</span></span><span class="important">ase</span> but NO other change of case</td></tr>
@@ -2536,7 +2550,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_68">...would be rendered:</p>
+<p id="Para_82">...would be rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2550,7 +2564,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_69">These options also specify how ordinal numbers are rendered:</p>
+<p id="Para_83">These options also specify how ordinal numbers are rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2561,7 +2575,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_70">...would be rendered:</p>
+<p id="Para_84">...would be rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2597,7 +2611,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_71">...would be rendered:</p>
+<p id="Para_85">...would be rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2608,7 +2622,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_72">...whereas:</p>
+<p id="Para_86">...whereas:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2621,7 +2635,7 @@ Equation 1: Mass-Energy Equivalence</pre>
     </div>
     
 
-<p id="Para_73">...would be rendered:</p>
+<p id="Para_87">...would be rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2654,7 +2668,7 @@ E = mc²
     </div>
     
 
-<p id="Para_74">This would override the intrinsic mixed-casing of the block data and captions to produce something like:</p>
+<p id="Para_88">This would override the intrinsic mixed-casing of the block data and captions to produce something like:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2669,9 +2683,9 @@ E = mc²
     </div>
     
 
-<p id="Para_75">In order to avoid undue complexity and ambiguity, explicit embedded RakuDoc components in the data or caption associated with a block will disable any case handling.</p>
+<p id="Para_89">In order to avoid undue complexity and ambiguity, explicit embedded RakuDoc components in the data or caption associated with a block will disable any case handling.</p>
 
-<p id="Para_76">For example:</p>
+<p id="Para_90">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2682,7 +2696,7 @@ E = mc²
     </div>
     
 
-<p id="Para_77">This would override the sentence-casing of the caption (only) to produce something like:</p>
+<p id="Para_91">This would override the sentence-casing of the caption (only) to produce something like:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2767,7 +2781,7 @@ Headquarters location.
     </div>
     
 
-<p id="Para_78">This would be rendered as something like</p>
+<p id="Para_92">This would be rendered as something like</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2813,11 +2827,11 @@ The deadline is noon at the location of the main office, see Article 10.
 
 <div class="id-target" id="Ordinary paragraphs"></div><h2 id="Ordinary_paragraphs" class="heading raku-webs-h2 "><a href="#">Ordinary paragraphs</a><a class="raku-webs-anchor" href="#Ordinary paragraphs">§</a></h2>
 
-<p id="Para_79">An ordinary paragraph consists of text that is to be formatted into a document at the current level of nesting, with whitespace squeezed, lines filled, and any special inline markup applied.</p>
+<p id="Para_93">An ordinary paragraph consists of text that is to be formatted into a document at the current level of nesting, with whitespace squeezed, lines filled, and any special inline markup applied.</p>
 
-<p id="Para_80">Ordinary paragraphs consist of one or more consecutive lines of text, each of which starts with a non-whitespace character. The paragraph is terminated by the first blank line or directive.</p>
+<p id="Para_94">Ordinary paragraphs consist of one or more consecutive lines of text, each of which starts with a non-whitespace character. The paragraph is terminated by the first blank line or directive.</p>
 
-<p id="Para_81">For example:</p>
+<p id="Para_95">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2841,9 +2855,9 @@ The deadline is noon at the location of the main office, see Article 10.
     </div>
     
 
-<p id="Para_82">This is rendered as:</p>
+<p id="Para_96">This is rendered as:</p>
 <div class="nested">
-<p id="Para_83">This is an ordinary paragraph. Its text will be squeezed and short lines filled.</p></div>
+<p id="Para_97">This is an ordinary paragraph. Its text will be squeezed and short lines filled.</p></div>
 
 <p>In addition, the longer <span class="code">=begin para</span> and <span class="code">=end para</span> form can be used. For example: </p>
     
@@ -2871,11 +2885,11 @@ The deadline is noon at the location of the main office, see Article 10.
     </div>
     
 
-<p id="Para_84">...which would produce:</p>
+<p id="Para_98">...which would produce:</p>
 <div class="nested">
 <p>We are all of us in the gutter,<br>but some of us are looking at the stars! </p>
 <div class="nested">
-<p id="Para_85">– Oscar Wilde</p></div></div>
+<p id="Para_99">– Oscar Wilde</p></div></div>
 
 <p>A <span class="code">nested</span> block is like a <span class="code">section</span> block in that it defines a scope and can contain any other kind of block, including implicit paragraph and code blocks. Note that the relative physical indentation of the <span class="code">nested</span> blocks in the document plays no role in determining the ultimate indentation of their contents in the final rendering. </p>
 
@@ -2887,7 +2901,7 @@ The deadline is noon at the location of the main office, see Article 10.
 
 <p>Code blocks are used to specify pre-formatted text (typically source code), which should be rendered without rejustification, without whitespace squeezing, and by default <span class="basis">without</span> recognizing any inline markup instructions. Code blocks also have an implicit nesting associated with them. Typically these blocks are used to show examples of code, markup, data formats, or other textual specifications. They are usually rendered using a fixed-width font. </p>
 
-<p id="Para_86">A code block may be implicitly specified as one or more lines of text, each of which starts with a whitespace character at the block’s virtual left margin. The implicit code block is then terminated by a blank line or an explicit directive. For example:</p>
+<p id="Para_100">A code block may be implicitly specified as one or more lines of text, each of which starts with a whitespace character at the block’s virtual left margin. The implicit code block is then terminated by a blank line or an explicit directive. For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2930,9 +2944,9 @@ sub loud_update ($who, $status) {
 
 <div class="id-target" id="Preprocessing and postprocessing of code"></div><h5 id="Preprocessing_and_postprocessing_of_code" class="heading raku-webs-h5 "><a href="#">Preprocessing and postprocessing of code</a><a class="raku-webs-anchor" href="#Preprocessing and postprocessing of code">§</a></h5>
 
-<p id="Para_87">The code in a document is almost always related to a specific programming language, by default Raku. But examples of Ruby, C, RakuDoc, or other languages may also appear in the Raku documentation sources.</p>
+<p id="Para_101">The code in a document is almost always related to a specific programming language, by default Raku. But examples of Ruby, C, RakuDoc, or other languages may also appear in the Raku documentation sources.</p>
 
-<p id="Para_88">A renderer may apply language specific syntax highlighting to the contents of a code block according to the following rules:</p>
+<p id="Para_102">A renderer may apply language specific syntax highlighting to the contents of a code block according to the following rules:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">=code</span> blocks with no explicit or preconfigured <span class="code">:lang</span> option default to <span class="code">:lang&lt;raku&gt;</span>.</li>
 <li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">=code</span> blocks can be marked as not being in any specific language by using <span class="code">:!lang</span>.</li>
@@ -2951,9 +2965,9 @@ sub loud_update ($who, $status) {
 
 <p>The <span class="code">=output</span> block is used to specify pre-formatted terminal or file output, which should also be rendered without re-justification or whitespace-squeezing. </p>
 
-<p id="Para_89">Although they are rendered with verbatim whitespace, like a code block, input and output blocks differ from code blocks in that they do recognize any inline markup instructions within their text.</p>
+<p id="Para_103">Although they are rendered with verbatim whitespace, like a code block, input and output blocks differ from code blocks in that they do recognize any inline markup instructions within their text.</p>
 
-<p id="Para_90">For example:</p>
+<p id="Para_104">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -2988,7 +3002,7 @@ sub demo {
     </div>
     
 
-<p id="Para_91">This would be rendered:</p>
+<p id="Para_105">This would be rendered:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3013,7 +3027,7 @@ sub demo {
 
 <div class="id-target" id="Unordered lists"></div><h3 id="Unordered_lists" class="heading raku-webs-h3 "><a href="#">Unordered lists</a><a class="raku-webs-anchor" href="#Unordered lists">§</a></h3>
 
-<p id="Para_92">Lists in RakuDoc are by default unordered. For example:</p>
+<p id="Para_106">Lists in RakuDoc are by default unordered. For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3024,14 +3038,14 @@ sub demo {
     </div>
     
 
-<p id="Para_93">This produces:</p>
-
+<p id="Para_107">This produces:</p>
+<div class="nested">
+<p id="Para_108">The three suspects are:</p>
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Happy</li>
 <li class="item" data-bullet="•" style ="--level:0;"  >Sleepy</li>
 <li class="item" data-bullet="•" style ="--level:0;"  >Grumpy</li>
 </ul>
-<div class="nested">
-<p id="Para_94">The three suspects are:</p></div>
+</div>
 
 <p>By default, a compliant renderer will provide a bullet for each item. RakuDoc also allows for custom bullets as <a href="#Bullets_and_bullet_strategy">discussed below</a>. </p>
 
@@ -3039,7 +3053,7 @@ sub demo {
 
 <p>Lists may be multi-level, with items at each level specified using the <span class="code">=item1</span>, <span class="code">=item2</span>, <span class="code">=item3</span>, <span class="important">etc.</span> blocks. (The indentation depends on the rendering engine and does not need to be included in the RakuDoc markup.) Up to four levels are normally differentiated. </p>
 
-<p id="Para_95">For example:</p>
+<p id="Para_109">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3050,8 +3064,8 @@ sub demo {
     </div>
     
 
-<p id="Para_96">This would produce:</p>
-
+<p id="Para_110">This would produce:</p>
+<div class="nested">
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Animal</li>
 <li class="item" data-bullet="▹" style ="--level:1;"  >Vertebrate</li>
 <li class="item" data-bullet="‣" style ="--level:2;"  >Mammals</li>
@@ -3064,7 +3078,7 @@ sub demo {
 <li class="item" data-bullet="▹" style ="--level:1;"  >Liquid</li>
 <li class="item" data-bullet="▹" style ="--level:1;"  >Gas</li>
 </ul>
-<div class="nested"></div>
+</div>
 
 <p>Note, however, that <span class="code">item</span> blocks within the same list are not <span class="important">physically</span> nested. That is, subordinate items should not be specified inside superordinate items: </p>
     
@@ -3077,13 +3091,13 @@ sub demo {
     </div>
     
 
-<p id="Para_97">Renderers are not required to parse nested list items, nor to produce a coherent rendering if they are able to parse them.</p>
+<p id="Para_111">Renderers are not required to parse nested list items, nor to produce a coherent rendering if they are able to parse them.</p>
 
 <div class="id-target" id="Multi-paragraph lists"></div><h3 id="Multi-paragraph_lists" class="heading raku-webs-h3 "><a href="#">Multi-paragraph lists</a><a class="raku-webs-anchor" href="#Multi-paragraph lists">§</a></h3>
 
 <p>Using the delimited form of the <span class="code">=item</span> block (<span class="code">=begin item</span> and <span class="code">=end item</span>), we can specify items that contain multiple paragraphs. </p>
 
-<p id="Para_98">For example:</p>
+<p id="Para_112">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3094,15 +3108,15 @@ sub demo {
     </div>
     
 
-<p id="Para_99">This renders as:</p>
+<p id="Para_113">This renders as:</p>
 <div class="nested">
-<p id="Para_100">Let’s consider two common proverbs:</p>
+<p id="Para_114">Let’s consider two common proverbs:</p>
 
 <ul class="item-list"><li class="item extended-item" data-bullet="•" style ="--level:0;"  ><span class="important">The rain in Spain falls mainly on the plain.</span><p class="extended-item">This is a common myth and an unconscionable slur on the Spanish people, the majority of whom are extremely attractive.</p></li>
 <li class="item extended-item" data-bullet="•" style ="--level:0;"  ><span class="important">The early bird gets the worm.</span><p class="extended-item">In deciding whether to become an early riser, it is worth considering whether you would actually enjoy annelids for breakfast.</p></li>
 </ul>
 
-<p id="Para_101">As you can see, folk wisdom is often of dubious value.</p></div>
+<p id="Para_115">As you can see, folk wisdom is often of dubious value.</p></div>
 
 <div class="id-target" id="Bullets and bullet strategy"></div><h3 id="Bullets_and_bullet_strategy" class="heading raku-webs-h3 "><a href="#">Bullets and bullet strategy</a><a class="raku-webs-anchor" href="#Bullets and bullet strategy">§</a></h3>
 <div class="rakudoc-section ">
@@ -3138,18 +3152,18 @@ Abscond to the Bahamas with the cash
     </div>
     
 
-<p id="Para_102">... would produce something like a list with checkboxes, thus:</p>
-
+<p id="Para_116">... would produce something like a list with checkboxes, thus:</p>
+<div class="nested">
+<p id="Para_117">The project originally consisted of five phases, of which two are already complete and two have been abandoned:</p>
 <ul class="item-list"><li class="item" data-bullet="☑" style ="--level:0;"  >Investigate existing solutions</li>
 <li class="item" data-bullet="☑" style ="--level:0;"  >Define a minimal initial feature set</li>
 <li class="item" data-bullet="☐" style ="--level:0;"  >Implement this minimal set of features</li>
 <li class="item" data-bullet="☒" style ="--level:0;"  >Secure 100 million in venture capital</li>
 <li class="item" data-bullet="☒" style ="--level:0;"  >Abscond to the Bahamas with the cash</li>
 </ul>
-<div class="nested">
-<p id="Para_103">The project originally consisted of five phases, of which two are already complete and two have been abandoned:</p></div>
+</div>
 
-<p id="Para_104">However, more interesting bullets are possible, including multiple characters. For example:</p>
+<p id="Para_118">However, more interesting bullets are possible, including multiple characters. For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3175,15 +3189,15 @@ Abscond to the Bahamas with the cash
     </div>
     
 
-<p id="Para_105">... to produce</p>
-
+<p id="Para_119">... to produce</p>
+<div class="nested">
 <ul class="item-list"><li class="item" data-bullet="✔" style ="--level:0;"  >Investigate existing solutions</li>
 <li class="item" data-bullet="✔" style ="--level:0;"  >Define a minimal initial feature set</li>
 <li class="item" data-bullet="🔄" style ="--level:0;"  >Implement this minimal set of features</li>
 <li class="item" data-bullet="🚫" style ="--level:0;"  >Secure 100 million in venture capital</li>
 <li class="item" data-bullet="🚫🌴" style ="--level:0;"  >Abscond to the Bahamas with the cash</li>
 </ul>
-<div class="nested"></div>
+</div>
 
 <p>By using the <span class="code">=config</span> directive, it is also possible to change the default bullets for the duration of a section. For example, </p>
     
@@ -3209,9 +3223,9 @@ The major sources of sustainable energy are:
     </div>
     
 
-<p id="Para_106">...which would produce:</p>
+<p id="Para_120">...which would produce:</p>
 <div class="nested"><div class="rakudoc-section ">
-<p id="Para_107">The major sources of sustainable energy are:</p>
+<p id="Para_121">The major sources of sustainable energy are:</p>
 <ul class="item-list"><li class="item" data-bullet="🌍" style ="--level:0;"  >wind</li>
 <li class="item" data-bullet="🌍" style ="--level:0;"  >hydroelectric</li>
 <li class="item" data-bullet="🌍" style ="--level:0;"  >solar</li>
@@ -3238,15 +3252,15 @@ The major sources of sustainable energy are:
     </div>
     
 
-<p id="Para_108">This would produce something like:</p>
+<p id="Para_122">This would produce something like:</p>
 <div class="nested">
-<p id="Para_109">1. Visito</p>
+<p id="Para_123">1. Visito</p>
 
-<p id="Para_110">1.1. Veni</p>
+<p id="Para_124">1.1. Veni</p>
 
-<p id="Para_111">1.2. Vidi</p>
+<p id="Para_125">1.2. Vidi</p>
 
-<p id="Para_112">1.3. Vici</p></div>
+<p id="Para_126">1.3. Vici</p></div>
 
 <p>The numbering scheme is at the discretion of the renderer. A renderer might, for example, provide a scheme similar to the examples here, and also provide an enhancement, such as an <span class="code">:html-ordered</span> metaoption that might leverage the <span class="code">&lt;ul type=&quot;A&quot;&gt;</span> markup. </p>
 
@@ -3261,23 +3275,23 @@ The major sources of sustainable energy are:
     </div>
     
 
-<p id="Para_113">This would produce:</p>
+<p id="Para_127">This would produce:</p>
 <div class="nested">
-<p id="Para_114">The options are:</p>
+<p id="Para_128">The options are:</p>
 
-<p id="Para_115">1. Liberty</p>
+<p id="Para_129">1. Liberty</p>
 
-<p id="Para_116">2. Death</p>
+<p id="Para_130">2. Death</p>
 
-<p id="Para_117">3. Beer</p>
+<p id="Para_131">3. Beer</p>
 
-<p id="Para_118">The tools are:</p>
+<p id="Para_132">The tools are:</p>
 
-<p id="Para_119">1. Revolution</p>
+<p id="Para_133">1. Revolution</p>
 
-<p id="Para_120">2. Deep-fried peanut butter sandwich</p>
+<p id="Para_134">2. Deep-fried peanut butter sandwich</p>
 
-<p id="Para_121">3. Keg</p></div>
+<p id="Para_135">3. Keg</p></div>
 
 <p>The numbering of nested items (<span class="code">=numitem2</span>, <span class="code">=numitem3</span>, <span class="important">etc.</span>) resets to 1 whenever the numbering of a superordinate item changes (either resets or increments). </p>
 <div class="rakudoc-section ">
@@ -3302,15 +3316,15 @@ I&lt;????&gt;
     </div>
     
 
-<p id="Para_122">This produces:</p>
+<p id="Para_136">This produces:</p>
 <div class="nested">
-<p id="Para_123">1. Retreat to remote Himalayan monastery</p>
+<p id="Para_137">1. Retreat to remote Himalayan monastery</p>
 
-<p id="Para_124">2. Learn the hidden mysteries of space and time</p>
+<p id="Para_138">2. Learn the hidden mysteries of space and time</p>
 
 <p><span class="important">????</span> </p>
 
-<p id="Para_125">3. Prophet!</p></div>
+<p id="Para_139">3. Prophet!</p></div>
 <div class="rakudoc-section ">
 <p>Normally, if two <span class="code">=numitem<span class="replace">N</span></span> blocks are separated by some other kind of block (for example, a <span class="code">=para</span>, <span class="code">=code</span>, or <span class="code">=table</span> block), then the numbering of the second <span class="code">=numitem<span class="replace">N</span></span> block resets to 1. </p>
 
@@ -3331,7 +3345,7 @@ I&lt;????&gt;
 
 <p>A definition contains two parts: a term and a defining text. The term is the contents of the first line of the <span class="code">defn</span> block (<span class="important">i.e.</span> the text immediately after an abbreviated <span class="code">=defn</span>, or the first line after a <span class="code">=for defn</span> or <span class="code">=begin defn</span>). The defining text is the remaining lines within the scope of the <span class="code">defn</span> block. A renderer is expected to distinguish between the term and the defining text. For this reason, the term part is rendered verbatim, including any attempted markup codes. </p>
 
-<p id="Para_126">For example:</p>
+<p id="Para_140">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3342,15 +3356,15 @@ I&lt;????&gt;
     </div>
     
 
-<p id="Para_127">...will be rendered as:</p>
-
+<p id="Para_141">...will be rendered as:</p>
+<div class="nested">
 <div class="defn-term">Admiration</div>
 <div class="defn-text">Our polite recognition of another’s resemblance to ourselves.</div>
 
 <div class="defn-term">Misfortune</div>
 <div class="defn-text">The kind of fortune that never misses.</div>
 
-<div class="nested"></div>
+</div>
 
 <p>A renderer is expected to retain the information generated by a definition list, and the defining text may be targeted by a <a href="#Links">link markup instruction</a>. </p>
 
@@ -3360,7 +3374,7 @@ I&lt;????&gt;
 
 <p>As with ordinary lists, if the counter of a <span class="code">=numdefn</span> block is configured with a <span class="code">:!restart</span> metadata option, then the preceding definition list’s inherent numeration is preserved and continued. </p>
 
-<p id="Para_128">For example:</p>
+<p id="Para_142">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3371,14 +3385,7 @@ I&lt;????&gt;
     </div>
     
 
-<p id="Para_129">...will yield something like:</p>
-
-<div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Yak</span></div>
-<div class="defn-text">A grammatically pre-eminent animal</div>
-
-<div class="defn-term"><span class="enumeration-N">2.</span><span class="enumeration-D">Zorilla</span></div>
-<div class="defn-text">A lexicographically penultimate animal</div>
-
+<p id="Para_143">...will yield something like:</p>
 <div class="nested">
 <div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Aardvark</span></div>
 <div class="defn-text">A lexicographically pre-eminent animal</div>
@@ -3387,7 +3394,14 @@ I&lt;????&gt;
 <div class="defn-text">An architecturally pre-eminent animal</div>
 
 
-<p id="Para_130">Et cetera, et cetera...</p></div>
+<p id="Para_144">Et cetera, et cetera...</p>
+<div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Yak</span></div>
+<div class="defn-text">A grammatically pre-eminent animal</div>
+
+<div class="defn-term"><span class="enumeration-N">2.</span><span class="enumeration-D">Zorilla</span></div>
+<div class="defn-text">A lexicographically penultimate animal</div>
+
+</div>
 
 <p>In order to continue a list, an explicit <span class="code">:!restart</span> must be specified for the block’s counter, such as: </p>
     
@@ -3415,14 +3429,7 @@ A lexicographically penultimate animal
     </div>
     
 
-<p id="Para_131">...will yield something like:</p>
-
-<div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Yak</span></div>
-<div class="defn-text">A grammatically pre-eminent animal</div>
-
-<div class="defn-term"><span class="enumeration-N">2.</span><span class="enumeration-D">Zorilla</span></div>
-<div class="defn-text">A lexicographically penultimate animal</div>
-
+<p id="Para_145">...will yield something like:</p>
 <div class="nested">
 <div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Aardvark</span></div>
 <div class="defn-text">A lexicographically pre-eminent animal</div>
@@ -3431,9 +3438,16 @@ A lexicographically penultimate animal
 <div class="defn-text">An architecturally pre-eminent animal</div>
 
 
-<p id="Para_132">Et cetera, et cetera...</p>
+<p id="Para_146">Et cetera, et cetera...</p>
 
-<p><span class="basis">=counter numdefn :!restart</span> </p></div>
+<p><span class="basis">=counter numdefn :!restart</span> </p>
+<div class="defn-term"><span class="enumeration-N">1.</span><span class="enumeration-D">Yak</span></div>
+<div class="defn-text">A grammatically pre-eminent animal</div>
+
+<div class="defn-term"><span class="enumeration-N">2.</span><span class="enumeration-D">Zorilla</span></div>
+<div class="defn-text">A lexicographically penultimate animal</div>
+
+</div>
 
 <p>Suppose a writer needs every numbered definition to form a single monotonic sequence within some block scope (<span class="important">e.g.</span> for every definition within a document section, or every definition throughout the entire document). This would seem to require that every <span class="code">=numdefn</span> be preceded by a <span class="code">=counter numdefn :!restart</span> option. Or the writer could simply pre-configure the auto-restart behaviour for every <span class="code">=numdefn</span> within the scope so that the block’s counter never auto-restarts (<span class="important">i.e.</span> restarts after no block whatsoever), as follows: </p>
     
@@ -3461,7 +3475,7 @@ A lexicographically penultimate animal
 
 <p>Each individual table cell is separately formatted, as if it were a nested <span class="code">=para</span>. Note that table rows are expected to all have the same number of cells. </p>
 
-<p id="Para_133">This means you can create tables compactly, line-by-line:</p>
+<p id="Para_147">This means you can create tables compactly, line-by-line:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3472,7 +3486,7 @@ A lexicographically penultimate animal
     </div>
     
 
-<p id="Para_134">...or line-by-line with multi-line headers:</p>
+<p id="Para_148">...or line-by-line with multi-line headers:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3550,7 +3564,7 @@ A lexicographically penultimate animal
 
 </div>
 
-<p id="Para_135">For example:</p>
+<p id="Para_149">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3561,7 +3575,7 @@ A lexicographically penultimate animal
     </div>
     
 
-<p id="Para_136">Or, if you prefer to specify the data in columns:</p>
+<p id="Para_150">Or, if you prefer to specify the data in columns:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3572,13 +3586,25 @@ A lexicographically penultimate animal
     </div>
     
 
-<p id="Para_137">Either of which would produce:</p>
+<p id="Para_151">Either of which would produce:</p>
 <div class="nested"><div id="The_Other_Guys" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><th class="">Superhero</th><th class="">Secret Identity</th><th class="">Superpower</th></tr>
-<tr class="procedural"><td class="">The Shoveller</td><td class="">Eddie Stevens</td><td class="">King Arthur’s singing shovel</td></tr>
-<tr class="procedural"><td class="">Blue Raja</td><td class="">Geoffrey Smith</td><td class="">Master of cutlery</td></tr>
-<tr class="procedural"><td class="">The Bowler</td><td class="">Carol Pinnsler</td><td class="">Haunted bowling ball</td></tr>
+<tr class="procedural"><th class="">
+<p id="Para_152">Superhero</p></th><th class="">
+<p id="Para_153">Secret Identity</p></th><th class="">
+<p id="Para_154">Superpower</p></th></tr>
+<tr class="procedural"><td class="">
+<p id="Para_155">The Shoveller</p></td><td class="">
+<p id="Para_158">Eddie Stevens</p></td><td class="">
+<p id="Para_161">King Arthur’s singing shovel</p></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_156">Blue Raja</p></td><td class="">
+<p id="Para_159">Geoffrey Smith</p></td><td class="">
+<p id="Para_162">Master of cutlery</p></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_157">The Bowler</p></td><td class="">
+<p id="Para_160">Carol Pinnsler</p></td><td class="">
+<p id="Para_163">Haunted bowling ball</p></td></tr>
 </tbody></table>
 <div class="table-caption rakudoc">The Other Guys</div></div></div>
 
@@ -3598,7 +3624,7 @@ A lexicographically penultimate animal
 <p>That is, the <span class="code">=formula</span> block accepts an <span class="code">:alt</span> metaoption, and the syntax for the <span class="code">F&lt;&gt;</span> instruction is either <span class="code">F&lt; <span class="replace">FORMULA</span> &gt;</span> or <span class="code">F&lt; <span class="replace">ALT</span> | <span class="replace">FORMULA</span> &gt;</span>. </p>
 </div>
 
-<p id="Para_138">Using the ALT text options, the document author can supply a suitable explicit alternative rendering to renderers that cannot handle the full formula syntax:</p>
+<p id="Para_164">Using the ALT text options, the document author can supply a suitable explicit alternative rendering to renderers that cannot handle the full formula syntax:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3616,15 +3642,22 @@ e^{i\pi}+1=0
     </div>
     
 
-<p id="Para_139">An ALT text allows an author to rely on getting an “accurate” representation under those renderers that fully support formulas, and to be able to fall back on a range of reasonable alternatives under those renderers that don’t:</p>
+<p id="Para_165">An ALT text allows an author to rely on getting an “accurate” representation under those renderers that fully support formulas, and to be able to fall back on a range of reasonable alternatives under those renderers that don’t:</p>
 <div id="Fallback_options" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><th class="">Fall back on</th><th class="">Example</th></tr>
-<tr class="procedural"><td class="">Plaintext</td><td class="">F&lt;&nbsp;&nbsp;Euler’s Identity | e^{i\pi}+1=0 &gt;</td></tr>
-<tr class="procedural"><td class="">RakuDoc</td><td class="">F&lt;&nbsp;&nbsp;eH&lt;iπ&gt; + 1 = 0 | e^{i\pi}+1=0 &gt;</td></tr>
-<tr class="procedural"><td class="">Unicode</td><td class="">F&lt;&nbsp;&nbsp;eⁱᐢ + 1 = 0 | e^{i\pi}+1=0 &gt;</td></tr>
-<tr class="procedural"><td class="">Image</td><td class="">F&lt;&nbsp;&nbsp;P&lt;file:EulerID.jpg&gt; | e^{i\pi}+1=0 &gt;</td></tr>
-<tr class="procedural"><td class="">Link</td><td class="">F&lt;&nbsp;&nbsp;L&lt;https://en.wikipedia.org/wiki/Euler%27s_identity&gt; | e^{i\pi}+1=0 &gt;</td></tr>
+<tr class="procedural"><th class="">
+<p id="Para_166">Fall back on</p></th><th class="">
+<p id="Para_167">Example</p></th></tr>
+<tr class="procedural"><td class="">
+<p id="Para_168">Plaintext</p></td><td class="">F&lt;&nbsp;&nbsp;Euler’s Identity | e^{i\pi}+1=0 &gt;</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_169">RakuDoc</p></td><td class="">F&lt;&nbsp;&nbsp;eH&lt;iπ&gt; + 1 = 0 | e^{i\pi}+1=0 &gt;</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_170">Unicode</p></td><td class="">F&lt;&nbsp;&nbsp;eⁱᐢ + 1 = 0 | e^{i\pi}+1=0 &gt;</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_171">Image</p></td><td class="">F&lt;&nbsp;&nbsp;P&lt;file:EulerID.jpg&gt; | e^{i\pi}+1=0 &gt;</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_172">Link</p></td><td class="">F&lt;&nbsp;&nbsp;L&lt;https://en.wikipedia.org/wiki/Euler%27s_identity&gt; | e^{i\pi}+1=0 &gt;</td></tr>
 </tbody></table>
 <div class="table-caption rakudoc">Fallback options</div></div>
 <p>It is also possible to <span class="basis">stack</span> the fallback options. For example, one could try for an “accurate” rendering of a formula, but fall back on the placement of a pre-rendered image, or (failing to find that) fall back again to a RakuDoc representation with an outgoing link: </p>
@@ -3645,13 +3678,13 @@ e^{i\pi}+1=0
     </div>
     
 
-<p id="Para_140">Implementors are free to delay – or reject – implementing LaTeX-based formulas, and implementations are considered compliant with the specification, so long as the ALT texts are rendered.</p>
+<p id="Para_173">Implementors are free to delay – or reject – implementing LaTeX-based formulas, and implementations are considered compliant with the specification, so long as the ALT texts are rendered.</p>
 
 <p><a href="rakudoc:rakudoc_v2_exposition.rakudoc#Formulae">Further exposition on this topic is available. </a> </p>
 
 <div class="id-target" id="RakuDoc comments"></div><h2 id="RakuDoc_comments" class="heading raku-webs-h2 "><a href="#">RakuDoc comments</a><a class="raku-webs-anchor" href="#RakuDoc comments">§</a></h2>
 
-<p id="Para_141">RakuDoc comments are components that both RakuDoc renderers and ambient-code compilers ignore.</p>
+<p id="Para_174">RakuDoc comments are components that both RakuDoc renderers and ambient-code compilers ignore.</p>
 
 <p>Comments are useful for <span class="important">meta-</span>documentation (documenting the documentation). Single-line comments can use an abbreviated <span class="code">=comment</span> block: </p>
     
@@ -3677,7 +3710,7 @@ e^{i\pi}+1=0
 
 <div class="id-target" id="Semantic blocks"></div><h2 id="Semantic_blocks" class="heading raku-webs-h2 "><a href="#">Semantic blocks</a><a class="raku-webs-anchor" href="#Semantic blocks">§</a></h2>
 
-<p id="Para_142">All uppercase block typenames are reserved for specifying standard documentation, publishing components, source constructs, or meta-information. The following must be recognized:</p>
+<p id="Para_175">All uppercase block typenames are reserved for specifying standard documentation, publishing components, source constructs, or meta-information. The following must be recognized:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3690,9 +3723,9 @@ e^{i\pi}+1=0
 
 <p>The block name of a semantic block is to be rendered as if it were <span class="code">=head BLOCKNAME</span>, and the contents of the block are then to be rendered as one or more regular paragraphs. Consequently, if a semantic block has multiple lines, then its contents must be enclosed using the <span class="important"><span class="basis">delimited</span></span> form. </p>
 
-<p id="Para_143">A semantic block may be defined, but omitted from the text in the place it is written. This is because sections about Authors, or Licensing, are sometimes required at the end, or at the beginning, or in the meta section of an HTML document.</p>
+<p id="Para_176">A semantic block may be defined, but omitted from the text in the place it is written. This is because sections about Authors, or Licensing, are sometimes required at the end, or at the beginning, or in the meta section of an HTML document.</p>
 
-<p id="Para_144">A renderer is expected to gather the contents of a semantic block for it to be accessible by an external program.</p>
+<p id="Para_177">A renderer is expected to gather the contents of a semantic block for it to be accessible by an external program.</p>
 
 <p>If the metadata option <span class="code">:hidden</span> is associated with a semantic block (by using a <span class="code">=config</span> directive, or as a direct metadata option on the <span class="important">extended</span> or <span class="important">delimited</span> forms) then the renderer will not render the semantic block at the position it is located in the RakuDoc document. It will be placed in a data structure by the renderer and the contents can then be rendered at a place defined by a <a href="#Placement_links">Placement instruction</a>. </p>
 
@@ -3736,11 +3769,11 @@ The design of Raku commenced <span class="basis">Q&lt;Apocalypse1; P6&amp;Parrot
 
 <p>Depending on the chosen bibliographic style in which the document is eventually rendered, multi-identifier <span class="code">Q&lt;&gt;</span> codes may be rendered separately: </p>
 <div class="nested">
-<p id="Para_145">The design of Raku commenced [7] [9] [10] in late 2000...</p></div>
+<p id="Para_178">The design of Raku commenced [7] [9] [10] in late 2000...</p></div>
 
-<p id="Para_146">...or aggregated into a single bibliographic marker:</p>
+<p id="Para_179">...or aggregated into a single bibliographic marker:</p>
 <div class="nested">
-<p id="Para_147">The design of Raku commenced [7,9-10] in late 2000...</p></div>
+<p id="Para_180">The design of Raku commenced [7,9-10] in late 2000...</p></div>
 
 <p>Each identifier can also optionally be followed by comma and an annotation, which may be used to refine the context of a given citation by specifying particular sections, chapters, pages, figures, tables, timestamps, <span class="important">etc.</span> within the work being cited. For example: </p>
     
@@ -3763,7 +3796,7 @@ in late 2000...
     </div>
     
 
-<p id="Para_148">Note that whether or not these annotations are included as part of the corresponding bibliographic markers, or are silently ignored, is determined entirely by the bibliographic style that is selected when the document is rendered.</p>
+<p id="Para_181">Note that whether or not these annotations are included as part of the corresponding bibliographic markers, or are silently ignored, is determined entirely by the bibliographic style that is selected when the document is rendered.</p>
 
 <div class="id-target" id="Citation blocks"></div><h3 id="Citation_blocks" class="heading raku-webs-h3 "><a href="#">Citation blocks</a><a class="raku-webs-anchor" href="#Citation blocks">§</a></h3>
 
@@ -3771,7 +3804,7 @@ in late 2000...
 
 <p>Each <span class="code">citation</span> block may contain multiple entries (<span class="important">i.e.</span> aggregated citation data for multiple reference works), but the data for every entry within a single block must be represented in the same data format (<span class="important">e.g.</span> all in CSL-JSON, or all in BibTeX, <span class="important">etc.</span>) A document may, however, contain multiple <span class="code">citation</span> blocks, each of which may specify their contents in different data formats. </p>
 
-<p id="Para_149">For example:</p>
+<p id="Para_182">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -3803,18 +3836,43 @@ in late 2000...
 <p>Note that, for implementation (and perhaps source-highlighting) purposes, the actual species of notation for data contained in each <span class="code">citation</span> block can be automatically inferred by examining just the first few non-blank characters in the block’s content (<span class="important">the “sniff” test</span>), according to the following table: </p>
 <div id="Table_3" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><td class="">First char(s)</td><td class="">Inferred format</td><td class="">Because character represents the start of a...</td></tr>
-<tr class="procedural"><td class=""><span class="code">[</span></td><td class="">CSL-JSON</td><td class="">JSON array of objects</td></tr>
-<tr class="procedural"><td class=""><span class="code">-</span></td><td class="">CSL-YAML</td><td class="">YAML list of mappings</td></tr>
-<tr class="procedural"><td class=""><span class="code">(</span></td><td class="">CSL-Raku</td><td class="">Raku-native parenthesized list of hashes</td></tr>
-<tr class="procedural"><td class=""><span class="code">{</span></td><td class="">CSL-Raku</td><td class="">Raku-native unparenthesized list of hashes</td></tr>
-<tr class="procedural"><td class=""><span class="code">@</span></td><td class="">BibLaTeX</td><td class="">sequence of standard BibLaTeX or legacy BibTeX entries</td></tr>
-<tr class="procedural"><td class=""><span class="code">&lt;bibtex</span></td><td class="">BibTeXML</td><td class="">sequence of XML-encoded BibTeX entries.</td></tr>
-<tr class="procedural"><td class=""><span class="code">&lt;mods</span></td><td class="">MODS</td><td class="">sequence of XML-encoded MODS entries.</td></tr>
-<tr class="procedural"><td class=""><span class="code">&lt;PubmedArticleSet</span></td><td class="">PubMed/Medline XML</td><td class="">sequence of XML-encoded PubMed/Medline entries.</td></tr>
-<tr class="procedural"><td class=""><span class="code">PMID-</span></td><td class="">PubMed/Medline NBIB</td><td class="">sequence of modern PubMed NBIB KEY-VALUE datasets</td></tr>
-<tr class="procedural"><td class=""><span class="code">UI  -</span></td><td class="">Medline NBIB</td><td class="">sequence of legacy Medline NBIB KEY-VALUE datasets</td></tr>
-<tr class="procedural"><td class=""><span class="code">TY  -</span></td><td class="">RIS</td><td class="">sequence of RIS-format KEY-VALUE datasets</td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_183">First char(s)</p></td><td class="">
+<p id="Para_184">Inferred format</p></td><td class="">
+<p id="Para_185">Because character represents the start of a...</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">[</span></td><td class="">
+<p id="Para_186">CSL-JSON</p></td><td class="">
+<p id="Para_187">JSON array of objects</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">-</span></td><td class="">
+<p id="Para_188">CSL-YAML</p></td><td class="">
+<p id="Para_189">YAML list of mappings</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">(</span></td><td class="">
+<p id="Para_190">CSL-Raku</p></td><td class="">
+<p id="Para_191">Raku-native parenthesized list of hashes</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">{</span></td><td class="">
+<p id="Para_192">CSL-Raku</p></td><td class="">
+<p id="Para_193">Raku-native unparenthesized list of hashes</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">@</span></td><td class="">
+<p id="Para_194">BibLaTeX</p></td><td class="">
+<p id="Para_195">sequence of standard BibLaTeX or legacy BibTeX entries</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">&lt;bibtex</span></td><td class="">
+<p id="Para_196">BibTeXML</p></td><td class="">
+<p id="Para_197">sequence of XML-encoded BibTeX entries.</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">&lt;mods</span></td><td class="">
+<p id="Para_198">MODS</p></td><td class="">
+<p id="Para_199">sequence of XML-encoded MODS entries.</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">&lt;PubmedArticleSet</span></td><td class="">
+<p id="Para_200">PubMed/Medline XML</p></td><td class="">
+<p id="Para_201">sequence of XML-encoded PubMed/Medline entries.</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">PMID-</span></td><td class="">
+<p id="Para_202">PubMed/Medline NBIB</p></td><td class="">
+<p id="Para_203">sequence of modern PubMed NBIB KEY-VALUE datasets</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">UI  -</span></td><td class="">
+<p id="Para_204">Medline NBIB</p></td><td class="">
+<p id="Para_205">sequence of legacy Medline NBIB KEY-VALUE datasets</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">TY  -</span></td><td class="">
+<p id="Para_206">RIS</p></td><td class="">
+<p id="Para_207">sequence of RIS-format KEY-VALUE datasets</p></td></tr>
 </tbody></table>
 <div class="table-caption rakudoc">Table</div></div>
 <p>Citation data can also be loaded from external sources via a URL, by using the <span class="code">:load</span> metaoption: </p>
@@ -3828,20 +3886,30 @@ in late 2000...
     </div>
     
 
-<p id="Para_150">In this variant, the block must not contain any extra data (and renderers should report an error if it does).</p>
+<p id="Para_208">In this variant, the block must not contain any extra data (and renderers should report an error if it does).</p>
 
-<p id="Para_151">The suffix of the file determines the inferred format of the imported data:</p>
+<p id="Para_209">The suffix of the file determines the inferred format of the imported data:</p>
 <div id="Table_4" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><th class="">Suffix</th><th class="">Inferred format</th></tr>
-<tr class="procedural"><td class=""><span class="code">.bib</span></td><td class="">BibLaTeX (including legacy BibTeX)</td></tr>
-<tr class="procedural"><td class=""><span class="code">.json</span></td><td class="">CSL-JSON</td></tr>
-<tr class="procedural"><td class=""><span class="code">.mods</span></td><td class="">MODS</td></tr>
-<tr class="procedural"><td class=""><span class="code">.nbib</span></td><td class="">Medline/PubMed NBIB</td></tr>
-<tr class="procedural"><td class=""><span class="code">.raku</span></td><td class="">CSL-Raku</td></tr>
-<tr class="procedural"><td class=""><span class="code">.ris</span></td><td class="">RIS</td></tr>
-<tr class="procedural"><td class=""><span class="code">.xml</span></td><td class="">MODS or PubMed XML or BibTeXML (distinguished via “sniff” test)</td></tr>
-<tr class="procedural"><td class=""><span class="code">.yaml</span></td><td class="">CSL-YAML</td></tr>
+<tr class="procedural"><th class="">
+<p id="Para_210">Suffix</p></th><th class="">
+<p id="Para_211">Inferred format</p></th></tr>
+<tr class="procedural"><td class=""><span class="code">.bib</span></td><td class="">
+<p id="Para_212">BibLaTeX (including legacy BibTeX)</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.json</span></td><td class="">
+<p id="Para_213">CSL-JSON</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.mods</span></td><td class="">
+<p id="Para_214">MODS</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.nbib</span></td><td class="">
+<p id="Para_215">Medline/PubMed NBIB</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.raku</span></td><td class="">
+<p id="Para_216">CSL-Raku</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.ris</span></td><td class="">
+<p id="Para_217">RIS</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.xml</span></td><td class="">
+<p id="Para_218">MODS or PubMed XML or BibTeXML (distinguished via “sniff” test)</p></td></tr>
+<tr class="procedural"><td class=""><span class="code">.yaml</span></td><td class="">
+<p id="Para_219">CSL-YAML</p></td></tr>
 </tbody></table>
 <div class="table-caption rakudoc">Table</div></div>
 <p>A document can include any number of <span class="code">citation</span> blocks, in any order, located anywhere in the document. Some common approaches might be: </p>
@@ -3857,7 +3925,7 @@ in late 2000...
 
 <p>This identifier may be specified in the <span class="code">id</span> field (of any of the CSL notations), the <span class="code">ID</span> attribute (of MODS), the mandatory initial ID string (of BibLaTeX, BibTeX, and BibTeXML), the <span class="code">PMID</span> or <span class="code">UI</span> value (of PubMed/Medline), or the <span class="code">ID</span> tag (an unofficial extra tag commonly used with RIS data). </p>
 
-<p id="Para_152">If a dataset cannot furnish a suitable identifier, but its citation data includes a ISO-26324 Digital Object Identifier, then the DOI may be used instead.</p>
+<p id="Para_220">If a dataset cannot furnish a suitable identifier, but its citation data includes a ISO-26324 Digital Object Identifier, then the DOI may be used instead.</p>
 
 <p>Each citation identifier is used to associate a <span class="code">Q&lt;&gt;</span> marker with its corresponding citation data in some <span class="code">citation</span> block. For example: </p>
     
@@ -3975,7 +4043,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
     </div>
     
 
-<p id="Para_153">...or as just the standard name of the CSL style (without its filepath prefix or extension suffix):</p>
+<p id="Para_221">...or as just the standard name of the CSL style (without its filepath prefix or extension suffix):</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4005,7 +4073,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 
 <p>The specification order of the original <span class="code">citation</span> data within a RakuDoc document is entirely unrelated to its final rendering; the order is always determined by the specified citation style and locale. </p>
 
-<p id="Para_154">When rendering to output formats that support intradocument linkages (such as HTML), renderers may wish to link each rendered bibliographic marker to the corresponding bibliographic reference in the rendered bibliographic list, and perhaps back-link the reference to the marker as well. This approach is encouraged, but not required.</p>
+<p id="Para_222">When rendering to output formats that support intradocument linkages (such as HTML), renderers may wish to link each rendered bibliographic marker to the corresponding bibliographic reference in the rendered bibliographic list, and perhaps back-link the reference to the marker as well. This approach is encouraged, but not required.</p>
 
 <div class="id-target" id="Missing citations"></div><h3 id="Missing_citations" class="heading raku-webs-h3 "><a href="#">Missing citations</a><a class="raku-webs-anchor" href="#Missing citations">§</a></h3>
 
@@ -4015,19 +4083,19 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 <div class="nested">
 <p>As discussed in Wall’s early treatise on language design<span class="basis"><span class="high">[7,8]</span></span>, the apparent design tension between <span class="important">manipulexity</span> and <span class="important">whipuptitude</span> may only be an artefact of our fixation with linguistic minimalism. </p></div>
 
-<p id="Para_155">...and the missing reference sources might be rendered like so (in IEEE style):</p>
+<p id="Para_223">...and the missing reference sources might be rendered like so (in IEEE style):</p>
 <div class="nested">
 <p>[7] R. Unknown, “NO SUCH CITATION ID: Wall42”, <span class="important">Did you misspell Wall42?</span>, 0. </p></div>
 <div class="nested">
 <p>[8] R. Unknown, “NO SUCH CITATION ID: SapWho99”, <span class="important">Did you misspell SapWho99?</span>, 1. </p></div>
 
-<p id="Para_156">...or like so (MLA style):</p>
+<p id="Para_224">...or like so (MLA style):</p>
 <div class="nested">
 <p>Unknown, Reference. 0. &quot;NO SUCH CITATION ID: Wall42.&quot; <span class="important">Did you misspell Wall42?</span> </p></div>
 <div class="nested">
 <p>Unknown, Reference. 1. &quot;NO SUCH CITATION ID: SapWho99.&quot; <span class="important">Did you misspell SapWho99?</span> </p></div>
 
-<p id="Para_157">That is, a RakuDoc renderer must autogenerate a pseudo-entry for each missing citation dataset, with the issue dates numbered sequentially from 1, as if the absent citation data had been:</p>
+<p id="Para_225">That is, a RakuDoc renderer must autogenerate a pseudo-entry for each missing citation dataset, with the issue dates numbered sequentially from 1, as if the absent citation data had been:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4042,7 +4110,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 
 <p>When a block name contains both an uppercase and a lowercase character, as specified <a href="#Naming_rules">in the naming rules below</a>, it is interpreted as a developer-defined block. The naming rules are to ensure that the names of built-in blocks, semantic blocks, and custom blocks never collide. </p>
 
-<p id="Para_158">The way in which a renderer styles the contents of a custom block depends on the renderer, and each renderer may specify a procedure for using user-supplied templates or code.</p>
+<p id="Para_226">The way in which a renderer styles the contents of a custom block depends on the renderer, and each renderer may specify a procedure for using user-supplied templates or code.</p>
 
 <p>If a renderer does not recognize a custom block, then the renderer should replace that block with the contents of the block’s <span class="code"> :alt&lt;...&gt;</span> option (if provided). If the document author did not include an <span class="code"> :alt&lt;...&gt;</span> option, then the renderer should treat the block name as the contents of a <span class="code">=head</span> block, which can be overridden as described in <a href="#Table_of_Contents,_Index,_and_Citations">Table of Contents</a> and should render the contents of the unrecognized custom block verbatim, like a <span class="code">=code</span> block. Any unrecognized custom block (with or without an <span class="code"> :alt&lt;...&gt;</span> option) should generate a warning message unless the custom block is passed the <span class="code"> :!warn</span> option. </p>
 
@@ -4050,7 +4118,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 
 <div class="id-target" id="Naming rules"></div><h2 id="Naming_rules" class="heading raku-webs-h2 "><a href="#">Naming rules</a><a class="raku-webs-anchor" href="#Naming rules">§</a></h2>
 
-<p id="Para_159">In order to avoid conflicts between built-in blocks, semantic blocks, custom blocks, and markup instructions, the following rules must be followed:</p>
+<p id="Para_227">In order to avoid conflicts between built-in blocks, semantic blocks, custom blocks, and markup instructions, the following rules must be followed:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >Built-in blocks (<span class="important">e.g.</span> <span class="code">head</span>, <span class="code">item</span>, <span class="code">table</span>)</li>
 <li class="item" data-bullet="▹" style ="--level:1;"  >names must be all lowercase and at least two characters long</li>
@@ -4116,7 +4184,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
     </div>
     
 
-<p id="Para_160">Which means that, in the following example:</p>
+<p id="Para_228">Which means that, in the following example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4129,7 +4197,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 
 <p>...the final line is an implicit <span class="code">code</span> block, because it is indented from the virtual margin of its containing <span class="code">=begin rakudoc</span>/<span class="code">=end rakudoc</span> block. </p>
 
-<p id="Para_161">Whereas in:</p>
+<p id="Para_229">Whereas in:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4151,16 +4219,16 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 
 <p>A <span class="code">=config code</span> directive will also apply to any implicit code block in the block scope. </p>
 
-<p id="Para_162">Finally, user-defined custom blocks should always pass their contents verbatim to whatever appropriate user-defined handler is in scope, and it’s up to that handler to infer the meaning of any indentation.</p>
+<p id="Para_230">Finally, user-defined custom blocks should always pass their contents verbatim to whatever appropriate user-defined handler is in scope, and it’s up to that handler to infer the meaning of any indentation.</p>
 
 <p><a href="rakudoc:rakudoc_v2_exposition.rakudoc#Implied code and indentation">Further exposition on this topic is available. </a> </p>
 <h1 id="Metadata" class="heading raku-webs-h1 "><a href="#">Metadata</a><a class="raku-webs-anchor" href="#Metadata">§</a></h1>
 
-<p id="Para_163">A powerful feature of RakuDoc is the ability to associate metadata with a block. Metadata can be used to change the way a block is rendered, or to allow a renderer to access data in the cloud, or receive data from a microservice.</p>
+<p id="Para_231">A powerful feature of RakuDoc is the ability to associate metadata with a block. Metadata can be used to change the way a block is rendered, or to allow a renderer to access data in the cloud, or receive data from a microservice.</p>
 
-<p id="Para_164">Some metadata options are defined for certain blocks and a renderer must produce the behaviour described in this section (or in the section for the relevant block), to the extent possible for a given output format.</p>
+<p id="Para_232">Some metadata options are defined for certain blocks and a renderer must produce the behaviour described in this section (or in the section for the relevant block), to the extent possible for a given output format.</p>
 
-<p id="Para_165">A renderer may ignore metadata options not specified in this document, or define other metadata options that it will recognize.</p>
+<p id="Para_233">A renderer may ignore metadata options not specified in this document, or define other metadata options that it will recognize.</p>
 
 <p><a href="rakudoc:rakudoc_v2_exposition.rakudoc#Metadata">Further exposition on this topic is available. </a> </p>
 <h2 id="Anchors" class="heading raku-webs-h2 "><a href="#">Anchors</a><a class="raku-webs-anchor" href="#Anchors">§</a></h2>
@@ -4180,7 +4248,7 @@ syntax on (subsets) of natural languages <span class="basis">Q&lt;Perligata&gt;<
 
 <p>Note that the text in the <span class="code">L&lt;...&gt;</span> before the <span class="code">|</span> is the display text, and the tag after the <span class="code">|</span> is the content of the target <span class="code">=head</span> block. </p>
 
-<p id="Para_166">In order for a link to work correctly, the anchor must be unique. The renderer is free to chose the algorithm it uses for generating the internal anchor. This is because different outputs, such as Markdown and HTML, have different formats for anchors.</p>
+<p id="Para_234">In order for a link to work correctly, the anchor must be unique. The renderer is free to chose the algorithm it uses for generating the internal anchor. This is because different outputs, such as Markdown and HTML, have different formats for anchors.</p>
 <div class="rakudoc-section ">
 <p>An author may want to shorten an internal link to a title, and also to place an anchor on every block. For this purpose, the <span class="code">:id&lt;<span class="replace">LABEL</span>&gt;</span> metadata option can be attached to any block. For example: </p>
 </div>
@@ -4219,7 +4287,7 @@ Table of Contents, Index, and Citations
 
 <p>That is, the in-document link target cannot be the mangled contents of a <span class="code">=head</span> block or a <span class="code">:caption&lt;...&gt;</span> metatag; it can only be the original contents. </p>
 
-<p id="Para_167">For example:</p>
+<p id="Para_235">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4361,13 +4429,13 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 
 <div class="id-target" id="Developer or delta notes"></div><h2 id="Developer_or_delta_notes" class="heading raku-webs-h2 "><a href="#">Developer or delta notes</a><a class="raku-webs-anchor" href="#Developer or delta notes">§</a></h2>
 
-<p id="Para_168">When a set of source files is related to a project with versions (such as the Raku language), documentation may get out of date, or may only apply to features of a future release.</p>
+<p id="Para_236">When a set of source files is related to a project with versions (such as the Raku language), documentation may get out of date, or may only apply to features of a future release.</p>
 
 <p>A delta note can be attached to a block using the <span class="code">:delta</span> metadata option, or specified inline with the <span class="code"> Δ&lt; ... &gt;</span> markup instruction. Both the metadata option and the markup instruction have two arguments: the first is the version specification, and the second is an optional text note. </p>
 <div class="nested">
 <p><span class="basis">Note:</span> This is an example of a built-in markup code that uses a Unicode Upper character. The mnemonic is <span class="important">Delta</span>, which is commonly used to indicate an incremental component. </p></div>
 
-<p id="Para_169">The version specification is summarized as follows:</p>
+<p id="Para_237">The version specification is summarized as follows:</p>
 <div id="Table_5" class="rakudoc-table">
 <table class="table is-striped is-bordered">	<thead>
 		<tr><th>Syntax</th><th>Meaning</th></tr>
@@ -4384,7 +4452,7 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 </div>
 <p>The version specification (<span class="important">e.g.</span> v1.2.3) shown here follows the rules of <a href="https://semver.org">semantic versioning</a>, which is the preferred form for Raku documentation, but is not mandatory. Note that the <span class="code">..</span> and <span class="code">^</span> characters create Raku ranges. </p>
 
-<p id="Para_170">With no extra information about which version should be displayed, a renderer should have a way to include both the string and the version specification.</p>
+<p id="Para_238">With no extra information about which version should be displayed, a renderer should have a way to include both the string and the version specification.</p>
 
 <p>Alternatively, if there is information about the version to be shown (<span class="important">e.g.</span> from a command-line argument), a renderer should only show blocks that correspond to the version information. A block that does not have an explicit <span class="code">:delta</span> is treated as if it has <span class="code">:delta&lt;*&gt;</span>. </p>
 
@@ -4396,11 +4464,11 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 
 <div class="id-target" id="Markup instructions"></div><h1 id="Markup_instructions" class="heading raku-webs-h1 "><a href="#">Markup instructions</a><a class="raku-webs-anchor" href="#Markup instructions">§</a></h1>
 
-<p id="Para_171">Markup instructions provide a way to add inline markup to a piece of text.</p>
+<p id="Para_239">Markup instructions provide a way to add inline markup to a piece of text.</p>
 
-<p id="Para_172">All RakuDoc markup instructions consist of a single capital letter followed immediately by a set of single or double angle brackets; Unicode double angle brackets may be used.</p>
+<p id="Para_240">All RakuDoc markup instructions consist of a single capital letter followed immediately by a set of single or double angle brackets; Unicode double angle brackets may be used.</p>
 
-<p id="Para_173">Markup instructions may nest other markup instructions.</p>
+<p id="Para_241">Markup instructions may nest other markup instructions.</p>
 
 <p>Some markup instructions only affect their contents and do not have any metadata associated with them. These are sometimes called <span class="basis">formatting codes</span>. Other markup instructions have side effects. </p>
 
@@ -4408,23 +4476,36 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 
 <p>RakuDoc characterizes formatting codes semantically: markup tags indicate the purpose/function/status/meaning of the marked-up text and renderers may choose any appropriate visual representation to reflect the indicated significance. Thus the <span class="code"> B&lt;&gt;</span> formatting code does <span class="basis">not</span> indicate that the text must be <span class="important">Bold</span>; it indicates that the text is highly significant: the <span class="important">Basis</span> of a sentence. Although, when this highly significant <span class="important">basis</span> text is rendered, it might very appropriately be rendered in a bold font. </p>
 <div class="rakudoc-section ">
-<p id="Para_174">The following markup codes should be made available in all renderers.</p>
+<p id="Para_242">The following markup codes should be made available in all renderers.</p>
 <div id="Table_6" class="rakudoc-table">
 <table class="table is-striped is-bordered"><tbody class="procedural">
-<tr class="procedural"><th class="">Inline markup</th><th class="">Instruction</th><th class="">Mnemonic</th><th class="">HTML equivalent</th><th class="">Markdown equivalent</th></tr>
-<tr class="procedural"><td class="">Basis</td><td class=""><span class="code">B&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“B for Basis”</span></td><td class=""><span class="code">&lt;strong&gt;<span class="replace">text</span>&lt;/strong&gt;</span></td><td class=""><span class="code">**<span class="replace">text</span>**</span></td></tr>
-<tr class="procedural"><td class="">Important</td><td class=""><span class="code">I&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“I for Important”</span></td><td class=""><span class="code">&lt;em&gt;<span class="replace">text</span>&lt;/em&gt;</span></td><td class=""><span class="code">*<span class="replace">text</span>*</span></td></tr>
-<tr class="procedural"><td class="">Unusual</td><td class=""><span class="code">U&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“U for Unusual”</span></td><td class=""><span class="code">&lt;ins&gt;<span class="replace">text</span>&lt;/ins&gt;</span></td><td class=""><span class="code">&lt;ins&gt;<span class="replace">text</span>&lt;/ins&gt;</span></td></tr>
-<tr class="procedural"><td class="">Weighty</td><td class=""><span class="code">W&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“W for Weighty”</span></td><td class=""><span class="code">&lt;span style=&quot;font-variant: small-caps;&quot;&gt;<span class="replace">text</span>&lt;/span&gt;</span></td><td class=""><span class="code">&lt;span style=&quot;font-variant: small-caps;&quot;&gt;<span class="replace">text</span>&lt;/span&gt;</span></td></tr>
-<tr class="procedural"><td class="">Struck out</td><td class=""><span class="code">O&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“O for Out”</span></td><td class=""><span class="code">&lt;del&gt;<span class="replace">text</span>&lt;/del&gt;</span></td><td class=""><span class="code">~~<span class="replace">text</span>~~</span></td></tr>
-<tr class="procedural"><td class="">Superscript</td><td class=""><span class="code">H&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“H for High text”</span></td><td class=""><span class="code">&lt;sup&gt;<span class="replace">text</span>&lt;/sup&gt;</span></td><td class=""><span class="code">&lt;sup&gt;<span class="replace">text</span>&lt;/sup&gt;</span></td></tr>
-<tr class="procedural"><td class="">Subscript</td><td class=""><span class="code">J&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“J for Junior text”</span></td><td class=""><span class="code">&lt;sub&gt;<span class="replace">text</span>&lt;/sub&gt;</span></td><td class=""><span class="code">&lt;sub&gt;<span class="replace">text</span>&lt;/sub&gt;</span></td></tr>
-<tr class="procedural"><td class="">Code</td><td class=""><span class="code">C&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“C for Code”</span></td><td class=""><span class="code">&lt;code&gt;<span class="replace">text</span>&lt;/code&gt;</span></td><td class=""><span class="code">`<span class="replace">text</span>`</span></td></tr>
+<tr class="procedural"><th class="">
+<p id="Para_243">Inline markup</p></th><th class="">
+<p id="Para_244">Instruction</p></th><th class="">
+<p id="Para_245">Mnemonic</p></th><th class="">
+<p id="Para_246">HTML equivalent</p></th><th class="">
+<p id="Para_247">Markdown equivalent</p></th></tr>
+<tr class="procedural"><td class="">
+<p id="Para_248">Basis</p></td><td class=""><span class="code">B&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“B for Basis”</span></td><td class=""><span class="code">&lt;strong&gt;<span class="replace">text</span>&lt;/strong&gt;</span></td><td class=""><span class="code">**<span class="replace">text</span>**</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_249">Important</p></td><td class=""><span class="code">I&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“I for Important”</span></td><td class=""><span class="code">&lt;em&gt;<span class="replace">text</span>&lt;/em&gt;</span></td><td class=""><span class="code">*<span class="replace">text</span>*</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_250">Unusual</p></td><td class=""><span class="code">U&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“U for Unusual”</span></td><td class=""><span class="code">&lt;ins&gt;<span class="replace">text</span>&lt;/ins&gt;</span></td><td class=""><span class="code">&lt;ins&gt;<span class="replace">text</span>&lt;/ins&gt;</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_251">Weighty</p></td><td class=""><span class="code">W&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“W for Weighty”</span></td><td class=""><span class="code">&lt;span style=&quot;font-variant: small-caps;&quot;&gt;<span class="replace">text</span>&lt;/span&gt;</span></td><td class=""><span class="code">&lt;span style=&quot;font-variant: small-caps;&quot;&gt;<span class="replace">text</span>&lt;/span&gt;</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_252">Struck out</p></td><td class=""><span class="code">O&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“O for Out”</span></td><td class=""><span class="code">&lt;del&gt;<span class="replace">text</span>&lt;/del&gt;</span></td><td class=""><span class="code">~~<span class="replace">text</span>~~</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_253">Superscript</p></td><td class=""><span class="code">H&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“H for High text”</span></td><td class=""><span class="code">&lt;sup&gt;<span class="replace">text</span>&lt;/sup&gt;</span></td><td class=""><span class="code">&lt;sup&gt;<span class="replace">text</span>&lt;/sup&gt;</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_254">Subscript</p></td><td class=""><span class="code">J&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“J for Junior text”</span></td><td class=""><span class="code">&lt;sub&gt;<span class="replace">text</span>&lt;/sub&gt;</span></td><td class=""><span class="code">&lt;sub&gt;<span class="replace">text</span>&lt;/sub&gt;</span></td></tr>
+<tr class="procedural"><td class="">
+<p id="Para_255">Code</p></td><td class=""><span class="code">C&lt;<span class="replace">text</span>&gt;</span></td><td class=""><span class="important">“C for Code”</span></td><td class=""><span class="code">&lt;code&gt;<span class="replace">text</span>&lt;/code&gt;</span></td><td class=""><span class="code">`<span class="replace">text</span>`</span></td></tr>
 </tbody></table>
 </div>
 </div>
 
-<p id="Para_175">The table contains suggested HTML and Markdown equivalents, however a renderer is free to choose other representations.</p>
+<p id="Para_256">The table contains suggested HTML and Markdown equivalents, however a renderer is free to choose other representations.</p>
 
 <p>This syntax does not provide a mechanism to associate metadata options with formatting codes explicitly. It is, however, possible to do this via a <span class="code">=config</span> directive. For example, <span class="code"> C&lt;&gt;</span> markup by default does not allow for embedded format codes to be rendered, but an author might want <span class="code"> B&lt;&gt;</span> to be allowed. This can be achieved with: </p>
     
@@ -4441,7 +4522,7 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 
 <div class="id-target" id="Instructions with side effects"></div><h2 id="Instructions_with_side_effects" class="heading raku-webs-h2 "><a href="#">Instructions with side effects</a><a class="raku-webs-anchor" href="#Instructions with side effects">§</a></h2>
 
-<p id="Para_176">The following markup instructions, including all customisable instructions, will typically have associated metadata.</p>
+<p id="Para_257">The following markup instructions, including all customisable instructions, will typically have associated metadata.</p>
 <h3 id="Links" class="heading raku-webs-h3 "><a href="#">Links</a><a class="raku-webs-anchor" href="#Links">§</a></h3>
 
 <p>To create a link, enclose the target specification and any inline text in <span class="code">L&lt; &gt;</span>. RakuDoc links are more general than the conventional HTML links. </p>
@@ -4449,7 +4530,7 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 <p>The general syntax is <span class="code"> L&lt; <span class="replace">LABEL</span> | <span class="replace">TARGET</span> &gt;</span> </p>
 </div>
 
-<p id="Para_177">where the optional label is text that is rendered and the target may include a schema. If the label is omitted, then the target is used as the label. Whitespace on either side of the bar is not significant.</p>
+<p id="Para_258">where the optional label is text that is rendered and the target may include a schema. If the label is omitted, then the target is used as the label. Whitespace on either side of the bar is not significant.</p>
 
 <p>When the schema is missing, then the <span class="code">https://</span> schema is implied, which means that if the website url is missing as well, the link is to the same host as the document. </p>
 
@@ -4468,7 +4549,7 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
     </div>
     
 
-<p id="Para_178">or for a heading within another resource:</p>
+<p id="Para_259">or for a heading within another resource:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4507,7 +4588,7 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
     </div>
     
 
-<p id="Para_179">Several schemas are possible:</p>
+<p id="Para_260">Several schemas are possible:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">https://</span> or <span class="code">http://</span> The renderer may style the label and cause a jump in a networked environment, as is normal for HTML documents.</li>
 <li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">rakudoc:</span> A reference to a RakuDoc source, which might be in a Raku module or a RakuDoc file.</li>
@@ -4519,14 +4600,14 @@ This is L&lt;NOT a valid link | <span class="basis">#Example_table</span>   &gt;
 
 <p>To refer to a specific section within a webpage, manpage, or RakuDoc document, add the name of that section after the main link, separated by a <span class="code">#</span>. To refer to a section of the current document, omit the external address (<span class="important">i.e.</span> start the target specifier with a <span class="code">#</span>). </p>
 
-<p id="Para_180">A renderer is expected to render a link with a schema as follows:</p>
+<p id="Para_261">A renderer is expected to render a link with a schema as follows:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >At a minimum, a link like <span class="code">L&lt;rakudoc:ModuleName&gt;</span> is simply rendered as text, to something like: “the ModuleName documentation”, and <span class="code">L&lt;man:appname&gt;</span> to something like: “The appname manpage”. And neither of them attempt to add any kind of actual operational link.</li>
 <li class="item" data-bullet="•" style ="--level:0;"  >At the next level of sophistication, a renderer encountering either link scheme may attempt to shell out a call to <span class="code">raku --doc ModuleName</span> or <span class="code">man appname</span>, and present the results in a pop-up.</li>
 <li class="item" data-bullet="•" style ="--level:0;"  >If the renderer is in a networked environment, the renderer is expected to provide a set of user selectable options that provide links to such documentation, for example, a set of HTML links in a pop-down box. A renderer might also allow users to preconfigure their preferred website(s) for these schemes, perhaps offering <span class="code">rakudoc:</span> links to <span class="code">https://raku.land/</span> or <span class="code">man:</span> links to <span class="code">https://www.kernel.org/doc/man-pages/</span> as defaults.</li>
 </ul>
 
-<p id="Para_181">Renderers are not expected to handle all schemas beyond the minimum above. Renderers offering more sophisticated styling or operational links should provide ways to configure schemas, whilst offering reasonable defaults.</p>
+<p id="Para_262">Renderers are not expected to handle all schemas beyond the minimum above. Renderers offering more sophisticated styling or operational links should provide ways to configure schemas, whilst offering reasonable defaults.</p>
 <h4 id="Examples" class="heading raku-webs-h4 "><a href="#">Examples</a><a class="raku-webs-anchor" href="#Examples">§</a></h4>
     
     <div class="raku-code">
@@ -4581,15 +4662,15 @@ a complete cephalectomy.
     </div>
     
 
-<p id="Para_182">might produce:</p>
+<p id="Para_263">might produce:</p>
 <div class="nested">
 <p><span class="basis">Copyright</span> </p>
 <div class="nested">
-<p id="Para_183">This document is copyright (c) MegaGigaTeraPetaCorp, 2006. All rights reserved.</p></div>
+<p id="Para_264">This document is copyright (c) MegaGigaTeraPetaCorp, 2006. All rights reserved.</p></div>
 
 <p><span class="basis">Disclaimer</span> </p>
 <div class="nested">
-<p id="Para_184">ABSOLUTELY NO WARRANTY IS IMPLIED. NOT EVEN OF ANY KIND. WE HAVE SOLD YOU THIS SOFTWARE WITH NO HINT OF A SUGGESTION THAT IT IS EITHER USEFUL OR USABLE. AS FOR GUARANTEES OF CORRECTNESS...DON’T MAKE US LAUGH! AT SOME TIME IN THE FUTURE WE MIGHT DEIGN TO SELL YOU UPGRADES THAT PURPORT TO ADDRESS SOME OF THE APPLICATION’S MANY DEFICIENCIES, BUT NO PROMISES THERE EITHER. WE HAVE MORE LAWYERS ON STAFF THAN YOU HAVE TOTAL EMPLOYEES, SO DON’T EVEN *THINK* ABOUT SUING US. HAVE A NICE DAY.</p></div></div>
+<p id="Para_265">ABSOLUTELY NO WARRANTY IS IMPLIED. NOT EVEN OF ANY KIND. WE HAVE SOLD YOU THIS SOFTWARE WITH NO HINT OF A SUGGESTION THAT IT IS EITHER USEFUL OR USABLE. AS FOR GUARANTEES OF CORRECTNESS...DON’T MAKE US LAUGH! AT SOME TIME IN THE FUTURE WE MIGHT DEIGN TO SELL YOU UPGRADES THAT PURPORT TO ADDRESS SOME OF THE APPLICATION’S MANY DEFICIENCIES, BUT NO PROMISES THERE EITHER. WE HAVE MORE LAWYERS ON STAFF THAN YOU HAVE TOTAL EMPLOYEES, SO DON’T EVEN *THINK* ABOUT SUING US. HAVE A NICE DAY.</p></div></div>
 
 <p>The <span class="code">P&lt;&gt;</span> markup code can also be specified with an optional display text, which will be rendered if the renderer cannot find or access the external data source for the placement link. For example: </p>
     
@@ -4608,17 +4689,17 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
     </div>
     
 
-<p id="Para_185">If the filesystem or internet is inaccessible, this might produce:</p>
+<p id="Para_266">If the filesystem or internet is inaccessible, this might produce:</p>
 <div class="nested">
 <p><span class="basis">Copyright</span> </p>
 <div class="nested">
-<p id="Para_186">This document is copyright.</p></div>
+<p id="Para_267">This document is copyright.</p></div>
 
 <p><span class="basis">Disclaimer</span> </p>
 <div class="nested">
-<p id="Para_187">NO WARRANTY. NONE. NIL. NADA.</p></div></div>
+<p id="Para_268">NO WARRANTY. NONE. NIL. NADA.</p></div></div>
 
-<p id="Para_188">If a renderer cannot find or access the external data source for a placement link, and the placement link does not have an alternative display text, it must issue a warning and render the URI directly in some form, possibly as an outwards link. For example:</p>
+<p id="Para_269">If a renderer cannot find or access the external data source for a placement link, and the placement link does not have an alternative display text, it must issue a warning and render the URI directly in some form, possibly as an outwards link. For example:</p>
 <div class="nested">
 <p><span class="basis">Copyright</span> </p>
 <div class="nested">
@@ -4655,7 +4736,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
     </div>
     
 
-<p id="Para_189">To place a table of contents that lists the first four levels of headings:</p>
+<p id="Para_270">To place a table of contents that lists the first four levels of headings:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4670,7 +4751,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
 
 <p>When <span class="important">toc:</span> is followed by the name of TOC and optionally a <span class="important">comma</span>, then <span class="code">*</span>, number, or range, the level restrictions are applied to the named TOC. </p>
 
-<p id="Para_190">Valid specs would be:</p>
+<p id="Para_271">Valid specs would be:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">*</span> (all levels of the default ToC)</li>
 <li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">1..4</span> (levels 1-4 of the default ToC)</li>
@@ -4679,7 +4760,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
 <li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">table,1..4</span> (levels 1..4 of the table ToC)</li>
 </ul>
 
-<p id="Para_191">Invalid specs:</p>
+<p id="Para_272">Invalid specs:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">formula,</span> (missing levels specifier)</li>
 <li class="item" data-bullet="•" style ="--level:0;"  ><span class="code">,*</span> (missing TOC name)</li>
@@ -4731,7 +4812,7 @@ P&lt;<span class="basis">NO WARRANTY. NONE. NIL. NADA. </span>| http://www.MegaG
 
 <p>A <span class="code">D&lt;&gt;</span> formatting code marks a piece of text as being the <span class="important">“inline definition”</span> of a term. That is: it’s like a <span class="code">=defn</span> block, but it’s not a list item; it’s just part of the regular text. Well-written documentation often includes sentences/paragraphs that introduce a new term, and define it. Typically we want to visually distinguish those newly defined terms, and to be able to link back to the paragraph where they’re defined. </p>
 
-<p id="Para_192">For example:</p>
+<p id="Para_273">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4776,7 +4857,7 @@ to-the-camera realization of imminent downwards acceleration.
     </div>
     
 
-<p id="Para_193">A definition may be given synonyms, which are specified after a vertical bar and separated by semicolons:</p>
+<p id="Para_274">A definition may be given synonyms, which are specified after a vertical bar and separated by semicolons:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4803,7 +4884,7 @@ to add inline markup to a piece of text.
     </div>
     
 
-<p id="Para_194">would be formatted like so:</p>
+<p id="Para_275">would be formatted like so:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4814,7 +4895,7 @@ to add inline markup to a piece of text.
     </div>
     
 
-<p id="Para_195">rather than:</p>
+<p id="Para_276">rather than:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4826,7 +4907,7 @@ to add inline markup to a piece of text.
     
 <h3 id="Comments" class="heading raku-webs-h3 "><a href="#">Comments</a><a class="raku-webs-anchor" href="#Comments">§</a></h3>
 
-<p id="Para_196">A comment is text that is never rendered.</p>
+<p id="Para_277">A comment is text that is never rendered.</p>
 
 <p>To create a comment enclose it in <span class="code">Z&lt; &gt;</span>: </p>
     
@@ -4839,12 +4920,12 @@ to add inline markup to a piece of text.
     </div>
     
 
-<p id="Para_197">This would be rendered as:</p>
+<p id="Para_278">This would be rendered as:</p>
 <div class="nested">
 <p>Raku is awesome  </p></div>
 <h3 id="Notes" class="heading raku-webs-h3 "><a href="#">Notes</a><a class="raku-webs-anchor" href="#Notes">§</a></h3>
 
-<p id="Para_198">Notes are ancillary information that may be rendered as footnotes or sidenotes or pop-up notes, depending on the renderer and environment.</p>
+<p id="Para_279">Notes are ancillary information that may be rendered as footnotes or sidenotes or pop-up notes, depending on the renderer and environment.</p>
 
 <p>To create a note, enclose it in <span class="code">N&lt; &gt;</span> </p>
     
@@ -4857,7 +4938,7 @@ to add inline markup to a piece of text.
     </div>
     
 
-<p id="Para_199">Which produces:</p>
+<p id="Para_280">Which produces:</p>
 <div class="nested">
 <p>Raku is multi-paradigmatic <a class="footnote-anchor" id="Supporting_Procedural,_Object_Oriented,_and_Functional_programming" href="#fn_target_Supporting_Procedural,_Object_Oriented,_and_Functional_programming" title="Supporting Procedural, Object Oriented, and Functional programming"><span class="footnote">[ 1 ]</span></a> </p></div>
 
@@ -4876,7 +4957,7 @@ to add inline markup to a piece of text.
     </div>
     
 
-<p id="Para_200">Which is rendered like so:</p>
+<p id="Para_281">Which is rendered like so:</p>
 <div class="nested">    
     <div class="raku-output">
     <pre class="rakudoc">Enter your name: <span class="keyboard">John Doe</span></pre>
@@ -4897,7 +4978,7 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_201">This is rendered like so:</p>
+<p id="Para_282">This is rendered like so:</p>
 <div class="nested">
 <p>The basic <span class="code">ln</span> command is: <span class="code">ln</span> <span class="replace">source_file</span> <span class="replace">target_file</span> </p></div>
 
@@ -4916,7 +4997,7 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_202">Which would be rendered:</p>
+<p id="Para_283">Which would be rendered:</p>
 <div class="nested">    
     <div class="raku-input">
     <pre class="rakudoc"><span class="terminal">Enter your name:</span> John Doe</pre>
@@ -4927,7 +5008,7 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
 
 <p>Unicode codepoint names or numbers may be included in a RakuDoc document by enclosing them in <span class="code">E&lt; &gt;</span>. When <span class="code">E&lt; &gt;</span> encloses a number, it is treated as the Unicode value for the code point using binary, octal, decimal, or hexadecimal numbers specified in the Raku notations for explicitly based numbers. Numbers without an explicit base, as per Raku convention, are decimal. </p>
 
-<p id="Para_203">For example, each of the following:</p>
+<p id="Para_284">For example, each of the following:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4938,9 +5019,9 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_204">will yield the same rendering:</p>
+<p id="Para_285">will yield the same rendering:</p>
 <div class="nested">
-<p id="Para_205">Raku makes considerable use of the « and » characters.</p></div>
+<p id="Para_286">Raku makes considerable use of the « and » characters.</p></div>
 
 <p>It is also possible to specify Unicode codepoint <span class="basis">names</span>. Multiple codepoints separated by <span class="code">,</span> will be considered as a single grapheme. So: </p>
     
@@ -4953,7 +5034,7 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_206">will be rendered as:</p>
+<p id="Para_287">will be rendered as:</p>
 <div class="nested">
 <p>« 🇺🇦 Ukraine » </p></div>
 
@@ -4968,11 +5049,11 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_207">will generate:</p>
+<p id="Para_288">will generate:</p>
 <div class="nested">
 <p>☺ Smiling face </p></div>
 
-<p id="Para_208">Alternatively, HTML5 character references may be used. For example:</p>
+<p id="Para_289">Alternatively, HTML5 character references may be used. For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -4983,7 +5064,7 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_209">also yields: Raku makes considerable use of the « and » characters.</p>
+<p id="Para_290">also yields: Raku makes considerable use of the « and » characters.</p>
 
 <p>The <span class="code">E&lt;&gt;</span> markup may be used for a list of characters separated by <span class="code">;</span> </p>
     
@@ -4996,11 +5077,11 @@ The basic C&lt;ln&gt; command is: C&lt;ln&gt; <span class="basis">R&lt;source_fi
     </div>
     
 
-<p id="Para_210">This would yield: Raku code often contains the ｢｣ bracketing characters to avoid using quotes.</p>
+<p id="Para_291">This would yield: Raku code often contains the ｢｣ bracketing characters to avoid using quotes.</p>
 
 <p>The <span class="code">E&lt;&gt;</span> code can also be specified with an alternate display text (before the entity specification and separated from it by a <span class="code">|</span>). When an alternate text is specified, it is used if the specified entity cannot be represented by the renderer (<span class="important">e.g.</span> if the renderer only supports ASCII). </p>
 
-<p id="Para_211">For example:</p>
+<p id="Para_292">For example:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -5016,11 +5097,11 @@ to avoid using quotes.
     </div>
     
 
-<p id="Para_212">An ASCII-only renderer would then render those like so:</p>
+<p id="Para_293">An ASCII-only renderer would then render those like so:</p>
 <div class="nested">
-<p id="Para_213">Raku makes considerable use of the left- and right-double-angle characters.</p>
+<p id="Para_294">Raku makes considerable use of the left- and right-double-angle characters.</p>
 
-<p id="Para_214">Raku code often contains the left- and right-corner bracketing characters to avoid using quotes.</p></div>
+<p id="Para_295">Raku code often contains the left- and right-corner bracketing characters to avoid using quotes.</p></div>
 
 <div class="id-target" id="Verbatim text"></div><h3 id="Verbatim_text" class="heading raku-webs-h3 "><a href="#">Verbatim text</a><a class="raku-webs-anchor" href="#Verbatim text">§</a></h3>
 
@@ -5069,7 +5150,7 @@ values indexed by their associated string key.
     </div>
     
 
-<p id="Para_215">You can specify an index entry in which the indexed text and the index entry are different, by separating the two with a vertical bar:</p>
+<p id="Para_296">You can specify an index entry in which the indexed text and the index entry are different, by separating the two with a vertical bar:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -5084,9 +5165,9 @@ scalar values indexed by their associated string key.
     </div>
     
 
-<p id="Para_216">In the two-part form, the presentation text comes before the bar, and the actual index entry comes after the bar and is case-sensitive.</p>
+<p id="Para_297">In the two-part form, the presentation text comes before the bar, and the actual index entry comes after the bar and is case-sensitive.</p>
 
-<p id="Para_217">You can specify hierarchical index entries by separating indexing levels with commas:</p>
+<p id="Para_298">You can specify hierarchical index entries by separating indexing levels with commas:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -5102,7 +5183,7 @@ associated string key.
     </div>
     
 
-<p id="Para_218">You can specify two or more entries for a single indexed text, by separating the entries with semicolons:</p>
+<p id="Para_299">You can specify two or more entries for a single indexed text, by separating the entries with semicolons:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -5117,7 +5198,7 @@ associated string key.
     </div>
     
 
-<p id="Para_219">The indexed text can be empty, creating a &quot;zero-width&quot; index entry:</p>
+<p id="Para_300">The indexed text can be empty, creating a &quot;zero-width&quot; index entry:</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -5153,7 +5234,7 @@ To sample this marvellous libation <span class="basis">M&lt;order now by PayMeAp
     </div>
     
 
-<p id="Para_220">An HTML renderer would the convert this to, for example,</p>
+<p id="Para_301">An HTML renderer would the convert this to, for example,</p>
     
     <div class="raku-code">
     <button class="copy-code" title="Copy code">⿻</button>
@@ -5172,7 +5253,7 @@ To sample this marvellous libation <span class="basis">M&lt;order now by PayMeAp
 
 <p>RakuDoc is intended to be a markup language for text oriented documentation, which will be rendered into output formats such as <span class="important">HTML</span> or <span class="important">epub</span>. It is expected that there may be several modules that will render RakuDoc. </p>
 
-<p id="Para_221">In order for a renderer to be compliant with the specification, it must:</p>
+<p id="Para_302">In order for a renderer to be compliant with the specification, it must:</p>
 
 <ul class="item-list"><li class="item" data-bullet="•" style ="--level:0;"  >render in some way all the built-in RakuDoc blocks and markup codes</li>
 <li class="item" data-bullet="▹" style ="--level:1;"  >where fallbacks have been specified, only the minimum fallback need be rendered</li>
@@ -5223,10 +5304,10 @@ Artistic-2.0
                 Rendered from&nbsp;<span class="footer-field">./rakudoc_v2_specification.rakudoc/rakudoc_v2_specification</span>
             </div>
             <div class="level-item">
-                Rendered at 08:01 UTC on 2026-06-18
+                Rendered at 10:10 UTC on 2026-06-22
             </div>
             <div class="level-item">
-                Source last modified&nbsp;at 07:59 UTC on 2026-06-18
+                Source last modified&nbsp;at 10:08 UTC on 2026-06-22
             </div>
         </nav>
     </div>

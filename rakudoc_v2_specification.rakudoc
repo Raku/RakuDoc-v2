@@ -285,7 +285,8 @@ may contain other blocks. These rules are:
 
 =item  The delimited form of the following D<atomic blocks> do I<B<not>> contain any other kind of block
 (I<i.e.> they treat their contents as pure data, even if those contents happen to resemble a block definition):
-C<citation>, C<code>, C<comment>, C<data>, C<formula>, C<head>, C<input>, C<output>
+C<citation>, C<code>, C<comment>, C<data>, C<formula>, C<head>, C<input>, C<output>, 
+L<custom blocks|#User-defined blocks>
 
 =item  The delimited form of the following D<paragraph-level blocks> may contain only atomic blocks
 or L<implicit paragraphs|#Ordinary paragraphs>: C<defn>, C<item>, C<para>
