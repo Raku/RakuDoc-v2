@@ -1518,7 +1518,7 @@ The effect of this is that any explicit C«:restart» always overrides the effec
 of any automatic trigger, regardless of whether the C«:restart» precedes
 or follows the triggering.
 
-L<Further exposition on this topic is available. | rakudoc:rakudoc_v2_exposition.rakudoc#Counts and counters>
+L<Further exposition on this topic is available. | rakudoc_v2_exposition.*#Counts and counters>
 
 =head3 Formatting of blocks
 
@@ -2723,7 +2723,7 @@ An architecturally pre-eminent animal
 
 Et cetera, et cetera...
 
-B<=counter numdefn :!restart>
+=counter numdefn :!restart
 =numdefn Yak
 A grammatically pre-eminent animal
 
