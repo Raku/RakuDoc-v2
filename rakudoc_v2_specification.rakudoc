@@ -2619,7 +2619,8 @@ I<inherent numeration> is preserved and continued.
 
 =head3 Definition lists
 
-Lists that define terms or commands can be specified using the C<=defn> block, which is equivalent to HTML C«<DL>» lists.
+Lists that define terms or commands can be specified using the C<=defn> block, which is equivalent 
+to HTML C«<DL>» lists.
 
 A definition contains two parts: a term and a defining text. The term is the contents of
 the first line of the C<defn> block (I<i.e.> the text immediately after an abbreviated C<=defn>, or
@@ -4084,7 +4085,29 @@ where the optional label is text that is rendered and the target may include a s
 If the label is omitted, then the target is used as the label. Whitespace on either side
 of the bar is not significant.
 
-When the schema is missing, then the C<https://> schema is implied, which means that
+When the bar is present with whitespace as the label, then the renderer I<must> supply 
+a suitable text for the label. It is recommended that the renderer retrieves the description
+supplied by the URI target itself. Descriptions are common with modern internet protocols, such
+as HTTPS, but may not be available with older or poorly configured URIs. In such a case, the
+renderer may fallback to a text version of the URI itself. This can be summarised as follows:
+
+=begin table
+=row :header
+=cell Link specificiation
+=cell Displayed text
+=row
+=cell C«L< https://example.com >»
+=cell The URI itself
+=row
+=cell C«L< some text | https://example.com>»
+=cell The text before the C<|>
+=row
+=cell C«L< | https://example.com>»
+=cell The renderer is free to find a suitable display text, but must in all cases display B<something>.
+The most I<"suitable display text"> would be the title supplied by the URI target.
+=end table
+
+When the schema in the URI is missing, then the C<https://> schema is implied, which means that
 if the website url is missing as well, the link is to the same host as the document.
 
 The exact name of the resource to which a link is pointing must be used by the renderer. So
