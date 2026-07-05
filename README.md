@@ -27,7 +27,7 @@ These are browser clickable links to&nbsp;&nbsp;• the [HTML version of the exp
 
 ----
 
-Rendered from ./README.rakudoc/README at 10:41 UTC on 2026-06-10
+Rendered from ./README.rakudoc/README at 10:42 UTC on 2026-07-05
 
 Source last modified at 10:39 UTC on 2026-06-10
 
