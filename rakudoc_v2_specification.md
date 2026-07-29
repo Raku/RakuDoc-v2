@@ -42,23 +42,15 @@ Furthermore, when the class is imported into another Raku program the IDE will b
 
 ## Components
 RakuDoc has four main types of components, which are distinguished by their scope and by effect they have on other components.  
-
-<span style="font-weight: 600; font-style: italic">Directives</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;"><span class="para" id="8ac3365"></span>Directives define how blocks work. Directives have a similar syntax to regular blocks, but they actually operate on other blocks. New directives cannot be defined. Directives specify **behaviours** rather than content.</span>
-
-<span style="font-weight: 600; font-style: italic">Blocks</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;"><span class="para" id="d5bdc09"></span>Blocks define complete text components, such as a new paragraph or a code sample or a table. New kinds of blocks can be defined. Blocks contain **actual content** which is to be directly rendered in some way.</span>
-
-<span style="font-weight: 600; font-style: italic">Markup instructions</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">Markup instructions typically define inline items embedded within a block. Some markup instructions only affect the visual rendering of their contents. Others may have side-effects (such as including items into an index or glossary). New markup instructions can be defined.</span>
-
-<span style="font-weight: 600; font-style: italic">Metadata options</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">Options provide information to a block. They may produce side-effects or alter the way a block should be rendered. A document writer can associate any metadata option with any block or directive. A renderer is only required to comply with those listed in this document.</span>
-
+  
+<span style="font-weight: 600; font-style: italic">Directives</span>  
+&nbsp;&nbsp;<span style="background-color: linen;"><span class="para" id="8ac3365"></span>Directives define how blocks work. Directives have a similar syntax to regular blocks, but they actually operate on other blocks. New directives cannot be defined. Directives specify **behaviours** rather than content.</span>  
+<span style="font-weight: 600; font-style: italic">Blocks</span>  
+&nbsp;&nbsp;<span style="background-color: linen;"><span class="para" id="d5bdc09"></span>Blocks define complete text components, such as a new paragraph or a code sample or a table. New kinds of blocks can be defined. Blocks contain **actual content** which is to be directly rendered in some way.</span>  
+<span style="font-weight: 600; font-style: italic">Markup instructions</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">Markup instructions typically define inline items embedded within a block. Some markup instructions only affect the visual rendering of their contents. Others may have side-effects (such as including items into an index or glossary). New markup instructions can be defined.</span>  
+<span style="font-weight: 600; font-style: italic">Metadata options</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">Options provide information to a block. They may produce side-effects or alter the way a block should be rendered. A document writer can associate any metadata option with any block or directive. A renderer is only required to comply with those listed in this document.</span>  
 
 <div id="Directive syntax"></div><div id="Directive_syntax"></div>
 
@@ -68,6 +60,7 @@ RakuDoc has four main types of components, which are distinguished by their scop
 <div id="Block and document delimiters"></div><div id="Block_and_document_delimiters"></div>
 
 #### Block and document delimiters
+  
 &nbsp;&nbsp;• **=begin** specifies the start of a delimited block  
 &nbsp;&nbsp;• **=end** specifies the end of a delimited block  
 &nbsp;&nbsp;• **=for** specifies the start of an extended block  
@@ -76,6 +69,7 @@ RakuDoc has four main types of components, which are distinguished by their scop
 <div id="Procedural table constructors"></div><div id="Procedural_table_constructors"></div>
 
 #### Procedural table constructors
+  
 &nbsp;&nbsp;• **=column** specifies the start of a column, but only inside a `table` block  
 &nbsp;&nbsp;• **=row** specifies the start of a row, but only inside a `table` block  
 
@@ -203,8 +197,9 @@ After a blank line, a new block is started.
 Note that abbreviated blocks cannot be specified with metadata. Any apparent metadata elements placed after an abbreviated block name are instead considered to be part of the block contents.  
 <span class="para" id="3d19de1"></span>Where an extended or abbreviated block uses a blank line as the block terminator, the blank line is not included as part of the content of the block. All subsequent whitespace, whether horizontal or vertical (spaces, tabs, new lines), is ignored. Note that horizontal and vertical whitespace can be included inside a delimited block, and may be significant (*e.g.* in [#Verbatim blocks](Verbatim blocks)).   
 Naturally, the contents of blocks may contain embedded RakuDoc markup codes, but not all blocks may contain other blocks. These rules are:  
+  
 &nbsp;&nbsp;• Abbreviated- and extended-form blocks can *never* contain any other kind of block.  
-&nbsp;&nbsp;• The delimited form of the following <span style="font-weight: 600; font-style: italic">atomic blocks</span> do ***not*** contain any other kind of block (*i.e.* they treat their contents as pure data, even if those contents happen to resemble a block definition): `citation`, `code`, `comment`, `data`, `formula`, `head`, `input`, `output`, [custom blocks](User-defined blocks)  
+&nbsp;&nbsp;• The delimited form of the following <span style="font-weight: 600; font-style: italic">atomic blocks</span> do ***not*** contain any other kind of block (*i.e.* they treat their contents as pure data, even if those contents happen to resemble a block definition): `citation`, `code`, `comment`, `data`, `formula`, `head`, `input`, `output`, `table`, [custom blocks](User-defined blocks)  
 &nbsp;&nbsp;• The delimited form of the following <span style="font-weight: 600; font-style: italic">paragraph-level blocks</span> may contain only atomic blocks or [implicit paragraphs](Ordinary paragraphs): `defn`, `item`, `para`  
 &nbsp;&nbsp;• The delimited form of the following <span style="font-weight: 600; font-style: italic">container blocks</span> may contain *any* other kind of block (including other container blocks): `cell`, `nested`, `pod`, `rakudoc`, `section`, `SEMANTIC`  
 &nbsp;&nbsp;• The delimited form of the `table` block may directly contain only `cell` and/or `comment` blocks.  
@@ -219,6 +214,7 @@ The general syntax of a markup instruction is
 ```
  <instruction><opening marker><content> | <meta list><closing marker>
 ```
+  
 &nbsp;&nbsp;• **__&lt;instruction>__**  
 &nbsp;&nbsp;• **__&lt;opening marker>__**  
 &nbsp;&nbsp;• **__&lt;content>__**  
@@ -240,6 +236,7 @@ Which would be rendered as:
 Metadata is specified using a Raku option pair, where the value portion is always parsed using Raku semantics. The following table contains some typical examples.  
 
 <div id="Table"></div>
+
 | **Value is...** | **Specify with...** |
 | :----:  | :----: |
 | True  | `:key` |
@@ -295,7 +292,8 @@ A<TERMS_URLS>
 ```
 This would produce:  
 > <span class="para" id="44101f5"></span>The use of Earl Irradiatem Evermore is subject to the terms and conditions laid out by 4D Kingdoms, as specified at:   
-<span class="para" id="2f4d9c2"></span>&nbsp;&nbsp;• [http://www.4dk.com/eie](http://www.4dk.com/eie)  
+<span class="para" id="a72fb22"></span>  
+&nbsp;&nbsp;• [http://www.4dk.com/eie](http://www.4dk.com/eie)  
 &nbsp;&nbsp;• [http://www.4dk.co.uk/eie.io/](http://www.4dk.co.uk/eie.io/)  
 &nbsp;&nbsp;• [http://www.fordecay.ch/canttouchthis](http://www.fordecay.ch/canttouchthis)
 
@@ -395,7 +393,10 @@ The major sources of sustainable energy are:
 The following document level options are specified:  
 
 <div id="Document_level_options"></div>
-<div>Document level options</div> | **Option name** | **Default** | **Description** |
+
+<div>Document level options</div>
+
+ | **Option name** | **Default** | **Description** |
 | :---: | :---: | :---: |
  | `:error` | True | If True, warnings for any error conditions are rendered at the end of the document. |
  | `:auto-toc` | False unless overridden by the presence of `=head` or semantic blocks. | Whether to automatically generate a Table of Contents, or mandate no automatic rendering of a Table of Contents, more in [Table of Contents, Index, and Citations](Table of Contents, Index, and Citations). |
@@ -440,6 +441,7 @@ The rendered version of the data placed in the text is considered to form its ow
 <span class="para" id="522f890"></span>The schema of the URL specified in a `=place` directive specifies where to look for the external content:   
 
 <div id="Table_0"></div>
+
 | **Schema** | **Where to look for the resource** |
 | :----:  | :----: |
 | `http(s):` | Look on the web  |
@@ -451,6 +453,7 @@ The rendered version of the data placed in the text is considered to form its ow
 Meanwhile, the kind of content being placed is inferred from the final extension of the URL. For example:  
 
 <div id="Table_0"></div>
+
 | **Extension** | **How to treat the contents** |
 | :----:  | :----: |
 | `.txt`     | Render the contents as plaintext |
@@ -474,6 +477,7 @@ In the case where a URL does not end in a recognized extension:
 ...then the type of content (and hence rendering) may be inferred from the schema:  
 
 <div id="Table_0"></div>
+
 | **Schema** | **Inferred content type if no final extension** |
 | :----:  | :----: |
 | `http(s):` | XHTML  |
@@ -502,6 +506,7 @@ will produce ...
 <span class="para" id="39408d5"></span>The `=counter` instruction is a directive that affects the behaviour of the counters used by numbered blocks.   
 <span class="para" id="d1ae218"></span>Although each *counter* is named in the same way as a *blocktype*, the two are separate entities.   
 <span class="para" id="b088728"></span>The directive is followed by the name of a counter *(**not** the name of a block)* and one or more of:   
+  
 &nbsp;&nbsp;• `:restart`  
 &nbsp;&nbsp;• `:!restart`  
 &nbsp;&nbsp;• `:restart( INTEGER )`  
@@ -646,6 +651,7 @@ it will be treated as an ordinary paragraph
 <span class="para" id="9ff32a7"></span>A **block type** consists of a **block base** name, such as `head`, and a **block level**, which is an integer starting from `1`. (A block type consisting of a block base without an integer implies the block level is `1`). The following are all valid *block types*: `head`, `head2`, `formula3`, `table2`, `para`.   
 <span class="para" id="712c475"></span>Any block type can be associated with an enumeration by prefixing the *block name* with **num**, *e.g.* `numhead`, `numtable`, `numitem`, `numcode`, `numformula`.   
 <span class="para" id="c4bf853"></span>The effects of enumeration and level on `head`, `defn`, and `item` are illustrated in the sections on those block types because they have some special properties by default, namely:   
+  
 &nbsp;&nbsp;• Sequences of `=item` and of `=defn` are grouped together into lists automatically.  
 &nbsp;&nbsp;• The `=head` / `=numhead` blocks are automatically included into the main *Table of Contents*.  
 &nbsp;&nbsp;&nbsp;&nbsp;▹ Semantic blocks are treated as `=head` blocks.  
@@ -723,6 +729,7 @@ should produce something like:
 <span class="para" id="9bf05e1"></span>The `section` block will typically only be used in the delimited form so that the document writer can define an explicit block scope. The `=begin section` declaration starts a new block scope, and the `=end section` returns the scope to the previous one. Unlike an `=end rakudoc`, an `=end section` does not always change the scope back to ambient code. It only does so when its corresponding `=begin section` changed the scope *from* ambient code. In contrast, an `=end rakudoc` always reverts to ambient code.   
 Sections may be embedded within other sections.  
 <span class="para" id="3b77fc4"></span>When a `=begin section` is not present, a renderer may apply the following heuristic to determine the block scope (assuming **__X__**, **__Y__**, and **__Z__** are digits such that `0 < X < Y < Z `):   
+  
 &nbsp;&nbsp;• A `=headY` declaration starts a new block scope.  
 &nbsp;&nbsp;• The next `=headY` declaration ends the block scope of the previous `=headY`  
 &nbsp;&nbsp;• A `=headZ` declaration following a `=headY` is within the block scope of the preceding `=headY` declaration, and does not end it.  
@@ -1017,7 +1024,10 @@ Hence the previous example of reinstating normal item restarting behaviour could
 <span class="para" id="eac86a5"></span>Renderers are not required to implement the `:form` metaoption, but if they do then a conformant renderer must support at least the following field types:   
 
 <div id="Field_types"></div>
-<div>Field types</div> | Field | Insert next enumeration value as... |
+
+<div>Field types</div>
+
+ | Field | Insert next enumeration value as... |
 | :---: | :---: |
  | `%N` | the corresponding Indo-Arabic numerals: *1, 2, 3, *etc.** |
  | `%A` | the corresponding ASCII capital alpha: *A, B, C ... Z, AA, AB, AC, *etc.** |
@@ -1173,7 +1183,10 @@ Equation 1: Mass-Energy Equivalence
 To select which case-variant a field uses, append one of the following options:  
 
 <div id="Form_field_case_options"></div>
-<div>Form field case options</div> | Option | How the contents of the field are rendered |
+
+<div>Form field case options</div>
+
+ | Option | How the contents of the field are rendered |
 | :---: | :---: |
  | `:uc` | EVERYTHING IN ***U****PPER****C****ASE* OR AS “FORMAL/BUSINESS” NUMERALS |
  | `:lc` | everything in ***l****ower****c****ase* or as “ordinary/everyday” numerals |
@@ -1456,6 +1469,7 @@ sub loud_update ($who, $status) {
 ###### Preprocessing and postprocessing of code
 The code in a document is almost always related to a specific programming language, by default Raku. But examples of Ruby, C, RakuDoc, or other languages may also appear in the Raku documentation sources.  
 A renderer may apply language specific syntax highlighting to the contents of a code block according to the following rules:  
+  
 &nbsp;&nbsp;• `=code` blocks with no explicit or preconfigured `:lang` option default to `:lang<raku>`.  
 &nbsp;&nbsp;• `=code` blocks can be marked as not being in any specific language by using `:!lang`.  
 &nbsp;&nbsp;• Renderers must not syntax-highlight any code block whose `:lang` value is `False`, that is `:!lang`.  
@@ -1531,7 +1545,8 @@ The three suspects are:
 =item  Grumpy
 ```
 This produces:  
-> The three suspects are:&nbsp;&nbsp;• Happy  
+> The three suspects are:  
+&nbsp;&nbsp;• Happy  
 &nbsp;&nbsp;• Sleepy  
 &nbsp;&nbsp;• Grumpy  
 
@@ -1559,7 +1574,8 @@ For example:
 =item2  Gas
 ```
 This would produce:  
-> &nbsp;&nbsp;• Animal  
+>   
+&nbsp;&nbsp;• Animal  
 &nbsp;&nbsp;&nbsp;&nbsp;▹ Vertebrate  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‣ Mammals  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⁃ Primates  
@@ -1620,6 +1636,7 @@ As you can see, folk wisdom is often of dubious value.
 ```
 This renders as:  
 > Let’s consider two common proverbs:  
+  
 &nbsp;&nbsp;• *The rain in Spain falls mainly on the plain.*  
 &nbsp;&nbsp;• *The early bird gets the worm.*  
 As you can see, folk wisdom is often of dubious value.
@@ -1651,7 +1668,8 @@ Secure 100 million in venture capital
 Abscond to the Bahamas with the cash
 ```
 ... would produce something like a list with checkboxes, thus:  
-> The project originally consisted of five phases, of which two are already complete and two have been abandoned:&nbsp;&nbsp;☑ Investigate existing solutions  
+> The project originally consisted of five phases, of which two are already complete and two have been abandoned:  
+&nbsp;&nbsp;☑ Investigate existing solutions  
 &nbsp;&nbsp;☑ Define a minimal initial feature set  
 &nbsp;&nbsp;☐ Implement this minimal set of features  
 &nbsp;&nbsp;☒ Secure 100 million in venture capital  
@@ -1677,7 +1695,8 @@ Secure 100 million in venture capital
 Abscond to the Bahamas with the cash
 ```
 ... to produce  
-> &nbsp;&nbsp;✔ Investigate existing solutions  
+>   
+&nbsp;&nbsp;✔ Investigate existing solutions  
 &nbsp;&nbsp;✔ Define a minimal initial feature set  
 &nbsp;&nbsp;🔄 Implement this minimal set of features  
 &nbsp;&nbsp;🚫 Secure 100 million in venture capital  
@@ -1701,7 +1720,8 @@ The major sources of sustainable energy are:
 =end section
 ```
 ...which would produce:  
-> The major sources of sustainable energy are:&nbsp;&nbsp;🌍 wind  
+> The major sources of sustainable energy are:  
+&nbsp;&nbsp;🌍 wind  
 &nbsp;&nbsp;🌍 hydroelectric  
 &nbsp;&nbsp;🌍 solar  
 &nbsp;&nbsp;🌍 geothermal  
@@ -1794,15 +1814,11 @@ Our polite recognition of another’s resemblance to ourselves.
 The kind of fortune that never misses.
 ```
 ...will be rendered as:  
-> 
-<span style="font-weight: 600; font-style: italic">Admiration</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">Our polite recognition of another’s resemblance to ourselves.</span>
-
-<span style="font-weight: 600; font-style: italic">Misfortune</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">The kind of fortune that never misses.</span>
-
+>   
+<span style="font-weight: 600; font-style: italic">Admiration</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">Our polite recognition of another’s resemblance to ourselves.</span>  
+<span style="font-weight: 600; font-style: italic">Misfortune</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">The kind of fortune that never misses.</span>  
 
 
 <span class="para" id="891b1ee"></span>A renderer is expected to retain the information generated by a definition list, and the defining text may be targeted by a [link markup instruction](Links).   
@@ -1830,24 +1846,16 @@ A grammatically pre-eminent animal
 A lexicographically penultimate animal
 ```
 ...will yield something like:  
-> 
-<span style="font-weight: 600; font-style: italic">1.Aardvark</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">A lexicographically pre-eminent animal</span>
-
-<span style="font-weight: 600; font-style: italic">2.Beaver</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">An architecturally pre-eminent animal</span>
-
-Et cetera, et cetera...
-<span style="font-weight: 600; font-style: italic">1.Yak</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">A grammatically pre-eminent animal</span>
-
-<span style="font-weight: 600; font-style: italic">2.Zorilla</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">A lexicographically penultimate animal</span>
-
+>   
+<span style="font-weight: 600; font-style: italic">1.Aardvark</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">A lexicographically pre-eminent animal</span>  
+<span style="font-weight: 600; font-style: italic">2.Beaver</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">An architecturally pre-eminent animal</span>  
+Et cetera, et cetera...  
+<span style="font-weight: 600; font-style: italic">1.Yak</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">A grammatically pre-eminent animal</span>  
+<span style="font-weight: 600; font-style: italic">2.Zorilla</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">A lexicographically penultimate animal</span>  
 
 
 <span class="para" id="a25db81"></span>In order to continue a list, an explicit `:!restart` must be specified for the block’s counter, such as:   
@@ -1869,24 +1877,16 @@ A grammatically pre-eminent animal
 A lexicographically penultimate animal
 ```
 ...will yield something like:  
-> 
-<span style="font-weight: 600; font-style: italic">1.Aardvark</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">A lexicographically pre-eminent animal</span>
-
-<span style="font-weight: 600; font-style: italic">2.Beaver</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">An architecturally pre-eminent animal</span>
-
-Et cetera, et cetera...
-<span style="font-weight: 600; font-style: italic">3.Yak</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">A grammatically pre-eminent animal</span>
-
-<span style="font-weight: 600; font-style: italic">4.Zorilla</span>
-
-&nbsp;&nbsp;<span style="background-color: lightgrey;">A lexicographically penultimate animal</span>
-
+>   
+<span style="font-weight: 600; font-style: italic">1.Aardvark</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">A lexicographically pre-eminent animal</span>  
+<span style="font-weight: 600; font-style: italic">2.Beaver</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">An architecturally pre-eminent animal</span>  
+Et cetera, et cetera...  
+<span style="font-weight: 600; font-style: italic">3.Yak</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">A grammatically pre-eminent animal</span>  
+<span style="font-weight: 600; font-style: italic">4.Zorilla</span>  
+&nbsp;&nbsp;<span style="background-color: linen;">A lexicographically penultimate animal</span>  
 
 
 <span class="para" id="36f76e6"></span>Suppose a writer needs every numbered definition to form a single monotonic sequence within some block scope (*e.g.* for every definition within a document section, or every definition throughout the entire document). This would seem to require that every `=numdefn` be preceded by a `=counter numdefn :!restart` option. Or the writer could simply pre-configure the auto-restart behaviour for every `=numdefn` within the scope so that the block’s counter never auto-restarts (*i.e.* restarts after no block whatsoever), as follows:   
@@ -1955,6 +1955,7 @@ This means you can create tables compactly, line-by-line:
 
 #### Procedural description of tables
 <span class="para" id="af35f45"></span>A visual table is useful for most purposes, but a *procedural* description is needed if one or more of the following are required:   
+  
 &nbsp;&nbsp;• row labels,  
 &nbsp;&nbsp;• vertical or horizontal alignments of individual cells, of complete rows or columns, or of the entire table,  
 &nbsp;&nbsp;• cells spanning multiple rows and/or columns,  
@@ -1965,18 +1966,22 @@ This means you can create tables compactly, line-by-line:
 <span class="para" id="dca209e"></span>Subsequent `=cell` blocks start filling in that grid, with any intervening `=row` and `=column` directives adjusting *$POS* and *$DIR*.   
 <span class="para" id="9fdbe48"></span>`=cell` blocks can be specified as spanning multiple rows and/or columns, using the `:row-span(WIDTH)`, `:column-span(HEIGHT)`, or `:span(WIDTH, HEIGHT)` annotations, in which case the block fills more than one grid cell (and merges them into a single logical cell), with the top-left corner of the fill starting at *$POS*.
 <span class="para" id="c842fb2"></span>A `=cell` block has the following effects:   
+  
 &nbsp;&nbsp;• The specified contents are considered to fill in the cell(s) at *$POS* (even if the contents are actually null/empty)  
 &nbsp;&nbsp;• *$POS* is moved to the next unfilled cell in the direction specified by *$DIR* (*i.e.* either across or down)  
 <span class="para" id="4f77bbc"></span>A `=row` directive has the following effects:   
+  
 &nbsp;&nbsp;• *$DIR* is set to *across*  
 &nbsp;&nbsp;• If the previous action was not a `=cell` (*i.e.* it was a `=table` , `=row`, or `=column`) then the `=row` directive has no other effects (*i.e.* the subsequent effect is skipped)  
 &nbsp;&nbsp;• Otherwise, starting at the row specified by *`$POS`*, find the uppermost row *R* that is ***at-or-below*** the row specified by *`$POS`*, and where row *R* has at least one empty cell in a column strictly to the left of the column specified by *`$POS`*, then move *`$POS`* left-and-down, to the ***left-most*** empty cell in row *R*.  
 <span class="para" id="5700336"></span>A `=column` directive has the following effects:   
+  
 &nbsp;&nbsp;• *$DIR* is set to *down*  
 &nbsp;&nbsp;• If the previous action was not a `=cell` (*i.e.* it was a `=table` , `=row`, or `=column`) then the `=column` directive has no other effects (*i.e.* the subsequent effect is skipped)  
 &nbsp;&nbsp;• Otherwise, starting at the column specified by *`$POS`*, find the left-most column *C* that is ***at-or-to-the-right-of*** the column specified by *`$POS`*, and where column *C* has at least one empty cell in a row strictly above the row specified by *`$POS`*, then move *`$POS`* up-and-right, to the ***upper-most*** empty cell in column *C*  
 <span class="para" id="a4bcdee"></span>In other words, `=row` searches the south-west quadrant from *`$POS`* to find the most north-westerly empty cell ... and moves *`$POS`* to that cell. And `=column` searches the north-east quadrant from *`$POS`* to find the most north-westerly empty cell ... and moves *`$POS`* to that cell.   
 <span class="para" id="f39140c"></span>In addition, `=table` and `=cell` blocks and `=row` and `=column` directives can be annotated with any of the following metadata, which subsequently act as defaults for any `=cell` in their scope:   
+  
 &nbsp;&nbsp;• `:align< ALIGNMENTS >` : changes how contents are aligned in a cell **__ALIGNMENTS__** may be any one of: `left`, `centre`, `center`, `right`, and/or any one of: `top`, `middle`, `bottom`.  
 &nbsp;&nbsp;• `:header` : specifies that the cell(s) should be considered column headers  
 &nbsp;&nbsp;• `:label` : specifies that the cell(s) should be considered row labels (*i.e.* horizontal headers)  
@@ -2029,7 +2034,10 @@ Or, if you prefer to specify the data in columns:
 Either of which would produce:  
 > 
 <div id="The_Other_Guys"></div>
-<div>The Other Guys</div> | **Superhero** | **Secret Identity** | **Superpower** |
+
+<div>The Other Guys</div>
+
+ | **Superhero** | **Secret Identity** | **Superpower** |
 | :---: | :---: | :---: |
  | The Shoveller | Eddie Stevens | King Arthur’s singing shovel |
  | Blue Raja | Geoffrey Smith | Master of cutlery |
@@ -2058,7 +2066,10 @@ e^{i\pi}+1=0
 An ALT text allows an author to rely on getting an “accurate” representation under those renderers that fully support formulas, and to be able to fall back on a range of reasonable alternatives under those renderers that don’t:  
 
 <div id="Fallback_options"></div>
-<div>Fallback options</div> | **Fall back on** | **Example** |
+
+<div>Fallback options</div>
+
+ | **Fall back on** | **Example** |
 | :---: | :---: |
  | Plaintext | F&lt;  Euler’s Identity | e^{i\pi}+1=0 > |
  | RakuDoc | F&lt;  eH&lt;iπ> + 1 = 0 | e^{i\pi}+1=0 > |
@@ -2221,7 +2232,10 @@ For example:
 <span class="para" id="603405f"></span>Note that, for implementation (and perhaps source-highlighting) purposes, the actual species of notation for data contained in each `citation` block can be automatically inferred by examining just the first few non-blank characters in the block’s content (*the “sniff” test*), according to the following table:   
 
 <div id="Table_0"></div>
-<div>Table</div> | First char(s) | Inferred format | Because character represents the start of a... |
+
+<div>Table</div>
+
+ | First char(s) | Inferred format | Because character represents the start of a... |
 | :---: | :---: | :---: |
  | `[` | CSL-JSON | JSON array of objects |
  | `-` | CSL-YAML | YAML list of mappings |
@@ -2245,7 +2259,10 @@ In this variant, the block must not contain any extra data (and renderers should
 The suffix of the file determines the inferred format of the imported data:  
 
 <div id="Table_0"></div>
-<div>Table</div> | **Suffix** | **Inferred format** |
+
+<div>Table</div>
+
+ | **Suffix** | **Inferred format** |
 | :---: | :---: |
  | `.bib` | BibLaTeX (including legacy BibTeX) |
  | `.json` | CSL-JSON |
@@ -2256,6 +2273,7 @@ The suffix of the file determines the inferred format of the imported data:
  | `.xml` | MODS or PubMed XML or BibTeXML (distinguished via “sniff” test) |
  | `.yaml` | CSL-YAML |
 <span class="para" id="d6f797b"></span>A document can include any number of `citation` blocks, in any order, located anywhere in the document. Some common approaches might be:   
+  
 &nbsp;&nbsp;• One block per citation, with each citation placed immediately before or after the point where the source is referred to via a `Q&lt;>` code within the text.  
 &nbsp;&nbsp;• One citation block at the end of each chapter, section, or heading, containing data for all citations made in that unit.  
 &nbsp;&nbsp;• A single citation block at the end of the entire document, with all the citations aggregated together.  
@@ -2439,6 +2457,7 @@ The way in which a renderer styles the contents of a custom block depends on the
 
 ### Naming rules
 In order to avoid conflicts between built-in blocks, semantic blocks, custom blocks, and markup instructions, the following rules must be followed:  
+  
 &nbsp;&nbsp;• Built-in blocks (*e.g.* `head`, `item`, `table`)  
 &nbsp;&nbsp;&nbsp;&nbsp;▹ names must be all lowercase and at least two characters long  
 &nbsp;&nbsp;&nbsp;&nbsp;▹ renderers may choose how to render built-in blocks, but must respect all the defined metadata options specified here, and may respect additional metadata options  
@@ -2552,11 +2571,13 @@ Table of Contents, Index, and Citations
 ```
 <span class="para" id="3b487d4"></span>The renderer is expected to create a link with that name to the start of the block. It is up to the author of the document to ensure that all `:id` links are unique.   
 <span class="para" id="32650dc"></span>A renderer may mangle the link name (*e.g.* the contents of a header) to create an anchor ID internally because different output formats may place restrictions on the characters that can be used in a link. However, a document author may not rely on a renderer’s ID generation algorithm.   
-<span class="para" id="276cec7"></span>Internal links (links to anchors within the same document) must be specified by a leading `#` followed by either:&nbsp;&nbsp;• the target block’s explicit `:id<LABEL>`, or  
+<span class="para" id="276cec7"></span>Internal links (links to anchors within the same document) must be specified by a leading `#` followed by either:  
+&nbsp;&nbsp;• the target block’s explicit `:id<LABEL>`, or  
 &nbsp;&nbsp;• the exact contents of the corresponding `=head` block, or  
 &nbsp;&nbsp;• the exact contents of a block’s explicit `:caption<TEXT>`.  
 
 <span class="para" id="fd649c8"></span>Internal links cannot be specified by a `#` followed by:   
+  
 &nbsp;&nbsp;• a `=head` block’s implicit *autogenerated-from-content* ID, or  
 &nbsp;&nbsp;• a block’s implicit *autogenerated-from-caption* ID.  
 <span class="para" id="727e6c6"></span>That is, the in-document link target cannot be the mangled contents of a `=head` block or a `:caption<...>` metatag; it can only be the original contents.   
@@ -2652,6 +2673,7 @@ When a set of source files is related to a project with versions (such as the Ra
 The version specification is summarized as follows:  
 
 <div id="Table_0"></div>
+
 | **Syntax** | **Meaning** |
 | :----:  | :----: |
 | '*'  | Any version |
@@ -2687,6 +2709,7 @@ Markup instructions may nest other markup instructions.
 The following markup codes should be made available in all renderers.  
 
 <div id="Table_0"></div>
+
  | **Inline markup** | **Instruction** | **Mnemonic** | **HTML equivalent** | **Markdown equivalent** |
 | :---: | :---: | :---: | :---: | :---: |
  | Basis | `B<text>` | *“B for Basis”* | `<strong>text</strong>` | `**text**` |
@@ -2718,7 +2741,10 @@ where the optional label is text that is rendered and the target may include a s
 <span class="para" id="4b793b6"></span>When the bar is present with whitespace as the label, then the renderer *must* supply a suitable text for the label. It is recommended that the renderer retrieves the description supplied by the URI target itself. Descriptions are common with modern internet protocols, such as HTTPS, but may not be available with older or poorly configured URIs. In such a case, the renderer may fallback to a text version of the URI itself. This can be summarised as follows:   
 
 <div id="Table_0"></div>
-<div>Table</div> | **Link specificiation** | **Displayed text** |
+
+<div>Table</div>
+
+ | **Link specificiation** | **Displayed text** |
 | :---: | :---: |
  | `L&lt; https://example.com >` | The URI itself |
  | `L&lt; some text | https://example.com>` | The text before the `|` |
@@ -2749,6 +2775,7 @@ L< getting a directory listing | type/IO.Path.*#routine_dir >
 <a href="type/IO.Path.html#routine_dir"> getting a directory listing </a>
 ```
 Several schemas are possible:  
+  
 &nbsp;&nbsp;• `https://` or `http://` The renderer may style the label and cause a jump in a networked environment, as is normal for HTML documents.  
 &nbsp;&nbsp;• `rakudoc:` A reference to a RakuDoc source, which might be in a Raku module or a RakuDoc file.  
 &nbsp;&nbsp;• `mailto:` An email address. Typically, activating this type of link invokes a mailer.  
@@ -2757,6 +2784,7 @@ Several schemas are possible:
 &nbsp;&nbsp;• `defn:` A link to a [block-form definition](Definition lists) or an [inline definition](Inline definitions) of the specified term within the current document.  
 <span class="para" id="068f204"></span>To refer to a specific section within a webpage, manpage, or RakuDoc document, add the name of that section after the main link, separated by a `#`. To refer to a section of the current document, omit the external address (*i.e.* start the target specifier with a `#`).   
 A renderer is expected to render a link with a schema as follows:  
+  
 &nbsp;&nbsp;• At a minimum, a link like `L&lt;rakudoc:ModuleName>` is simply rendered as text, to something like: “the ModuleName documentation”, and `L&lt;man:appname>` to something like: “The appname manpage”. And neither of them attempt to add any kind of actual operational link.  
 &nbsp;&nbsp;• At the next level of sophistication, a renderer encountering either link scheme may attempt to shell out a call to `raku --doc ModuleName` or `man appname`, and present the results in a pop-up.  
 &nbsp;&nbsp;• If the renderer is in a networked environment, the renderer is expected to provide a set of user selectable options that provide links to such documentation, for example, a set of HTML links in a pop-down box. A renderer might also allow users to preconfigure their preferred website(s) for these schemes, perhaps offering `rakudoc:` links to `https://raku.land/` or `man:` links to `https://www.kernel.org/doc/man-pages/` as defaults.  
@@ -2837,6 +2865,7 @@ If a renderer cannot find or access the external data source for a placement lin
 > <span class="para" id="6360a37"></span>See: [http://www.MegaGigaTeraPetaCorp.com/std/disclaimer.txt](http://www.MegaGigaTeraPetaCorp.com/std/disclaimer.txt)
 
 <span class="para" id="4ca7b68"></span>You can use any of the following URI forms (see [#Links](Links)) in a placement link:   
+  
 &nbsp;&nbsp;• `http:` and `https:`  
 &nbsp;&nbsp;• `file:`  
 &nbsp;&nbsp;• `toc:`  
@@ -2862,12 +2891,14 @@ P<toc:1..4 >
 <span class="para" id="a32f4e1"></span>In order to include the whole default (or `head`) table of contents, use `toc:*`.   
 <span class="para" id="255c55f"></span>When *toc:* is followed by the name of TOC and optionally a *comma*, then `*`, number, or range, the level restrictions are applied to the named TOC.   
 Valid specs would be:  
+  
 &nbsp;&nbsp;• `*` (all levels of the default ToC)  
 &nbsp;&nbsp;• `1..4` (levels 1-4 of the default ToC)  
 &nbsp;&nbsp;• `Diagrams` (meaning all levels of the Diagrams ToC)  
 &nbsp;&nbsp;• `Diagrams,*` (all levels of the Diagrams ToC)  
 &nbsp;&nbsp;• `table,1..4` (levels 1..4 of the table ToC)  
 Invalid specs:  
+  
 &nbsp;&nbsp;• `formula,` (missing levels specifier)  
 &nbsp;&nbsp;• `,*` (missing TOC name)  
 <span class="para" id="1c8e4f4"></span>A document may have as many `P&lt;toc:...>` placements as necessary.
@@ -3179,6 +3210,7 @@ An HTML renderer would the convert this to, for example,
 ## Implementor considerations
 <span class="para" id="6759afa"></span>RakuDoc is intended to be a markup language for text oriented documentation, which will be rendered into output formats such as *HTML* or *epub*. It is expected that there may be several modules that will render RakuDoc.   
 In order for a renderer to be compliant with the specification, it must:  
+  
 &nbsp;&nbsp;• render in some way all the built-in RakuDoc blocks and markup codes  
 &nbsp;&nbsp;&nbsp;&nbsp;▹ where fallbacks have been specified, only the minimum fallback need be rendered  
 &nbsp;&nbsp;• recognize and apply all the directives  
@@ -3200,6 +3232,7 @@ Artistic-2.0
 <div id="Credits"></div>
 
 ## Credits
+  
 &nbsp;&nbsp;• Damian Conway (@thoughtstream)  
 &nbsp;&nbsp;• Richard Hainsworth (@finanalyst)  
 &nbsp;&nbsp;• Elizabeth Mattijen (@lizmat)  
@@ -3219,9 +3252,9 @@ Artistic-2.0
 
 ----
 
-Rendered from ./rakudoc_v2_specification.rakudoc/rakudoc_v2_specification at 10:38 UTC on 2026-07-05
+Rendered from ./rakudoc_v2_specification.rakudoc/rakudoc_v2_specification at 09:12 UTC on 2026-07-29
 
-Source last modified at 10:35 UTC on 2026-07-05
+Source last modified at 09:07 UTC on 2026-07-29
 
 
 
