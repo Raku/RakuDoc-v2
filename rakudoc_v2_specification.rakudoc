@@ -3101,6 +3101,22 @@ multi-line.
 =end comment
 =end code
 
+Where an output format, such as HTML, offers a comment syntax, a compliant renderer may render the comment
+contents.
+
+=head2 Ignoring RakuDoc source
+
+During the development or maintenance of a document it is often necessary to remove source from being rendered, while
+at the same time leaving the source in the file either for reference or to return to later.
+
+The C<=ignore> block does this. In the extended form I<ignore> is slightly different to other block forms in that it does not
+need an C<=end ignore>, or rather an I<end of file> serves as the C<=end ignore>.
+
+After a C<=begin ignore> is encountered, everything is ignored, until the matching C<=end ignore> line is encountered
+(or an EOF is reached, if no matching C<=end ignore> is found), where “matching” takes into account any
+number of (recursively) nested C<=begin ignore> … C<=end ignore> pairs. Note that an EOF
+may close any number of unclosed nested C<=begin ignore>.
+
 =head2 Semantic blocks
 
 All uppercase block typenames are reserved for specifying standard

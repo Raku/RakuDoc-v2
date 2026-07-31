@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc Exposition
 =SUBTITLE Additional notes and examples for the RakuDoc specification
-=VERSION 2.20.5
+=VERSION 2.21.0
 =for LICENSE :hidden
 Artistic-2.0
 =begin AUTHORS :hidden
@@ -1393,6 +1393,9 @@ can be considered as pure metadata.
     =row
         =cell C<=defn>
         =cell Definition of a term
+    =row
+        =cell C<=ignore>
+        =cell Ignore completely all text in the block scope
     =row
         =cell C<=item>
         =cell First-level list item
