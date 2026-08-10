@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc
 =SUBTITLE Raku markup for documenting Raku software to aid development and use.
-=VERSION 2.20.7
+=VERSION 2.21.0
 =for LICENSE :hidden
 Artistic-2.0
 =begin AUTHORS :hidden
@@ -129,7 +129,7 @@ The C<=> of each directive must be the first non-whitespace character on a given
 =item B<=begin> specifies the start of a delimited block
 =item B<=end> specifies the end of a delimited block
 =item B<=for> specifies the start of an extended block
-=item B<=finish> specifies the end of all ambient code; everything thereafter is a string
+=item B<=finish> specifies the end of all RakuDoc and all ambient code; everything thereafter is a string
 
 =head3 Procedural table constructors
 
@@ -646,7 +646,7 @@ more in L<Table of Contents, Index, and Citations>.
 
 =head2 Document termination
 
-The C<=finish> directive indicates the end of all ambient contexts within
+The C<=finish> directive indicates the end of all RakuDoc source and all ambient contexts within
 the document. This means that the parser will treat all the remaining
 text in the file as a string.
 
@@ -666,6 +666,11 @@ This will generate the following output:
 =begin code :lang<text>
 {:key1("a string value"), :key2("another value")}
 =end code
+
+Note, however, that L<the C<=data> block | #Data blocks> is the intended and preferred method
+of providing text data to ambient code, because it allows developers to specify
+multiple distinct text blocks, which can then be accessed either by name or by position.
+
 
 =head2 Table constructors
 
@@ -3084,8 +3089,9 @@ L<Further exposition on this topic is available. | rakudoc:rakudoc_v2_exposition
 =head2 RakuDoc comments
 
 RakuDoc comments are components that both RakuDoc renderers and ambient-code compilers ignore.
+Comments are useful for I<meta->documentation (documenting the documentation)
+and for communication between authors and readers of RakuDoc documents.
 
-Comments are useful for I<meta->documentation (documenting the documentation).
 Single-line comments can use an abbreviated C<=comment> block:
 
 =begin code :lang<RakuDoc>
@@ -3100,6 +3106,38 @@ This comment is
 multi-line.
 =end comment
 =end code
+
+Note, however, that delimited C<comment> blocks B<do not nest>,
+so they are not a reliable method of I<“commenting out”> sections
+of a RakuDoc (or Raku) source document. In particular, they will always
+produce an error if the section to be commented out already contains another
+delimited C<comment>. To safely remove sections of RakuDoc source code from
+the renderer’s consideration see L<Ignoring RakuDoc source> instead.
+
+Where an output format, such as HTML, offers a comment syntax,
+a compliant renderer may render the comment contents as a native comment in the output.
+
+=head2 Ignoring RakuDoc source
+
+During the development or maintenance of a document it is often necessary
+to temporarily exclude source from being rendered, while at the same time
+leaving the source in the file either for reference or to return to later.
+
+The C<=ignore> block does this. After a C<=begin ignore> is encountered,
+everything thereafter is treated as not being rendererable RakuDoc, until
+the matching C<=end ignore> line is encountered, where I<“matching”> takes into
+account any number of (recursively) nested C<=begin ignore>...C<=end ignore> pairs.
+
+Note: this implies that, whilst a delimited C<ignore> block does not care about
+the correctness of the vast majority of any RakuDoc source contained within it,
+it does insist that any nested delimited C<ignore> blocks within it must be properly balanced.
+That is, an B<I<unmatched>> inner C<=begin ignore> or C<=end ignore> within a balanced outer
+C<=begin ignore>...C<=end ignore> pair will produce an error when the document is rendered.
+
+A renderer must never render the contents of an C<ignore> block in any way.
+
+L<Further exposition on this topic is available. | rakudoc:rakudoc_v2_exposition.rakudoc#Commenting vs Ignoring>
+
 
 =head2 Semantic blocks
 

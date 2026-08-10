@@ -1,7 +1,7 @@
 =begin rakudoc :kind("Language") :subkind("Language") :category("reference")
 =TITLE RakuDoc Exposition
 =SUBTITLE Additional notes and examples for the RakuDoc specification
-=VERSION 2.20.5
+=VERSION 2.21.0
 =for LICENSE :hidden
 Artistic-2.0
 =begin AUTHORS :hidden
@@ -930,6 +930,60 @@ I<U<V<e^{i\pi}+1=0>>>
 =end nested
 
 
+=head2 Commenting vs Ignoring
+
+I<[This section elaborates L<the corresponding entry in the RakuDoc specification|rakudoc:rakudoc_v2_specification.rakudoc#Ignoring RakuDoc source>]>
+
+RakuDoc provides several constructs that mark content as not contributing
+to the rendered form of the surrounding document. The following table summarizes
+their similarities, differences, and intended uses.
+
+=begin table
+    =column :label
+        =cell Element
+        =cell Purpose
+        =cell Intended use
+        =cell Closing delimiter
+        =cell Nesting
+    =column
+        =cell C<=comment> block
+        =cell To insert documentation, explanations, to-do reminders, and other meaningful metacommentary
+        =cell To allow authors to record and communicate information about a RakuDoc document
+        =cell Delimited form is terminated by the first C<=end comment> encountered
+        =cell Does B<not> allow nested C<=begin comment>...C<=end comment> blocks
+    =column
+        =cell C<=ignore> block
+        =cell To hide (possibly invalid) RakuDoc source or ambient code from the parser
+        =cell To facilitate incremental development and debugging of RakuDoc (and Raku) documents
+        =cell Delimited form is terminated by the matching unnested C<=end ignore>
+        =cell Allows nested C<=begin ignore>...C<=end ignore> blocks; does not allow single
+              unbalanced C<=begin ignore> or C<=end ignore> delimiters
+    =column
+        =cell C<=finish> directive
+        =cell To hide the remainder of the document/file from the parser
+        =cell To specify that the remainder of the document contains no RakuDoc or ambient components
+        =cell Effect of directive is terminated by end-of-file
+        =cell Allows nested C<=finish> directives (although they have no meaning nor any additional effect)
+    =column
+        =cell C<=data> block
+        =cell To provide in-file data to ambient Raku code
+        =cell To specify large blocks of text that a Raku program can access via its C<$=data> object
+        =cell Delimited form is terminated by the first C<=end data> encountered
+        =cell Does B<not> allow nested C<=begin data>...C<=end data> blocks
+=end table
+
+In summary:
+=item A C<=comment> block cannot be nested, and is used to include (unrenderable) information
+      about the document.
+=item An C<=ignore> block can be nested, and is used to hide (possibly invalid) parts of a document
+      from the parser.
+=item A C<=finish> directive is equivalent to a C<=begin ignore> with
+      an implicit matching C<=end ignore> at the end of the document,
+      and also provides its content to ambient code via the C<$=finish> object.
+=item A C<=data> block cannot be nested, and is used to provide its content
+      to ambient code via the C<$=data> object.
+
+
 =head2 Citations
 =head3 Citation blocks
 
@@ -1348,7 +1402,7 @@ can be considered as pure metadata.
         =cell Explicit termination of a C<=begin> block
     =row
         =cell C<=finish>
-        =cell No ambient blocks after this point
+        =cell No RakuDoc or ambient blocks after this point
     =row
         =cell C<=for>
         =cell Start of an implicitly (blank-line) terminated block
@@ -1384,6 +1438,7 @@ can be considered as pure metadata.
     =row
         =cell C<=comment>
         =cell Content to be ignored by all renderers
+              (unless it can be passed through as a native comment in the output format)
     =row
         =cell C<=head>
         =cell First-level heading
@@ -1393,6 +1448,9 @@ can be considered as pure metadata.
     =row
         =cell C<=defn>
         =cell Definition of a term
+    =row
+        =cell C<=ignore>
+        =cell Ignore completely all text in the block scope
     =row
         =cell C<=item>
         =cell First-level list item
